@@ -110,3 +110,8 @@ dist
 
 build/Release
 .eslintcache
+
+*.lock
+
+package-lock.json
+.yarnrc
