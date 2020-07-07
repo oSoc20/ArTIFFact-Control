@@ -39,6 +39,8 @@ const createWindow = async () => {
         win.webContents.once('dom-ready', () => {
             win!.webContents.openDevTools();
         });
+    } else {
+        win.setMenu(null);
     }
 
     win.on('closed', () => {
