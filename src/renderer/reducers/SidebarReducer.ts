@@ -1,13 +1,12 @@
 import { Reducer } from 'redux';
-
-import { ACTIVE_ITEM, SidebarAction, ActiveItemAction } from '../actions/SidebarAction';
+import { ACTIVE_ITEM, SidebarAction } from '../actions/SidebarAction';
 
 export interface SidebarState {
     readonly activeItem: string;
 }
 
 const defaultState: SidebarState = {
-    activeItem: "Dashboard"
+    activeItem: "dashboard"
 };
 
 export const sidebarReducer: Reducer<SidebarState, SidebarAction> = (
@@ -16,7 +15,6 @@ export const sidebarReducer: Reducer<SidebarState, SidebarAction> = (
 ) => {
     switch (action.type) {
         case ACTIVE_ITEM:
-            console.log(action);
             return {
                 ...state,
                 activeItem: action.activeItem

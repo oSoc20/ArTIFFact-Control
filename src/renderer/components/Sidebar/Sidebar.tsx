@@ -1,9 +1,12 @@
 import * as React from 'react';
+import { createBrowserHistory } from 'history';
+// Resources
+import logoWithLabel from "../../../resources/images/logoWithLabel.svg";
 // Redux store
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { RootState } from '../../reducers';
-import { SidebarAction, setActiveItem, ACTIVE_ITEM } from '../../actions/SidebarAction';
+import { SidebarAction, setActiveItem } from '../../actions/SidebarAction';
 // Material UI
 import { Drawer, List, ListItem, ListItemText, ListItemIcon } from '@material-ui/core';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
@@ -13,11 +16,15 @@ import DescriptionOutlinedIcon from '@material-ui/icons/DescriptionOutlined';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import AlarmOnIcon from '@material-ui/icons/AlarmOn';
 import InsertDriveFileOutlinedIcon from '@material-ui/icons/InsertDriveFileOutlined';
+import HelpOutlineOutlinedIcon from '@material-ui/icons/HelpOutlineOutlined';
+import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 
 export interface Props {
     activeItem: string;
     setActiveItem: (value: string) => any;
 }
+
+export const browserHistory = createBrowserHistory();
 
 function Sidebar(props: Props) {
     const classes = useStyles();
@@ -29,13 +36,19 @@ function Sidebar(props: Props) {
                     paper: classes.drawerPaper,
                 }}
                 variant="permanent"
+                style={{ display: 'flex', flexDirection: 'column' }}
                 open
             >
-                <List disablePadding dense>
+                <List disablePadding dense style={{ flex: 'none' }}>
                     <ListItem>
-                        <ListItemText style={listItemTextTitle}><span style={title}>JHOVE</span></ListItemText>
+                        <ListItemText style={listItemLogo}><img style={{width:'180px', display:'block', marginLeft:'auto', marginRight:'auto'}} src={logoWithLabel}/></ListItemText>
                     </ListItem>
-                    {listItems(props.activeItem, props.setActiveItem)}
+                </List>
+                <List disablePadding dense style={{ flex: 1 }}>
+                    {renderItems(middleItems, props.activeItem, props.setActiveItem)}
+                </List>
+                <List disablePadding dense style={{ flex: 'none', marginBottom:'15px' }}>
+                    {renderItems(bottomItems, props.activeItem, props.setActiveItem)}
                 </List>
             </Drawer>
         </nav>
@@ -43,23 +56,33 @@ function Sidebar(props: Props) {
 };
 
 /* ITEMS */
-const items = [
-    { name: 'Dashboard', icon: <HomeOutlinedIcon style={{ color: "#FCFCFC" }}/> },
-    { name: 'File checks', icon: <DoneOutlineOutlinedIcon style={{ color: "#FCFCFC" }} /> },
-    { name: 'Reports', icon: <DescriptionOutlinedIcon style={{ color: "#FCFCFC" }} /> },
-    { name: 'Statistics', icon: <BarChartIcon style={{ color: "#FCFCFC" }} /> },
-    { name: 'Periodical checks', icon: <AlarmOnIcon style={{ color: "#FCFCFC" }} /> },
-    { name: 'Conformance checks', icon: <InsertDriveFileOutlinedIcon style={{ color: "#FCFCFC" }} /> }
+const middleItems = [
+    { name: 'Dashboard', link: 'dashboard', icon: <HomeOutlinedIcon style={{ color: "#FCFCFC" }} /> },
+    { name: 'File checks', link: 'fileChecks', icon: <DoneOutlineOutlinedIcon style={{ color: "#FCFCFC" }} /> },
+    { name: 'Reports', link: 'reports', icon: <DescriptionOutlinedIcon style={{ color: "#FCFCFC" }} /> },
+    { name: 'Statistics', link: 'statistics', icon: <BarChartIcon style={{ color: "#FCFCFC" }} /> },
+    { name: 'Periodical checks', link: 'periodicalChecks', icon: <AlarmOnIcon style={{ color: "#FCFCFC" }} /> },
+    { name: 'Conformance checks', link: 'conformanceChecks', icon: <InsertDriveFileOutlinedIcon style={{ color: "#FCFCFC" }} /> }
+];
+
+const bottomItems = [
+    { name: 'Help', link: 'help', icon: <InfoOutlinedIcon style={{ color: "#FCFCFC" }} /> },
+    { name: 'About', link: 'about', icon: <HelpOutlineOutlinedIcon style={{ color: "#FCFCFC" }} /> }
 ];
 
 /* FUNCTIONS */
-function listItems(activeItem: string, setActiveItem: any): any {
+function renderItems(items: any[], activeItem: string, setActiveItem: any): any {
     return items.map((item, index) => (
-        <ListItem button key={index} style={listItem} selected={activeItem == item.name} onClick={() => setActiveItem(item.name)}>
+        <ListItem button key={index} style={listItem} selected={activeItem == item.link} onClick={() => changeActiveItem(item.link, setActiveItem)}>
             <ListItemIcon style={{ minWidth: 0, marginRight: '12px' }}>{item.icon}</ListItemIcon>
             <ListItemText><span style={{ fontSize: '13px' }}>{item.name}</span></ListItemText>
         </ListItem>
     ));
+}
+
+function changeActiveItem(link: string, setActiveItem: any) {
+    setActiveItem(link);
+    browserHistory.push('/' + link);
 }
 
 /* STYLING */
@@ -86,21 +109,14 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-const listItemTextTitle = {
-    fontSize: '25px',
-    marginTop: '30px',
-    marginBottom: '50px'
-};
-
-const title = {
-    fontSize: '25px',
-    marginTop: '30px',
-    marginBottom: '50px'
+const listItemLogo = {
+    marginTop: '50px',
+    marginBottom: '65px'
 };
 
 const listItem = {
-    paddingTop: '6px',
-    paddingBottom: '6px'
+    paddingTop: '7px',
+    paddingBottom: '7px',
 }
 
 /* REDUX STORE */
