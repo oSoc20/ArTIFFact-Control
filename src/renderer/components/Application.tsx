@@ -6,9 +6,7 @@ import { HashRouter, Route } from 'react-router-dom';
 
 const Application = () => (
     <HashRouter>
-        <div>
-            <Route path="/" exact component={Sidebar} />
-        </div>
+        <Route path="/" exact component={Sidebar} />
     </HashRouter>
 );
 

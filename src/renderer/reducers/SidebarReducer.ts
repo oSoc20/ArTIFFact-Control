@@ -7,7 +7,7 @@ export interface SidebarState {
 }
 
 const defaultState: SidebarState = {
-    activeItem: "dashboard"
+    activeItem: "Dashboard"
 };
 
 export const sidebarReducer: Reducer<SidebarState, SidebarAction> = (
