@@ -1,7 +1,6 @@
 import * as React from 'react';
-import { createBrowserHistory } from 'history';
 // Resources
-import logoWithLabel from "../../../resources/images/logoWithLabel.svg";
+import logoWithLabel from '../../../resources/images/logoWithLabel.svg';
 // Redux store
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
@@ -18,16 +17,16 @@ import AlarmOnIcon from '@material-ui/icons/AlarmOn';
 import InsertDriveFileOutlinedIcon from '@material-ui/icons/InsertDriveFileOutlined';
 import HelpOutlineOutlinedIcon from '@material-ui/icons/HelpOutlineOutlined';
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
+import { useHistory } from "react-router-dom";
 
 export interface Props {
     activeItem: string;
     setActiveItem: (value: string) => any;
 }
 
-export const browserHistory = createBrowserHistory();
-
 function Sidebar(props: Props) {
     const classes = useStyles();
+    let history = useHistory();
 
     return (
         <nav className={classes.drawer} aria-label="mailbox folders">
@@ -45,10 +44,10 @@ function Sidebar(props: Props) {
                     </ListItem>
                 </List>
                 <List disablePadding dense style={{ flex: 1 }}>
-                    {renderItems(middleItems, props.activeItem, props.setActiveItem)}
+                    {renderItems(middleItems, props.activeItem, props.setActiveItem, history)}
                 </List>
                 <List disablePadding dense style={{ flex: 'none', marginBottom:'15px' }}>
-                    {renderItems(bottomItems, props.activeItem, props.setActiveItem)}
+                    {renderItems(bottomItems, props.activeItem, props.setActiveItem, history)}
                 </List>
             </Drawer>
         </nav>
@@ -71,18 +70,18 @@ const bottomItems = [
 ];
 
 /* FUNCTIONS */
-function renderItems(items: any[], activeItem: string, setActiveItem: any): any {
+function renderItems(items: any[], activeItem: string, setActiveItem: any, history: any): any {
     return items.map((item, index) => (
-        <ListItem button key={index} style={listItem} selected={activeItem == item.link} onClick={() => changeActiveItem(item.link, setActiveItem)}>
+        <ListItem button key={index} style={listItem} selected={activeItem == item.link} onClick={() => changeActiveItem(item.link, setActiveItem, history)}>
             <ListItemIcon style={{ minWidth: 0, marginRight: '12px' }}>{item.icon}</ListItemIcon>
             <ListItemText><span style={{ fontSize: '13px' }}>{item.name}</span></ListItemText>
         </ListItem>
     ));
 }
 
-function changeActiveItem(link: string, setActiveItem: any) {
+function changeActiveItem(link: string, setActiveItem: any, history: any) {
     setActiveItem(link);
-    browserHistory.push('/' + link);
+    history.push('/' + link);
 }
 
 /* STYLING */
@@ -93,7 +92,7 @@ const useStyles = makeStyles((theme: Theme) =>
         drawer: {
             [theme.breakpoints.up('sm')]: {
                 width: drawerWidth,
-                flexShrink: 0,
+                flexShrink: 0
             },
         },
         drawerPaper: {
