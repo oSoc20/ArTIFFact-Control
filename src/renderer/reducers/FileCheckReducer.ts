@@ -1,5 +1,5 @@
 import { Reducer } from 'redux';
-import { STEP_PROGRESS, StepProgressAction, FilecheckAction } from '../actions/FileCheckActions';
+import { STEP_PROGRESS, StepProgressAction, FilecheckAction, STEP_RESET } from '../actions/FileCheckActions';
 
 export interface FilecheckState {
     readonly step: number;
@@ -18,6 +18,11 @@ export const fileCheckReducer: Reducer<FilecheckState, StepProgressAction> = (
             return {
                 ...state,
                 step: state.step + 1
+            }
+        case STEP_RESET:
+            return {
+                ...state,
+                step: 0
             }
         default:
             return state;
