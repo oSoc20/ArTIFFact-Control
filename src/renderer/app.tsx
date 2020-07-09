@@ -2,9 +2,10 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { AppContainer } from 'react-hot-loader';
-
 import Application from './screens/Application';
 import store from './store';
+// Style
+import './styles/app.css';
 
 // Create main element
 const mainElement = document.createElement('div');

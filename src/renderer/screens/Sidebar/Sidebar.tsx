@@ -10,6 +10,8 @@ import AlarmOnIcon from '@material-ui/icons/AlarmOn';
 import InsertDriveFileOutlinedIcon from '@material-ui/icons/InsertDriveFileOutlined';
 import HelpOutlineOutlinedIcon from '@material-ui/icons/HelpOutlineOutlined';
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
+import SettingsIcon from '@material-ui/icons/Settings';
+// History
 import { useHistory } from "react-router-dom";
 
 /* IMAGES */
@@ -62,7 +64,8 @@ const middleItems = [
     { name: 'Reports', link: 'reports', icon: <DescriptionOutlinedIcon style={icon} /> },
     { name: 'Statistics', link: 'statistics', icon: <BarChartIcon style={icon} /> },
     { name: 'Periodical checks', link: 'periodicalChecks', icon: <AlarmOnIcon style={icon} /> },
-    { name: 'Conformance checks', link: 'conformanceChecks', icon: <InsertDriveFileOutlinedIcon style={icon} /> }
+    { name: 'Conformance checks', link: 'conformanceChecks', icon: <InsertDriveFileOutlinedIcon style={icon} /> },
+    { name: 'Configurations', link: 'configurations', icon: <SettingsIcon style={icon} /> }
 ];
 
 const bottomItems = [
