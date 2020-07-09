@@ -28,7 +28,7 @@ describe('Main window', () => {
         await client.waitUntilWindowLoaded();
         const title = await browserWindow.getTitle();
 
-        expect(title).toBe('Webpack App');
+        expect(title).toBe('arTIFFact control');
     });
 
     it('increments the counter', async () => {
