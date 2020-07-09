@@ -8,7 +8,7 @@ import FileCheckStepper from './FileCheckStepper'
 
 /* Typescript interfaces */
 
-interface StepperProps {
+interface FilecheckerProps {
     step: number,
     progressStep: () => void,
     resetStep: () => void
@@ -21,7 +21,7 @@ interface StepperProps {
  * Screen used to handle the file checks
  * @param props props that are passed in by the Redux store
  */
-const FileChecks = (props: StepperProps) => {
+const FileChecks = (props: FilecheckerProps) => {
     return (
         <div style={{display: "default"}}>
             <h1 style={{}}>File checks</h1>
