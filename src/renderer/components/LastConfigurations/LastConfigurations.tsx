@@ -64,7 +64,7 @@ function LastConfigurations() {
                         <SettingsIcon style={{ marginRight: '15px', fontSize: '40px' }} />
                         Configuration
                     </Box>
-                    <Button style={{marginLeft: 'auto', fontWeight: 600}}>More <ArrowForwardIcon style={{marginLeft:'3px', fontSize:'20px'}} /></Button>
+                    <Button style={{marginLeft: 'auto', fontWeight: 600, textTransform: 'none'}}>More <ArrowForwardIcon style={{marginLeft:'3px', fontSize:'20px'}} /></Button>
                 </Typography>
                 <TableContainer style={{ marginTop: '20px' }}>
                     <Table aria-label="span" size="small">
