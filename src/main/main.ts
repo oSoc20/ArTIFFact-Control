@@ -19,7 +19,7 @@ const createWindow = async () => {
         await installExtensions();
     }
 
-    win = new BrowserWindow({ width: 1440, height: 900 });
+    win = new BrowserWindow({ width: 1440, height: 900, show: false, webPreferences: { nodeIntegration: true } });
 
     if (process.env.NODE_ENV !== 'production') {
         process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = '1'; // eslint-disable-line require-atomic-updates
@@ -43,6 +43,7 @@ const createWindow = async () => {
         win.setMenu(null);
     }
 
+    win.maximize();
     win.on('closed', () => {
         win = null;
     });

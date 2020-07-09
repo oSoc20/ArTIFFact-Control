@@ -1,7 +1,7 @@
 import { hot } from 'react-hot-loader/root';
 import * as React from 'react';
 // React router
-import { BrowserRouter, Route, Redirect, Switch, Router, HashRouter } from 'react-router-dom'
+import { Route, Redirect, Switch, HashRouter } from 'react-router-dom'
 // Material UI
 import { makeStyles, createStyles, Theme } from '@material-ui/core';
 // Components
@@ -12,20 +12,20 @@ import Reports from './Reports/Reports';
 import Statistics from './Statistics/Statistics';
 import PeriodicalChecks from './PeriodicalChecks/PeriodicalChecks';
 import ConformanceChecks from './ConformanceChecks/PeriodicalChecks';
+import Configurations from './Configurations/Configurations';
 import Help from './Help/Help';
 import About from './About/About';
-
 
 /* STYLE */
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
-            display: 'flex',
+            display: 'flex'
         },
         content: {
             flexGrow: 1,
-            padding: theme.spacing(3),
-        },
+            padding: theme.spacing(3)
+        }
     }),
 );
 
@@ -45,6 +45,7 @@ function Application() {
                         <Route path="/statistics" exact component={Statistics} />
                         <Route path="/periodicalChecks" exact component={PeriodicalChecks} />
                         <Route path="/conformanceChecks" exact component={ConformanceChecks} />
+                        <Route path="/configurations" exact component={Configurations} />
                         <Route path="/help" exact component={Help} />
                         <Route path="/about" exact component={About} />
                         <Redirect from="/*" to="/dashboard" />

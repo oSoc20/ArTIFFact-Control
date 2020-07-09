@@ -1,9 +1,48 @@
 import * as React from 'react';
+// Material UI
+import { Typography, Grid, Box, makeStyles, Theme, createStyles, Paper } from '@material-ui/core';
+import LastReports from '../../components/LastReports/LastReports';
+import LastConfigurations from '../../components/LastConfigurations/LastConfigurations';
+import LastPeriodicalChecks from '../../components/LastPeriodicalChecks/LastPeriodicalChecks';
 
-export default function Dashboard() {
+/* STYLE */
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        paper: {
+            padding: theme.spacing(2),
+            color: 'black'
+        },
+        box: {
+            display: 'flex',
+            alignItems: 'center'
+        }
+    })
+);
+
+/* COMPONENT */
+function Dashboard() {
+    const classes = useStyles();
+
     return (
         <>
-            Dashboard
+            <Typography component="span" gutterBottom>
+                <Box fontSize='h4.fontSize' style={{ marginBottom: '15px' }}>
+                    Dashboard
+                </Box>
+            </Typography>
+            <Grid container spacing={3}>
+                <Grid item xs={12} lg={7} style={{display: 'flex'}}>
+                    <LastReports />
+                </Grid>
+                <Grid item xs={12} lg={5} style={{display: 'flex'}}>
+                    <LastConfigurations />
+                </Grid>
+                <Grid item xs={12} style={{display: 'flex'}}>
+                    <LastPeriodicalChecks />
+                </Grid>
+            </Grid>
         </>
     )
 }
+
+export default (Dashboard);
