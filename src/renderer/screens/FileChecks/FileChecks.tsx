@@ -4,6 +4,10 @@ import { Dispatch } from 'redux';
 import { RootState } from '../../reducers';
 import { FilecheckAction, progressStep, resetStep } from '../../actions/FileCheckActions';
 import FileCheckStepper from './FileCheckStepper'
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import { Stage1 } from './Stage1'
+import { Stage2 } from './Stage2'
+import { Stage3 } from './Stage3'
 
 
 /* Typescript interfaces */
@@ -14,6 +18,19 @@ interface FilecheckerProps {
     resetStep: () => void
 }
 
+/* Styles */
+const useStyles = makeStyles((theme: Theme) => 
+    createStyles({
+      container: {
+          height: "90vh",
+          display: "flex",
+          alignContent: "center",
+      },
+      title: {
+          textAlign: "center"
+      }  
+    })
+);
 
 /* Components */ 
 
@@ -22,12 +39,32 @@ interface FilecheckerProps {
  * @param props props that are passed in by the Redux store
  */
 const FileChecks = (props: FilecheckerProps) => {
+    const classes = useStyles();
+
+    const renderStage = () => {
+        switch(props.step) {
+            case 0:
+                return <Stage1 />
+            case 1:
+                return <Stage2 />
+            case 2:
+                return <Stage3 />
+            default:
+                return <div>Other stage</div>
+        }
+    } 
+
     return (
-        <div style={{display: "default"}}>
-            <h1 style={{}}>File checks</h1>
-            <FileCheckStepper />
-            <button onClick={() => props.progressStep()}>test (remove me later)</button>
-            <button onClick={() => props.resetStep()}>Reset</button>
+        <div className={classes.container}>
+            <h1 className={classes.title}>File checks</h1>
+            <div>
+                <div>
+                    <FileCheckStepper />
+                </div>
+                <button onClick={() => props.progressStep()}>test (remove me later)</button>
+                <button onClick={() => props.resetStep()}>Reset</button>
+                {renderStage()}
+            </div>
         </div>
     )
 }
