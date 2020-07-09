@@ -1,9 +1,12 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
+import { RootState } from '../../reducers';
 import { FilecheckAction, progressStep, resetStep } from '../../actions/FileCheckActions';
 import FileCheckStepper from './FileCheckStepper'
 
+
+/* Typescript interfaces */
 
 interface StepperProps {
     step: number,
@@ -12,6 +15,12 @@ interface StepperProps {
 }
 
 
+/* Components */ 
+
+/**
+ * Screen used to handle the file checks
+ * @param props props that are passed in by the Redux store
+ */
 const FileChecks = (props: StepperProps) => {
     return (
         <div style={{display: "default"}}>
@@ -23,9 +32,25 @@ const FileChecks = (props: StepperProps) => {
     )
 }
 
+
+/* Redux functions */ 
+
+/**
+ * Function that maps all required state variables to props.
+ * @param state Rootstate that has all reducers combined
+ */
+const mapStateToProps = (state: RootState) => ({
+    step: state.filecheck.step
+});
+
+/**
+ * Function that maps dispatch functions to props
+ * @param dispatch the dispatch function used by Redux
+ */
 const mapDispatchToProps = (dispatch: Dispatch<FilecheckAction>) => ({
     progressStep: () => dispatch(progressStep()),
     resetStep: () => dispatch(resetStep())
 });
 
-export default connect(null, mapDispatchToProps)(FileChecks);
+// Connect to the Redux store
+export default connect(mapStateToProps, mapDispatchToProps)(FileChecks);
