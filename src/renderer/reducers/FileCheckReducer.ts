@@ -1,5 +1,5 @@
 import { Reducer } from 'redux';
-import { STEP_PROGRESS, StepProgressAction, StepAction } from '../actions/FileCheckActions';
+import { STEP_PROGRESS, StepProgressAction, FilecheckAction } from '../actions/FileCheckActions';
 
 export interface FilecheckState {
     readonly step: number;
@@ -11,7 +11,7 @@ const defaultState: FilecheckState = {
 
 export const fileCheckReducer: Reducer<FilecheckState, StepProgressAction> = (
     state = defaultState,
-    action: StepAction
+    action: FilecheckAction
 ) => {
     switch(action.type) {
         case STEP_PROGRESS:

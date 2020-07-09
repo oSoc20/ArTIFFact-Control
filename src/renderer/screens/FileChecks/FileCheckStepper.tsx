@@ -6,9 +6,9 @@ import { Dispatch } from 'redux';
 import { RootState } from '../../reducers';
 import { FilecheckAction, progressStep } from '../../actions/FileCheckActions';
 
+
 interface StepperProps {
-    step: number,
-    progressStep: () => void
+    step: number
 }
 
 export const steps = ["Upload", "Settings", "Check"]

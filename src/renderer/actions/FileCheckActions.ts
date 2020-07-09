@@ -4,12 +4,10 @@ export const STEP_PROGRESS = 'STEP_PROGRESS';
 
 export interface StepProgressAction extends Action {
     type: 'STEP_PROGRESS';
-    step: number;
 }
 
-export const setStep: ActionCreator<StepProgressAction> =  (newStep: number) => ({
+export const progressStep: ActionCreator<StepProgressAction> =  () => ({
     type: STEP_PROGRESS,
-    step: newStep
 })
 
-export type StepAction = StepProgressAction; // | SomeOtherAction
+export type FilecheckAction = StepProgressAction; // | SomeOtherAction
