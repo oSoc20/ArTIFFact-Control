@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-import { RootState } from '../../reducers';
-import { FilecheckAction, progressStep, resetStep } from '../../actions/FileCheckActions';
+import { RootState } from 'Reducers';
+import { FilecheckAction, progressStep, resetStep } from 'Actions/FileCheckActions';
 import FileCheckStepper from './FileCheckStepper'
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { Stage1 } from './Stage1'

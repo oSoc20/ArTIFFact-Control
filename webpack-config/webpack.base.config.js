@@ -11,6 +11,11 @@ module.exports = {
         __filename: false
     },
     resolve: {
+        alias: {
+            Resources: path.resolve(__dirname, '../src/resources'),
+            Actions: path.resolve(__dirname, '../src/renderer/actions'),
+            Reducers: path.resolve(__dirname, '../src/renderer/reducers')
+        },
         extensions: ['.tsx', '.ts', '.js', '.json']
     },
     devtool: 'source-map',

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Stepper, Step, StepLabel } from '@material-ui/core';
 import { connect } from 'react-redux';
-import { RootState } from '../../reducers';
+import { RootState } from 'Reducers';
 
 
 /* Typescript interfaces */
