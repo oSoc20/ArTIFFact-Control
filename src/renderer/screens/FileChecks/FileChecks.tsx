@@ -8,6 +8,7 @@ import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { Stage1 } from './Stage1'
 import { Stage2 } from './Stage2'
 import { Stage3 } from './Stage3'
+import { autoUpdater } from 'electron';
 
 
 /* Typescript interfaces */
@@ -21,14 +22,17 @@ interface FilecheckerProps {
 /* Styles */
 const useStyles = makeStyles((theme: Theme) => 
     createStyles({
-      container: {
-          height: "90vh",
-          display: "flex",
-          alignContent: "center",
-      },
       title: {
-          textAlign: "center"
-      }  
+          textAlign: "center",
+          marginLeft: "auto",
+          marginRight: "auto"
+      },
+      stepperContainer: {
+        display: "block",
+        width: "60%",
+        marginLeft: "auto",
+        marginRight: "auto"
+      }
     })
 );
 
@@ -55,17 +59,15 @@ const FileChecks = (props: FilecheckerProps) => {
     } 
 
     return (
-        <div className={classes.container}>
+        <>
             <h1 className={classes.title}>File checks</h1>
-            <div>
-                <div>
+            {renderStage()}
+                <div className={classes.stepperContainer}>
                     <FileCheckStepper />
+                    <button onClick={() => props.progressStep()}>Next</button>
                 </div>
-                <button onClick={() => props.progressStep()}>test (remove me later)</button>
                 <button onClick={() => props.resetStep()}>Reset</button>
-                {renderStage()}
-            </div>
-        </div>
+        </>
     )
 }
 
