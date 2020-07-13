@@ -5,10 +5,9 @@ import { RootState } from 'Reducers';
 import { FilecheckAction, progressStep, resetStep } from 'Actions/FileCheckActions';
 import FileCheckStepper from './FileCheckStepper'
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { Stage1 } from './Stage1'
+import Stage1 from './Stage1'
 import { Stage2 } from './Stage2'
 import { Stage3 } from './Stage3'
-import { autoUpdater } from 'electron';
 
 
 /* Typescript interfaces */
@@ -64,9 +63,9 @@ const FileChecks = (props: FilecheckerProps) => {
             {renderStage()}
                 <div className={classes.stepperContainer}>
                     <FileCheckStepper />
-                    <button onClick={() => props.progressStep()}>Next</button>
+                    {/* <button onClick={() => props.progressStep()}>Next</button> */}
                 </div>
-                <button onClick={() => props.resetStep()}>Reset</button>
+                <button onClick={() => props.resetStep()}>Reset progress (temp button)</button>
         </>
     )
 }

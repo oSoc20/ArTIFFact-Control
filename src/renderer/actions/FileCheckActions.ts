@@ -23,9 +23,14 @@ export interface StepResetAction extends Action {
 }
 
 // Files
+export interface FileData {
+    path: string;
+    size: string;
+}
+
 export interface SetFilesAction extends Action {
     type: 'SET_FILES';
-    files: Array<Object>;
+    files: Array<FileData>;
 }
 
 export interface ClearFilesAction extends Action {
@@ -64,7 +69,7 @@ export const clearFiles: ActionCreator<ClearFilesAction> = () => ({
 /**
  * Set the list of files to a new list of files
  */
-export const setFiles: ActionCreator<SetFilesAction> = (files: Array<Object>) => ({
+export const setFiles: ActionCreator<SetFilesAction> = (files: Array<FileData>) => ({
     type: SET_FILES,
     files: files
 });

@@ -1,15 +1,13 @@
 import * as React from 'react';
-import { useState, useCallback } from 'react'
+import { useCallback, createRef } from 'react'
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
+import { RootState } from 'Reducers';
+import { FilecheckAction, clearFiles, setFiles, FileData } from 'Actions/FileCheckActions';
 import {useDropzone} from 'react-dropzone'
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { Box, Container, TableContainer, TableCell, TableHead, TableBody, TableRow, Table } from '@material-ui/core'
 import {default as DeleteIcon } from '@material-ui/icons/DeleteForever';
-
-
-interface FileData {
-    path: string;
-    size: string;
-}
 
 
 const useStyles = makeStyles((theme: Theme) => 
@@ -74,30 +72,52 @@ const FileDropZone = (props: DropZoneProps) => {
 
 interface Stage1Props {
     progressStep: () => void;
+    files: Array<FileData>;
+    clearFiles: () => void;
+    setFiles: (files: Array<FileData>) => void
 }
 
 
-export const Stage1 = (props: Stage1Props) => {
+const Stage1 = (props: Stage1Props) => {
     const classes = useStyles();
+    const fileInput = createRef<HTMLInputElement>();
 
-    let [files, setFiles] = useState<Array<FileData>>([])
+   // let [files, setFiles] = useState<Array<FileData>>([])
 
     const hasFiles = () => {
-        return files.length !== 0;
+        return props.files.length !== 0;
     }
 
     const removeFile = (index: number) => {
         // React state only updates if setFiles callback is called
         // Therefore we create a copy of the current array, slice it and
         // then update using setFiles callback
-        let filesCopy = [...files];
+        let filesCopy = [...props.files];
         filesCopy.splice(index, 1);
-        setFiles(filesCopy);
+        props.setFiles(filesCopy);
     }
 
     const addSampleFiles = () => {
-        const files = [ {path: "C://TEST/file.tiff", size: "300GB"}, {path: "C://TEST//file2.tiff", size: "3kb"}];
-        setFiles(files);
+        const files = [ {path: "C:\\TEST\\file.tiff", size: "300 GB"}, {path: "C:\\TEST\\file2.tiff", size: "3 kB"}];
+        props.setFiles(files);
+    }
+
+    const handleFileAdding = (event: any) => {
+        const fileObject = fileInput.current?.files;
+        if(fileObject) {
+            const fileList = Array.from(fileObject);
+            let newFiles: Array<FileData> = [];
+            fileList.forEach(file => {
+                newFiles.push(
+                    {
+                        path: file.path,
+                        size: formatBytes(file.size)
+                    }
+                )
+            });
+            props.setFiles([...props.files, ...newFiles]);
+        }
+        
     }
 
     return (
@@ -107,7 +127,7 @@ export const Stage1 = (props: Stage1Props) => {
                 {!hasFiles()? 
                 <>
                     <h3>Step 1 - File upload</h3>
-                    <FileDropZone updateFiles={setFiles}/>
+                    <FileDropZone updateFiles={props.setFiles}/>
                     <button onClick={() => addSampleFiles()}>Upload your files</button>    
                 </> 
                 : 
@@ -122,7 +142,7 @@ export const Stage1 = (props: Stage1Props) => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {files.map((file, index) => {
+                                {props.files.map((file, index) => {
                                 return (
                                     <TableRow key={index}>
                                         <TableCell>{file.path}</TableCell>
@@ -139,13 +159,36 @@ export const Stage1 = (props: Stage1Props) => {
                         </Table>
                     </TableContainer>
                     <Box display={"flex"} width={"100%"} margin={"1rem 0rem 1rem"}>
-                        <button style={{marginLeft: "1rem"}}>+ add new files</button>
+                        <input multiple onChange={(event) => handleFileAdding(event)} ref={fileInput} type={"file"} style={{display: "none"}} />
+                        <button style={{marginLeft: "1rem"}} onClick={() => fileInput.current?.click()}>+ add new files</button>
                         <button style={{marginLeft: "auto", marginRight: "1rem"}} onClick={()=>props.progressStep()}>Continue</button>
                     </Box>
-                    
                 </>
                 }
             </Box>
         </Container>
     );
 }
+
+
+/* Redux functions */ 
+
+/**
+ * Function that maps all required state variables to props.
+ * @param state Rootstate that has all reducers combined
+ */
+const mapStateToProps = (state: RootState) => ({
+    files: state.filecheck.files
+});
+
+/**
+ * Function that maps dispatch functions to props
+ * @param dispatch the dispatch function used by Redux
+ */
+const mapDispatchToProps = (dispatch: Dispatch<FilecheckAction>) => ({
+    setFiles: (files: Array<FileData>) => dispatch(setFiles(files)),
+    clearFiles: () => dispatch(clearFiles())
+});
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Stage1);
