@@ -29,6 +29,15 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
+const formatBytes = (bytes: number, decimals = 2) => {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const dm = decimals < 0 ? 0 : decimals;
+    const sizes = ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+}
+
 interface DropZoneProps {
     updateFiles: any;
 }
@@ -41,7 +50,7 @@ const FileDropZone = (props: DropZoneProps) => {
         acceptedFilesArray.forEach((file) => {
             files.push({
                 path: file.path,
-                size: file.size
+                size: formatBytes(file.size)
             })
         });
         props.updateFiles(files);
