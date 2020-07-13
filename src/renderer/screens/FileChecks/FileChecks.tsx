@@ -48,7 +48,7 @@ const FileChecks = (props: FilecheckerProps) => {
     const renderStage = () => {
         switch(props.step) {
             case 0:
-                return <Stage1 />
+                return <Stage1 progressStep={props.progressStep}/>
             case 1:
                 return <Stage2 />
             case 2:

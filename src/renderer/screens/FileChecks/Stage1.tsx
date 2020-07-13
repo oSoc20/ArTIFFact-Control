@@ -1,7 +1,8 @@
 import * as React from 'react';
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
+import {useDropzone} from 'react-dropzone'
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { Box, Container, TableContainer, TableCell, TableHead, TableBody, TableRow } from '@material-ui/core'
+import { Box, Container, TableContainer, TableCell, TableHead, TableBody, TableRow, Table } from '@material-ui/core'
 import {default as DeleteIcon } from '@material-ui/icons/DeleteForever';
 
 
@@ -28,8 +29,46 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
+interface DropZoneProps {
+    updateFiles: any;
+}
 
-export const Stage1 = () => {
+const FileDropZone = (props: DropZoneProps) => {
+    const onDrop = useCallback(acceptedFiles => {
+        console.log(acceptedFiles, typeof(acceptedFiles));
+        let acceptedFilesArray: Array<any> = Object.keys(acceptedFiles).map((key) => acceptedFiles[key]);
+        let files: Array<FileData> = [];
+        acceptedFilesArray.forEach((file) => {
+            files.push({
+                path: file.path,
+                size: file.size
+            })
+        });
+        props.updateFiles(files);
+        
+    }, []);
+    const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop});
+
+    // TODO better view of where files can be dropped
+
+    return (
+        <div {...getRootProps()}>
+            <input {...getInputProps()} />
+            {isDragActive ?
+                <p>Release files here</p> :
+                <p>Drop .TIFF files here</p>  
+            }
+        </div>
+    );
+};
+
+
+interface Stage1Props {
+    progressStep: () => void;
+}
+
+
+export const Stage1 = (props: Stage1Props) => {
     const classes = useStyles();
 
     let [files, setFiles] = useState<Array<FileData>>([])
@@ -58,39 +97,45 @@ export const Stage1 = () => {
             <Box className={classes.fileContainer} >
                 {!hasFiles()? 
                 <>
-                    <p>Drop .TIFF files here</p>
+                    <h3>Step 1 - File upload</h3>
+                    <FileDropZone updateFiles={setFiles}/>
                     <button onClick={() => addSampleFiles()}>Upload your files</button>    
                 </> 
                 : 
                 <> 
                     <TableContainer>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>Path</TableCell>
-                                <TableCell>size</TableCell>
-                                <TableCell/>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {files.map((file, index) => {
-                               return (
-                                   <TableRow key={index}>
-                                       <TableCell>{file.path}</TableCell>
-                                       <TableCell>{file.size}</TableCell>
-                                       <TableCell>
-                                           <button style={{background: "none", border: "none"}}
-                                                    onClick={() => removeFile(index)}
-                                           ><DeleteIcon/></button>
-                                        </TableCell>
-                                   </TableRow>
-                               ); 
-                            })}
-                        </TableBody>
+                        <Table>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Path</TableCell>
+                                    <TableCell>size</TableCell>
+                                    <TableCell/>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {files.map((file, index) => {
+                                return (
+                                    <TableRow key={index}>
+                                        <TableCell>{file.path}</TableCell>
+                                        <TableCell>{file.size}</TableCell>
+                                        <TableCell>
+                                            <button style={{background: "none", border: "none"}}
+                                                        onClick={() => removeFile(index)}
+                                            ><DeleteIcon/></button>
+                                            </TableCell>
+                                    </TableRow>
+                                ); 
+                                })}
+                            </TableBody>
+                        </Table>
                     </TableContainer>
-                    <small>+ add items</small>
+                    <Box display={"flex"} width={"100%"} margin={"1rem 0rem 1rem"}>
+                        <button style={{marginLeft: "1rem"}}>+ add new files</button>
+                        <button style={{marginLeft: "auto", marginRight: "1rem"}} onClick={()=>props.progressStep()}>Continue</button>
+                    </Box>
+                    
                 </>
                 }
-                
             </Box>
         </Container>
     );
