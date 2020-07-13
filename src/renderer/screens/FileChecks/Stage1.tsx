@@ -10,6 +10,22 @@ import { Box, Container, TableContainer, TableCell, TableHead, TableBody, TableR
 import {default as DeleteIcon } from '@material-ui/icons/DeleteForever';
 
 
+/* Typescript interfaces */
+
+interface DropZoneProps {
+    updateFiles: any;
+}
+
+interface Stage1Props {
+    progressStep: () => void;
+    files: Array<FileData>;
+    clearFiles: () => void;
+    setFiles: (files: Array<FileData>) => void
+}
+
+
+/* Styles */
+
 const useStyles = makeStyles((theme: Theme) => 
     createStyles({
       container: {
@@ -27,6 +43,16 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
+
+/* Components and functions */
+
+/**
+ * Converts an amount of bytes to a clearer representation
+ * ex. 10 kB or 10 GB
+ * source: https://stackoverflow.com/questions/15900485/correct-way-to-convert-size-in-bytes-to-kb-mb-gb-in-javascript
+ * @param bytes the amount of bytes
+ * @param decimals the amount of decimals in the result
+ */
 const formatBytes = (bytes: number, decimals = 2) => {
     if (bytes === 0) return '0 Bytes';
     const k = 1024;
@@ -36,13 +62,19 @@ const formatBytes = (bytes: number, decimals = 2) => {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 }
 
-interface DropZoneProps {
-    updateFiles: any;
-}
 
+/**
+ * React component that handles the file drop zone
+ * @param props props that are passed by the parent component
+ */
 const FileDropZone = (props: DropZoneProps) => {
+
+    /**
+     * Callback function that handles the onDrop event
+     * Adds the files to the Redux store using the function that is passed in
+     * with the props.
+     */
     const onDrop = useCallback(acceptedFiles => {
-        console.log(acceptedFiles, typeof(acceptedFiles));
         let acceptedFilesArray: Array<any> = Object.keys(acceptedFiles).map((key) => acceptedFiles[key]);
         let files: Array<FileData> = [];
         acceptedFilesArray.forEach((file) => {
@@ -54,10 +86,11 @@ const FileDropZone = (props: DropZoneProps) => {
         props.updateFiles(files);
         
     }, []);
+
+    // Destructure the things we need
     const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop});
 
-    // TODO better view of where files can be dropped
-
+    // TODO better view of where files can be dropped + other styling
     return (
         <div {...getRootProps()}>
             <input {...getInputProps()} />
@@ -69,25 +102,26 @@ const FileDropZone = (props: DropZoneProps) => {
     );
 };
 
-
-interface Stage1Props {
-    progressStep: () => void;
-    files: Array<FileData>;
-    clearFiles: () => void;
-    setFiles: (files: Array<FileData>) => void
-}
-
-
+/**
+ * Component that handles and renders Stage 1 of processing file(s)
+ * @param props props that are passed in by the FileChecks component
+ */
 const Stage1 = (props: Stage1Props) => {
     const classes = useStyles();
     const fileInput = createRef<HTMLInputElement>();
 
-   // let [files, setFiles] = useState<Array<FileData>>([])
-
+    /**
+     * Check whether there are files at the moment
+     * @returns true if there are files
+     */
     const hasFiles = () => {
         return props.files.length !== 0;
     }
 
+    /**
+     * Remove a file of the list
+     * @param index index of the file to remove
+     */
     const removeFile = (index: number) => {
         // React state only updates if setFiles callback is called
         // Therefore we create a copy of the current array, slice it and
@@ -97,15 +131,22 @@ const Stage1 = (props: Stage1Props) => {
         props.setFiles(filesCopy);
     }
 
+    /**
+     * Temporary function that adds some fake paths
+     * REMOVE THIS AFTERWARDS
+     */
     const addSampleFiles = () => {
         const files = [ {path: "C:\\TEST\\file.tiff", size: "300 GB"}, {path: "C:\\TEST\\file2.tiff", size: "3 kB"}];
         props.setFiles(files);
     }
 
-    const handleFileAdding = (event: any) => {
-        const fileObject = fileInput.current?.files;
-        if(fileObject) {
-            const fileList = Array.from(fileObject);
+    /**
+     * Handles adding a file. Called by file input element.
+     */
+    const handleFileAdding = () => {
+        const inputFiles = fileInput.current?.files;
+        if(inputFiles) {
+            const fileList = Array.from(inputFiles);
             let newFiles: Array<FileData> = [];
             fileList.forEach(file => {
                 newFiles.push(
@@ -159,7 +200,14 @@ const Stage1 = (props: Stage1Props) => {
                         </Table>
                     </TableContainer>
                     <Box display={"flex"} width={"100%"} margin={"1rem 0rem 1rem"}>
-                        <input multiple onChange={(event) => handleFileAdding(event)} ref={fileInput} type={"file"} style={{display: "none"}} />
+                        <input 
+                            multiple 
+                            onChange={() => handleFileAdding()} 
+                            ref={fileInput} 
+                            type={"file"} 
+                            accept={".tiff,.TIFF,.tif,.TIF,.zip,.gz,.tar.gz"}
+                            style={{display: "none"}} 
+                        />
                         <button style={{marginLeft: "1rem"}} onClick={() => fileInput.current?.click()}>+ add new files</button>
                         <button style={{marginLeft: "auto", marginRight: "1rem"}} onClick={()=>props.progressStep()}>Continue</button>
                     </Box>
@@ -191,4 +239,5 @@ const mapDispatchToProps = (dispatch: Dispatch<FilecheckAction>) => ({
 });
 
 
+// Connect to the Redux store
 export default connect(mapStateToProps, mapDispatchToProps)(Stage1);
