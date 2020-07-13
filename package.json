@@ -1,6 +1,6 @@
 {
   "name": "ArTIFFact-Control",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "",
   "main": "./webpack-config/dist/main.js",
   "scripts": {
@@ -18,7 +18,12 @@
     "test:e2e": "jest '(\\/test\\/e2e/).*'",
     "pack": "npm run build && electron-builder --dir",
     "dist": "npm run build && electron-builder",
-    "postinstall": "electron-builder install-app-deps"
+    "postinstall": "electron-builder install-app-deps",
+    "build-all": "electron-builder --windows --linux --mac",
+		"build-windows": "electron-builder --windows",
+		"build-linux": "electron-builder --linux",
+    "build-mac": "electron-builder --mac",
+		"release": "electron-builder --mac --windows --linux --publish always"
   },
   "jest": {
     "transform": {
@@ -38,8 +43,8 @@
     }
   },
   "build": {
-    "productName": "ProductName",
-    "appId": "org.your.productname",
+    "productName": "ArTIFFact-Control",
+    "appId": "org.your.artiffact-control",
     "mac": {
       "category": "your.app.category.type"
     },
@@ -47,7 +52,7 @@
       "output": "release"
     },
     "files": [
-      "dist/",
+      "webpack-config/dist/",
       "node_modules/",
       "package.json"
     ],

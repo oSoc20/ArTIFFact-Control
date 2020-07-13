@@ -19,7 +19,8 @@ const createWindow = async () => {
         await installExtensions();
     }
 
-    win = new BrowserWindow({ width: 1440, height: 900, show: false, webPreferences: { nodeIntegration: true } });
+    // Window creation
+    win = new BrowserWindow({ width: 1440, height: 900, title: 'ArTIFFact Control', show: false, webPreferences: { nodeIntegration: true } });
 
     if (process.env.NODE_ENV !== 'production') {
         process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = '1'; // eslint-disable-line require-atomic-updates
@@ -34,18 +35,28 @@ const createWindow = async () => {
         );
     }
 
-    if (process.env.NODE_ENV !== 'production') {
-        // Open DevTools, see https://github.com/electron/electron/issues/12438 for why we wait for dom-ready
-        win.webContents.once('dom-ready', () => {
-            win!.webContents.openDevTools();
-        });
-    } else {
-        win.setMenu(null);
-    }
 
-    win.maximize();
+    // Open DevTools, see https://github.com/electron/electron/issues/12438 for why we wait for dom-ready
+    win.webContents.once('dom-ready', () => {
+        if (process.env.NODE_ENV !== 'production') {
+            win!.webContents.openDevTools();
+        } else {
+            win!.setMenu(null);
+        }
+
+        // Fullscreen
+        win!.maximize();
+    });
+
+
+
+
     win.on('closed', () => {
         win = null;
+    });
+
+    win.on('page-title-updated', function (e) {
+        e.preventDefault()
     });
 };
 
