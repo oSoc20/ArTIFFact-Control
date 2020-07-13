@@ -15,7 +15,16 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import { useHistory } from "react-router-dom";
 
 /* IMAGES */
-const logoWithLabel = require('../../resources/images/logoWithLabel.svg');
+const logoWithLabel = require('../../assets/logos/logoWithLabel.svg');
+const homeIcon = require('../../assets/icons/icons8-home-500.svg');
+const checkFileIcon = require('../../assets/icons/icons8-check-file-500.svg');
+const ratingsIcon = require('../../assets/icons/icons8-ratings-500.svg');
+const comboChartIcon = require('../../assets/icons/icons8-combo-chart-500.svg');
+const clockCheckedIcon = require('../../assets/icons/icons8-clock-checked-500.svg');
+const statisticsReportIcon = require('../../assets/icons/icons8-statistics-report-500.svg');
+const settingsIcon = require('../../assets/icons/icons8-settings-500.svg');
+const helpIcon = require('../../assets/icons/icons8-info-500.svg');
+const aboutIcon = require('../../assets/icons/icons8-help-500.svg');
 
 /* STYLING */
 const drawerWidth = 260;
@@ -52,32 +61,38 @@ const listItem = {
     paddingBottom: '5px'
 }
 
-const icon = {
-    minWidth: 0,
+const blackIcon = {
+    width: '25px',
     marginRight: '12px'
+}
+
+const whiteIcon = {
+    width: '25px',
+    marginRight: '12px',
+    filter: 'grayscale(1) invert(1) contrast(500%)'
 }
 
 /* ITEMS */
 const middleItems = [
-    { name: 'Dashboard', link: 'dashboard', icon: <HomeOutlinedIcon style={icon} /> },
-    { name: 'File checks', link: 'fileChecks', icon: <DoneOutlineOutlinedIcon style={icon} /> },
-    { name: 'Reports', link: 'reports', icon: <DescriptionOutlinedIcon style={icon} /> },
-    { name: 'Statistics', link: 'statistics', icon: <BarChartIcon style={icon} /> },
-    { name: 'Periodical checks', link: 'periodicalChecks', icon: <AlarmOnIcon style={icon} /> },
-    { name: 'Conformance checks', link: 'conformanceChecks', icon: <InsertDriveFileOutlinedIcon style={icon} /> },
-    { name: 'Configurations', link: 'configurations', icon: <SettingsIcon style={icon} /> }
+    { name: 'Dashboard', link: 'dashboard', icon: homeIcon },
+    { name: 'File checks', link: 'fileChecks', icon: checkFileIcon },
+    { name: 'Reports', link: 'reports', icon: ratingsIcon },
+    { name: 'Statistics', link: 'statistics', icon: comboChartIcon },
+    { name: 'Periodical checks', link: 'periodicalChecks', icon: clockCheckedIcon },
+    { name: 'Conformance checks', link: 'conformanceChecks', icon: statisticsReportIcon },
+    { name: 'Configurations', link: 'configurations', icon: settingsIcon }
 ];
 
 const bottomItems = [
-    { name: 'Help', link: 'help', icon: <InfoOutlinedIcon style={icon} /> },
-    { name: 'About', link: 'about', icon: <HelpOutlineOutlinedIcon style={icon} /> }
+    { name: 'Help', link: 'help', icon: helpIcon },
+    { name: 'About', link: 'about', icon: aboutIcon }
 ];
 
 /* FUNCTIONS */
 function renderItems(items: any[], selectedItem: string, setSelectedItem: any, classes: any, history: any): any {
     return items.map((item, index) => (
         <ListItem button key={index} classes={{ selected: classes.selected }} style={listItem} selected={selectedItem == item.link} onClick={() => { setSelectedItem(item.link); history.push('/' + item.link); }}>
-            {item.icon}
+            <img src={item.icon} style={selectedItem != item.link ? whiteIcon : blackIcon} />
             <ListItemText><span style={{ fontSize: '18px' }}>{item.name}</span></ListItemText>
         </ListItem>
     ));
