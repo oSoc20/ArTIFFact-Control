@@ -77,10 +77,10 @@ const middleItems = [
     { name: 'Dashboard', link: 'dashboard', icon: homeIcon },
     { name: 'File checks', link: 'fileChecks', icon: checkFileIcon },
     { name: 'Reports', link: 'reports', icon: ratingsIcon },
-    { name: 'Statistics', link: 'statistics', icon: comboChartIcon },
+    { name: 'Configurations', link: 'configurations', icon: settingsIcon },
     { name: 'Periodical checks', link: 'periodicalChecks', icon: clockCheckedIcon },
     { name: 'Conformance checks', link: 'conformanceChecks', icon: statisticsReportIcon },
-    { name: 'Configurations', link: 'configurations', icon: settingsIcon }
+    { name: 'Statistics', link: 'statistics', icon: comboChartIcon }
 ];
 
 const bottomItems = [
