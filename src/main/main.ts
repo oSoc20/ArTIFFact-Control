@@ -20,7 +20,7 @@ const createWindow = async () => {
     }
 
     // Window creation
-    win = new BrowserWindow({ width: 1440, height: 900, title: 'ArTIFFact Control', show: false, webPreferences: { nodeIntegration: true } });
+    win = new BrowserWindow({ width: 1440, height: 900, minWidth: 1280, minHeight: 720, title: 'ArTIFFact Control', show: false, webPreferences: { nodeIntegration: true } });
 
     if (process.env.NODE_ENV !== 'production') {
         process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = '1'; // eslint-disable-line require-atomic-updates

@@ -2,8 +2,10 @@ import * as React from 'react';
 // Material UI
 import { Typography, Paper, Box, makeStyles, Theme, createStyles, TableContainer, Table, TableHead, TableRow, withStyles, TableBody, Button } from '@material-ui/core';
 import MuiTableCell from "@material-ui/core/TableCell";
-import SettingsIcon from '@material-ui/icons/Settings';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+
+/* ASSETS */
+const settingsIcon = require('Assets/icons/icons8-settings-500.svg');
 
 /* STYLE */
 const TableCell = withStyles({
@@ -11,6 +13,16 @@ const TableCell = withStyles({
         borderBottom: "none"
     }
 })(MuiTableCell);
+
+const StyledTableRow = withStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      '&:nth-of-type(odd)': {
+        backgroundColor: theme.palette.action.hover,
+      },
+    },
+  }),
+)(TableRow);
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -37,18 +49,17 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 /* FUNCTIONS */
-function createData(name: string, implementation: string, report: string) {
-    return { name, implementation, report };
+function createData(name: string, implementation: string) {
+    return { name, implementation };
 }
 
 const rows = [
-    createData('Default', 'Baseline TIFF 6.0', 'Json, PDF'),
-    createData('Special', 'Extended TIFF 6.0', 'HTML'),
-    createData('Special', 'Extended TIFF 6.0', 'HTML'),
-    createData('Special', 'Extended TIFF 6.0', 'HTML'),
-    createData('Special', 'Extended TIFF 6.0', 'HTML'),
-    createData('Special', 'Extended TIFF 6.0', 'HTML'),
-    createData('Special', 'Extended TIFF 6.0', 'HTML')
+    createData('Default', 'Baseline TIFF 6.0'),
+    createData('Special', 'Extended TIFF 6.0'),
+    createData('Special', 'Extended TIFF 6.0'),
+    createData('Special', 'Extended TIFF 6.0'),
+    createData('Special', 'Extended TIFF 6.0'),
+    createData('Special', 'Extended TIFF 6.0')
 ];
 
 /* COMPONENT */
@@ -59,12 +70,12 @@ function LastConfigurations() {
     return (
         <>
             <Paper className={classes.paper}>
-                <Typography component='span' style={{display: 'flex'}}>
+                <Typography component='span' style={{ display: 'flex' }}>
                     <Box className={classes.box} fontSize='h6.fontSize' fontWeight='fontWeightBold'>
-                        <SettingsIcon style={{ marginRight: '15px', fontSize: '40px' }} />
+                        <img src={settingsIcon} style={{ marginRight: '20px', width: '40px' }} />
                         Configuration
                     </Box>
-                    <Button style={{marginLeft: 'auto', fontWeight: 600, textTransform: 'none'}}>More <ArrowForwardIcon style={{marginLeft:'3px', fontSize:'20px'}} /></Button>
+                    <Button style={{ marginLeft: 'auto', fontWeight: 600, textTransform: 'none' }}>More <ArrowForwardIcon style={{ marginLeft: '3px', fontSize: '20px' }} /></Button>
                 </Typography>
                 <TableContainer style={{ marginTop: '20px' }}>
                     <Table aria-label="span" size="small">
@@ -72,7 +83,6 @@ function LastConfigurations() {
                             <TableRow className={classes.tableHeadRow}>
                                 <TableCell className={classes.tableHeadCell}>Name</TableCell>
                                 <TableCell className={classes.tableHeadCell}>Implementation</TableCell>
-                                <TableCell className={classes.tableHeadCell}>Report</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -82,17 +92,14 @@ function LastConfigurations() {
                                         : { opacity: 0.3 };
 
                                 return (
-                                    <TableRow key={index} style={opacity}>
+                                    <StyledTableRow key={index} style={opacity}>
                                         <TableCell component="th" scope="row">
                                             {row.name}
                                         </TableCell>
                                         <TableCell component="th" scope="row">
                                             {row.implementation}
                                         </TableCell>
-                                        <TableCell component="th" scope="row">
-                                            {row.report}
-                                        </TableCell>
-                                    </TableRow>
+                                    </StyledTableRow>
                                 );
                             })}
                         </TableBody>

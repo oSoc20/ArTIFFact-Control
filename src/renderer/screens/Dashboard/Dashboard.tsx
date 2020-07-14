@@ -1,6 +1,6 @@
 import * as React from 'react';
 // Material UI
-import { Typography, Grid, Box, makeStyles, Theme, createStyles, Paper } from '@material-ui/core';
+import { Typography, Grid, Box, makeStyles, Theme, createStyles } from '@material-ui/core';
 import LastReports from '../../components/LastReports/LastReports';
 import LastConfigurations from '../../components/LastConfigurations/LastConfigurations';
 import LastPeriodicalChecks from '../../components/LastPeriodicalChecks/LastPeriodicalChecks';
@@ -8,13 +8,8 @@ import LastPeriodicalChecks from '../../components/LastPeriodicalChecks/LastPeri
 /* STYLE */
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        paper: {
-            padding: theme.spacing(2),
-            color: 'black'
-        },
         box: {
-            display: 'flex',
-            alignItems: 'center'
+            marginBottom: '15px'
         }
     })
 );
@@ -26,7 +21,7 @@ function Dashboard() {
     return (
         <>
             <Typography component="span" gutterBottom>
-                <Box fontSize='h4.fontSize' style={{ marginBottom: '15px' }}>
+                <Box fontSize='h4.fontSize' fontFamily='"DIN 2014"' className={classes.box}>
                     Dashboard
                 </Box>
             </Typography>
