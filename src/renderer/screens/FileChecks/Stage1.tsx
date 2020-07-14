@@ -6,7 +6,7 @@ import { RootState } from 'Reducers';
 import { FilecheckAction, clearFiles, setFiles, FileData } from 'Actions/FileCheckActions';
 import {useDropzone} from 'react-dropzone'
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { Box, Container, TableContainer, TableCell, TableHead, TableBody, TableRow, Table } from '@material-ui/core'
+import { Box, Container, TableContainer, TableCell, TableHead, TableBody, TableRow, Table, Paper } from '@material-ui/core'
 import {default as DeleteIcon } from '@material-ui/icons/DeleteForever';
 
 
@@ -32,9 +32,19 @@ const useStyles = makeStyles((theme: Theme) =>
           background: "#eee"
       },
       fileContainer: {
-          border: "2px dashed grey",
-          borderRadius: "5px",
-          margin: "5rem"
+        height: "50vh",
+        background: "#eee",
+        marginTop: "0rem",
+        marginLeft: "5rem",
+        marginRight: "5rem",
+        overflow: "auto"
+      },
+      dropzone: {
+        border: "2px dashed grey",
+        borderRadius: "5px",
+        margin: "auto",
+        height: "50%",
+        width: "50%",
       },
       centered: {
           marginLeft: "auto",
@@ -69,6 +79,8 @@ const formatBytes = (bytes: number, decimals = 2) => {
  */
 const FileDropZone = (props: DropZoneProps) => {
 
+    const classes = useStyles();
+
     /**
      * Callback function that handles the onDrop event
      * Adds the files to the Redux store using the function that is passed in
@@ -88,16 +100,17 @@ const FileDropZone = (props: DropZoneProps) => {
     }, []);
 
     // Destructure the things we need
-    const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop});
+    const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop, accept: ".tiff,.TIFF,.tif,.TIF,.zip,.gz"});
 
     // TODO better view of where files can be dropped + other styling
     return (
-        <div {...getRootProps()}>
+        <div {...getRootProps()} className={classes.dropzone} >
             <input {...getInputProps()} />
             {isDragActive ?
                 <p>Release files here</p> :
-                <p>Drop .TIFF files here</p>  
+                <p>Drop .TIFF files here or drag a folder over here</p>  
             }
+            <button onClick={() => open}>Upload your files</button>
         </div>
     );
 };
@@ -164,17 +177,23 @@ const Stage1 = (props: Stage1Props) => {
     return (
         <Container>
             <h3>Step 1 - File upload</h3>
-            <Box className={classes.fileContainer} >
+            <Paper style={{
+                height: "20rem",
+                color: 'black',
+                overflow: "hidden",
+                background: '#FCFCFC',
+                boxShadow: '0px 0px 19px rgba(0, 0, 0, 0.05)',
+                borderRadius: '12px',
+            }}>
                 {!hasFiles()? 
                 <>
-                    <h3>Step 1 - File upload</h3>
                     <FileDropZone updateFiles={props.setFiles}/>
-                    <button onClick={() => addSampleFiles()}>Upload your files</button>    
+                    {/* <button onClick={() => addSampleFiles()}>sample files</button>     */}
                 </> 
                 : 
                 <> 
                     <TableContainer>
-                        <Table>
+                        <Table stickyHeader>
                             <TableHead>
                                 <TableRow>
                                     <TableCell>Path</TableCell>
@@ -213,7 +232,7 @@ const Stage1 = (props: Stage1Props) => {
                     </Box>
                 </>
                 }
-            </Box>
+            </Paper>
         </Container>
     );
 }

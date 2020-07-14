@@ -30,7 +30,8 @@ const useStyles = makeStyles((theme: Theme) =>
         display: "block",
         width: "60%",
         marginLeft: "auto",
-        marginRight: "auto"
+        marginRight: "auto",
+        marginTop: "1rem"
       }
     })
 );
