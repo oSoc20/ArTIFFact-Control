@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         stepperContainer: {
             display: "block",
-            width: "60%",
+            width: "90%",
             marginLeft: "auto",
             marginRight: "auto",
             marginTop: "1rem"
@@ -82,14 +82,14 @@ const FileChecks = (props: FilecheckerProps) => {
                 </Box>
             </Typography>
             <Grid container spacing={3}>
-                <Grid item xs={12} lg={8} style={{ display: 'flex', margin: "auto" }}>
+                <Grid item xs={12} lg={10} style={{ display: 'flex', margin: "auto" }}>
                     <Container>
                         <Paper className={classes.paper}>
                             {renderStage()}
                         </Paper>
                     </Container>
                 </Grid>
-                <Grid item xs={12} lg={8} style={{ display: 'flex', margin: "auto" }}>
+                <Grid item xs={12} lg={10} style={{ display: 'flex', margin: "auto" }}>
                     <div className={classes.stepperContainer}>
                         <FileCheckStepper />
                     </div>

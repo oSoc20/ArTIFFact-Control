@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { Stepper, Step, StepLabel } from '@material-ui/core';
+import { Stepper, Step, StepLabel, StepConnector } from '@material-ui/core';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { RootState } from 'Reducers';
 
@@ -11,7 +12,92 @@ interface StepperProps {
 }
 
 
-/* Components and variables */ 
+/* Styling */
+
+const CustomConnector = withStyles({
+    alternativeLabel: {
+        top: 6,
+        left: 'calc(-50%)',
+        right: 'calc(50%)',
+    },
+    active: {
+        '& $line': {
+            borderColor: '#F79947',
+        },
+    },
+    completed: {
+        '& $line': {
+            borderColor: '#F79947',
+        },
+    },
+    line: {
+        borderColor: '#eaeaf0',
+        borderTopWidth: 10,
+        borderRadius: 0,
+    },
+})(StepConnector)
+
+
+const useStyle = makeStyles({
+    default: {
+        textDecoration: "none"
+    },
+    current: {
+        color: '#F79947',
+        fontWeight: "bolder"
+    }
+});
+
+const useIconStyle = makeStyles({
+    root: {
+        color: '#F79947',
+        display: 'flex',
+        height: 22,
+        alignItems: 'center',
+    },
+    circle: {
+        width: 12,
+        height: 12,
+        border: "4px solid #eaeaf0",
+        borderRadius: '50%',
+        backgroundColor: 'white',
+        zIndex: 1
+    },
+    circleCurrent: {
+        width: 15,
+        height: 15,
+        border: "5px solid #F79947",
+        borderRadius: '50%',
+        backgroundColor: 'white',
+        zIndex: 1
+    },
+    circleFinished: {
+        width: 15,
+        height: 15,
+        borderRadius: '50%',
+        border: "none",
+        backgroundColor: "#F79947",
+    },
+});
+
+interface IconProps {
+    active: boolean;
+    completed: boolean;
+}
+
+const CustomStepIcon = (props: IconProps) => {
+    const classes = useIconStyle();
+    return (
+        <div className={classes.root}>
+            {props.completed ? <div className={classes.circleFinished} /> : 
+            props.active? <div className={classes.circleCurrent}/> :
+            <div className={classes.circle} />}
+        </div>
+    );
+}
+
+
+/* Components and variables */
 
 // The possible steps the stepper can take
 export const steps = ["Upload", "Settings", "Check"]
@@ -21,12 +107,15 @@ export const steps = ["Upload", "Settings", "Check"]
  * @param props props that are passed in by the Redux store
  */
 const FileChecksStepper = (props: StepperProps) => {
+    const classes = useStyle();
     return (
-        <Stepper activeStep={props.step}>
-            {steps.map((stepName) => {
+        <Stepper alternativeLabel activeStep={props.step} connector={<CustomConnector />}>
+            {steps.map((stepName, index) => {
                 return (
-                    <Step key={stepName}>
-                        <StepLabel>{stepName}</StepLabel>
+                    <Step key={stepName} >
+                        <StepLabel StepIconComponent={CustomStepIcon}>
+                            <span className={props.step === index? classes.current : classes.default}>{stepName}</span>
+                        </StepLabel>
                     </Step>
                 );
             })}
@@ -35,7 +124,7 @@ const FileChecksStepper = (props: StepperProps) => {
 }
 
 
-/* Redux functions */ 
+/* Redux functions */
 
 /**
  * Function that maps all required state variables to props.
