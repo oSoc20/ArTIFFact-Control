@@ -8,7 +8,8 @@ import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Stage1 from './Stage1'
 import { Stage2 } from './Stage2'
 import { Stage3 } from './Stage3'
-import { Grid, Typography, Box } from '@material-ui/core';
+import { Grid, Typography, Box, Paper, Container } from '@material-ui/core';
+import FileCopyIcon from '@material-ui/icons/FileCopy';
 
 
 /* Typescript interfaces */
@@ -20,24 +21,38 @@ interface FilecheckerProps {
 }
 
 /* Styles */
-const useStyles = makeStyles((theme: Theme) => 
+const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-      title: {
-          textAlign: "center",
-          marginLeft: "auto",
-          marginRight: "auto"
-      },
-      stepperContainer: {
-        display: "block",
-        width: "60%",
-        marginLeft: "auto",
-        marginRight: "auto",
-        marginTop: "1rem"
-      }
+        title: {
+            textAlign: "center",
+            marginTop: "2rem",
+            marginBottom: "4rem",
+            fontFamily: "DIN 2014",
+            fontStyle: "normal",
+            fontWeight: "normal",
+            fontSize: "36px",
+            lineHeight: "46px",
+            color: "#2A4B5B",
+        },
+        stepperContainer: {
+            display: "block",
+            width: "60%",
+            marginLeft: "auto",
+            marginRight: "auto",
+            marginTop: "1rem"
+        },
+        paper: {
+            color: 'black',
+            overflow: "hidden",
+            background: '#FCFCFC',
+            boxShadow: '0px 0px 19px rgba(0, 0, 0, 0.05)',
+            borderRadius: '12px',
+            padding: "40px"
+        },
     })
 );
 
-/* Components */ 
+/* Components */
 
 /**
  * Screen used to handle the file checks
@@ -47,9 +62,9 @@ const FileChecks = (props: FilecheckerProps) => {
     const classes = useStyles();
 
     const renderStage = () => {
-        switch(props.step) {
+        switch (props.step) {
             case 0:
-                return <Stage1 progressStep={props.progressStep}/>
+                return <Stage1 progressStep={props.progressStep} />
             case 1:
                 return <Stage2 />
             case 2:
@@ -57,36 +72,36 @@ const FileChecks = (props: FilecheckerProps) => {
             default:
                 return <div>Other stage</div>
         }
-    } 
+    }
 
     return (
         <>
             <Typography component="span" gutterBottom>
-                <Box fontSize='h4.fontSize' style={{ marginBottom: '15px' }}>
-                    File checks
+                <Box fontSize='h4.fontSize' className={classes.title} >
+                    <FileCopyIcon /> File checks
                 </Box>
             </Typography>
             <Grid container spacing={3}>
-                <Grid item xs={12} lg={8} style={{display: 'flex', margin: "auto"}}>
-                    {renderStage()}
+                <Grid item xs={12} lg={8} style={{ display: 'flex', margin: "auto" }}>
+                    <Container>
+                        <Paper className={classes.paper}>
+                            {renderStage()}
+                        </Paper>
+                    </Container>
                 </Grid>
-                <Grid item xs={12} lg={8} style={{display: 'flex', margin: "auto"}}>
-                <div className={classes.stepperContainer}>
-                    <FileCheckStepper />
-                    {/* <button onClick={() => props.progressStep()}>Next</button> */}
-                </div>
-                {/* <button onClick={() => props.resetStep()}>Reset progress (temp button)</button>  */}
+                <Grid item xs={12} lg={8} style={{ display: 'flex', margin: "auto" }}>
+                    <div className={classes.stepperContainer}>
+                        <FileCheckStepper />
+                    </div>
                 </Grid>
             </Grid>
-            
-                
-                
+            <button onClick={() => props.resetStep()}>Reset progress (temp button)</button>
         </>
     )
 }
 
 
-/* Redux functions */ 
+/* Redux functions */
 
 /**
  * Function that maps all required state variables to props.
