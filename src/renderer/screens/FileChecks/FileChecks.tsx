@@ -3,11 +3,12 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { RootState } from 'Reducers';
 import { FilecheckAction, progressStep, resetStep } from 'Actions/FileCheckActions';
-import FileCheckStepper from './FileCheckStepper'
+import FileCheckStepper from 'Components/FileCheckStepper/FileCheckStepper';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Stage1 from './Stage1'
 import { Stage2 } from './Stage2'
 import { Stage3 } from './Stage3'
+import { Grid, Typography, Box } from '@material-ui/core';
 
 
 /* Typescript interfaces */
@@ -60,13 +61,26 @@ const FileChecks = (props: FilecheckerProps) => {
 
     return (
         <>
-            <h1 className={classes.title}>File checks</h1>
-            {renderStage()}
+            <Typography component="span" gutterBottom>
+                <Box fontSize='h4.fontSize' style={{ marginBottom: '15px' }}>
+                    File checks
+                </Box>
+            </Typography>
+            <Grid container spacing={3}>
+                <Grid item xs={12} lg={8} style={{display: 'flex', margin: "auto"}}>
+                    {renderStage()}
+                </Grid>
+                <Grid item xs={12} lg={8} style={{display: 'flex', margin: "auto"}}>
                 <div className={classes.stepperContainer}>
                     <FileCheckStepper />
                     {/* <button onClick={() => props.progressStep()}>Next</button> */}
                 </div>
-                <button onClick={() => props.resetStep()}>Reset progress (temp button)</button>
+                {/* <button onClick={() => props.resetStep()}>Reset progress (temp button)</button>  */}
+                </Grid>
+            </Grid>
+            
+                
+                
         </>
     )
 }

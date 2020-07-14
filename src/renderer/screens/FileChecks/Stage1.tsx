@@ -1,13 +1,14 @@
 import * as React from 'react';
-import { useCallback, createRef } from 'react'
+import { useCallback, createRef } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { RootState } from 'Reducers';
 import { FilecheckAction, clearFiles, setFiles, FileData } from 'Actions/FileCheckActions';
-import {useDropzone} from 'react-dropzone'
+import { useDropzone } from 'react-dropzone'
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { Box, Container, TableContainer, TableCell, TableHead, TableBody, TableRow, Table, Paper } from '@material-ui/core'
-import {default as DeleteIcon } from '@material-ui/icons/DeleteForever';
+import MuiTableCell from '@material-ui/core/TableCell';
+import { Box, Container, TableContainer, TableHead, TableBody, TableRow, Table, Paper, withStyles, Typography } from '@material-ui/core';
+import { default as DeleteIcon } from '@material-ui/icons/DeleteForever';
 
 
 /* Typescript interfaces */
@@ -26,30 +27,41 @@ interface Stage1Props {
 
 /* Styles */
 
-const useStyles = makeStyles((theme: Theme) => 
+const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-      container: {
-          background: "#eee"
-      },
-      fileContainer: {
-        height: "50vh",
-        background: "#eee",
-        marginTop: "0rem",
-        marginLeft: "5rem",
-        marginRight: "5rem",
-        overflow: "auto"
-      },
-      dropzone: {
-        border: "2px dashed grey",
-        borderRadius: "5px",
-        margin: "auto",
-        height: "50%",
-        width: "50%",
-      },
-      centered: {
-          marginLeft: "auto",
-          marginRight: "auto"
-      }
+        container: {
+            background: "#eee"
+        },
+        fileContainer: {
+            height: "50vh",
+            background: "#eee",
+            marginTop: "0rem",
+            marginLeft: "5rem",
+            marginRight: "5rem",
+            overflow: "auto"
+        },
+        dropzone: {
+            border: "1px dashed #282828",
+            boxSizing: "border-box",
+            borderRadius: "20px",
+            margin: "auto",
+            width: "100%",
+            height: 200
+        },
+        centered: {
+            marginLeft: "auto",
+            marginRight: "auto"
+        },
+        tableContainer: {
+            maxHeight: 200
+        },
+        tableHeadRow: {
+            borderBottom: '1px solid black'
+        },
+        tableHeadCell: {
+            color: '#39657B',
+            fontWeight: 600
+        },
     })
 );
 
@@ -72,6 +84,11 @@ const formatBytes = (bytes: number, decimals = 2) => {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 }
 
+const TableCell = withStyles({
+    root: {
+        borderBottom: "none"
+    }
+})(MuiTableCell);
 
 /**
  * React component that handles the file drop zone
@@ -96,11 +113,11 @@ const FileDropZone = (props: DropZoneProps) => {
             })
         });
         props.updateFiles(files);
-        
+
     }, []);
 
     // Destructure the things we need
-    const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop, accept: ".tiff,.TIFF,.tif,.TIF,.zip,.gz"});
+    const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop, accept: ".tiff,.TIFF,.tif,.TIF,.zip,.gz" });
 
     // TODO better view of where files can be dropped + other styling
     return (
@@ -108,7 +125,7 @@ const FileDropZone = (props: DropZoneProps) => {
             <input {...getInputProps()} />
             {isDragActive ?
                 <p>Release files here</p> :
-                <p>Drop .TIFF files here or drag a folder over here</p>  
+                <p>Drop .TIFF files here or drag a folder over here</p>
             }
             <button onClick={() => open}>Upload your files</button>
         </div>
@@ -149,7 +166,7 @@ const Stage1 = (props: Stage1Props) => {
      * REMOVE THIS AFTERWARDS
      */
     const addSampleFiles = () => {
-        const files = [ {path: "C:\\TEST\\file.tiff", size: "300 GB"}, {path: "C:\\TEST\\file2.tiff", size: "3 kB"}];
+        const files = [{ path: "C:\\TEST\\file.tiff", size: "300 GB" }, { path: "C:\\TEST\\file2.tiff", size: "3 kB" }];
         props.setFiles(files);
     }
 
@@ -158,7 +175,7 @@ const Stage1 = (props: Stage1Props) => {
      */
     const handleFileAdding = () => {
         const inputFiles = fileInput.current?.files;
-        if(inputFiles) {
+        if (inputFiles) {
             const fileList = Array.from(inputFiles);
             let newFiles: Array<FileData> = [];
             fileList.forEach(file => {
@@ -171,66 +188,70 @@ const Stage1 = (props: Stage1Props) => {
             });
             props.setFiles([...props.files, ...newFiles]);
         }
-        
+
     }
 
     return (
         <Container>
-            <h3>Step 1 - File upload</h3>
             <Paper style={{
-                height: "20rem",
                 color: 'black',
                 overflow: "hidden",
                 background: '#FCFCFC',
                 boxShadow: '0px 0px 19px rgba(0, 0, 0, 0.05)',
                 borderRadius: '12px',
+                padding: "40px"
             }}>
-                {!hasFiles()? 
-                <>
-                    <FileDropZone updateFiles={props.setFiles}/>
-                    {/* <button onClick={() => addSampleFiles()}>sample files</button>     */}
-                </> 
-                : 
-                <> 
-                    <TableContainer>
-                        <Table stickyHeader>
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell>Path</TableCell>
-                                    <TableCell>size</TableCell>
-                                    <TableCell/>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {props.files.map((file, index) => {
-                                return (
-                                    <TableRow key={index}>
-                                        <TableCell>{file.path}</TableCell>
-                                        <TableCell>{file.size}</TableCell>
-                                        <TableCell>
-                                            <button style={{background: "none", border: "none"}}
-                                                        onClick={() => removeFile(index)}
-                                            ><DeleteIcon/></button>
-                                            </TableCell>
-                                    </TableRow>
-                                ); 
-                                })}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                    <Box display={"flex"} width={"100%"} margin={"1rem 0rem 1rem"}>
-                        <input 
-                            multiple 
-                            onChange={() => handleFileAdding()} 
-                            ref={fileInput} 
-                            type={"file"} 
-                            accept={".tiff,.TIFF,.tif,.TIF,.zip,.gz,.tar.gz"}
-                            style={{display: "none"}} 
-                        />
-                        <button style={{marginLeft: "1rem"}} onClick={() => fileInput.current?.click()}>+ add new files</button>
-                        <button style={{marginLeft: "auto", marginRight: "1rem"}} onClick={()=>props.progressStep()}>Continue</button>
+                <Typography component="span" gutterBottom>
+                    <Box fontSize='h6.fontSize' style={{ marginBottom: '40px', textAlign: "center" }}>
+                        Step 1 - File upload
                     </Box>
-                </>
+                </Typography>
+                {!hasFiles() ?
+                    <>
+                        <FileDropZone updateFiles={props.setFiles} />
+                        {/* <button onClick={() => addSampleFiles()}>sample files</button>     */}
+                    </>
+                    :
+                    <>
+                        <TableContainer className={classes.tableContainer}>
+                            <Table stickyHeader size="small" aria-label="span">
+                                <TableHead>
+                                    <TableRow className={classes.tableHeadRow}>
+                                        <TableCell className={classes.tableHeadCell}>Path</TableCell>
+                                        <TableCell className={classes.tableHeadCell}>size</TableCell>
+                                        <TableCell className={classes.tableHeadCell} />
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {props.files.map((file, index) => {
+                                        return (
+                                            <TableRow key={index}>
+                                                <TableCell >{file.path}</TableCell>
+                                                <TableCell >{file.size}</TableCell>
+                                                <TableCell >
+                                                    <button style={{ background: "none", border: "none" }}
+                                                        onClick={() => removeFile(index)}
+                                                    ><DeleteIcon /></button>
+                                                </TableCell>
+                                            </TableRow>
+                                        );
+                                    })}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                        <Box display={"flex"} width={"100%"} margin={"1rem 0rem 1rem"}>
+                            <input
+                                multiple
+                                onChange={() => handleFileAdding()}
+                                ref={fileInput}
+                                type={"file"}
+                                accept={".tiff,.TIFF,.tif,.TIF,.zip,.gz,.tar.gz"}
+                                style={{ display: "none" }}
+                            />
+                            <button style={{ marginLeft: "1rem" }} onClick={() => fileInput.current?.click()}>+ add new files</button>
+                            <button style={{ marginLeft: "auto", marginRight: "1rem" }} onClick={() => props.progressStep()}>Continue</button>
+                        </Box>
+                    </>
                 }
             </Paper>
         </Container>
@@ -238,7 +259,7 @@ const Stage1 = (props: Stage1Props) => {
 }
 
 
-/* Redux functions */ 
+/* Redux functions */
 
 /**
  * Function that maps all required state variables to props.
