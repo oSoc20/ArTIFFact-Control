@@ -11,9 +11,17 @@ interface StepperProps {
     step: number
 }
 
+interface IconProps {
+    active: boolean;
+    completed: boolean;
+}
+
 
 /* Styling */
 
+/**
+ * Restyling of the connector (line between steps)
+ */
 const CustomConnector = withStyles({
     alternativeLabel: {
         top: 6,
@@ -48,6 +56,7 @@ const useStyle = makeStyles({
     }
 });
 
+
 const useIconStyle = makeStyles({
     root: {
         color: '#F79947',
@@ -80,11 +89,15 @@ const useIconStyle = makeStyles({
     },
 });
 
-interface IconProps {
-    active: boolean;
-    completed: boolean;
-}
+/* Components and variables */
 
+// The possible steps the stepper can take (todo pass steps in as prop to make it more generic)
+export const steps = ["Upload", "Settings", "Check"]
+
+/**
+ * Custom step icon for the stepper
+ * @param props props passed in by the parent
+ */
 const CustomStepIcon = (props: IconProps) => {
     const classes = useIconStyle();
     return (
@@ -95,12 +108,6 @@ const CustomStepIcon = (props: IconProps) => {
         </div>
     );
 }
-
-
-/* Components and variables */
-
-// The possible steps the stepper can take
-export const steps = ["Upload", "Settings", "Check"]
 
 /**
  * Component that renders the stepper

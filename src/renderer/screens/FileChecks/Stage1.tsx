@@ -25,6 +25,27 @@ interface Stage1Props {
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
+        addButton: {
+            background: "none",
+            cursor: "pointer",
+            border: "none",
+            fontSize: "14px",
+            lineHeight: "20px",
+            fontWeight: 300,
+            marginTop: "2rem",
+            marginLeft: "1rem"
+        },
+        continueButton: {
+            color: "white",
+            marginTop: "2rem",
+            background: "#2A4B5B",
+            borderRadius: "12px",
+            width: "125px",
+            height: "45px",
+            marginLeft: "auto", 
+            marginRight: "1rem",
+            cursor: "pointer"
+        },
         container: {
             background: "#eee"
         },
@@ -163,8 +184,12 @@ const Stage1 = (props: Stage1Props) => {
                             accept={".tiff,.TIFF,.tif,.TIF,.zip,.gz,.tar.gz"}
                             style={{ display: "none" }}
                         />
-                        <button style={{ marginLeft: "1rem" }} onClick={() => fileInput.current?.click()}>+ add new files</button>
-                        <button style={{ marginLeft: "auto", marginRight: "1rem" }} onClick={() => props.progressStep()}>Continue</button>
+                        <button
+                            className={classes.addButton}
+                            onClick={() => fileInput.current?.click()}>+ new file or folder</button>
+                        <button 
+                            className={classes.continueButton}
+                            onClick={() => props.progressStep()}>Continue</button>
                     </Box>
                 </>
             }
