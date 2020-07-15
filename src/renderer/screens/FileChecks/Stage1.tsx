@@ -43,13 +43,22 @@ const useStyles = makeStyles((theme: Theme) =>
             border: 'none',
             borderRadius: "12px",
             width: "125px",
-            height: "40px",
-            marginLeft: "auto",
-            marginRight: "0.5rem",
+            height: "45px",
+            marginLeft: "auto", 
+            marginRight: "1rem",
             cursor: "pointer",
-            fontSize: "16px",
-            lineHeight: "20px",
-            fontFamily: "'DIN 2014'"
+            fontFamily: "'Open Sans'"
+        },
+        container: {
+            background: "#eee"
+        },
+        fileContainer: {
+            height: "50vh",
+            background: "#eee",
+            marginTop: "0rem",
+            marginLeft: "5rem",
+            marginRight: "5rem",
+            overflow: "auto"
         },
         tableContainer: {
             maxHeight: 200
