@@ -5,6 +5,7 @@ import MuiTableCell from "@material-ui/core/TableCell";
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 // Icons
 import ClockCheckedIcon from 'Assets/icons/icons8-clock-checked-500.svg';
+import { useHistory } from 'react-router-dom';
 
 /* STYLE */
 const TableCell = withStyles({
@@ -49,6 +50,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 /* COMPONENT */
 const LastPeriodicalChecks = () => {
+    const history = useHistory();
     const classes = useStyles();
     var periodicalChecksData: PeriodicalCheck[] = [
         {files: 1, input: '/users/name/file/Tifffile.tiff', configuration: 'Default', periodicity: 'Daily, at 12:30'},
@@ -66,7 +68,7 @@ const LastPeriodicalChecks = () => {
                         <img src={ClockCheckedIcon} style={{ marginRight: '20px', width: '40px' }} />
                         Periodical Checks
                     </Box>
-                    <Button style={{ marginLeft: 'auto', fontWeight: 600, textTransform: 'none' }}>More <ArrowForwardIcon style={{ marginLeft: '3px', fontSize: '20px' }} /></Button>
+                    <Button style={{ marginLeft: 'auto', fontWeight: 600, textTransform: 'none' }} onClick={() => history.push('/periodicalChecks')}>More <ArrowForwardIcon style={{ marginLeft: '3px', fontSize: '20px' }} /></Button>
                 </Typography>
                 <TableContainer style={{ marginTop: '20px' }}>
                     <Table aria-label="span" size="small">

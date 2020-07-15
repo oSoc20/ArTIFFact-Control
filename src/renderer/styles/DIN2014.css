@@ -37,9 +37,7 @@
     font-family: 'DIN 2014';
     src: url('/src/renderer/assets/fonts/DIN2014/DIN2014-ExtraLight.eot');
     src: local('DIN 2014 ExtraLight'), local('DIN2014-ExtraLight'),
-        url('/src/renderer/assets/fonts/DIN2014/DIN2014-ExtraLight.eot?#iefix') format('embedded-opentype'),
-        url('/src/renderer/assets/fonts/DIN2014/DIN2014-ExtraLight.woff') format('woff'),
-        url('/src/renderer/assets/fonts/DIN2014/DIN2014-ExtraLight.ttf') format('truetype');
+        url('/src/renderer/assets/fonts/DIN2014/DIN2014-ExtraLight.eot?#iefix') format('embedded-opentype');
     font-weight: 200;
     font-style: normal;
 }

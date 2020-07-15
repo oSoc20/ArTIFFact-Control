@@ -1,5 +1,5 @@
 interface Report {
-    date: string;
+    date: Date;
     files: number;
     input: string;
     result: boolean;

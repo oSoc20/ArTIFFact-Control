@@ -81,7 +81,7 @@ const ReportsTable = (props: ReportsTableProps) => {
                                 return (
                                     <StyledTableRow key={index}>
                                         <TableCell component="th" scope="row">
-                                            {report.date}
+                                            {report.date.toLocaleDateString()}
                                         </TableCell>
                                         <TableCell component="th" scope="row">
                                             {report.files}

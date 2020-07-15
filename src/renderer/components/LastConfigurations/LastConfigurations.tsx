@@ -5,6 +5,7 @@ import MuiTableCell from "@material-ui/core/TableCell";
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 // Icons
 import SettingsIcon from 'Assets/icons/icons8-settings-500.svg';
+import { useHistory } from 'react-router-dom';
 
 /* STYLE */
 const TableCell = withStyles({
@@ -49,6 +50,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 /* COMPONENT */
 const LastConfigurations = () => {
+    const history = useHistory();
     const classes = useStyles();
     var configurationsData: Configuration[] = [
         {name: 'Default', implementation: 'Baseline TIFF 6.0'},
@@ -68,7 +70,7 @@ const LastConfigurations = () => {
                         <img src={SettingsIcon} style={{ marginRight: '20px', width: '40px' }} />
                         Configuration
                     </Box>
-                    <Button style={{ marginLeft: 'auto', fontWeight: 600, textTransform: 'none' }}>More <ArrowForwardIcon style={{ marginLeft: '3px', fontSize: '20px' }} /></Button>
+                    <Button style={{ marginLeft: 'auto', fontWeight: 600, textTransform: 'none' }} onClick={() => history.push('/configurations')}>More <ArrowForwardIcon style={{ marginLeft: '3px', fontSize: '20px' }} /></Button>
                 </Typography>
                 <TableContainer style={{ marginTop: '20px' }}>
                     <Table aria-label="span" size="small">

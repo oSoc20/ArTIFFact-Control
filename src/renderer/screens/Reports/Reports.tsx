@@ -32,39 +32,28 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
-/* INTERFACES */
-interface Report {
-    date: string;
-    files: number;
-    input: string;
-    result: boolean;
-    errors: number;
-    passed: number;
-    score: number;
-}
-
 /* COMPONENT */
 const Reports = () => {
     const classes = useStyles();
     var reportsData: Report[] = [
-        {date: '7/07/2020', files: 1, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100},
-        {date: '7/07/2020', files: 1, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, score: 100},
-        {date: '7/07/2020', files: 1, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100},
-        {date: '7/07/2020', files: 1, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 80},
-        {date: '7/07/2020', files: 1, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100},
-        {date: '7/07/2020', files: 1, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, score: 100},
-        {date: '7/07/2020', files: 1, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, score: 100},
-        {date: '7/07/2020', files: 1, input: '/users/name/file/Tifffile.tiff', result: true, errors: 1, passed: 3, score: 70},
-        {date: '7/07/2020', files: 1, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, score: 100},
-        {date: '7/07/2020', files: 1, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, score: 100},
-        {date: '7/07/2020', files: 1, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, score: 100},
-        {date: '7/07/2020', files: 1, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100},
-        {date: '7/07/2020', files: 1, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100},
-        {date: '7/07/2020', files: 1, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100},
-        {date: '7/07/2020', files: 1, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100},
-        {date: '7/07/2020', files: 1, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, score: 100},
-        {date: '7/07/2020', files: 1, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, score: 100},
-        {date: '7/07/2020', files: 1, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100}
+        {date: new Date('7/07/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100},
+        {date: new Date('7/07/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, score: 100},
+        {date: new Date('7/07/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100},
+        {date: new Date('7/07/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 80},
+        {date: new Date('7/07/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100},
+        {date: new Date('7/07/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, score: 100},
+        {date: new Date('7/07/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, score: 100},
+        {date: new Date('7/07/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: true, errors: 1, passed: 3, score: 70},
+        {date: new Date('7/07/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, score: 100},
+        {date: new Date('7/07/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, score: 100},
+        {date: new Date('7/07/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, score: 100},
+        {date: new Date('7/07/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100},
+        {date: new Date('7/07/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100},
+        {date: new Date('7/07/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100},
+        {date: new Date('7/07/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100},
+        {date: new Date('7/07/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, score: 100},
+        {date: new Date('7/07/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, score: 100},
+        {date: new Date('7/07/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100}
     ];
     const [reports, setReports] = React.useState(reportsData);
 
