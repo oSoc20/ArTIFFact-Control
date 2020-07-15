@@ -5,9 +5,8 @@ import MuiTableCell from "@material-ui/core/TableCell";
 import CheckIcon from '@material-ui/icons/Check';
 import ClearIcon from '@material-ui/icons/Clear';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
-
-/* ASSETS */
-const ratingsIcon = require('Assets/icons/icons8-ratings-500.svg');
+// Icons
+import RatingsIcon from 'Assets/icons/icons8-ratings-500.svg';
 
 /* STYLE */
 const TableCell = withStyles({
@@ -73,8 +72,8 @@ function LastReports() {
         <>
             <Paper className={classes.paper}>
                 <Typography component='span' style={{display: 'flex'}}>
-                    <Box className={classes.box} fontSize='h6.fontSize' fontWeight='fontWeightBold' fontFamily='"OpenSans"'>
-                        <img src={ratingsIcon} style={{ marginRight: '20px', width: '40px' }} />
+                    <Box className={classes.box} fontSize='h6.fontSize' fontWeight='fontWeightBold'>
+                        <img src={RatingsIcon} style={{ marginRight: '20px', width: '40px' }} />
                         Last reports
                     </Box>
                     <Button style={{marginLeft: 'auto', fontWeight: 600, textTransform: 'none'}}>More <ArrowForwardIcon style={{marginLeft:'3px', fontSize:'20px'}} /></Button>

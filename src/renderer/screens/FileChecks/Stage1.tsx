@@ -39,6 +39,7 @@ const useStyles = makeStyles((theme: Theme) =>
             color: "white",
             marginTop: "2rem",
             background: "#2A4B5B",
+            border: 'none',
             borderRadius: "12px",
             width: "125px",
             height: "45px",
@@ -141,7 +142,7 @@ const Stage1 = (props: Stage1Props) => {
             <Typography component="span" gutterBottom>
                 <Box fontSize='h6.fontSize' style={{ marginBottom: '40px', textAlign: "center" }}>
                     Step 1 - File upload
-                    </Box>
+                </Box>
             </Typography>
             {!hasFiles() ?
                 <>

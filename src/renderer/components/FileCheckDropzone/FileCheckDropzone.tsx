@@ -92,7 +92,7 @@ const FileDropZone = (props: DropZoneProps) => {
                 }>Release files here</p> :
                 <p
                     style={{
-                        fontFamily: "DIN 2014",
+                        fontFamily: '"DIN 2014"',
                         fontStyle: "normal",
                         fontWeight: 250,
                         fontSize: "36px",
@@ -103,6 +103,10 @@ const FileDropZone = (props: DropZoneProps) => {
             }
             <button  onClick={() => open}
                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+
                     background: "#FCFCFC",
                     border: "2px solid #282828",
                     boxSizing: "border-box",
@@ -118,7 +122,7 @@ const FileDropZone = (props: DropZoneProps) => {
                     fontSize: "18px",
                     lineHeight: "23px",
                 }}>
-                <PublishIcon style={{paddingTop: "0px"}}/> <span>Upload your files</span>
+                <PublishIcon style={{marginRight: '5px'}} /> <span style={{fontFamily: 'Open Sans'}}>Upload your files</span>
             </button>
         </div>
     );
