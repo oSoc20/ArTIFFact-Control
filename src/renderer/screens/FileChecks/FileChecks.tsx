@@ -9,8 +9,8 @@ import Stage1 from './Stage1'
 import { Stage2 } from './Stage2'
 import { Stage3 } from './Stage3'
 import { Grid, Typography, Box, Paper, Container } from '@material-ui/core';
-import FileCopyIcon from '@material-ui/icons/FileCopy';
-
+// Icons
+import CheckFileIcon from 'Assets/icons/icons8-check-file-500.svg';
 
 /* Typescript interfaces */
 
@@ -24,15 +24,23 @@ interface FilecheckerProps {
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         title: {
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+
             textAlign: "center",
             marginTop: "2rem",
-            marginBottom: "4rem",
+            marginBottom: "3rem",
             fontFamily: "DIN 2014",
             fontStyle: "normal",
             fontWeight: "normal",
             fontSize: "36px",
             lineHeight: "46px",
-            color: "#2A4B5B",
+            color: "#2A4B5B"
+        },
+        titleIcon: {
+            width: '50px',
+            marginRight: '20px'
         },
         stepperContainer: {
             display: "block",
@@ -76,9 +84,10 @@ const FileChecks = (props: FilecheckerProps) => {
 
     return (
         <>
-            <Typography component="span" gutterBottom>
-                <Box fontSize='h4.fontSize' className={classes.title} >
-                    <FileCopyIcon /> File checks
+            <Typography component="span" gutterBottom className={classes.title}>
+                <Box fontSize='h4.fontSize' style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', }}>
+                    <img src={CheckFileIcon} className={classes.titleIcon} />
+                    <span>File checks</span>
                 </Box>
             </Typography>
             <Grid container spacing={3}>

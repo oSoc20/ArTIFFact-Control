@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme: Theme) =>
             fontWeight: "normal",
             fontSize: "36px",
             lineHeight: "46px",
-            color: "#2A4B5B",
+            color: "#2A4B5B"
         },
         titleIcon: {
             width: '50px',

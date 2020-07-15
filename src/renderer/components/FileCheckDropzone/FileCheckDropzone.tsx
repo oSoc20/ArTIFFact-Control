@@ -87,7 +87,14 @@ const FileDropZone = (props: DropZoneProps) => {
             {isDragActive ?
                 <p style={
                     {
-                        marginLeft: "auto", marginRight: "auto", textAlign: "center"
+                        marginLeft: "auto",
+                        marginRight: "auto",
+                        textAlign: "center",
+                        fontFamily: '"DIN 2014"',
+                        fontStyle: "normal",
+                        fontWeight: 250,
+                        fontSize: "36px",
+                        lineHeight: "46px"
                     }
                 }>Release files here</p> :
                 <p
