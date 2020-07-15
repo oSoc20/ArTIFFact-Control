@@ -4,6 +4,7 @@ import { Action, ActionCreator } from 'redux';
 
 // Stepper
 export const STEP_PROGRESS = 'STEP_PROGRESS';
+export const STEP_GO_BACK = 'STEP_GO_BACK';
 export const STEP_RESET = 'STEP_RESET';
 
 // Files
@@ -20,6 +21,10 @@ export interface StepProgressAction extends Action {
 
 export interface StepResetAction extends Action {
     type: 'STEP_RESET';
+}
+
+export interface StepGoBackAction extends Action {
+    type: 'STEP_GO_BACK';
 }
 
 // Files
@@ -50,6 +55,10 @@ export const resetStep: ActionCreator<StepResetAction> =  () => ({
     type: STEP_RESET,
 });
 
+export const goBackOneStep: ActionCreator<StepGoBackAction> =  () => ({
+    type: STEP_GO_BACK,
+});
+
 
 // Files
 
@@ -70,4 +79,4 @@ export const setFiles: ActionCreator<SetFilesAction> = (files: Array<FileData>) 
 
 
 // Type that references each possible action type
-export type FilecheckAction = StepProgressAction | StepResetAction | ClearFilesAction | SetFilesAction;
+export type FilecheckAction = StepProgressAction | StepResetAction | StepGoBackAction | ClearFilesAction | SetFilesAction;
