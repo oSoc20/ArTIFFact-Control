@@ -16,7 +16,7 @@ interface DropZoneProps {
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         dropzone: {
-            border: "1px dashed #282828",
+            border: "3px dashed #282828",
             boxSizing: "border-box",
             borderRadius: "20px",
             margin: "auto",
