@@ -3,9 +3,8 @@ import * as React from 'react';
 import { Typography, Paper, Box, makeStyles, Theme, createStyles, TableContainer, Table, TableHead, TableRow, withStyles, TableBody, Button } from '@material-ui/core';
 import MuiTableCell from "@material-ui/core/TableCell";
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
-
-/* ASSETS */
-const settingsIcon = require('Assets/icons/icons8-settings-500.svg');
+// Icons
+import SettingsIcon from 'Assets/icons/icons8-settings-500.svg';
 
 /* STYLE */
 const TableCell = withStyles({
@@ -72,7 +71,7 @@ function LastConfigurations() {
             <Paper className={classes.paper}>
                 <Typography component='span' style={{ display: 'flex' }}>
                     <Box className={classes.box} fontSize='h6.fontSize' fontWeight='fontWeightBold'>
-                        <img src={settingsIcon} style={{ marginRight: '20px', width: '40px' }} />
+                        <img src={SettingsIcon} style={{ marginRight: '20px', width: '40px' }} />
                         Configuration
                     </Box>
                     <Button style={{ marginLeft: 'auto', fontWeight: 600, textTransform: 'none' }}>More <ArrowForwardIcon style={{ marginLeft: '3px', fontSize: '20px' }} /></Button>

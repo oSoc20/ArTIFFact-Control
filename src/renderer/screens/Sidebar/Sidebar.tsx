@@ -2,18 +2,17 @@ import * as React from 'react';
 import { Drawer, List, ListItem, ListItemText } from '@material-ui/core';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { useHistory } from "react-router-dom";
-
-/* ASSETS */
-const logoWithLabel = require('Assets/logos/logoWithLabel.svg');
-const homeIcon = require('Assets/icons/icons8-home-500.svg');
-const checkFileIcon = require('Assets/icons/icons8-check-file-500.svg');
-const ratingsIcon = require('Assets/icons/icons8-ratings-500.svg');
-const settingsIcon = require('Assets/icons/icons8-settings-500.svg');
-const clockCheckedIcon = require('Assets/icons/icons8-clock-checked-500.svg');
-const statisticsReportIcon = require('Assets/icons/icons8-statistics-report-500.svg');
-const comboChartIcon = require('Assets/icons/icons8-combo-chart-500.svg');
-const helpIcon = require('Assets/icons/icons8-help-500.svg');
-const infoIcon = require('Assets/icons/icons8-info-500.svg');
+// Icons
+import LogoWithLabel from 'Assets/logos/logoWithLabel.svg';
+import HomeIcon from 'Assets/icons/icons8-home-500.svg';
+import CheckFileIcon from 'Assets/icons/icons8-check-file-500.svg';
+import RatingsIcon from 'Assets/icons/icons8-ratings-500.svg';
+import SettingsIcon from 'Assets/icons/icons8-settings-500.svg';
+import ClockCheckedIcon from 'Assets/icons/icons8-clock-checked-500.svg';
+import StatisticsReportIcon from 'Assets/icons/icons8-statistics-report-500.svg';
+import ComboChartIcon from 'Assets/icons/icons8-combo-chart-500.svg';
+import HelpIcon from 'Assets/icons/icons8-help-500.svg';
+import InfoIcon from 'Assets/icons/icons8-info-500.svg';
 
 /* STYLING */
 const drawerWidth = 260;
@@ -63,18 +62,18 @@ const whiteIcon = {
 
 /* ITEMS */
 const middleItems = [
-    { name: 'Dashboard', link: 'dashboard', icon: homeIcon },
-    { name: 'File checks', link: 'fileChecks', icon: checkFileIcon },
-    { name: 'Reports', link: 'reports', icon: ratingsIcon },
-    { name: 'Configurations', link: 'configurations', icon: settingsIcon },
-    { name: 'Periodical checks', link: 'periodicalChecks', icon: clockCheckedIcon },
-    { name: 'Conformance checks', link: 'conformanceChecks', icon: statisticsReportIcon },
-    { name: 'Statistics', link: 'statistics', icon: comboChartIcon }
+    { name: 'Dashboard', link: 'dashboard', icon: HomeIcon },
+    { name: 'File checks', link: 'fileChecks', icon: CheckFileIcon },
+    { name: 'Reports', link: 'reports', icon: RatingsIcon },
+    { name: 'Configurations', link: 'configurations', icon: SettingsIcon },
+    { name: 'Periodical checks', link: 'periodicalChecks', icon: ClockCheckedIcon },
+    { name: 'Conformance checks', link: 'conformanceChecks', icon: StatisticsReportIcon },
+    { name: 'Statistics', link: 'statistics', icon: ComboChartIcon }
 ];
 
 const bottomItems = [
-    { name: 'Help', link: 'help', icon: infoIcon },
-    { name: 'About', link: 'about', icon: helpIcon }
+    { name: 'Help', link: 'help', icon: InfoIcon },
+    { name: 'About', link: 'about', icon: HelpIcon }
 ];
 
 /* FUNCTIONS */
@@ -105,7 +104,7 @@ function Sidebar() {
             >
                 <List disablePadding dense style={{ flex: 'none' }}>
                     <ListItem>
-                        <img style={listItemLogo} src={logoWithLabel} />
+                        <img style={listItemLogo} src={LogoWithLabel} />
                     </ListItem>
                 </List>
                 <List disablePadding dense style={{ flex: 1 }}>
