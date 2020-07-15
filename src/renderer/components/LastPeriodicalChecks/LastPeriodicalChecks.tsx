@@ -5,12 +5,25 @@ import MuiTableCell from "@material-ui/core/TableCell";
 import AlarmOnOutlinedIcon from '@material-ui/icons/AlarmOnOutlined';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 
+/* ASSETS */
+const clockCheckedIcon = require('Assets/icons/icons8-clock-checked-500.svg');
+
 /* STYLE */
 const TableCell = withStyles({
     root: {
         borderBottom: "none"
     }
 })(MuiTableCell);
+
+const StyledTableRow = withStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      '&:nth-of-type(odd)': {
+        backgroundColor: theme.palette.action.hover,
+      },
+    },
+  }),
+)(TableRow);
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -56,12 +69,12 @@ function LastPeriodicalChecks() {
     return (
         <>
             <Paper className={classes.paper}>
-                <Typography component='span' style={{display: 'flex'}}>
+                <Typography component='span' style={{ display: 'flex' }}>
                     <Box className={classes.box} fontSize='h6.fontSize' fontWeight='fontWeightBold'>
-                        <AlarmOnOutlinedIcon style={{ marginRight: '15px', fontSize: '40px' }} />
+                        <img src={clockCheckedIcon} style={{ marginRight: '20px', width: '40px' }} />
                         Periodical Checks
                     </Box>
-                    <Button style={{marginLeft: 'auto', fontWeight: 600, textTransform: 'none'}}>More <ArrowForwardIcon style={{marginLeft:'3px', fontSize:'20px'}} /></Button>
+                    <Button style={{ marginLeft: 'auto', fontWeight: 600, textTransform: 'none' }}>More <ArrowForwardIcon style={{ marginLeft: '3px', fontSize: '20px' }} /></Button>
                 </Typography>
                 <TableContainer style={{ marginTop: '20px' }}>
                     <Table aria-label="span" size="small">
@@ -80,7 +93,7 @@ function LastPeriodicalChecks() {
                                         : { opacity: 0.3 };
 
                                 return (
-                                    <TableRow key={index} style={opacity}>
+                                    <StyledTableRow key={index} style={opacity}>
                                         <TableCell component="th" scope="row">
                                             {row.files}
                                         </TableCell>
@@ -93,7 +106,7 @@ function LastPeriodicalChecks() {
                                         <TableCell component="th" scope="row">
                                             {row.periodicity}
                                         </TableCell>
-                                    </TableRow>
+                                    </StyledTableRow>
                                 );
                             })}
                         </TableBody>
