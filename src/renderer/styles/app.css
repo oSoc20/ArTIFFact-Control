@@ -1,3 +1,23 @@
+@import './DIN2014.css';
+@import './OpenSans.css';
+
 body {
     background-color: rgb(242, 242, 242);
+}
+
+/* BACKGROUND COLORS */
+.light100 {
+    background-color: #FCFCFC !important;
+}
+
+.light200 {
+    background-color: #F2F2F2 !important;
+}
+
+.light300 {
+    background-color: #E9E9E9 !important;
+}
+
+.dark {
+    background-color: #282828 !important;
 }
