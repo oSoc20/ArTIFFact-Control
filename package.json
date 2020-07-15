@@ -1,7 +1,7 @@
 {
   "name": "ArTIFFact-Control",
   "version": "0.0.2",
-  "description": "",
+  "description": "ArTIFFact-Control",
   "main": "./webpack-config/dist/main.js",
   "scripts": {
     "build-main": "cross-env NODE_ENV=production webpack --config webpack-config/webpack.main.prod.config.js",
