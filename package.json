@@ -6,7 +6,7 @@
   "scripts": {
     "build-main": "cross-env NODE_ENV=production webpack --config webpack-config/webpack.main.prod.config.js",
     "build-renderer": "cross-env NODE_ENV=production webpack --config webpack-config/webpack.renderer.prod.config.js",
-    "build": "npm run build-main && npm run build-renderer",
+    "build": "npm run build-main && npm run build-renderer && npm run release",
     "start-renderer-dev": "webpack-dev-server --config webpack-config/webpack.renderer.dev.config.js",
     "start-main-dev": "webpack --config webpack-config/webpack.main.config.js && electron ./webpack-config/dist/main.js",
     "start-dev": "cross-env START_HOT=1 npm run start-renderer-dev",
@@ -23,7 +23,7 @@
 		"build-windows": "electron-builder --windows",
 		"build-linux": "electron-builder --linux",
     "build-mac": "electron-builder --mac",
-		"release": "electron-builder --mac --windows --linux --publish always"
+		"release": "electron-builder --windows --publish always"
   },
   "jest": {
     "transform": {
@@ -134,6 +134,7 @@
     "history": "^5.0.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-dropzone": "^11.0.1",
     "react-redux": "^7.0.3",
     "react-router-dom": "^5.2.0",
     "redux": "^4.0.5"
