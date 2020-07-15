@@ -42,20 +42,9 @@ const useStyles = makeStyles((theme: Theme) =>
             borderRadius: "12px",
             width: "125px",
             height: "45px",
-            marginLeft: "auto", 
+            marginLeft: "auto",
             marginRight: "1rem",
             cursor: "pointer"
-        },
-        container: {
-            background: "#eee"
-        },
-        fileContainer: {
-            height: "50vh",
-            background: "#eee",
-            marginTop: "0rem",
-            marginLeft: "5rem",
-            marginRight: "5rem",
-            overflow: "auto"
         },
         tableContainer: {
             maxHeight: 200
@@ -141,7 +130,7 @@ const Stage1 = (props: Stage1Props) => {
             <Typography component="span" gutterBottom>
                 <Box fontSize='h6.fontSize' style={{ marginBottom: '40px', textAlign: "center" }}>
                     Step 1 - File upload
-                    </Box>
+                </Box>
             </Typography>
             {!hasFiles() ?
                 <>
@@ -187,7 +176,7 @@ const Stage1 = (props: Stage1Props) => {
                         <button
                             className={classes.addButton}
                             onClick={() => fileInput.current?.click()}>+ new file or folder</button>
-                        <button 
+                        <button
                             className={classes.continueButton}
                             onClick={() => props.progressStep()}>Continue</button>
                     </Box>
