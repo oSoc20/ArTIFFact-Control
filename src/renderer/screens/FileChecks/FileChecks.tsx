@@ -2,7 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { RootState } from 'Reducers';
-import { FilecheckAction, progressStep, resetStep } from 'Actions/FileCheckActions';
+import { FilecheckAction, incrementStep, resetStep } from 'Actions/FileCheckActions';
 import FileCheckStepper from 'Components/FileCheckStepper/FileCheckStepper';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Stage1 from './Stage1'
@@ -116,7 +116,7 @@ const mapStateToProps = (state: RootState) => ({
  * @param dispatch the dispatch function used by Redux
  */
 const mapDispatchToProps = (dispatch: Dispatch<FilecheckAction>) => ({
-    progressStep: () => dispatch(progressStep()),
+    progressStep: () => dispatch(incrementStep()),
     resetStep: () => dispatch(resetStep())
 });
 

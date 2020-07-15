@@ -42,16 +42,10 @@ export interface ClearFilesAction extends Action {
 
 // Stepper
 
-/**
- * Progress one step. Increases the counter by 1
- */
-export const progressStep: ActionCreator<StepProgressAction> =  () => ({
+export const incrementStep: ActionCreator<StepProgressAction> =  () => ({
     type: STEP_PROGRESS,
 });
 
-/**
- * Reset the step. Sets the counter back to 0
- */
 export const resetStep: ActionCreator<StepResetAction> =  () => ({
     type: STEP_RESET,
 });
