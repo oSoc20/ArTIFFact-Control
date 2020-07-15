@@ -39,20 +39,24 @@ const useStyles = makeStyles((theme: Theme) =>
             color: '#39657B',
             fontWeight: 600
         },
+        tableContentRow: {
+            "&:selected": {
+                backgroundColor: "pink"
+            }
+        },
         tableContentCell: {
             fontSize: "18px",
             lineHeight: "25px",
             fontFamily: "Open Sans",
             verticalAlign: "top",
         },
-        selected: {},
         typography: {
             fontSize: 14
         },
         confirmButton: {
-            backgroundColor: "blue",
+            backgroundColor: "#2A4B5B",
             borderRadius: "12px",
-            width: "250px",
+            width: "127px",
             height: "40px",
             marginLeft: "auto",
             border: "none",
@@ -62,12 +66,10 @@ const useStyles = makeStyles((theme: Theme) =>
             marginTop: "20px",
             cursor: "pointer",
             "&:disabled": {
+                width: "250px",
                 backgroundColor: "#CACACA",
                 cursor: "no-drop"
             },
-        },
-        disabledButton: {
-            background: "black"
         },
         backButton: {
             background: "none",
@@ -92,7 +94,8 @@ const useStyles = makeStyles((theme: Theme) =>
             marginTop: "20px"
         },
         selectedRow: {
-            backgroundColor: "black"
+            backgroundColor: "black",
+            fontSize: "200"
         }
     })
 );
@@ -168,7 +171,9 @@ export const Stage2 = (props: Stage2Props) => {
                                 <StyledTableRow
                                     key={index}
                                     onClick={() => handleSelect(index)}
-                                    selected={index === currentSelected}>
+                                    selected={index === currentSelected}
+                                    className={classes.tableContentRow}
+                                    >
 
                                     <TableCell className={classes.tableContentCell}>
                                         <Typography className={classes.typography}>{config.name}</Typography>
