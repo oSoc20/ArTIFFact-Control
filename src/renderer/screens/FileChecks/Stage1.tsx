@@ -33,19 +33,23 @@ const useStyles = makeStyles((theme: Theme) =>
             lineHeight: "20px",
             fontWeight: 300,
             marginTop: "2rem",
-            marginLeft: "1rem"
+            marginLeft: "0.5rem",
+            fontFamily: "'DIN 2014'",
         },
         continueButton: {
-            color: "white",
+            color: "#FCFCFC",
             marginTop: "2rem",
             background: "#2A4B5B",
             border: 'none',
             borderRadius: "12px",
             width: "125px",
-            height: "45px",
+            height: "40px",
             marginLeft: "auto",
-            marginRight: "1rem",
-            cursor: "pointer"
+            marginRight: "0.5rem",
+            cursor: "pointer",
+            fontSize: "16px",
+            lineHeight: "20px",
+            fontFamily: "'DIN 2014'"
         },
         tableContainer: {
             maxHeight: 200
@@ -58,7 +62,7 @@ const useStyles = makeStyles((theme: Theme) =>
             fontWeight: 600
         },
         tableContentCell: {
-            fontSize: "18px",
+            fontSize: "14px",
             lineHeight: "25px",
             fontFamily: "Open Sans",
         }
@@ -144,7 +148,7 @@ const Stage1 = (props: Stage1Props) => {
                             <TableHead>
                                 <TableRow className={classes.tableHeadRow}>
                                     <TableCell className={classes.tableHeadCell}>Path</TableCell>
-                                    <TableCell className={classes.tableHeadCell}>size</TableCell>
+                                    <TableCell className={classes.tableHeadCell}>Size</TableCell>
                                     <TableCell className={classes.tableHeadCell} />
                                 </TableRow>
                             </TableHead>
