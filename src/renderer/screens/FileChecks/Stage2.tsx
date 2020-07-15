@@ -19,16 +19,17 @@ const StyledTableRow = withStyles((theme: Theme) =>
             '&:nth-of-type(odd)': {
                 backgroundColor: theme.palette.action.hover,
             },
+            '&:selected, &:hover': {
+                background: "blue"
+            }
         }
     }),
 )(TableRow);
 
-
+ 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        container: {
-            background: "#eee"
-        },
+        selected: {},
         tableContainer: {
             maxHeight: 200
         },
@@ -41,7 +42,7 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         tableContentRow: {
             "&:selected": {
-                backgroundColor: "pink"
+                color:"pink"
             }
         },
         tableContentCell: {
