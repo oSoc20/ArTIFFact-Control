@@ -2,6 +2,11 @@ import * as React from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import MuiTableCell from '@material-ui/core/TableCell';
 import { Box, TableContainer, TableHead, TableBody, TableRow, Table, withStyles, Typography } from '@material-ui/core';
+import EditIcon from 'Assets/icons/icons8-edit-property-500.svg';
+import TrashIcon from 'Assets/icons/icons8-delete-bin-500.svg';
+import ImportIcon from 'Assets/icons/icons8-import-500.svg';
+import PlusIcon from 'Assets/icons/icons8-plus-math-500.svg';
+import BackArrow from 'Assets/icons/icons8-arrow-500.svg';
 
 
 interface Stage2Props {
@@ -9,13 +14,13 @@ interface Stage2Props {
 }
 
 const StyledTableRow = withStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      '&:nth-of-type(odd)': {
-        backgroundColor: theme.palette.action.hover,
-      },
-    },
-  }),
+    createStyles({
+        root: {
+            '&:nth-of-type(odd)': {
+                backgroundColor: theme.palette.action.hover,
+            },
+        }
+    }),
 )(TableRow);
 
 
@@ -38,9 +43,56 @@ const useStyles = makeStyles((theme: Theme) =>
             fontSize: "18px",
             lineHeight: "25px",
             fontFamily: "Open Sans",
+            verticalAlign: "top",
         },
+        selected: {},
         typography: {
             fontSize: 14
+        },
+        confirmButton: {
+            backgroundColor: "blue",
+            borderRadius: "12px",
+            width: "250px",
+            height: "40px",
+            marginLeft: "auto",
+            border: "none",
+            fontFamily: "'DIN 2014'",
+            fontSize: "18px",
+            color: "#FCFCFC",
+            marginTop: "20px",
+            cursor: "pointer",
+            "&:disabled": {
+                backgroundColor: "#CACACA",
+                cursor: "no-drop"
+            },
+        },
+        disabledButton: {
+            background: "black"
+        },
+        backButton: {
+            background: "none",
+            cursor: "pointer",
+            fontSize: "18px",
+            fontWeight: 600,
+            border: "none",
+            margin: 0,
+            padding: 0
+        },
+        arrowBack: {
+            width: "16px",
+            border: "1px solid black",
+            boxSizing: "border-box",
+            transform: "matrix(-1, 0, 0, 1, 0, 0)"
+        },
+        configControlButton: {
+            marginRight: "2rem",
+            background: "none",
+            border: "none",
+            cursor: "pointer",
+            marginTop: "20px"
+        },
+        selectedRow: {
+            backgroundColor: "black"
         }
     })
 );
@@ -70,8 +122,17 @@ const tempConfigs: Array<Config> = [
 
 ]
 
+const selectedRow = {}
+
 export const Stage2 = (props: Stage2Props) => {
     const classes = useStyles();
+
+    let [currentSelected, setCurrent] = React.useState<null | number>(null);
+
+    const handleSelect = (selectedIndex: number) => {
+        setCurrent(selectedIndex);
+        console.log("Setting current selected to", selectedIndex);
+    }
 
     const getReports = (reports: Array<string>) => {
         let result: string = "";
@@ -84,12 +145,12 @@ export const Stage2 = (props: Stage2Props) => {
 
     return (
         <>
+            <button className={classes.backButton} onClick={() => props.goBackOneStep()}><img src={BackArrow} style={{ paddingBottom: "2px", marginRight: "3px" }} />Back</button>
             <Typography component="span" gutterBottom>
                 <Box fontSize='h6.fontSize' style={{ marginBottom: '40px', textAlign: "center" }}>
                     Step 2 - TIFF Configuration settings
                 </Box>
             </Typography>
-            <button onClick={() => props.goBackOneStep()}>Go back</button>
             <TableContainer className={classes.tableContainer}>
                 <Table stickyHeader size="small" aria-label="span">
                     <TableHead>
@@ -104,7 +165,11 @@ export const Stage2 = (props: Stage2Props) => {
                     <TableBody>
                         {tempConfigs.map((config, index) => {
                             return (
-                                <StyledTableRow key={index}>
+                                <StyledTableRow
+                                    key={index}
+                                    onClick={() => handleSelect(index)}
+                                    selected={index === currentSelected}>
+
                                     <TableCell className={classes.tableContentCell}>
                                         <Typography className={classes.typography}>{config.name}</Typography>
                                     </TableCell>
@@ -119,12 +184,44 @@ export const Stage2 = (props: Stage2Props) => {
                                     <TableCell className={classes.tableContentCell} >
                                         {getReports(config.report)}
                                     </TableCell>
+                                    <TableCell className={classes.tableContentCell} >
+                                        <button
+                                            style={{
+                                                border: "none",
+                                                background: "transparent",
+                                                cursor: "pointer"
+                                            }}
+                                        ><img src={EditIcon} style={{ height: "25px", width: "25px" }} /></button>
+                                        <button
+                                            style={{
+                                                border: "none",
+                                                background: "transparent",
+                                                cursor: "pointer"
+                                            }}> <img src={TrashIcon} style={{ height: "25px", width: "25px", paddingBottom: "4px" }} /></button>
+                                    </TableCell>
                                 </StyledTableRow>
                             );
                         })}
                     </TableBody>
                 </Table>
             </TableContainer>
+            <Box display={"flex"} width={"100%"}>
+                <button className={classes.configControlButton}>
+                    <Typography style={{ fontSize: 15 }}>
+                        <img src={ImportIcon} style={{ width: "17px" }} />
+                        import
+                    </Typography>
+                </button>
+                <button className={classes.configControlButton}>
+                    <Typography style={{ fontSize: 15 }}>
+                        <img src={PlusIcon} style={{ width: "22px" }} />
+                         new
+                    </Typography>
+                </button>
+                <button disabled={currentSelected == null? true : false} className={classes.confirmButton}>
+                    {currentSelected == null? <>No configuration selected</> : <>Continue</>}
+                </button>
+            </Box>
         </>
     );
 }

@@ -9,6 +9,7 @@ import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import MuiTableCell from '@material-ui/core/TableCell';
 import { Box, TableContainer, TableHead, TableBody, TableRow, Table, withStyles, Typography } from '@material-ui/core';
 import { default as DeleteIcon } from '@material-ui/icons/DeleteForever';
+import TrashIcon from 'Assets/icons/icons8-delete-bin-500.svg'
 
 
 /* Typescript interfaces */
@@ -170,7 +171,9 @@ const Stage1 = (props: Stage1Props) => {
                                             <TableCell className={classes.tableContentCell} >
                                                 <button style={{ background: "none", border: "none" }}
                                                     onClick={() => removeFile(index)}
-                                                ><DeleteIcon /></button>
+                                                >
+                                                    <img src={TrashIcon} style={{width: "22px"}}/>
+                                                </button>
                                             </TableCell>
                                         </TableRow>
                                     );

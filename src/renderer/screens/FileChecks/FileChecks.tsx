@@ -9,7 +9,6 @@ import Stage1 from './Stage1'
 import { Stage2 } from './Stage2'
 import { Stage3 } from './Stage3'
 import { Grid, Typography, Box, Paper, Container } from '@material-ui/core';
-import FileCopyIcon from '@material-ui/icons/FileCopy';
 import FileCheckIcon from 'Assets/icons/icons8-check-file-500.svg'
 
 
@@ -28,7 +27,7 @@ const useStyles = makeStyles((theme: Theme) =>
         title: {
             textAlign: "center",
             marginTop: "2rem",
-            marginBottom: "4rem",
+            marginBottom: "3rem",
             fontFamily: "DIN 2014",
             fontStyle: "normal",
             fontWeight: "normal",
