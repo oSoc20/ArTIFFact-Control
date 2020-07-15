@@ -116,3 +116,5 @@ build/Release
 
 package-lock.json
 .yarnrc
+
+.vscode/

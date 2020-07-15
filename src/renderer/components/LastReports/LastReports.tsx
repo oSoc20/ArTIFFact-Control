@@ -2,10 +2,12 @@ import * as React from 'react';
 // Material UI
 import { Typography, Paper, Box, makeStyles, Theme, createStyles, TableContainer, Table, TableHead, TableRow, withStyles, TableBody, Button } from '@material-ui/core';
 import MuiTableCell from "@material-ui/core/TableCell";
-import DescriptionOutlinedIcon from '@material-ui/icons/DescriptionOutlined';
 import CheckIcon from '@material-ui/icons/Check';
 import ClearIcon from '@material-ui/icons/Clear';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+
+/* ASSETS */
+const ratingsIcon = require('Assets/icons/icons8-ratings-500.svg');
 
 /* STYLE */
 const TableCell = withStyles({
@@ -13,6 +15,16 @@ const TableCell = withStyles({
         borderBottom: "none"
     }
 })(MuiTableCell);
+
+const StyledTableRow = withStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      '&:nth-of-type(odd)': {
+        backgroundColor: theme.palette.action.hover,
+      },
+    },
+  }),
+)(TableRow);
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -49,8 +61,7 @@ const rows = [
     createData('7/07/2020', 12, '/users/name/file/Tifffile.tiff', false),
     createData('7/07/2020', 12, '/users/name/file/Tifffile.tiff', false),
     createData('7/07/2020', 12, '/users/name/file/Tifffile.tiff', true),
-    createData('7/07/2020', 12, '/users/name/file/Tifffile.tiff', true),
-    createData('7/07/2020', 12, '/users/name/file/Tifffile.tiff', false)
+    createData('7/07/2020', 12, '/users/name/file/Tifffile.tiff', true)
 ];
 
 /* COMPONENT */
@@ -62,8 +73,8 @@ function LastReports() {
         <>
             <Paper className={classes.paper}>
                 <Typography component='span' style={{display: 'flex'}}>
-                    <Box className={classes.box} fontSize='h6.fontSize' fontWeight='fontWeightBold'>
-                        <DescriptionOutlinedIcon style={{ marginRight: '15px', fontSize: '40px' }} />
+                    <Box className={classes.box} fontSize='h6.fontSize' fontWeight='fontWeightBold' fontFamily='"OpenSans"'>
+                        <img src={ratingsIcon} style={{ marginRight: '20px', width: '40px' }} />
                         Last reports
                     </Box>
                     <Button style={{marginLeft: 'auto', fontWeight: 600, textTransform: 'none'}}>More <ArrowForwardIcon style={{marginLeft:'3px', fontSize:'20px'}} /></Button>
@@ -85,7 +96,7 @@ function LastReports() {
                                         : { opacity: 0.3 };
 
                                 return (
-                                    <TableRow key={index} style={opacity}>
+                                    <StyledTableRow key={index} style={opacity}>
                                         <TableCell component="th" scope="row">
                                             {row.date}
                                         </TableCell>
@@ -98,7 +109,7 @@ function LastReports() {
                                         <TableCell component="th" scope="row">
                                             {row.ICON}
                                         </TableCell>
-                                    </TableRow>
+                                    </StyledTableRow>
                                 );
                             })}
                         </TableBody>
