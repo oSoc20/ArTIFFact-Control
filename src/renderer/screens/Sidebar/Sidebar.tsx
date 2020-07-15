@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Drawer, List, ListItem, ListItemText } from '@material-ui/core';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import { makeStyles, Theme, createStyles, withStyles } from '@material-ui/core/styles';
 import { useHistory } from "react-router-dom";
 // Icons
 import LogoWithLabel from 'Assets/logos/logoWithLabel.svg';
@@ -25,7 +25,9 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         drawerPaper: {
             width: drawerWidth,
-            background: '#2A4B5B',
+            display: 'flex',
+            flexDirection: 'column',
+            backgroundColor: theme.palette.primary.main,
             color: '#FCFCFC'
         },
         selected: {
@@ -87,7 +89,7 @@ function renderItems(items: any[], selectedItem: string, setSelectedItem: any, c
 }
 
 /* COMPONENT */
-function Sidebar() {
+const Sidebar = () => {
     const classes = useStyles();
     const history = useHistory();
     const [selectedItem, setSelectedItem] = React.useState("dashboard");
@@ -99,7 +101,6 @@ function Sidebar() {
                     paper: classes.drawerPaper,
                 }}
                 variant="permanent"
-                style={{ display: 'flex', flexDirection: 'column' }}
                 open
             >
                 <List disablePadding dense style={{ flex: 'none' }}>

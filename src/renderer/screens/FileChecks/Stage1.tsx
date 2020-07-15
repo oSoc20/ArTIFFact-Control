@@ -45,7 +45,8 @@ const useStyles = makeStyles((theme: Theme) =>
             height: "45px",
             marginLeft: "auto", 
             marginRight: "1rem",
-            cursor: "pointer"
+            cursor: "pointer",
+            fontFamily: "'Open Sans'"
         },
         container: {
             background: "#eee"
