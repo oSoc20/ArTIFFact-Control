@@ -2,11 +2,9 @@ import * as React from 'react';
 // Material UI
 import { Typography, Paper, Box, makeStyles, Theme, createStyles, TableContainer, Table, TableHead, TableRow, withStyles, TableBody, Button } from '@material-ui/core';
 import MuiTableCell from "@material-ui/core/TableCell";
-import AlarmOnOutlinedIcon from '@material-ui/icons/AlarmOnOutlined';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
-
-/* ASSETS */
-const clockCheckedIcon = require('Assets/icons/icons8-clock-checked-500.svg');
+// Icons
+import ClockCheckedIcon from 'Assets/icons/icons8-clock-checked-500.svg';
 
 /* STYLE */
 const TableCell = withStyles({
@@ -71,7 +69,7 @@ function LastPeriodicalChecks() {
             <Paper className={classes.paper}>
                 <Typography component='span' style={{ display: 'flex' }}>
                     <Box className={classes.box} fontSize='h6.fontSize' fontWeight='fontWeightBold'>
-                        <img src={clockCheckedIcon} style={{ marginRight: '20px', width: '40px' }} />
+                        <img src={ClockCheckedIcon} style={{ marginRight: '20px', width: '40px' }} />
                         Periodical Checks
                     </Box>
                     <Button style={{ marginLeft: 'auto', fontWeight: 600, textTransform: 'none' }}>More <ArrowForwardIcon style={{ marginLeft: '3px', fontSize: '20px' }} /></Button>

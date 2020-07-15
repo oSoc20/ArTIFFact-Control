@@ -6,6 +6,7 @@ import Application from './screens/Application';
 import store from './store';
 // Style
 import 'Styles/app.css';
+import 'Styles/OpenSans.css';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core';
 
 // Create main element
@@ -16,7 +17,8 @@ document.body.appendChild(mainElement);
 const theme = createMuiTheme({
     typography: {
         fontFamily: [
-            '"OpenSans"'
+            "'Open Sans'",
+            "sans-serif"
         ].join(','),
         fontSize: 16
     }
