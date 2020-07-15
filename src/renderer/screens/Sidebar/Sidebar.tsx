@@ -62,37 +62,35 @@ const whiteIcon = {
     filter: 'grayscale(1) invert(1) contrast(500%)'
 }
 
-/* ITEMS */
-const middleItems = [
-    { name: 'Dashboard', link: 'dashboard', icon: HomeIcon },
-    { name: 'File checks', link: 'fileChecks', icon: CheckFileIcon },
-    { name: 'Reports', link: 'reports', icon: RatingsIcon },
-    { name: 'Configurations', link: 'configurations', icon: SettingsIcon },
-    { name: 'Periodical checks', link: 'periodicalChecks', icon: ClockCheckedIcon },
-    { name: 'Conformance checks', link: 'conformanceChecks', icon: StatisticsReportIcon },
-    { name: 'Statistics', link: 'statistics', icon: ComboChartIcon }
-];
-
-const bottomItems = [
-    { name: 'Help', link: 'help', icon: InfoIcon },
-    { name: 'About', link: 'about', icon: HelpIcon }
-];
-
-/* FUNCTIONS */
-function renderItems(items: any[], selectedItem: string, setSelectedItem: any, classes: any, history: any): any {
-    return items.map((item, index) => (
-        <ListItem button key={index} classes={{ selected: classes.selected }} style={listItem} selected={selectedItem === item.link} onClick={() => { setSelectedItem(item.link); history.push('/' + item.link); }}>
-            <img src={item.icon} style={selectedItem !== item.link ? whiteIcon : blackIcon} />
-            <ListItemText><span style={{ fontSize: '18px' }}>{item.name}</span></ListItemText>
-        </ListItem>
-    ));
-}
-
 /* COMPONENT */
 const Sidebar = () => {
     const classes = useStyles();
     const history = useHistory();
     const [selectedItem, setSelectedItem] = React.useState("dashboard");
+
+    const middleItems = [
+        { name: 'Dashboard', link: 'dashboard', icon: HomeIcon },
+        { name: 'File checks', link: 'fileChecks', icon: CheckFileIcon },
+        { name: 'Reports', link: 'reports', icon: RatingsIcon },
+        { name: 'Configurations', link: 'configurations', icon: SettingsIcon },
+        { name: 'Periodical checks', link: 'periodicalChecks', icon: ClockCheckedIcon },
+        { name: 'Conformance checks', link: 'conformanceChecks', icon: StatisticsReportIcon },
+        { name: 'Statistics', link: 'statistics', icon: ComboChartIcon }
+    ];
+    
+    const bottomItems = [
+        { name: 'Help', link: 'help', icon: InfoIcon },
+        { name: 'About', link: 'about', icon: HelpIcon }
+    ];
+
+    const renderItems = (items: any[]): any => {
+        return items.map((item, index) => (
+            <ListItem button key={index} classes={{ selected: classes.selected }} style={listItem} selected={selectedItem === item.link} onClick={() => { setSelectedItem(item.link); history.push('/' + item.link); }}>
+                <img src={item.icon} style={selectedItem !== item.link ? whiteIcon : blackIcon} />
+                <ListItemText><span style={{ fontSize: '18px' }}>{item.name}</span></ListItemText>
+            </ListItem>
+        ));
+    }
 
     return (
         <nav className={classes.drawer} aria-label="sidebar">
@@ -109,10 +107,10 @@ const Sidebar = () => {
                     </ListItem>
                 </List>
                 <List disablePadding dense style={{ flex: 1 }}>
-                    {renderItems(middleItems, selectedItem, setSelectedItem, classes, history)}
+                    {renderItems(middleItems)}
                 </List>
                 <List disablePadding dense style={{ flex: 'none', marginBottom: '22px' }}>
-                    {renderItems(bottomItems, selectedItem, setSelectedItem, classes, history)}
+                    {renderItems(bottomItems)}
                 </List>
             </Drawer>
         </nav>

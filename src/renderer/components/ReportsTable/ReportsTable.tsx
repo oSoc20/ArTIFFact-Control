@@ -1,12 +1,12 @@
 import * as React from 'react';
 // Material UI
-import { Typography, Paper, Box, makeStyles, Theme, createStyles, TableContainer, Table, TableHead, TableRow, withStyles, TableBody, Button } from '@material-ui/core';
+import { Paper, makeStyles, Theme, createStyles, TableContainer, Table, TableHead, TableRow, withStyles, TableBody, Button } from '@material-ui/core';
 import MuiTableCell from "@material-ui/core/TableCell";
 import CheckIcon from '@material-ui/icons/Check';
 import ClearIcon from '@material-ui/icons/Clear';
-import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 // Icons
-import RatingsIcon from 'Assets/icons/icons8-ratings-500.svg';
+import DeleteBinIcon from 'Assets/icons/icons8-delete-bin-500.svg';
+import ClearOptionIcon from 'Assets/icons/icons8-clear-option-500.svg';
 
 /* STYLE */
 const TableCell = withStyles({
@@ -16,13 +16,13 @@ const TableCell = withStyles({
 })(MuiTableCell);
 
 const StyledTableRow = withStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      '&:nth-of-type(odd)': {
-        backgroundColor: theme.palette.action.hover,
-      },
-    },
-  }),
+    createStyles({
+        root: {
+            '&:nth-of-type(odd)': {
+                backgroundColor: theme.palette.action.hover,
+            }
+        }
+    })
 )(TableRow);
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -49,48 +49,37 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
-/* COMPONENT */
-const LastReports = () => {
-    const classes = useStyles();
-    var reportsData: Report[] = [
-        {date: '7/07/2020', files: 1, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100},
-        {date: '7/07/2020', files: 1, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, score: 100},
-        {date: '7/07/2020', files: 1, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100},
-        {date: '7/07/2020', files: 1, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 80},
-        {date: '7/07/2020', files: 1, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100},
-        {date: '7/07/2020', files: 1, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, score: 100}
-    ];
-    const [reports, setReports] = React.useState(reportsData);
+/* INTERFACE */
+interface ReportsTableProps {
+    reports: Array<Report>;
+    removeReports: (index: number) => void
+}
 
+/* COMPONENT */
+const ReportsTable = (props: ReportsTableProps) => {
+    const classes = useStyles();
 
     return (
         <>
             <Paper className={classes.paper}>
-                <Typography component='span' style={{display: 'flex'}}>
-                    <Box className={classes.box} fontSize='h6.fontSize' fontWeight='fontWeightBold'>
-                        <img src={RatingsIcon} style={{ marginRight: '20px', width: '40px' }} />
-                        Last reports
-                    </Box>
-                    <Button style={{marginLeft: 'auto', fontWeight: 600, textTransform: 'none'}}>More <ArrowForwardIcon style={{marginLeft:'3px', fontSize:'20px'}} /></Button>
-                </Typography>
-                <TableContainer style={{ marginTop: '20px' }}>
-                    <Table aria-label="span" size="small">
+                <TableContainer style={{ height: '450px', overflow: "auto" }} >
+                    <Table aria-label="span" size="small" stickyHeader>
                         <TableHead>
                             <TableRow className={classes.tableHeadRow}>
                                 <TableCell className={classes.tableHeadCell}>Date</TableCell>
                                 <TableCell className={classes.tableHeadCell}>Files</TableCell>
                                 <TableCell className={classes.tableHeadCell}>Input</TableCell>
                                 <TableCell className={classes.tableHeadCell}>Result</TableCell>
+                                <TableCell className={classes.tableHeadCell}>Errors</TableCell>
+                                <TableCell className={classes.tableHeadCell}>Passed</TableCell>
+                                <TableCell className={classes.tableHeadCell}>Score</TableCell>
+                                <TableCell className={classes.tableHeadCell}></TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {reports.map((report, index) => {
-                                const opacity = index < reports.length - 2 ? { opacity: 1 }
-                                    : index === reports.length - 2 ? { opacity: 0.6 }
-                                        : { opacity: 0.3 };
-
+                            {props.reports.map((report, index) => {
                                 return (
-                                    <StyledTableRow key={index} style={opacity}>
+                                    <StyledTableRow key={index}>
                                         <TableCell component="th" scope="row">
                                             {report.date}
                                         </TableCell>
@@ -103,15 +92,30 @@ const LastReports = () => {
                                         <TableCell component="th" scope="row">
                                             {report.result ? <CheckIcon style={{ color: 'green' }} /> : <ClearIcon style={{ color: 'red' }} />}
                                         </TableCell>
+                                        <TableCell component="th" scope="row">
+                                            {report.errors} errors
+                                        </TableCell>
+                                        <TableCell component="th" scope="row">
+                                            {report.passed} Passed
+                                        </TableCell>
+                                        <TableCell component="th" scope="row">
+                                            {report.score}%
+                                        </TableCell>
+                                        <TableCell component="th" scope="row">
+                                            <Button onClick={() => props.removeReports(index)}><img src={DeleteBinIcon} style={{ width: '24px' }} /></Button>
+                                        </TableCell>
                                     </StyledTableRow>
                                 );
                             })}
                         </TableBody>
                     </Table>
                 </TableContainer>
+                <div style={{ width: '100%', textAlign: 'right' }}>
+                    <Button style={{ marginTop: '20px', fontSize: '14px', textTransform: 'none' }}><img src={ClearOptionIcon} style={{ width: '20px', marginRight: '8px' }} /> Clear options</Button>
+                </div>
             </Paper>
         </>
     )
 }
 
-export default (LastReports);
+export default (ReportsTable);

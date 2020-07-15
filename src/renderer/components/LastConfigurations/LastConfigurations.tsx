@@ -47,24 +47,18 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
-/* FUNCTIONS */
-function createData(name: string, implementation: string) {
-    return { name, implementation };
-}
-
-const rows = [
-    createData('Default', 'Baseline TIFF 6.0'),
-    createData('Special', 'Extended TIFF 6.0'),
-    createData('Special', 'Extended TIFF 6.0'),
-    createData('Special', 'Extended TIFF 6.0'),
-    createData('Special', 'Extended TIFF 6.0'),
-    createData('Special', 'Extended TIFF 6.0')
-];
-
 /* COMPONENT */
-function LastConfigurations() {
+const LastConfigurations = () => {
     const classes = useStyles();
-    const nbReports = rows.length;
+    var configurationsData: Configuration[] = [
+        {name: 'Default', implementation: 'Baseline TIFF 6.0'},
+        {name: 'Special', implementation: 'Extended TIFF 6.0'},
+        {name: 'Special', implementation: 'Extended TIFF 6.0'},
+        {name: 'Special', implementation: 'Extended TIFF 6.0'},
+        {name: 'Special', implementation: 'Extended TIFF 6.0'},
+        {name: 'Special', implementation: 'Extended TIFF 6.0'}
+    ];
+    const [configurations, setConfigurations] = React.useState(configurationsData);
 
     return (
         <>
@@ -85,9 +79,9 @@ function LastConfigurations() {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {rows.map((row, index) => {
-                                const opacity = index < nbReports - 2 ? { opacity: 1 }
-                                    : index === nbReports - 2 ? { opacity: 0.6 }
+                            {configurations.map((row, index) => {
+                                const opacity = index < configurations.length - 2 ? { opacity: 1 }
+                                    : index === configurations.length - 2 ? { opacity: 0.6 }
                                         : { opacity: 0.3 };
 
                                 return (

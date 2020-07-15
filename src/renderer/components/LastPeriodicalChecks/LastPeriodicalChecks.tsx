@@ -47,22 +47,16 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
-/* FUNCTIONS */
-function createData(files: number, input: string, configuration: string, periodicity: string) {
-    return { files, input, configuration, periodicity };
-}
-
-const rows = [
-    createData(1, '/users/name/file/Tifffile.tiff', 'Default', 'Daily, at 12:30'),
-    createData(12, '/users/name/file/', 'Default', 'Weekly, at 12:30'),
-    createData(7, '/users/name/file/', 'Default', 'Weekly, at 12:30'),
-    createData(3, '/users/name/file/', 'Default', 'Weekly, at 12:30')
-];
-
 /* COMPONENT */
-function LastPeriodicalChecks() {
+const LastPeriodicalChecks = () => {
     const classes = useStyles();
-    const nbReports = rows.length;
+    var periodicalChecksData: PeriodicalCheck[] = [
+        {files: 1, input: '/users/name/file/Tifffile.tiff', configuration: 'Default', periodicity: 'Daily, at 12:30'},
+        {files: 12, input: '/users/name/file/', configuration: 'Default', periodicity: 'Weekly, at 12:30'},
+        {files: 7, input: '/users/name/file/', configuration: 'Default', periodicity: 'Weekly, at 12:30'},
+        {files: 3, input: '/users/name/file/', configuration: 'Default', periodicity: 'Weekly, at 12:30'}
+    ];
+    const [periodicalChecks, setPeriodicalChecks] = React.useState(periodicalChecksData);
 
     return (
         <>
@@ -85,9 +79,9 @@ function LastPeriodicalChecks() {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {rows.map((row, index) => {
-                                const opacity = index < nbReports - 2 ? { opacity: 1 }
-                                    : index === nbReports - 2 ? { opacity: 0.6 }
+                            {periodicalChecks.map((row, index) => {
+                                const opacity = index < periodicalChecks.length - 2 ? { opacity: 1 }
+                                    : index === periodicalChecks.length - 2 ? { opacity: 0.6 }
                                         : { opacity: 0.3 };
 
                                 return (
@@ -96,7 +90,7 @@ function LastPeriodicalChecks() {
                                             {row.files}
                                         </TableCell>
                                         <TableCell component="th" scope="row">
-                                            {row.files}
+                                            {row.input}
                                         </TableCell>
                                         <TableCell component="th" scope="row">
                                             {row.configuration}

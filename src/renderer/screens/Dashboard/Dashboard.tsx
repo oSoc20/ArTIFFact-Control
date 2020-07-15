@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 /* COMPONENT */
-function Dashboard() {
+const Dashboard = () => {
     const classes = useStyles();
 
     return (
