@@ -67,7 +67,7 @@ const FileChecks = (props: FilecheckerProps) => {
             case 0:
                 return <Stage1 progressStep={props.progressStep} />
             case 1:
-                return <Stage2 goBackOneStep={props.goBackOneStep} />
+                return <Stage2 goBackOneStep={props.goBackOneStep} progressStep={props.progressStep} />
             case 2:
                 return <Stage3 />
             default:
