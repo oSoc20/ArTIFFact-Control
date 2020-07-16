@@ -13,4 +13,4 @@ export const setActiveItem: ActionCreator<ActiveItemAction> = (activeItem: strin
 });
 
 
-export type SidebarAction = ActiveItemAction // | DecrementAction;
+export type SidebarAction = ActiveItemAction;

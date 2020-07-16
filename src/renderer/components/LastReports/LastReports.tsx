@@ -7,6 +7,7 @@ import ClearIcon from '@material-ui/icons/Clear';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 // Icons
 import RatingsIcon from 'Assets/icons/icons8-ratings-500.svg';
+import { useHistory } from 'react-router-dom';
 
 /* STYLE */
 const TableCell = withStyles({
@@ -16,13 +17,13 @@ const TableCell = withStyles({
 })(MuiTableCell);
 
 const StyledTableRow = withStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      '&:nth-of-type(odd)': {
-        backgroundColor: theme.palette.action.hover,
-      },
-    },
-  }),
+    createStyles({
+        root: {
+            '&:nth-of-type(odd)': {
+                backgroundColor: theme.palette.action.hover,
+            },
+        },
+    }),
 )(TableRow);
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -49,71 +50,69 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
-/* FUNCTIONS */
-function createData(date: string, files: number, input: string, result: boolean) {
-    let ICON = result ? <CheckIcon style={{ color: 'green' }} /> : <ClearIcon style={{ color: 'red' }} />;
-    return { date, files, input, ICON };
-}
-
-const rows = [
-    createData('7/07/2020', 1, '/users/name/file/Tifffile.tiff', true),
-    createData('7/07/2020', 12, '/users/name/file/Tifffile.tiff', false),
-    createData('7/07/2020', 12, '/users/name/file/Tifffile.tiff', false),
-    createData('7/07/2020', 12, '/users/name/file/Tifffile.tiff', true),
-    createData('7/07/2020', 12, '/users/name/file/Tifffile.tiff', true)
-];
-
 /* COMPONENT */
-function LastReports() {
+const LastReports = () => {
+    const history = useHistory();
     const classes = useStyles();
-    const nbReports = rows.length;
+    var reportsData: Report[] = [
+        { date: new Date('7/07/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100 },
+        { date: new Date('7/07/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, score: 100 },
+        { date: new Date('7/07/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100 },
+        { date: new Date('7/07/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 80 },
+        { date: new Date('7/07/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100 },
+        { date: new Date('7/07/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, score: 100 }
+    ];
+    const [reports, setReports] = React.useState(reportsData);
 
     return (
         <>
             <Paper className={classes.paper}>
-                <Typography component='span' style={{display: 'flex'}}>
+                <Typography component='span' style={{ display: 'flex' }}>
                     <Box className={classes.box} fontSize='h6.fontSize' fontWeight='fontWeightBold'>
                         <img src={RatingsIcon} style={{ marginRight: '20px', width: '40px' }} />
                         Last reports
                     </Box>
-                    <Button style={{marginLeft: 'auto', fontWeight: 600, textTransform: 'none'}}>More <ArrowForwardIcon style={{marginLeft:'3px', fontSize:'20px'}} /></Button>
+                    <Button style={{ marginLeft: 'auto', fontWeight: 600, textTransform: 'none' }} onClick={() => history.push('/reports')}>More <ArrowForwardIcon style={{ marginLeft: '3px', fontSize: '20px' }} /></Button>
                 </Typography>
-                <TableContainer style={{ marginTop: '20px' }}>
-                    <Table aria-label="span" size="small">
-                        <TableHead>
-                            <TableRow className={classes.tableHeadRow}>
-                                <TableCell className={classes.tableHeadCell}>Date</TableCell>
-                                <TableCell className={classes.tableHeadCell}>Files</TableCell>
-                                <TableCell className={classes.tableHeadCell}>Input</TableCell>
-                                <TableCell className={classes.tableHeadCell}>Result</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {rows.map((row, index) => {
-                                const opacity = index < nbReports - 2 ? { opacity: 1 }
-                                    : index === nbReports - 2 ? { opacity: 0.6 }
-                                        : { opacity: 0.3 };
+                {reports.length > 0 ?
+                    <TableContainer style={{ marginTop: '20px' }}>
+                        <Table aria-label="span" size="small">
+                            <TableHead>
+                                <TableRow className={classes.tableHeadRow}>
+                                    <TableCell className={classes.tableHeadCell}>Date</TableCell>
+                                    <TableCell className={classes.tableHeadCell}>Files</TableCell>
+                                    <TableCell className={classes.tableHeadCell}>Input</TableCell>
+                                    <TableCell className={classes.tableHeadCell}>Result</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {reports.map((report, index) => {
+                                    const opacity = index < reports.length - 2 ? { opacity: 1 }
+                                        : index === reports.length - 2 ? { opacity: 0.6 }
+                                            : { opacity: 0.3 };
 
-                                return (
-                                    <StyledTableRow key={index} style={opacity}>
-                                        <TableCell component="th" scope="row">
-                                            {row.date}
-                                        </TableCell>
-                                        <TableCell component="th" scope="row">
-                                            {row.files}
-                                        </TableCell>
-                                        <TableCell component="th" scope="row">
-                                            {row.input}
-                                        </TableCell>
-                                        <TableCell component="th" scope="row">
-                                            {row.ICON}
-                                        </TableCell>
-                                    </StyledTableRow>
-                                );
-                            })}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
+                                    return (
+                                        <StyledTableRow key={index} style={opacity}>
+                                            <TableCell component="th" scope="row">
+                                                {report.date.toLocaleDateString()}
+                                            </TableCell>
+                                            <TableCell component="th" scope="row">
+                                                {report.files}
+                                            </TableCell>
+                                            <TableCell component="th" scope="row">
+                                                {report.input}
+                                            </TableCell>
+                                            <TableCell component="th" scope="row">
+                                                {report.result ? <CheckIcon style={{ color: 'green' }} /> : <ClearIcon style={{ color: 'red' }} />}
+                                            </TableCell>
+                                        </StyledTableRow>
+                                    );
+                                })}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                    : <Typography style={{marginTop: '15px'}}>No data found.</Typography>
+                }
             </Paper>
         </>
     )

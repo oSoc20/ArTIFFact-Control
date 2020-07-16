@@ -12,6 +12,7 @@ module.exports = {
     },
     resolve: {
         alias: {
+            Interfaces: path.resolve(__dirname, '../src/interfaces'),
             Assets: path.resolve(__dirname, '../src/renderer/assets'),
             Styles: path.resolve(__dirname, '../src/renderer/styles'),
             Actions: path.resolve(__dirname, '../src/renderer/actions'),
