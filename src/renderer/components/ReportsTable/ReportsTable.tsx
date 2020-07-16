@@ -25,6 +25,10 @@ const StyledTableRow = withStyles((theme: Theme) =>
         root: {
             '&:nth-of-type(odd)': {
                 backgroundColor: theme.palette.action.hover,
+            },
+            '&:hover': {
+                backgroundColor: theme.palette.secondary.light,
+                cursor: 'pointer'
             }
         }
     })
@@ -86,9 +90,10 @@ const useStyles = makeStyles((theme: Theme) =>
 /* INTERFACE */
 interface ReportsTableProps {
     reports: Array<Report>;
-    removeReport: (index: number) => void,
-    removeReportsOlderThan: (date: Date | null) => void,
-    clearReports: () => void
+    removeReport: (index: number) => void;
+    removeReportsOlderThan: (date: Date | null) => void;
+    clearReports: () => void;
+    setReport: (report: Report) => void;
 }
 
 /* COMPONENT */
@@ -97,6 +102,8 @@ const ReportsTable = (props: ReportsTableProps) => {
     const [currentPage, setCurrentPage] = React.useState<number>(0);
     const [nbPages, setNbPages] = React.useState<number>(0);
     let nbElementsPerPage = 15;
+    let minIndex = 0;
+    let maxIndex = 0;
     const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
     const [open, setOpen] = React.useState(false);
     const [placement, setPlacement] = React.useState<PopperPlacementType>();
@@ -149,6 +156,9 @@ const ReportsTable = (props: ReportsTableProps) => {
         setNbPages(nbPages);
         if (currentPage > nbPages)
             setCurrentPage(nbPages);
+
+        minIndex = (currentPage - 1) * nbElementsPerPage;
+        maxIndex = (currentPage * nbElementsPerPage) - 1;
     }
 
     initPagination();
@@ -183,11 +193,9 @@ const ReportsTable = (props: ReportsTableProps) => {
                             </TableHead>
                             <TableBody>
                                 {props.reports.map((report, index) => {
-                                    let minIndex = (currentPage - 1) * nbElementsPerPage;
-                                    let maxIndex = (currentPage * nbElementsPerPage) - 1;
-                                    if (index >= minIndex && index <= maxIndex) {
+                                    if (props.reports.length <= nbElementsPerPage || (index >= minIndex && index <= maxIndex)) {
                                         return (
-                                            <StyledTableRow key={index}>
+                                            <StyledTableRow key={index} onClick={() => props.setReport(report)}>
                                                 <TableCell component="th" scope="row">
                                                     {report.date.toLocaleDateString()}
                                                 </TableCell>
@@ -202,15 +210,15 @@ const ReportsTable = (props: ReportsTableProps) => {
                                                 </TableCell>
                                                 <TableCell component="th" scope="row">
                                                     {report.errors} errors
-                                        </TableCell>
+                                                </TableCell>
                                                 <TableCell component="th" scope="row">
                                                     {report.passed} Passed
-                                        </TableCell>
+                                                </TableCell>
                                                 <TableCell component="th" scope="row">
                                                     {report.score}%
-                                        </TableCell>
+                                                </TableCell>
                                                 <TableCell component="th" scope="row">
-                                                    <Button onClick={() => props.removeReport(index)}><img src={DeleteBinIcon} style={{ width: '24px' }} /></Button>
+                                                    <Button onClick={(event) => {event.stopPropagation(); props.removeReport(index)}}><img src={DeleteBinIcon} style={{ width: '24px' }} /></Button>
                                                 </TableCell>
                                             </StyledTableRow>
                                         );
@@ -248,13 +256,13 @@ const ReportsTable = (props: ReportsTableProps) => {
                                             <FormControlLabel value="clearAll" control={
                                                 <Radio color="primary" />
                                             } label={
-                                                <Typography style={{fontSize:'16px'}}>Clear all</Typography>
+                                                <Typography style={{ fontSize: '16px' }}>Clear all</Typography>
                                             } />
                                             <FormControlLabel value="olderThan" control={
                                                 <Radio color="primary" />
                                             } label={
                                                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                                                    <Typography style={{ fontSize:'16px', marginRight: '10px' }}>Older than</Typography>
+                                                    <Typography style={{ fontSize: '16px', marginRight: '10px' }}>Older than</Typography>
                                                     <div style={{ width: '160px' }}><CustomDatePicker selectedDate={selectedDate} setSelectedDate={setSelectedDate} /></div>
                                                 </div>
                                             } />

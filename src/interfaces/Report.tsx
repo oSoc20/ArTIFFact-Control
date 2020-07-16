@@ -1,4 +1,5 @@
 interface Report {
+    name: string;
     date: Date;
     files: number;
     input: string;

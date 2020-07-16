@@ -5,6 +5,7 @@ import { isBefore, setHours, setMinutes, setSeconds, setMilliseconds, getDaysInM
 // Icons
 import RatingsIcon from 'Assets/icons/icons8-ratings-500.svg';
 import ReportsTable from 'Components/ReportsTable/ReportsTable';
+import ReportDetails from 'Components/ReportDetails/ReportDetails';
 
 /* STYLE */
 const useStyles = makeStyles((theme: Theme) =>
@@ -36,40 +37,23 @@ const useStyles = makeStyles((theme: Theme) =>
 /* COMPONENT */
 const Reports = () => {
     const classes = useStyles();
+    const [report, setReport] = React.useState<Report | null>(null);
     var reportsData: Report[] = [
-        { date: new Date('07/15/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100 },
-        { date: new Date('07/15/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, score: 100 },
-        { date: new Date('07/15/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, score: 100 },
-        { date: new Date('07/15/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, score: 100 },
-        { date: new Date('07/15/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, score: 100 },
-        { date: new Date('07/15/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100 },
-        { date: new Date('07/15/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100 },
-        { date: new Date('07/15/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, score: 100 },
-        { date: new Date('07/15/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100 },
-        { date: new Date('07/15/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, score: 100 },
-        { date: new Date('07/15/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100 },
-        { date: new Date('07/15/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, score: 100 },
-        { date: new Date('07/15/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100 },
-        { date: new Date('07/15/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, score: 100 },
-        { date: new Date('07/15/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, score: 100 },
-        { date: new Date('07/15/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, score: 100 },
-        { date: new Date('07/15/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, score: 100 },
-        { date: new Date('07/15/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100 },
-        { date: new Date('07/15/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100 },
-        { date: new Date('07/15/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100 },
-        { date: new Date('07/15/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100 },
-        { date: new Date('07/15/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100 },
-        { date: new Date('07/15/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, score: 100 },
-        { date: new Date('07/15/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, score: 100 },
-        { date: new Date('07/15/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, score: 100 },
-        { date: new Date('07/15/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, score: 100 },
-        { date: new Date('07/16/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100 },
-        { date: new Date('07/16/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, score: 100 },
-        { date: new Date('07/16/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, score: 100 },
-        { date: new Date('07/16/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, score: 100 },
-        { date: new Date('07/17/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100 },
-        { date: new Date('07/17/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100 },
-        { date: new Date('07/17/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, score: 100 }
+        { name: 'Tifffile01.tiff', date: new Date('07/15/2020'), files: 27, input: '/users/name/file/Tifffile01.tiff', result: true, errors: 0, passed: 3, score: 100 },
+        { name: 'Tifffile02.tiff', date: new Date('07/15/2020'), files: 27, input: '/users/name/file/Tifffile02.tiff', result: false, errors: 2, passed: 3, score: 40 },
+        { name: 'Tifffile03.tiff', date: new Date('07/15/2020'), files: 27, input: '/users/name/file/Tifffile03.tiff', result: false, errors: 7, passed: 3, score: 0 },
+        { name: 'Tifffile04.tiff', date: new Date('07/15/2020'), files: 27, input: '/users/name/file/Tifffile04.tiff', result: false, errors: 5, passed: 3, score: 20 },
+        { name: 'Tifffile05.tiff', date: new Date('07/15/2020'), files: 27, input: '/users/name/file/Tifffile05.tiff', result: false, errors: 1, passed: 3, score: 90 },
+        { name: 'Tifffile.tiff', date: new Date('07/15/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100 },
+        { name: 'Tifffile.tiff', date: new Date('07/15/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100 },
+        { name: 'Tifffile.tiff', date: new Date('07/16/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100 },
+        { name: 'Tifffile.tiff', date: new Date('07/17/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100 },
+        { name: 'Tifffile.tiff', date: new Date('08/15/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100 },
+        { name: 'Tifffile.tiff', date: new Date('08/15/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100 },
+        { name: 'Tifffile.tiff', date: new Date('08/15/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100 },
+        { name: 'Tifffile.tiff', date: new Date('08/16/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100 },
+        { name: 'Tifffile06.tiff', date: new Date('08/17/2020'), files: 27, input: '/users/name/file/Tifffile06.tiff', result: false, errors: 2, passed: 3, score: 50 },
+        { name: 'Tifffile.tiff', date: new Date('08/17/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: false, errors: 1, passed: 3, score: 60 }
     ];
     const [reports, setReports] = React.useState(reportsData);
 
@@ -90,6 +74,10 @@ const Reports = () => {
 
             tempReports = tempReports.filter(report => {
                 let reportDate = report.date;
+                reportDate = setHours(reportDate, 0);
+                reportDate = setMinutes(reportDate, 0);
+                reportDate = setSeconds(reportDate, 0);
+                reportDate = setMilliseconds(reportDate, 0);
                 return !isBefore(reportDate, selectedDate);
             });
             setReports(tempReports);
@@ -106,14 +94,26 @@ const Reports = () => {
                 <div>
                     <Box fontSize='h4.fontSize' style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', }}>
                         <img src={RatingsIcon} className={classes.titleIcon} />
-                        <span>Reports</span>
+                        <span>
+                            Reports
+                            {report !== null ?
+                                ": " + report.name
+                                : null
+                            }
+                        </span>
                     </Box>
-                    <span style={{ fontSize: '16px' }}>Click on an item to see the full report</span>
+                    {report === null ?
+                        <span style={{ fontSize: '16px' }}>Click on an item to see the full report</span>
+                        : null
+                    }
                 </div>
             </Typography>
             <Grid container spacing={3}>
                 <Grid item xs={12} lg={11} style={{ display: 'flex', margin: 'auto' }}>
-                    <ReportsTable reports={reports} removeReport={removeReport} removeReportsOlderThan={removeReportsOlderThan} clearReports={clearReports} />
+                    {report === null ?
+                        <ReportsTable reports={reports} removeReport={removeReport} removeReportsOlderThan={removeReportsOlderThan} clearReports={clearReports} setReport={setReport} />
+                        : <ReportDetails report={report} setReport={setReport} />
+                    }
                 </Grid>
             </Grid>
         </>

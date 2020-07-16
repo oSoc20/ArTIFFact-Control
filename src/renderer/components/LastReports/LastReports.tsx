@@ -8,6 +8,8 @@ import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 // Icons
 import RatingsIcon from 'Assets/icons/icons8-ratings-500.svg';
 import { useHistory } from 'react-router-dom';
+import { SidebarAction, setActiveItem } from 'Actions/SidebarAction';
+import { connect } from 'react-redux';
 
 /* STYLE */
 const TableCell = withStyles({
@@ -50,17 +52,22 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
+/* INTERFACES */
+interface LastReportsProps {
+    setActiveItem: (item: string) => void
+}
+
 /* COMPONENT */
-const LastReports = () => {
+const LastReports = (props: LastReportsProps) => {
     const history = useHistory();
     const classes = useStyles();
     var reportsData: Report[] = [
-        { date: new Date('7/07/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100 },
-        { date: new Date('7/07/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, score: 100 },
-        { date: new Date('7/07/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100 },
-        { date: new Date('7/07/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 80 },
-        { date: new Date('7/07/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100 },
-        { date: new Date('7/07/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, score: 100 }
+        { name: 'Tifffile.tiff', date: new Date('7/07/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100 },
+        { name: 'Tifffile.tiff', date: new Date('7/07/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, score: 100 },
+        { name: 'Tifffile.tiff', date: new Date('7/07/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100 },
+        { name: 'Tifffile.tiff', date: new Date('7/07/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 80 },
+        { name: 'Tifffile.tiff', date: new Date('7/07/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100 },
+        { name: 'Tifffile.tiff', date: new Date('7/07/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, score: 100 }
     ];
     const [reports, setReports] = React.useState(reportsData);
 
@@ -72,7 +79,7 @@ const LastReports = () => {
                         <img src={RatingsIcon} style={{ marginRight: '20px', width: '40px' }} />
                         Last reports
                     </Box>
-                    <Button style={{ marginLeft: 'auto', fontWeight: 600, textTransform: 'none' }} onClick={() => history.push('/reports')}>More <ArrowForwardIcon style={{ marginLeft: '3px', fontSize: '20px' }} /></Button>
+                    <Button style={{ marginLeft: 'auto', fontWeight: 600, textTransform: 'none' }} onClick={() => {props.setActiveItem('reports'); history.push('/reports')}}>More <ArrowForwardIcon style={{ marginLeft: '3px', fontSize: '20px' }} /></Button>
                 </Typography>
                 {reports.length > 0 ?
                     <TableContainer style={{ marginTop: '20px' }}>
@@ -118,4 +125,10 @@ const LastReports = () => {
     )
 }
 
-export default (LastReports);
+/* REDUX STORE */
+const mapDispatchToProps = (dispatch: React.Dispatch<SidebarAction>) => ({
+    setActiveItem: (item: string) => dispatch(setActiveItem(item))
+});
+
+// Connect to the Redux store
+export default connect(null, mapDispatchToProps)(LastReports);

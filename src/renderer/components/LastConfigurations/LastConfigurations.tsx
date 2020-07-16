@@ -6,6 +6,8 @@ import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 // Icons
 import SettingsIcon from 'Assets/icons/icons8-settings-500.svg';
 import { useHistory } from 'react-router-dom';
+import { SidebarAction, setActiveItem } from 'Actions/SidebarAction';
+import { connect } from 'react-redux';
 
 /* STYLE */
 const TableCell = withStyles({
@@ -48,8 +50,13 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
+/* INTERFACES */
+interface LastConfigurationsProps {
+    setActiveItem: (item: string) => void
+}
+
 /* COMPONENT */
-const LastConfigurations = () => {
+const LastConfigurations = (props: LastConfigurationsProps) => {
     const history = useHistory();
     const classes = useStyles();
     var configurationsData: Configuration[] = [
@@ -70,7 +77,7 @@ const LastConfigurations = () => {
                         <img src={SettingsIcon} style={{ marginRight: '20px', width: '40px' }} />
                         Configuration
                     </Box>
-                    <Button style={{ marginLeft: 'auto', fontWeight: 600, textTransform: 'none' }} onClick={() => history.push('/configurations')}>More <ArrowForwardIcon style={{ marginLeft: '3px', fontSize: '20px' }} /></Button>
+                    <Button style={{ marginLeft: 'auto', fontWeight: 600, textTransform: 'none' }} onClick={() => {props.setActiveItem('configurations'); history.push('/configurations')}}>More <ArrowForwardIcon style={{ marginLeft: '3px', fontSize: '20px' }} /></Button>
                 </Typography>
                 {configurations.length > 0 ?
                     <TableContainer style={{ marginTop: '20px' }}>
@@ -108,4 +115,10 @@ const LastConfigurations = () => {
     )
 }
 
-export default (LastConfigurations);
+/* REDUX STORE */
+const mapDispatchToProps = (dispatch: React.Dispatch<SidebarAction>) => ({
+    setActiveItem: (item: string) => dispatch(setActiveItem(item))
+});
+
+// Connect to the Redux store
+export default connect(null, mapDispatchToProps)(LastConfigurations);

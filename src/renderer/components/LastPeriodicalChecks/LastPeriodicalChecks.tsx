@@ -6,6 +6,8 @@ import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 // Icons
 import ClockCheckedIcon from 'Assets/icons/icons8-clock-checked-500.svg';
 import { useHistory } from 'react-router-dom';
+import { SidebarAction, setActiveItem } from 'Actions/SidebarAction';
+import { connect } from 'react-redux';
 
 /* STYLE */
 const TableCell = withStyles({
@@ -48,8 +50,13 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
+/* INTERFACES */
+interface LastPeriodicalChecksProps {
+    setActiveItem: (item: string) => void
+}
+
 /* COMPONENT */
-const LastPeriodicalChecks = () => {
+const LastPeriodicalChecks = (props: LastPeriodicalChecksProps) => {
     const history = useHistory();
     const classes = useStyles();
     var periodicalChecksData: PeriodicalCheck[] = [
@@ -68,7 +75,7 @@ const LastPeriodicalChecks = () => {
                         <img src={ClockCheckedIcon} style={{ marginRight: '20px', width: '40px' }} />
                         Periodical Checks
                     </Box>
-                    <Button style={{ marginLeft: 'auto', fontWeight: 600, textTransform: 'none' }} onClick={() => history.push('/periodicalChecks')}>More <ArrowForwardIcon style={{ marginLeft: '3px', fontSize: '20px' }} /></Button>
+                    <Button style={{ marginLeft: 'auto', fontWeight: 600, textTransform: 'none' }} onClick={() => {props.setActiveItem('periodicalChecks'); history.push('/periodicalChecks')}}>More <ArrowForwardIcon style={{ marginLeft: '3px', fontSize: '20px' }} /></Button>
                 </Typography>
                 {periodicalChecks.length > 0 ?
                     <TableContainer style={{ marginTop: '20px' }}>
@@ -114,4 +121,10 @@ const LastPeriodicalChecks = () => {
     )
 }
 
-export default (LastPeriodicalChecks);
+/* REDUX STORE */
+const mapDispatchToProps = (dispatch: React.Dispatch<SidebarAction>) => ({
+    setActiveItem: (item: string) => dispatch(setActiveItem(item))
+});
+
+// Connect to the Redux store
+export default connect(null, mapDispatchToProps)(LastPeriodicalChecks);
