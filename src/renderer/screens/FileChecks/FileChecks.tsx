@@ -2,22 +2,22 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { RootState } from 'Reducers';
-import { FilecheckAction, incrementStep, resetStep } from 'Actions/FileCheckActions';
+import { FilecheckAction, incrementStep, resetStep, goBackOneStep } from 'Actions/FileCheckActions';
 import FileCheckStepper from 'Components/FileCheckStepper/FileCheckStepper';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import Stage1 from './Stage1'
-import { Stage2 } from './Stage2'
-import { Stage3 } from './Stage3'
+import Stage1 from 'Components/FileUploadStages/PickFiles/Stage1'
+import Stage2 from 'Components/FileUploadStages/PickConfiguration/Stage2'
+import Stage3 from 'Components/FileUploadStages/ProcessFiles/Stage3'
 import { Grid, Typography, Box, Paper, Container } from '@material-ui/core';
-// Icons
 import CheckFileIcon from 'Assets/icons/icons8-check-file-500.svg';
 
 /* Typescript interfaces */
 
 interface FilecheckerProps {
-    step: number,
-    progressStep: () => void,
-    resetStep: () => void
+    step: number;
+    progressStep: () => void;
+    resetStep: () => void;
+    goBackOneStep: () => void;
 }
 
 /* Styles */
@@ -74,7 +74,7 @@ const FileChecks = (props: FilecheckerProps) => {
             case 0:
                 return <Stage1 progressStep={props.progressStep} />
             case 1:
-                return <Stage2 />
+                return <Stage2 goBackOneStep={props.goBackOneStep} progressStep={props.progressStep} />
             case 2:
                 return <Stage3 />
             default:
@@ -126,7 +126,8 @@ const mapStateToProps = (state: RootState) => ({
  */
 const mapDispatchToProps = (dispatch: Dispatch<FilecheckAction>) => ({
     progressStep: () => dispatch(incrementStep()),
-    resetStep: () => dispatch(resetStep())
+    resetStep: () => dispatch(resetStep()),
+    goBackOneStep: () => dispatch(goBackOneStep())
 });
 
 // Connect to the Redux store
