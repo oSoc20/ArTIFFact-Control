@@ -97,7 +97,8 @@ const FileDropZone = (props: DropZoneProps) => {
                         fontWeight: 250,
                         fontSize: "36px",
                         lineHeight: "46px",
-                        textAlign: "center"
+                        textAlign: "center",
+                        color: "#282828"
                     }}
                 >Drop .TIFF files here</p>
             }

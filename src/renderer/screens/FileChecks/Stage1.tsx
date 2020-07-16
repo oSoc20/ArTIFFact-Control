@@ -9,6 +9,7 @@ import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import MuiTableCell from '@material-ui/core/TableCell';
 import { Box, TableContainer, TableHead, TableBody, TableRow, Table, withStyles, Typography } from '@material-ui/core';
 import { default as DeleteIcon } from '@material-ui/icons/DeleteForever';
+import TrashIcon from 'Assets/icons/icons8-delete-bin-500.svg'
 
 
 /* Typescript interfaces */
@@ -33,10 +34,11 @@ const useStyles = makeStyles((theme: Theme) =>
             lineHeight: "20px",
             fontWeight: 300,
             marginTop: "2rem",
-            marginLeft: "1rem"
+            marginLeft: "0.5rem",
+            fontFamily: "'DIN 2014'",
         },
         continueButton: {
-            color: "white",
+            color: "#FCFCFC",
             marginTop: "2rem",
             background: "#2A4B5B",
             border: 'none',
@@ -70,7 +72,7 @@ const useStyles = makeStyles((theme: Theme) =>
             fontWeight: 600
         },
         tableContentCell: {
-            fontSize: "18px",
+            fontSize: "14px",
             lineHeight: "25px",
             fontFamily: "Open Sans",
         }
@@ -156,7 +158,7 @@ const Stage1 = (props: Stage1Props) => {
                             <TableHead>
                                 <TableRow className={classes.tableHeadRow}>
                                     <TableCell className={classes.tableHeadCell}>Path</TableCell>
-                                    <TableCell className={classes.tableHeadCell}>size</TableCell>
+                                    <TableCell className={classes.tableHeadCell}>Size</TableCell>
                                     <TableCell className={classes.tableHeadCell} />
                                 </TableRow>
                             </TableHead>
@@ -169,7 +171,9 @@ const Stage1 = (props: Stage1Props) => {
                                             <TableCell className={classes.tableContentCell} >
                                                 <button style={{ background: "none", border: "none" }}
                                                     onClick={() => removeFile(index)}
-                                                ><DeleteIcon /></button>
+                                                >
+                                                    <img src={TrashIcon} style={{width: "22px"}}/>
+                                                </button>
                                             </TableCell>
                                         </TableRow>
                                     );
@@ -189,7 +193,7 @@ const Stage1 = (props: Stage1Props) => {
                         <button
                             className={classes.addButton}
                             onClick={() => fileInput.current?.click()}>+ new file or folder</button>
-                        <button 
+                        <button
                             className={classes.continueButton}
                             onClick={() => props.progressStep()}>Continue</button>
                     </Box>
