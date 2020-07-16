@@ -142,7 +142,7 @@ const tempConfigs: Array<Config> = [
  * This involves selecting a set of policy rules.
  * @param props Props passed in by the parent (FileChecks component)
  */
-export const Stage2 = (props: Stage2Props) => {
+const Stage2 = (props: Stage2Props) => {
     const classes = useStyles();
 
     // React state object that holds the currently selected configuration
@@ -253,3 +253,5 @@ export const Stage2 = (props: Stage2Props) => {
         </>
     );
 }
+
+export default Stage2

@@ -5,9 +5,9 @@ import { RootState } from 'Reducers';
 import { FilecheckAction, incrementStep, resetStep, goBackOneStep } from 'Actions/FileCheckActions';
 import FileCheckStepper from 'Components/FileCheckStepper/FileCheckStepper';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import Stage1 from './Stage1'
-import { Stage2 } from './Stage2'
-import { Stage3 } from './Stage3'
+import Stage1 from 'Components/FileUploadStages/PickFiles/Stage1'
+import Stage2 from 'Components/FileUploadStages/PickConfiguration/Stage2'
+import Stage3 from 'Components/FileUploadStages/ProcessFiles/Stage3'
 import { Grid, Typography, Box, Paper, Container } from '@material-ui/core';
 import FileCheckIcon from 'Assets/icons/icons8-check-file-500.svg'
 
