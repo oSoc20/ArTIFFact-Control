@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box, Divider, makeStyles, createStyles, Theme, LinearProgress, Typography, withStyles } from '@material-ui/core';
+import { Box, Divider, makeStyles, createStyles, Theme, LinearProgress, Typography, withStyles, CircularProgress as Spinner } from '@material-ui/core';
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -11,15 +11,14 @@ const useStyles = makeStyles((theme: Theme) =>
             height: "1px",
             backgroundColor: "#2A4B5B"
         },
-        progressBar: {
-            marginTop: "100px",
-            marginBottom: "150px",
-            marginLeft: "65px",
-            marginRight: "65px",
-            height: "20px",
-            borderRadius: "12px",
-            background: "#E0E0E0"
-        }
+        progressContainer: {
+            margin: "100px 65px 100px",
+            textAlign: "center",
+            "& small": {
+                fontFamily: "'DIN 2014'",
+            }
+        },
+
     })
 );
 
@@ -28,7 +27,7 @@ const ProgressBar = withStyles((theme) => (
         root: {
             height: 20,
             borderRadius: 12,
-            margin: "100px 65px 100px"
+            marginBottom: "3px"
         },
         colorPrimary: {
             backgroundColor: "#E0E0E0"
@@ -39,6 +38,30 @@ const ProgressBar = withStyles((theme) => (
 
     }
 ))(LinearProgress);
+
+
+
+interface CheckProgressProps {
+    current: number;
+    max: number;
+}
+
+const CheckProgress = (props: CheckProgressProps) => {
+    const classes = useStyles();
+
+    const getProgressValue = () => {
+        return props.current * 100 / props.max;
+    }
+
+    const finished = () => props.current === props.max
+
+    return (
+        <div className={classes.progressContainer}>
+            <ProgressBar value={getProgressValue()} variant={"determinate"} />
+            {finished()? <small>Done!</small> : <small><Spinner size={"10px"}/> Checking file {props.current} of {props.max}</small>}
+        </div>
+    );
+}
 
 
 const Stage3 = () => {
@@ -52,7 +75,7 @@ const Stage3 = () => {
                 </Box>
             </Typography>
             <Divider className={classes.divider} />
-            <ProgressBar value={50} variant={"determinate"} />
+            <CheckProgress current={10} max={100} />
         </>
     );
 }
