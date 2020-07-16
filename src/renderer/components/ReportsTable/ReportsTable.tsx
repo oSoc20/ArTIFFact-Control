@@ -233,7 +233,7 @@ const ReportsTable = (props: ReportsTableProps) => {
                             }
                         </Grid>
                         <Grid item xs={4} style={{ display: 'flex', alignItems: 'center' }}>
-                            <Button style={{ fontSize:'16px', textTransform: 'none', marginLeft: 'auto' }} onClick={handleClick("left")}><img src={ClearOptionIcon} style={{ width: '20px', marginRight: '8px' }} /> Clear options</Button>
+                            <Button style={{ fontSize: '16px', textTransform: 'none', marginLeft: 'auto' }} onClick={handleClick("left-end")}><img src={ClearOptionIcon} style={{ width: '20px', marginRight: '8px' }} /> Clear options</Button>
                         </Grid>
                     </Grid>
                     <Popper open={open} anchorEl={anchorEl} placement={placement} style={{ marginRight: '5px' }}>
