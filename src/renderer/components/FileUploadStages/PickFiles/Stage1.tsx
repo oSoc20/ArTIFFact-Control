@@ -8,7 +8,6 @@ import FileDropZone, { formatBytes } from 'Components/FileCheckDropzone/FileChec
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import MuiTableCell from '@material-ui/core/TableCell';
 import { Box, TableContainer, TableHead, TableBody, TableRow, Table, withStyles, Typography } from '@material-ui/core';
-import { default as DeleteIcon } from '@material-ui/icons/DeleteForever';
 import TrashIcon from 'Assets/icons/icons8-delete-bin-500.svg'
 
 
@@ -128,12 +127,13 @@ const Stage1 = (props: Stage1Props) => {
             const fileList = Array.from(inputFiles);
             let newFiles: Array<FileData> = [];
             fileList.forEach(file => {
-                newFiles.push(
-                    {
-                        path: file.path,
-                        size: formatBytes(file.size)
-                    }
-                )
+                let newFile: FileData = {
+                    path: file.path,
+                    size: formatBytes(file.size),
+                }
+                if(!props.files.includes(newFile)) {
+                    newFiles.push(newFile);
+                }
             });
             props.setFiles([...props.files, ...newFiles]);
         }
