@@ -1,5 +1,5 @@
 import { Reducer } from 'redux';
-import { STEP_PROGRESS, FilecheckAction, STEP_RESET, CLEAR_FILES, SET_FILES, FileData } from 'Actions/FileCheckActions';
+import { STEP_PROGRESS, FilecheckAction, STEP_RESET, CLEAR_FILES, SET_FILES, FileData, STEP_GO_BACK } from 'Actions/FileCheckActions';
 
 
 /* Typescript interfaces */
@@ -40,6 +40,11 @@ export const fileCheckReducer: Reducer<FilecheckState, FilecheckAction> = (
             return {
                 ...state,
                 step: 0
+            }
+        case STEP_GO_BACK:
+            return {
+                ...state,
+                step: state.step - 1
             }
         case CLEAR_FILES:
             return {
