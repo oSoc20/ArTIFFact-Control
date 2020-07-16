@@ -63,6 +63,7 @@ const CustomDatePicker = (props: CustomDatePickerProps) => {
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <KeyboardDatePicker
                 autoOk
+                onClose={() => setDatePickerOpen(false)}
                 margin="normal"
                 id="date-picker-dialog"
                 format="dd/MM/yy"

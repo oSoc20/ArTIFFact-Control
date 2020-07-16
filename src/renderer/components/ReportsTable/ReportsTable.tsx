@@ -69,7 +69,9 @@ const useStyles = makeStyles((theme: Theme) =>
 /* INTERFACE */
 interface ReportsTableProps {
     reports: Array<Report>;
-    removeReports: (index: number) => void
+    removeReport: (index: number) => void,
+    removeReportsOlderThan: (date: Date | null) => void,
+    clearReports: () => void
 }
 
 /* COMPONENT */
@@ -78,7 +80,7 @@ const ReportsTable = (props: ReportsTableProps) => {
     const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
     const [open, setOpen] = React.useState(false);
     const [placement, setPlacement] = React.useState<PopperPlacementType>();
-    const [value, setValue] = React.useState('clearAll');
+    const [action, setAction] = React.useState('clearAll');
     const [selectedDate, setSelectedDate] = React.useState<Date | null>(
         new Date()
     );
@@ -91,11 +93,17 @@ const ReportsTable = (props: ReportsTableProps) => {
         setPlacement(newPlacement);
     };
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setValue((event.target as HTMLInputElement).value);
+    const handleActionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setAction((event.target as HTMLInputElement).value);
     };
 
     const handleClear = () => {
+        if (action == 'clearAll') {
+            props.clearReports();
+        } else if (action == 'olderThan') {
+            props.removeReportsOlderThan(selectedDate);
+        }
+
         setOpen(false)
     }
 
@@ -141,7 +149,7 @@ const ReportsTable = (props: ReportsTableProps) => {
                                         {report.score}%
                                     </TableCell>
                                     <TableCell component="th" scope="row">
-                                        <Button onClick={() => props.removeReports(index)}><img src={DeleteBinIcon} style={{ width: '24px' }} /></Button>
+                                        <Button onClick={() => props.removeReport(index)}><img src={DeleteBinIcon} style={{ width: '24px' }} /></Button>
                                     </TableCell>
                                 </StyledTableRow>
                             );
@@ -161,14 +169,14 @@ const ReportsTable = (props: ReportsTableProps) => {
                                     <CloseIcon className={classes.closeIcon} style={{ width: '22px' }} onClick={() => setOpen(false)} />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <RadioGroup aria-label="gender" name="gender1" value={value} onChange={handleChange}>
+                                    <RadioGroup aria-label="action" name="action" value={action} onChange={handleActionChange}>
                                         <FormControlLabel value="clearAll" control={
                                             <Radio color="primary" />
                                         } label={
                                             <Typography>Clear all</Typography>
                                         } />
                                         <FormControlLabel value="olderThan" control={
-                                            <Radio color="primary" value='' />
+                                            <Radio color="primary" />
                                         } label={
                                             <div style={{ display: 'flex', alignItems: 'center' }}>
                                                 <Typography style={{ marginRight: '10px' }}>Older than</Typography>
