@@ -2,7 +2,6 @@ import * as React from 'react';
 import { Box, Divider, makeStyles, createStyles, Theme, LinearProgress, Typography, withStyles, CircularProgress as Spinner } from '@material-ui/core';
 import { RootState } from 'src/renderer/reducers';
 import { connect } from 'react-redux';
-import { FileData } from 'Actions/FileCheckActions';
 import axios from 'axios';
 
 
@@ -97,7 +96,7 @@ const CheckProgress = (props: CheckProgressProps) => {
     return (
         <div className={classes.progressContainer}>
             <ProgressBar value={getProgressValue()} variant={"determinate"} />
-            {finished()? <small>Done!</small> : <small><Spinner size={"10px"}/> Checking file {props.current + 1} of {props.max}</small>}
+            {finished() ? <small>Done!</small> : <small><Spinner size={"10px"} /> Checking file {props.current + 1} of {props.max}</small>}
         </div>
     );
 }
@@ -109,18 +108,24 @@ const CheckProgress = (props: CheckProgressProps) => {
  */
 const Stage3 = (props: Stage3Props) => {
     const classes = useStyles();
-    const {files} = props;
-
-    
+    const { files } = props;
 
     // React state variable and setter that keeps track of the current file index
     const [currentFileIndex, setCurrentFileIndex] = React.useState<number>(0);
 
-    React.useEffect(() => {
-        axios.post(JHOVE_API("jhove/validate"), {
-            module
-        })
-    }, [currentFileIndex])
+    const headers = {
+        // 'Content-Type': 'multipart/form-data'
+    };
+
+    let formData = new FormData();
+    formData.append('module', 'TIFF-opf');
+    formData.append('file', files[0])
+
+    const tryValidateOne = () => {
+        axios.post(JHOVE_API("api/jhove/validate"), formData)
+            .then(res => console.log("HOORAY IT WORKED AND HERE IS RESPONSE FOR YOU", res, { res }))
+            .catch(err => console.log("Oh no we have error, SHAME", err.response));
+    }
 
     // TODO -> Add hooks to connect to JHOVE backend here 
 
@@ -133,6 +138,7 @@ const Stage3 = (props: Stage3Props) => {
             </Typography>
             <Divider className={classes.divider} />
             <CheckProgress current={currentFileIndex} max={files.length} />
+            <button onClick={() => tryValidateOne()}>PLS WORK</button>
         </>
     );
 }
