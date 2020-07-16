@@ -15,13 +15,13 @@ const TableCell = withStyles({
 })(MuiTableCell);
 
 const StyledTableRow = withStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      '&:nth-of-type(odd)': {
-        backgroundColor: theme.palette.action.hover,
-      },
-    },
-  }),
+    createStyles({
+        root: {
+            '&:nth-of-type(odd)': {
+                backgroundColor: theme.palette.action.hover,
+            },
+        },
+    }),
 )(TableRow);
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -53,12 +53,12 @@ const LastConfigurations = () => {
     const history = useHistory();
     const classes = useStyles();
     var configurationsData: Configuration[] = [
-        {name: 'Default', implementation: 'Baseline TIFF 6.0'},
-        {name: 'Special', implementation: 'Extended TIFF 6.0'},
-        {name: 'Special', implementation: 'Extended TIFF 6.0'},
-        {name: 'Special', implementation: 'Extended TIFF 6.0'},
-        {name: 'Special', implementation: 'Extended TIFF 6.0'},
-        {name: 'Special', implementation: 'Extended TIFF 6.0'}
+        { name: 'Default', implementation: 'Baseline TIFF 6.0' },
+        { name: 'Special', implementation: 'Extended TIFF 6.0' },
+        { name: 'Special', implementation: 'Extended TIFF 6.0' },
+        { name: 'Special', implementation: 'Extended TIFF 6.0' },
+        { name: 'Special', implementation: 'Extended TIFF 6.0' },
+        { name: 'Special', implementation: 'Extended TIFF 6.0' }
     ];
     const [configurations, setConfigurations] = React.useState(configurationsData);
 
@@ -72,34 +72,37 @@ const LastConfigurations = () => {
                     </Box>
                     <Button style={{ marginLeft: 'auto', fontWeight: 600, textTransform: 'none' }} onClick={() => history.push('/configurations')}>More <ArrowForwardIcon style={{ marginLeft: '3px', fontSize: '20px' }} /></Button>
                 </Typography>
-                <TableContainer style={{ marginTop: '20px' }}>
-                    <Table aria-label="span" size="small">
-                        <TableHead>
-                            <TableRow className={classes.tableHeadRow}>
-                                <TableCell className={classes.tableHeadCell}>Name</TableCell>
-                                <TableCell className={classes.tableHeadCell}>Implementation</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {configurations.map((row, index) => {
-                                const opacity = index < configurations.length - 2 ? { opacity: 1 }
-                                    : index === configurations.length - 2 ? { opacity: 0.6 }
-                                        : { opacity: 0.3 };
+                {configurations.length > 0 ?
+                    <TableContainer style={{ marginTop: '20px' }}>
+                        <Table aria-label="span" size="small">
+                            <TableHead>
+                                <TableRow className={classes.tableHeadRow}>
+                                    <TableCell className={classes.tableHeadCell}>Name</TableCell>
+                                    <TableCell className={classes.tableHeadCell}>Implementation</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {configurations.map((row, index) => {
+                                    const opacity = index < configurations.length - 2 ? { opacity: 1 }
+                                        : index === configurations.length - 2 ? { opacity: 0.6 }
+                                            : { opacity: 0.3 };
 
-                                return (
-                                    <StyledTableRow key={index} style={opacity}>
-                                        <TableCell component="th" scope="row">
-                                            {row.name}
-                                        </TableCell>
-                                        <TableCell component="th" scope="row">
-                                            {row.implementation}
-                                        </TableCell>
-                                    </StyledTableRow>
-                                );
-                            })}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
+                                    return (
+                                        <StyledTableRow key={index} style={opacity}>
+                                            <TableCell component="th" scope="row">
+                                                {row.name}
+                                            </TableCell>
+                                            <TableCell component="th" scope="row">
+                                                {row.implementation}
+                                            </TableCell>
+                                        </StyledTableRow>
+                                    );
+                                })}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                    : <Typography style={{marginTop: '15px'}}>No data found.</Typography>
+                }
             </Paper>
         </>
     )

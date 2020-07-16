@@ -15,13 +15,13 @@ const TableCell = withStyles({
 })(MuiTableCell);
 
 const StyledTableRow = withStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      '&:nth-of-type(odd)': {
-        backgroundColor: theme.palette.action.hover,
-      },
-    },
-  }),
+    createStyles({
+        root: {
+            '&:nth-of-type(odd)': {
+                backgroundColor: theme.palette.action.hover,
+            },
+        },
+    }),
 )(TableRow);
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -53,10 +53,10 @@ const LastPeriodicalChecks = () => {
     const history = useHistory();
     const classes = useStyles();
     var periodicalChecksData: PeriodicalCheck[] = [
-        {files: 1, input: '/users/name/file/Tifffile.tiff', configuration: 'Default', periodicity: 'Daily, at 12:30'},
-        {files: 12, input: '/users/name/file/', configuration: 'Default', periodicity: 'Weekly, at 12:30'},
-        {files: 7, input: '/users/name/file/', configuration: 'Default', periodicity: 'Weekly, at 12:30'},
-        {files: 3, input: '/users/name/file/', configuration: 'Default', periodicity: 'Weekly, at 12:30'}
+        { files: 1, input: '/users/name/file/Tifffile.tiff', configuration: 'Default', periodicity: 'Daily, at 12:30' },
+        { files: 12, input: '/users/name/file/', configuration: 'Default', periodicity: 'Weekly, at 12:30' },
+        { files: 7, input: '/users/name/file/', configuration: 'Default', periodicity: 'Weekly, at 12:30' },
+        { files: 3, input: '/users/name/file/', configuration: 'Default', periodicity: 'Weekly, at 12:30' }
     ];
     const [periodicalChecks, setPeriodicalChecks] = React.useState(periodicalChecksData);
 
@@ -70,42 +70,45 @@ const LastPeriodicalChecks = () => {
                     </Box>
                     <Button style={{ marginLeft: 'auto', fontWeight: 600, textTransform: 'none' }} onClick={() => history.push('/periodicalChecks')}>More <ArrowForwardIcon style={{ marginLeft: '3px', fontSize: '20px' }} /></Button>
                 </Typography>
-                <TableContainer style={{ marginTop: '20px' }}>
-                    <Table aria-label="span" size="small">
-                        <TableHead>
-                            <TableRow className={classes.tableHeadRow}>
-                                <TableCell className={classes.tableHeadCell}>Files</TableCell>
-                                <TableCell className={classes.tableHeadCell}>Input</TableCell>
-                                <TableCell className={classes.tableHeadCell}>Configuration</TableCell>
-                                <TableCell className={classes.tableHeadCell}>Periodicity</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {periodicalChecks.map((row, index) => {
-                                const opacity = index < periodicalChecks.length - 2 ? { opacity: 1 }
-                                    : index === periodicalChecks.length - 2 ? { opacity: 0.6 }
-                                        : { opacity: 0.3 };
+                {periodicalChecks.length > 0 ?
+                    <TableContainer style={{ marginTop: '20px' }}>
+                        <Table aria-label="span" size="small">
+                            <TableHead>
+                                <TableRow className={classes.tableHeadRow}>
+                                    <TableCell className={classes.tableHeadCell}>Files</TableCell>
+                                    <TableCell className={classes.tableHeadCell}>Input</TableCell>
+                                    <TableCell className={classes.tableHeadCell}>Configuration</TableCell>
+                                    <TableCell className={classes.tableHeadCell}>Periodicity</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {periodicalChecks.map((row, index) => {
+                                    const opacity = index < periodicalChecks.length - 2 ? { opacity: 1 }
+                                        : index === periodicalChecks.length - 2 ? { opacity: 0.6 }
+                                            : { opacity: 0.3 };
 
-                                return (
-                                    <StyledTableRow key={index} style={opacity}>
-                                        <TableCell component="th" scope="row">
-                                            {row.files}
-                                        </TableCell>
-                                        <TableCell component="th" scope="row">
-                                            {row.input}
-                                        </TableCell>
-                                        <TableCell component="th" scope="row">
-                                            {row.configuration}
-                                        </TableCell>
-                                        <TableCell component="th" scope="row">
-                                            {row.periodicity}
-                                        </TableCell>
-                                    </StyledTableRow>
-                                );
-                            })}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
+                                    return (
+                                        <StyledTableRow key={index} style={opacity}>
+                                            <TableCell component="th" scope="row">
+                                                {row.files}
+                                            </TableCell>
+                                            <TableCell component="th" scope="row">
+                                                {row.input}
+                                            </TableCell>
+                                            <TableCell component="th" scope="row">
+                                                {row.configuration}
+                                            </TableCell>
+                                            <TableCell component="th" scope="row">
+                                                {row.periodicity}
+                                            </TableCell>
+                                        </StyledTableRow>
+                                    );
+                                })}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                    : <Typography style={{marginTop: '15px'}}>No data found.</Typography>
+                }
             </Paper>
         </>
     )
