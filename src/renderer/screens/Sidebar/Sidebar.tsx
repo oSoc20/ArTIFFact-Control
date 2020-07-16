@@ -91,10 +91,6 @@ const Sidebar = (props: SidebarProps) => {
         { name: 'About', link: 'about', icon: HelpIcon }
     ];
 
-    // Change current item if pathname is different
-    // if (history.location.pathname !== '/' + props.activeItem)
-        // props.setActiveItem(history.location.pathname.replace('/', ''));
-
     const renderItems = (items: any[]): any => {
         return items.map((item: SidebarItem, index: number) => (
             <ListItem button key={index} classes={{ selected: classes.selected }} style={listItem} selected={props.activeItem === item.link} onClick={() => goToPath(item)}>
