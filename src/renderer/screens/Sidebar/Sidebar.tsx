@@ -92,8 +92,8 @@ const Sidebar = (props: SidebarProps) => {
     ];
 
     // Change current item if pathname is different
-    if (history.location.pathname !== '/' + props.activeItem)
-        props.setActiveItem(history.location.pathname.replace('/', ''));
+    // if (history.location.pathname !== '/' + props.activeItem)
+        // props.setActiveItem(history.location.pathname.replace('/', ''));
 
     const renderItems = (items: any[]): any => {
         return items.map((item: SidebarItem, index: number) => (
