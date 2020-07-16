@@ -8,7 +8,7 @@ import { Button } from '@material-ui/core';
 /* Typescript interfaces */
 
 interface DropZoneProps {
-    updateFiles: any;
+    updateFiles: (files: Array<File>) => void;
 }
 
 /* Styles */
@@ -62,17 +62,8 @@ const FileDropZone = (props: DropZoneProps) => {
      * Adds the files to the Redux store using the function that is passed in
      * with the props.
      */
-    const onDrop = React.useCallback(acceptedFiles => {
-        let acceptedFilesArray: Array<any> = Object.keys(acceptedFiles).map((key) => acceptedFiles[key]);
-        let files: Array<FileData> = [];
-        acceptedFilesArray.forEach((file) => {
-            files.push({
-                path: file.path,
-                size: formatBytes(file.size)
-            })
-        });
-        props.updateFiles(files);
-
+    const onDrop = React.useCallback((acceptedFiles: Array<File>) => {
+        props.updateFiles(acceptedFiles);
     }, []);
 
     // Destructure the things we need

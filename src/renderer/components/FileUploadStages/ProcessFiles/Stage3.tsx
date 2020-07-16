@@ -3,7 +3,14 @@ import { Box, Divider, makeStyles, createStyles, Theme, LinearProgress, Typograp
 import { RootState } from 'src/renderer/reducers';
 import { connect } from 'react-redux';
 import { FileData } from 'Actions/FileCheckActions';
+import axios from 'axios';
 
+
+const JHOVE_API_BASE = "https://soc.openpreservation.org/"
+
+const JHOVE_API = (endpoint: string) => {
+    return `${JHOVE_API_BASE}${endpoint}`;
+}
 
 /* Typescript interfaces */
 
@@ -13,7 +20,12 @@ interface CheckProgressProps {
 }
 
 interface Stage3Props {
-    files: Array<FileData>;
+    files: Array<File>;
+}
+
+interface JHOVE_validationArgs {
+    moduleName: string;
+    file: File;
 }
 
 
@@ -99,8 +111,16 @@ const Stage3 = (props: Stage3Props) => {
     const classes = useStyles();
     const {files} = props;
 
+    
+
     // React state variable and setter that keeps track of the current file index
     const [currentFileIndex, setCurrentFileIndex] = React.useState<number>(0);
+
+    React.useEffect(() => {
+        axios.post(JHOVE_API("jhove/validate"), {
+            module
+        })
+    }, [currentFileIndex])
 
     // TODO -> Add hooks to connect to JHOVE backend here 
 
