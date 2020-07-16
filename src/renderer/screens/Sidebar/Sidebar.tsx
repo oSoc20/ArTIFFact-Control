@@ -1,7 +1,10 @@
 import * as React from 'react';
 import { Drawer, List, ListItem, ListItemText } from '@material-ui/core';
-import { makeStyles, Theme, createStyles, withStyles } from '@material-ui/core/styles';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { useHistory } from "react-router-dom";
+import { RootState } from 'src/renderer/reducers';
+import { connect } from 'react-redux';
+import { SidebarAction, setActiveItem } from 'Actions/SidebarAction';
 // Icons
 import LogoWithLabel from 'Assets/logos/logoWithLabel.svg';
 import HomeIcon from 'Assets/icons/icons8-home-500.svg';
@@ -62,37 +65,48 @@ const whiteIcon = {
     filter: 'grayscale(1) invert(1) contrast(500%)'
 }
 
-/* ITEMS */
-const middleItems = [
-    { name: 'Dashboard', link: 'dashboard', icon: HomeIcon },
-    { name: 'File checks', link: 'fileChecks', icon: CheckFileIcon },
-    { name: 'Reports', link: 'reports', icon: RatingsIcon },
-    { name: 'Configurations', link: 'configurations', icon: SettingsIcon },
-    { name: 'Periodical checks', link: 'periodicalChecks', icon: ClockCheckedIcon },
-    { name: 'Conformance checks', link: 'conformanceChecks', icon: StatisticsReportIcon },
-    { name: 'Statistics', link: 'statistics', icon: ComboChartIcon }
-];
-
-const bottomItems = [
-    { name: 'Help', link: 'help', icon: InfoIcon },
-    { name: 'About', link: 'about', icon: HelpIcon }
-];
-
-/* FUNCTIONS */
-function renderItems(items: any[], selectedItem: string, setSelectedItem: any, classes: any, history: any): any {
-    return items.map((item, index) => (
-        <ListItem button key={index} classes={{ selected: classes.selected }} style={listItem} selected={selectedItem === item.link} onClick={() => { setSelectedItem(item.link); history.push('/' + item.link); }}>
-            <img src={item.icon} style={selectedItem !== item.link ? whiteIcon : blackIcon} />
-            <ListItemText><span style={{ fontSize: '18px' }}>{item.name}</span></ListItemText>
-        </ListItem>
-    ));
+/* INTERFACES */
+interface SidebarProps {
+    activeItem: string,
+    setActiveItem: (item: string) => void
 }
 
 /* COMPONENT */
-const Sidebar = () => {
+const Sidebar = (props: SidebarProps) => {
     const classes = useStyles();
     const history = useHistory();
-    const [selectedItem, setSelectedItem] = React.useState("dashboard");
+
+    const middleItems: SidebarItem[] = [
+        { name: 'Dashboard', link: 'dashboard', icon: HomeIcon },
+        { name: 'File checks', link: 'fileChecks', icon: CheckFileIcon },
+        { name: 'Reports', link: 'reports', icon: RatingsIcon },
+        { name: 'Configurations', link: 'configurations', icon: SettingsIcon },
+        { name: 'Periodical checks', link: 'periodicalChecks', icon: ClockCheckedIcon },
+        { name: 'Conformance checks', link: 'conformanceChecks', icon: StatisticsReportIcon },
+        { name: 'Statistics', link: 'statistics', icon: ComboChartIcon }
+    ];
+
+    const bottomItems: SidebarItem[] = [
+        { name: 'Help', link: 'help', icon: InfoIcon },
+        { name: 'About', link: 'about', icon: HelpIcon }
+    ];
+
+    // Change current item if pathname is different
+    // if (history.location.pathname !== '/' + props.activeItem)
+        // props.setActiveItem(history.location.pathname.replace('/', ''));
+
+    const renderItems = (items: any[]): any => {
+        return items.map((item: SidebarItem, index: number) => (
+            <ListItem button key={index} classes={{ selected: classes.selected }} style={listItem} selected={props.activeItem === item.link} onClick={() => goToPath(item)}>
+                <img src={item.icon} style={props.activeItem !== item.link ? whiteIcon : blackIcon} />
+                <ListItemText><span style={{ fontSize: '18px' }}>{item.name}</span></ListItemText>
+            </ListItem>
+        ));
+    }
+
+    const goToPath = (item: SidebarItem) => {
+        props.setActiveItem(item.link); history.push('/' + item.link);
+    }
 
     return (
         <nav className={classes.drawer} aria-label="sidebar">
@@ -109,14 +123,24 @@ const Sidebar = () => {
                     </ListItem>
                 </List>
                 <List disablePadding dense style={{ flex: 1 }}>
-                    {renderItems(middleItems, selectedItem, setSelectedItem, classes, history)}
+                    {renderItems(middleItems)}
                 </List>
                 <List disablePadding dense style={{ flex: 'none', marginBottom: '22px' }}>
-                    {renderItems(bottomItems, selectedItem, setSelectedItem, classes, history)}
+                    {renderItems(bottomItems)}
                 </List>
             </Drawer>
         </nav>
     );
 };
 
-export default (Sidebar);
+/* Redux functions */
+const mapStateToProps = (state: RootState) => ({
+    activeItem: state.sidebar.activeItem
+});
+
+const mapDispatchToProps = (dispatch: React.Dispatch<SidebarAction>) => ({
+    setActiveItem: (item: string) => dispatch(setActiveItem(item))
+});
+
+// Connect to the Redux store
+export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);

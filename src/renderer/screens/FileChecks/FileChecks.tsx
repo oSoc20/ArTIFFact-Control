@@ -9,8 +9,7 @@ import Stage1 from 'Components/FileUploadStages/PickFiles/Stage1'
 import Stage2 from 'Components/FileUploadStages/PickConfiguration/Stage2'
 import Stage3 from 'Components/FileUploadStages/ProcessFiles/Stage3'
 import { Grid, Typography, Box, Paper, Container } from '@material-ui/core';
-import FileCheckIcon from 'Assets/icons/icons8-check-file-500.svg'
-
+import CheckFileIcon from 'Assets/icons/icons8-check-file-500.svg';
 
 /* Typescript interfaces */
 
@@ -25,6 +24,10 @@ interface FilecheckerProps {
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         title: {
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+
             textAlign: "center",
             marginTop: "2rem",
             marginBottom: "3rem",
@@ -33,7 +36,11 @@ const useStyles = makeStyles((theme: Theme) =>
             fontWeight: "normal",
             fontSize: "36px",
             lineHeight: "46px",
-            color: "#2A4B5B",
+            color: "#2A4B5B"
+        },
+        titleIcon: {
+            width: '50px',
+            marginRight: '20px'
         },
         stepperContainer: {
             display: "block",
@@ -77,9 +84,10 @@ const FileChecks = (props: FilecheckerProps) => {
 
     return (
         <>
-            <Typography component="span" gutterBottom>
-                <Box fontSize='h4.fontSize' className={classes.title} >
-                    <img src={FileCheckIcon} alt="file check icon" /> File checks
+            <Typography component="span" gutterBottom className={classes.title}>
+                <Box fontSize='h4.fontSize' style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', }}>
+                    <img src={CheckFileIcon} className={classes.titleIcon} />
+                    <span>File checks</span>
                 </Box>
             </Typography>
             <Grid container spacing={3}>
