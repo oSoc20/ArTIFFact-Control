@@ -9,9 +9,22 @@ import PlusIcon from 'Assets/icons/icons8-plus-math-500.svg';
 import BackArrow from 'Assets/icons/icons8-arrow-500.svg';
 
 
+/* Typescript interfaces */
+
 interface Stage2Props {
     goBackOneStep: () => void;
+    progressStep: () => void;
 }
+
+interface Config {
+    name: string;
+    implementation: string;
+    policy: Array<string>;
+    report: Array<string>
+}
+
+
+/* Styling */
 
 const StyledTableRow = withStyles((theme: Theme) =>
     createStyles({
@@ -19,17 +32,26 @@ const StyledTableRow = withStyles((theme: Theme) =>
             '&:nth-of-type(odd)': {
                 backgroundColor: theme.palette.action.hover,
             },
-            '&:selected, &:hover': {
-                background: "blue"
-            }
-        }
+            '&$selected': {
+                backgroundColor: "#2A4B5B",
+            },
+            '&:hover': {
+                '&$selected': {
+                    backgroundColor: "#2A4B5B"
+                },
+            },
+        },
+        selected: {},
+        hover: {}
     }),
 )(TableRow);
 
- 
+
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        selected: {},
+        selected: {
+            color: " #FCFCFC"
+        },
         tableContainer: {
             maxHeight: 200
         },
@@ -40,11 +62,6 @@ const useStyles = makeStyles((theme: Theme) =>
             color: '#39657B',
             fontWeight: 600
         },
-        tableContentRow: {
-            "&:selected": {
-                color:"pink"
-            }
-        },
         tableContentCell: {
             fontSize: "18px",
             lineHeight: "25px",
@@ -52,7 +69,7 @@ const useStyles = makeStyles((theme: Theme) =>
             verticalAlign: "top",
         },
         typography: {
-            fontSize: 14
+            fontSize: 14,
         },
         confirmButton: {
             backgroundColor: "#2A4B5B",
@@ -93,10 +110,6 @@ const useStyles = makeStyles((theme: Theme) =>
             border: "none",
             cursor: "pointer",
             marginTop: "20px"
-        },
-        selectedRow: {
-            backgroundColor: "black",
-            fontSize: "200"
         }
     })
 );
@@ -109,13 +122,11 @@ const TableCell = withStyles({
     }
 })(MuiTableCell);
 
-interface Config {
-    name: string;
-    implementation: string;
-    policy: Array<string>;
-    report: Array<string>
-}
 
+
+/* Functions and components */
+
+// Temporary array of configs. In a later version, the configs will be stored somewhere on disk
 const tempConfigs: Array<Config> = [
     { name: "Default", implementation: "Baseline TIFF 6.0", policy: ["IccProfileClass = Input", "ImageWidth > 500", "ImageHeight > 300"], report: ["Json, PDF"] },
     { name: "Extended", implementation: "Baseline TIFF 6.0", policy: [], report: ["Json", "PDF"] },
@@ -126,18 +137,31 @@ const tempConfigs: Array<Config> = [
 
 ]
 
-const selectedRow = {}
-
-export const Stage2 = (props: Stage2Props) => {
+/**
+ * The component that handles the rendering of stage 2 of file checks.
+ * This involves selecting a set of policy rules.
+ * @param props Props passed in by the parent (FileChecks component)
+ */
+const Stage2 = (props: Stage2Props) => {
     const classes = useStyles();
 
+    // React state object that holds the currently selected configuration
+    // Maybe put this in Redux store in order to use at next stage
     let [currentSelected, setCurrent] = React.useState<null | number>(null);
 
+    /**
+     * Handles the selection procedure of table entries.
+     * @param selectedIndex the index of the clicked row
+     */
     const handleSelect = (selectedIndex: number) => {
         setCurrent(selectedIndex);
-        console.log("Setting current selected to", selectedIndex);
     }
 
+    /**
+     * Create a string representation that displays the possible types of created reports.
+     * @param reports array of strings that contains the allowed report types.
+     * @returns string of the following format: 'TYPE 1, TYPE 2, ... TYPE N'
+     */
     const getReports = (reports: Array<string>) => {
         let result: string = "";
         reports.forEach((report) => {
@@ -173,24 +197,22 @@ export const Stage2 = (props: Stage2Props) => {
                                     key={index}
                                     onClick={() => handleSelect(index)}
                                     selected={index === currentSelected}
-                                    className={classes.tableContentRow}
-                                    >
-
-                                    <TableCell className={classes.tableContentCell}>
+                                >
+                                    <TableCell className={`${classes.tableContentCell} ${index === currentSelected ? classes.selected : ""}`}>
                                         <Typography className={classes.typography}>{config.name}</Typography>
                                     </TableCell>
-                                    <TableCell className={classes.tableContentCell}>
+                                    <TableCell className={`${classes.tableContentCell} ${index === currentSelected ? classes.selected : ""}`}>
                                         <Typography className={classes.typography}>{config.implementation}</Typography>
                                     </TableCell>
-                                    <TableCell className={classes.tableContentCell} >
+                                    <TableCell className={`${classes.tableContentCell} ${index === currentSelected ? classes.selected : ""}`}>
                                         {config.policy.map((policy, index) => {
                                             return (<Typography key={index} className={classes.typography}>{policy}</Typography>);
                                         })}
                                     </TableCell>
-                                    <TableCell className={classes.tableContentCell} >
+                                    <TableCell className={`${classes.tableContentCell} ${index === currentSelected ? classes.selected : ""}`} >
                                         {getReports(config.report)}
                                     </TableCell>
-                                    <TableCell className={classes.tableContentCell} >
+                                    <TableCell className={`${classes.tableContentCell} ${index === currentSelected ? classes.selected : ""}`} >
                                         <button
                                             style={{
                                                 border: "none",
@@ -224,10 +246,12 @@ export const Stage2 = (props: Stage2Props) => {
                          new
                     </Typography>
                 </button>
-                <button disabled={currentSelected == null? true : false} className={classes.confirmButton}>
-                    {currentSelected == null? <>No configuration selected</> : <>Continue</>}
+                <button disabled={currentSelected == null ? true : false} className={classes.confirmButton} onClick={() => props.progressStep()}>
+                    {currentSelected == null ? <>No configuration selected</> : <>Check files</>}
                 </button>
             </Box>
         </>
     );
 }
+
+export default Stage2
