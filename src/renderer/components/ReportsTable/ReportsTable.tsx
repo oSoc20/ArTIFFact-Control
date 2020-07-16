@@ -1,10 +1,9 @@
 import * as React from 'react';
 // Material UI
-import { Paper, makeStyles, Theme, createStyles, TableContainer, Table, TableHead, TableRow, withStyles, TableBody, Button, Popper, Fade, Typography, PopperPlacementType, FormControlLabel, Radio, Grid, RadioGroup } from '@material-ui/core';
+import { Paper, makeStyles, Theme, createStyles, TableContainer, Table, TableHead, TableRow, withStyles, TableBody, Button, Popper, Typography, PopperPlacementType, FormControlLabel, Radio, Grid, RadioGroup, ClickAwayListener } from '@material-ui/core';
 import MuiTableCell from "@material-ui/core/TableCell";
 import CustomDatePicker from 'Components/CustomDatePicker/CustomDatePicker';
 // Icons
-import EventNoteIcon from '@material-ui/icons/EventNote';
 import CheckIcon from '@material-ui/icons/Check';
 import ClearIcon from '@material-ui/icons/Clear';
 import CloseIcon from '@material-ui/icons/Close';
@@ -156,6 +155,12 @@ const ReportsTable = (props: ReportsTableProps) => {
 
     useEffect(() => {
         setPagination();
+        const handleEsc = (event: any) => {
+            if (event.keyCode === 27) {
+                setOpen(false);
+            }
+        };
+        window.addEventListener('keydown', handleEsc);
     }, [props.reports]);
 
     return <>
@@ -228,41 +233,39 @@ const ReportsTable = (props: ReportsTableProps) => {
                             }
                         </Grid>
                         <Grid item xs={4} style={{ display: 'flex', alignItems: 'center' }}>
-                            <Button style={{ fontSize: '14px', textTransform: 'none', marginLeft: 'auto' }} onClick={handleClick("left")}><img src={ClearOptionIcon} style={{ width: '20px', marginRight: '8px' }} /> Clear options</Button>
+                            <Button style={{ fontSize:'16px', textTransform: 'none', marginLeft: 'auto' }} onClick={handleClick("left")}><img src={ClearOptionIcon} style={{ width: '20px', marginRight: '8px' }} /> Clear options</Button>
                         </Grid>
                     </Grid>
-                    <Popper open={open} anchorEl={anchorEl} placement={placement} style={{ marginRight: '5px' }} transition>
-                        {({ TransitionProps }) => (
-                            <Fade {...TransitionProps} timeout={200}>
-                                <Paper className={classes.popup}>
-                                    <Grid container>
-                                        <Grid item xs={12} style={{ textAlign: 'right' }}>
-                                            <CloseIcon className={classes.closeIcon} style={{ width: '22px' }} onClick={() => setOpen(false)} />
-                                        </Grid>
-                                        <Grid item xs={12}>
-                                            <RadioGroup aria-label="action" name="action" value={action} onChange={handleActionChange}>
-                                                <FormControlLabel value="clearAll" control={
-                                                    <Radio color="primary" />
-                                                } label={
-                                                    <Typography>Clear all</Typography>
-                                                } />
-                                                <FormControlLabel value="olderThan" control={
-                                                    <Radio color="primary" />
-                                                } label={
-                                                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                                                        <Typography style={{ marginRight: '10px' }}>Older than</Typography>
-                                                        <div style={{ width: '160px' }}><CustomDatePicker selectedDate={selectedDate} setSelectedDate={setSelectedDate} /></div>
-                                                    </div>
-                                                } />
-                                            </RadioGroup>
-                                        </Grid>
-                                        <Grid item xs={12} style={{ textAlign: 'right', marginTop: '10px' }}>
-                                            <Button variant="contained" color="primary" style={{ textTransform: 'none', borderRadius: '5px' }} onClick={handleClear}>Clear</Button>
-                                        </Grid>
+                    <Popper open={open} anchorEl={anchorEl} placement={placement} style={{ marginRight: '5px' }}>
+                        <ClickAwayListener onClickAway={() => setOpen(false)}>
+                            <Paper className={classes.popup}>
+                                <Grid container>
+                                    <Grid item xs={12} style={{ textAlign: 'right' }}>
+                                        <CloseIcon className={classes.closeIcon} style={{ width: '22px' }} onClick={() => setOpen(false)} />
                                     </Grid>
-                                </Paper>
-                            </Fade>
-                        )}
+                                    <Grid item xs={12}>
+                                        <RadioGroup aria-label="action" name="action" value={action} onChange={handleActionChange}>
+                                            <FormControlLabel value="clearAll" control={
+                                                <Radio color="primary" />
+                                            } label={
+                                                <Typography style={{fontSize:'16px'}}>Clear all</Typography>
+                                            } />
+                                            <FormControlLabel value="olderThan" control={
+                                                <Radio color="primary" />
+                                            } label={
+                                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                    <Typography style={{ fontSize:'16px', marginRight: '10px' }}>Older than</Typography>
+                                                    <div style={{ width: '160px' }}><CustomDatePicker selectedDate={selectedDate} setSelectedDate={setSelectedDate} /></div>
+                                                </div>
+                                            } />
+                                        </RadioGroup>
+                                    </Grid>
+                                    <Grid item xs={12} style={{ textAlign: 'right', marginTop: '10px' }}>
+                                        <Button variant="contained" color="primary" style={{ textTransform: 'none', borderRadius: '5px' }} onClick={handleClear}>Clear</Button>
+                                    </Grid>
+                                </Grid>
+                            </Paper>
+                        </ClickAwayListener>
                     </Popper>
                 </>
                 : <Typography>No data found.</Typography>
