@@ -1,8 +1,10 @@
 import * as React from 'react';
 import { Box, Divider, makeStyles, createStyles, Theme, LinearProgress, Typography, withStyles, CircularProgress as Spinner } from '@material-ui/core';
-import { RootState } from 'src/renderer/reducers';
+import { RootState } from 'Reducers';
 import { connect } from 'react-redux';
-import axios from 'axios';
+import { Dispatch } from 'redux'
+import axios, { AxiosResponse } from 'axios';
+import { resetStep, FilecheckAction, clearFiles } from 'Actions/FileCheckActions';
 
 
 const JHOVE_API_BASE = "https://soc.openpreservation.org/"
@@ -20,11 +22,36 @@ interface CheckProgressProps {
 
 interface Stage3Props {
     files: Array<File>;
+    resetStep: () => void;
+    clearFiles: () => void;
 }
 
-interface JHOVE_validationArgs {
-    moduleName: string;
-    file: File;
+interface Message {
+    message: string;
+    prefix: string;
+    subMessage: string;
+    jhoveMessage: {
+        subMessage: string;
+        message: string;
+        id: string;
+    }
+    id: string;
+    offset: number
+}
+
+interface ValidationResponse {
+    checksums: Array<{ type: string; value: string }>;
+    created: string | null;
+    fileName: string;
+    format: string | null;
+    lastMod: string | null;
+    message: string;
+    messages: Array<Message>;
+    mimeType: string | null;
+    sigMatches: Array<any>;
+    size: number;
+    valid: number;
+    wellFormed: number;
 }
 
 
@@ -112,33 +139,69 @@ const Stage3 = (props: Stage3Props) => {
 
     // React state variable and setter that keeps track of the current file index
     const [currentFileIndex, setCurrentFileIndex] = React.useState<number>(0);
+    const [responseObjects, setResponseObjects] = React.useState<Array<ValidationResponse>>([]);
+    const [processFinished, setFinishState] = React.useState<boolean>(false);
+    const [showResult, setShowResult] = React.useState<boolean>(false);
 
-    const headers = {
-        // 'Content-Type': 'multipart/form-data'
-    };
 
-    let formData = new FormData();
-    formData.append('module', 'TIFF-opf');
-    formData.append('file', files[0])
-
-    const tryValidateOne = () => {
-        axios.post(JHOVE_API("api/jhove/validate"), formData)
-            .then(res => console.log("HOORAY IT WORKED AND HERE IS RESPONSE FOR YOU", res, { res }))
-            .catch(err => console.log("Oh no we have error, SHAME", err.response));
+    const validateNextFile = () => {
+        if (currentFileIndex < files.length && !processFinished) {
+            let formData = new FormData();
+            formData.append('module', 'TIFF-opf');
+            formData.append('file', files[currentFileIndex]);
+            axios.post(JHOVE_API("api/jhove/validate"), formData)
+                .then(async (res: AxiosResponse) => {
+                    console.log("Processed file ", currentFileIndex, responseObjects);
+                    let data: ValidationResponse = res.data;
+                    setResponseObjects([...responseObjects, data]);
+                    setCurrentFileIndex(currentFileIndex + 1);
+                })
+        }
+        else {
+            setFinishState(true);
+        }
     }
 
-    // TODO -> Add hooks to connect to JHOVE backend here 
+    React.useEffect(() => {
+        validateNextFile();
+
+        // Function called upon unmounting.
+        // Function also gets called in between render cycles.
+        // Only reset progress if rendering is done == the checking process has finished
+        return () => {
+            if (processFinished) {
+                props.resetStep();
+                props.clearFiles();
+            }
+        }
+
+    }, [currentFileIndex, processFinished]);
+
+
+    const renderResults = () => {
+        console.log(responseObjects);
+        return (
+            <>
+                {responseObjects.map((response, index) => {
+                    return (
+                        <pre key={index}>
+                            {JSON.stringify(response, undefined, 2)}
+                        </pre>
+                    );
+                })}
+            </>);
+    }
 
     return (
         <>
             <Typography component="span" gutterBottom>
                 <Box fontSize='h6.fontSize' style={{ marginBottom: '22px', textAlign: "center" }}>
-                    Checking the files...
+                    {(processFinished && showResult)? "Results" : "Checking the files..."}
                 </Box>
             </Typography>
             <Divider className={classes.divider} />
-            <CheckProgress current={currentFileIndex} max={files.length} />
-            <button onClick={() => tryValidateOne()}>PLS WORK</button>
+            {showResult ? renderResults() : <CheckProgress current={currentFileIndex} max={files.length} />}
+            {(processFinished && !showResult) && <button onClick={() => setShowResult(true)}>Show results</button>}
         </>
     );
 }
@@ -153,6 +216,11 @@ const mapStateToProps = (state: RootState) => ({
     files: state.filecheck.files
 });
 
+const mapDispatchToProps = (dispatch: Dispatch<FilecheckAction>) => ({
+    resetStep: () => dispatch(resetStep()),
+    clearFiles: () => dispatch(clearFiles())
+});
+
 
 // Default export for this file
-export default connect(mapStateToProps)(Stage3)
+export default connect(mapStateToProps, mapDispatchToProps)(Stage3)
