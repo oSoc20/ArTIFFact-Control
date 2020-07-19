@@ -8,4 +8,5 @@ interface Report {
     score: number;
     warnings?: number;
     infos?: number;
+    filePath?: string;
 }

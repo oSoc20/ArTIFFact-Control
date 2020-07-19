@@ -6,7 +6,6 @@ import { Dispatch } from 'redux'
 import axios, { AxiosResponse } from 'axios';
 import { resetStep, FilecheckAction, clearFiles } from 'Actions/FileCheckActions';
 import JhoveValidationResponse, { JHOVE_Message } from 'Interfaces/JhoveResults';
-import ReportTable from 'Components/ReportsTable/ReportsTable';
 import CheckIcon from '@material-ui/icons/Check';
 import ClearIcon from '@material-ui/icons/Clear';
 
@@ -189,7 +188,8 @@ const Stage3 = (props: Stage3Props) => {
                 result: response.wellFormed === 1,
                 score: 100,
                 warnings: getMessageCount(response, 'warning'),
-                infos: getMessageCount(response, 'warning')
+                infos: getMessageCount(response, 'warning'),
+                filePath: files[responseObjects.indexOf(response)].path
             }
             reports.push(report);
         });
