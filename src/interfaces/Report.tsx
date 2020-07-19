@@ -6,4 +6,6 @@ interface Report {
     errors: number;
     passed: number;
     score: number;
+    warnings?: number;
+    infos?: number;
 }

@@ -1,10 +1,14 @@
 import * as React from 'react';
-import { Box, Divider, makeStyles, createStyles, Theme, LinearProgress, Typography, withStyles, CircularProgress as Spinner } from '@material-ui/core';
+import { Box, Divider, makeStyles, createStyles, Theme, LinearProgress, Typography, withStyles, CircularProgress as Spinner, TableContainer, TableRow, Table, TableHead, TableCell, TableBody } from '@material-ui/core';
 import { RootState } from 'Reducers';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux'
 import axios, { AxiosResponse } from 'axios';
 import { resetStep, FilecheckAction, clearFiles } from 'Actions/FileCheckActions';
+import JhoveValidationResponse, { JHOVE_Message } from 'Interfaces/JhoveResults';
+import ReportTable from 'Components/ReportsTable/ReportsTable';
+import CheckIcon from '@material-ui/icons/Check';
+import ClearIcon from '@material-ui/icons/Clear';
 
 
 const JHOVE_API_BASE = "https://soc.openpreservation.org/"
@@ -24,34 +28,6 @@ interface Stage3Props {
     files: Array<File>;
     resetStep: () => void;
     clearFiles: () => void;
-}
-
-interface Message {
-    message: string;
-    prefix: string;
-    subMessage: string;
-    jhoveMessage: {
-        subMessage: string;
-        message: string;
-        id: string;
-    }
-    id: string;
-    offset: number
-}
-
-interface ValidationResponse {
-    checksums: Array<{ type: string; value: string }>;
-    created: string | null;
-    fileName: string;
-    format: string | null;
-    lastMod: string | null;
-    message: string;
-    messages: Array<Message>;
-    mimeType: string | null;
-    sigMatches: Array<any>;
-    size: number;
-    valid: number;
-    wellFormed: number;
 }
 
 
@@ -139,7 +115,7 @@ const Stage3 = (props: Stage3Props) => {
 
     // React state variable and setter that keeps track of the current file index
     const [currentFileIndex, setCurrentFileIndex] = React.useState<number>(0);
-    const [responseObjects, setResponseObjects] = React.useState<Array<ValidationResponse>>([]);
+    const [responseObjects, setResponseObjects] = React.useState<Array<JhoveValidationResponse>>([]);
     const [processFinished, setFinishState] = React.useState<boolean>(false);
     const [showResult, setShowResult] = React.useState<boolean>(false);
 
@@ -150,12 +126,11 @@ const Stage3 = (props: Stage3Props) => {
             formData.append('module', 'TIFF-opf');
             formData.append('file', files[currentFileIndex]);
             axios.post(JHOVE_API("api/jhove/validate"), formData)
-                .then(async (res: AxiosResponse) => {
-                    console.log("Processed file ", currentFileIndex, responseObjects);
-                    let data: ValidationResponse = res.data;
+                .then((res: AxiosResponse) => {
+                    let data: JhoveValidationResponse = res.data;
                     setResponseObjects([...responseObjects, data]);
                     setCurrentFileIndex(currentFileIndex + 1);
-                })
+                });
         }
         else {
             setFinishState(true);
@@ -177,30 +152,90 @@ const Stage3 = (props: Stage3Props) => {
 
     }, [currentFileIndex, processFinished]);
 
+    const filterMessages = (response: JhoveValidationResponse, type: "info" | "error" | "warning") => {
+        switch (type) {
+            case "info":
+                return response.messages.filter((report: JHOVE_Message) => {
+                    return report.prefix === 'Info';
+                });
+            case "error":
+                return response.messages.filter((report: JHOVE_Message) => {
+                    return report.prefix === 'Error';
+                });
+            case "warning":
+                return response.messages.filter((report: JHOVE_Message) => {
+                    // A warning type does not exist in JHOVE (yet). Right now, JHOVE info messages
+                    // Are both DPF info messages AND warnings
+                    return report.prefix === 'Warning' || report.prefix === 'Info';
+                });
+            default:
+                return response.messages;
+        }
+    }
+
+    const getMessageCount = (response: JhoveValidationResponse, type: "info" | "error" | "warning") => {
+        return filterMessages(response, type).length;
+    }
 
     const renderResults = () => {
-        console.log(responseObjects);
-        return (
-            <>
-                {responseObjects.map((response, index) => {
-                    return (
-                        <pre key={index}>
-                            {JSON.stringify(response, undefined, 2)}
-                        </pre>
-                    );
-                })}
-            </>);
+        let reports: Array<Report> = [];
+        responseObjects.forEach((response: JhoveValidationResponse) => {
+            let report: Report = {
+                date: new Date(),
+                files: 1,
+                input: response.fileName,
+                errors: getMessageCount(response, 'error'),
+                passed: response.valid,
+                result: response.wellFormed === 1,
+                score: 100,
+                warnings: getMessageCount(response, 'warning'),
+                infos: getMessageCount(response, 'warning')
+            }
+            reports.push(report);
+        });
+        return <TableContainer>
+            <Table>
+                <TableHead>
+                    <TableRow>
+                        <TableCell>Date</TableCell>
+                        <TableCell>Files</TableCell>
+                        <TableCell>Input</TableCell>
+                        <TableCell>Result</TableCell>
+                        <TableCell>Errors</TableCell>
+                        <TableCell>Warnings</TableCell>
+                        <TableCell>Passed</TableCell>
+                        <TableCell>Score</TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {reports.map((report, index) => {
+                        return (
+                            <TableRow key={index} onClick={() => console.log(responseObjects[index])}>
+                                <TableCell>{report.date.toLocaleDateString()}</TableCell>
+                                <TableCell>{report.files}</TableCell>
+                                <TableCell>{report.input}</TableCell>
+                                <TableCell>{report.passed === 1 ? <CheckIcon style={{ color: 'green' }} /> : <ClearIcon style={{ color: 'red' }} />}</TableCell>
+                                <TableCell>{report.errors}</TableCell>
+                                <TableCell>{report.warnings}</TableCell>
+                                <TableCell>{report.passed}</TableCell>
+                                <TableCell>{report.score}</TableCell>
+                            </TableRow>
+                        );
+                    })}
+                </TableBody>
+            </Table>
+        </TableContainer>;
     }
 
     return (
         <>
             <Typography component="span" gutterBottom>
                 <Box fontSize='h6.fontSize' style={{ marginBottom: '22px', textAlign: "center" }}>
-                    {(processFinished && showResult)? "Results" : "Checking the files..."}
+                    {(processFinished && showResult) ? "Results" : "Checking the files..."}
                 </Box>
             </Typography>
             <Divider className={classes.divider} />
-            {showResult ? renderResults() : <CheckProgress current={currentFileIndex} max={files.length} />}
+            {showResult ? renderResults(): <CheckProgress current={currentFileIndex} max={files.length} />}
             {(processFinished && !showResult) && <button onClick={() => setShowResult(true)}>Show results</button>}
         </>
     );
