@@ -75,7 +75,7 @@ const LastConfigurations = (props: LastConfigurationsProps) => {
                 <Typography component='span' style={{ display: 'flex' }}>
                     <Box className={classes.box} fontSize='h6.fontSize' fontWeight='fontWeightBold'>
                         <img src={SettingsIcon} style={{ marginRight: '20px', width: '40px' }} />
-                        Configuration
+                        Configurations
                     </Box>
                     <Button style={{ marginLeft: 'auto', fontWeight: 600, textTransform: 'none' }} onClick={() => {props.setActiveItem('configurations'); history.push('/configurations')}}>More <ArrowForwardIcon style={{ marginLeft: '3px', fontSize: '20px' }} /></Button>
                 </Typography>

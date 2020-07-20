@@ -62,12 +62,12 @@ const LastReports = (props: LastReportsProps) => {
     const history = useHistory();
     const classes = useStyles();
     var reportsData: Report[] = [
-        { name: 'Tifffile.tiff', date: new Date('7/07/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100 },
-        { name: 'Tifffile.tiff', date: new Date('7/07/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, score: 100 },
-        { name: 'Tifffile.tiff', date: new Date('7/07/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100 },
-        { name: 'Tifffile.tiff', date: new Date('7/07/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 80 },
-        { name: 'Tifffile.tiff', date: new Date('7/07/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100 },
-        { name: 'Tifffile.tiff', date: new Date('7/07/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, score: 100 }
+        { name: 'Tifffile.tiff', date: new Date('7/07/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, warnings: 0, score: 100, duration: 99 },
+        { name: 'Tifffile.tiff', date: new Date('7/07/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, warnings: 0, score: 100, duration: 99 },
+        { name: 'Tifffile.tiff', date: new Date('7/07/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, warnings: 0, score: 100, duration: 99 },
+        { name: 'Tifffile.tiff', date: new Date('7/07/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, warnings: 0, score: 80, duration: 99 },
+        { name: 'Tifffile.tiff', date: new Date('7/07/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, warnings: 0, score: 100, duration: 99 },
+        { name: 'Tifffile.tiff', date: new Date('7/07/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, warnings: 0, score: 100, duration: 99 }
     ];
     const [reports, setReports] = React.useState(reportsData);
 

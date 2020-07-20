@@ -39,28 +39,17 @@ const Reports = () => {
     const classes = useStyles();
     const [report, setReport] = React.useState<Report | null>(null);
     var reportsData: Report[] = [
-        { name: 'Tifffile01.tiff', date: new Date('07/15/2020'), files: 27, input: '/users/name/file/Tifffile01.tiff', result: true, errors: 0, passed: 3, score: 100 },
-        { name: 'Tifffile02.tiff', date: new Date('07/15/2020'), files: 27, input: '/users/name/file/Tifffile02.tiff', result: false, errors: 2, passed: 3, score: 40 },
-        { name: 'Tifffile03.tiff', date: new Date('07/15/2020'), files: 27, input: '/users/name/file/Tifffile03.tiff', result: false, errors: 7, passed: 3, score: 0 },
-        { name: 'Tifffile04.tiff', date: new Date('07/15/2020'), files: 27, input: '/users/name/file/Tifffile04.tiff', result: false, errors: 5, passed: 3, score: 20 },
-        { name: 'Tifffile05.tiff', date: new Date('07/15/2020'), files: 27, input: '/users/name/file/Tifffile05.tiff', result: false, errors: 1, passed: 3, score: 90 },
-        { name: 'Tifffile.tiff', date: new Date('07/15/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100 },
-        { name: 'Tifffile.tiff', date: new Date('07/15/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100 },
-        { name: 'Tifffile.tiff', date: new Date('07/16/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100 },
-        { name: 'Tifffile.tiff', date: new Date('07/17/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100 },
-        { name: 'Tifffile.tiff', date: new Date('08/15/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100 },
-        { name: 'Tifffile.tiff', date: new Date('08/15/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100 },
-        { name: 'Tifffile.tiff', date: new Date('08/15/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100 },
-        { name: 'Tifffile.tiff', date: new Date('08/16/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100 },
-        { name: 'Tifffile06.tiff', date: new Date('08/17/2020'), files: 27, input: '/users/name/file/Tifffile06.tiff', result: false, errors: 2, passed: 3, score: 50 },
-        { name: 'Tifffile.tiff', date: new Date('08/17/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: false, errors: 1, passed: 3, score: 60 }
+        { name: 'file_example_TIFF_1MB.tiff', date: new Date('07/15/2020'), files: 27, input: "D:\\Bureau\\Téléchargements\\file_example_TIFF_1MB.tiff", result: false, errors: 1, passed: 3, warnings: 0, score: 90 , duration: 93, formats: [{title: 'HTML', url: null}, {title: 'PDF', url: null}, {title: 'XML', url: null}, {title: 'JSON', url: null}, {title: 'METS', url: null}] },
+        { name: 'file_example_TIFF_10MB.tiff', date: new Date('07/22/2020'), files: 27, input: "D:\\Bureau\\Téléchargements\\file_example_TIFF_10MB.tiff", result: false, errors: 1, passed: 3, warnings: 0, score: 90 , duration: 93, formats: [{title: 'HTML', url: null}, {title: 'PDF', url: null}, {title: 'XML', url: null}, {title: 'JSON', url: null}, {title: 'METS', url: null}] }
     ];
     const [reports, setReports] = React.useState(reportsData);
 
-    const removeReport = (index: number) => {
+    const removeReport = (report: Report) => {
         let tempReports = [...reports];
+        let index = tempReports.indexOf(report);
         tempReports.splice(index, 1);
         setReports(tempReports);
+        setReport(null);
     }
 
     const removeReportsOlderThan = (date: Date | null) => {
@@ -72,7 +61,7 @@ const Reports = () => {
             selectedDate = setSeconds(selectedDate, 0);
             selectedDate = setMilliseconds(selectedDate, 0);
 
-            tempReports = tempReports.filter(report => {
+            tempReports = tempReports.filter((report: Report) => {
                 let reportDate = report.date;
                 reportDate = setHours(reportDate, 0);
                 reportDate = setMinutes(reportDate, 0);
@@ -95,10 +84,9 @@ const Reports = () => {
                     <Box fontSize='h4.fontSize' style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', }}>
                         <img src={RatingsIcon} className={classes.titleIcon} />
                         <span>
-                            Reports
-                            {report !== null ?
-                                ": " + report.name
-                                : null
+                            {report === null ?
+                                "Reports"
+                                : "Report: " + report.name
                             }
                         </span>
                     </Box>
@@ -109,10 +97,10 @@ const Reports = () => {
                 </div>
             </Typography>
             <Grid container spacing={3}>
-                <Grid item xs={12} lg={11} style={{ display: 'flex', margin: 'auto' }}>
+                <Grid item xs={12} lg={11} xl={8} style={{ display: 'flex', margin: 'auto' }}>
                     {report === null ?
                         <ReportsTable reports={reports} removeReport={removeReport} removeReportsOlderThan={removeReportsOlderThan} clearReports={clearReports} setReport={setReport} />
-                        : <ReportDetails report={report} setReport={setReport} />
+                        : <ReportDetails report={report} setReport={setReport} removeReport={removeReport} />
                     }
                 </Grid>
             </Grid>

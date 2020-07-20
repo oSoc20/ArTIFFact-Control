@@ -90,7 +90,7 @@ const useStyles = makeStyles((theme: Theme) =>
 /* INTERFACE */
 interface ReportsTableProps {
     reports: Array<Report>;
-    removeReport: (index: number) => void;
+    removeReport: (report: Report) => void;
     removeReportsOlderThan: (date: Date | null) => void;
     clearReports: () => void;
     setReport: (report: Report) => void;
@@ -101,9 +101,7 @@ const ReportsTable = (props: ReportsTableProps) => {
     const classes = useStyles();
     const [currentPage, setCurrentPage] = React.useState<number>(0);
     const [nbPages, setNbPages] = React.useState<number>(0);
-    let nbElementsPerPage = 15;
-    let minIndex = 0;
-    let maxIndex = 0;
+    let nbElementsPerPage = 20;
     const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
     const [open, setOpen] = React.useState(false);
     const [placement, setPlacement] = React.useState<PopperPlacementType>();
@@ -156,9 +154,6 @@ const ReportsTable = (props: ReportsTableProps) => {
         setNbPages(nbPages);
         if (currentPage > nbPages)
             setCurrentPage(nbPages);
-
-        minIndex = (currentPage - 1) * nbElementsPerPage;
-        maxIndex = (currentPage * nbElementsPerPage) - 1;
     }
 
     initPagination();
@@ -173,11 +168,14 @@ const ReportsTable = (props: ReportsTableProps) => {
         window.addEventListener('keydown', handleEsc);
     }, [props.reports]);
 
+    let minIndex = (currentPage - 1) * nbElementsPerPage;
+    let maxIndex = (currentPage * nbElementsPerPage) - 1;
+
     return <>
         <Paper className={classes.paper}>
             {props.reports.length > 0 ?
                 <>
-                    <TableContainer style={{ height: '450px', overflow: "auto" }} >
+                    <TableContainer style={{ height: '60vh', overflow: "auto" }} >
                         <Table aria-label="span" size="small" stickyHeader>
                             <TableHead>
                                 <TableRow className={classes.tableHeadRow}>
@@ -218,7 +216,7 @@ const ReportsTable = (props: ReportsTableProps) => {
                                                     {report.score}%
                                                 </TableCell>
                                                 <TableCell component="th" scope="row">
-                                                    <Button onClick={(event) => {event.stopPropagation(); props.removeReport(index)}}><img src={DeleteBinIcon} style={{ width: '24px' }} /></Button>
+                                                    <Button onClick={(event) => { event.stopPropagation(); props.removeReport(report) }}><img src={DeleteBinIcon} style={{ width: '24px' }} /></Button>
                                                 </TableCell>
                                             </StyledTableRow>
                                         );

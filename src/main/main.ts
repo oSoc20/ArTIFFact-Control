@@ -35,7 +35,6 @@ const createWindow = async () => {
         );
     }
 
-
     // Open DevTools, see https://github.com/electron/electron/issues/12438 for why we wait for dom-ready
     win.webContents.once('dom-ready', () => {
         if (process.env.NODE_ENV !== 'production') {
@@ -46,10 +45,8 @@ const createWindow = async () => {
 
         // Fullscreen
         win!.maximize();
+        win!.show();
     });
-
-
-
 
     win.on('closed', () => {
         win = null;
