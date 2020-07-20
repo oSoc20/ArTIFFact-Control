@@ -5,13 +5,17 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux'
 import axios, { AxiosResponse } from 'axios';
 import { resetStep, FilecheckAction, clearFiles } from 'Actions/FileCheckActions';
-import JhoveValidationResponse, { JHOVE_Message } from 'Interfaces/JhoveResults';
+import JhoveValidationResponse, { JhoveMessage } from 'Interfaces/JhoveResults';
 import CheckIcon from '@material-ui/icons/Check';
 import ClearIcon from '@material-ui/icons/Clear';
 
 
 const JHOVE_API_BASE = "https://soc.openpreservation.org/"
 
+/**
+ * Combines JHOVE base with endpoint.
+ * @param endpoint endpoint of the api to use
+ */
 const JHOVE_API = (endpoint: string) => {
     return `${JHOVE_API_BASE}${endpoint}`;
 }
@@ -119,6 +123,10 @@ const Stage3 = (props: Stage3Props) => {
     const [showResult, setShowResult] = React.useState<boolean>(false);
 
 
+    /**
+     * Validates the next file in the array of files using JHOVE-REST. This function makes use of the
+     * currentFileIndex, responseObjects and files state objects.
+     */
     const validateNextFile = () => {
         if (currentFileIndex < files.length && !processFinished) {
             let formData = new FormData();
@@ -136,6 +144,11 @@ const Stage3 = (props: Stage3Props) => {
         }
     }
 
+    /**
+     * Hook that runs on update of the props currentFileIndex and processFinished. 
+     * Validates the files on update. If the process has finished, the steps and files redux state
+     * properties are reset.
+     */
     React.useEffect(() => {
         validateNextFile();
 
@@ -151,18 +164,23 @@ const Stage3 = (props: Stage3Props) => {
 
     }, [currentFileIndex, processFinished]);
 
+    /**
+     * Filter the messages of the JHOVE validation response.
+     * @param response the JHOVE validation response to filter the messages from
+     * @param type the type of message to filter on.
+     */
     const filterMessages = (response: JhoveValidationResponse, type: "info" | "error" | "warning") => {
         switch (type) {
             case "info":
-                return response.messages.filter((report: JHOVE_Message) => {
+                return response.messages.filter((report: JhoveMessage) => {
                     return report.prefix === 'Info';
                 });
             case "error":
-                return response.messages.filter((report: JHOVE_Message) => {
+                return response.messages.filter((report: JhoveMessage) => {
                     return report.prefix === 'Error';
                 });
             case "warning":
-                return response.messages.filter((report: JHOVE_Message) => {
+                return response.messages.filter((report: JhoveMessage) => {
                     // A warning type does not exist in JHOVE (yet). Right now, JHOVE info messages
                     // Are both DPF info messages AND warnings
                     return report.prefix === 'Warning' || report.prefix === 'Info';
@@ -172,10 +190,18 @@ const Stage3 = (props: Stage3Props) => {
         }
     }
 
+    /**
+     * Count the amount of messages of a certain type in a JHOVE validation response.
+     * @param response JHOVE validation response to count message types in.
+     * @param type type of messages to count
+     */
     const getMessageCount = (response: JhoveValidationResponse, type: "info" | "error" | "warning") => {
         return filterMessages(response, type).length;
     }
 
+    /**
+     * Render the response objects in a simple table.
+     */
     const renderResults = () => {
         let reports: Array<Report> = [];
         responseObjects.forEach((response: JhoveValidationResponse) => {
