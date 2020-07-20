@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Typography, Box } from '@material-ui/core';
+import { Policy } from 'Interfaces/Configuration';
 import ConfigurationTable, { tempConfigs } from 'Components/ConfigurationTable/ConfigurationTable';
 import PlusIcon from 'Assets/icons/icons8-plus-math-500.svg';
 import ImportIcon from 'Assets/icons/icons8-import-500.svg';
@@ -17,6 +18,7 @@ export default function Configuration() {
 
     const [step, setStep] = React.useState<number>(-1);
     const [selectedStandards, setSelectedStandards] = React.useState<Array<string>>([]);
+    const [policies, setPolicies] = React.useState<Array<Policy>>([]);
 
     const addStandard = (standard: string) => {
         if (!selectedStandards.includes(standard)) {
@@ -30,6 +32,21 @@ export default function Configuration() {
             const index = newStandards.indexOf(standard);
             newStandards.splice(index, 1);
             setSelectedStandards(newStandards);
+        }
+    }
+
+    const addPolicy = (policy: Policy) => {
+        if (!policies.includes(policy)) {
+            setPolicies([...policies, policy]);
+        }
+    }
+
+    const removePolicy = (policy: Policy) => {
+        if (policies.includes(policy)) {
+            const newPolicies = [...policies];
+            const index = newPolicies.indexOf(policy);
+            newPolicies.splice(index, 1);
+            setPolicies(newPolicies);
         }
     }
 
@@ -54,7 +71,14 @@ export default function Configuration() {
                         standardCount={selectedStandards.length}
                     />);
             case 1:
-                return (<PolicyChecker />);
+                return (
+                    <PolicyChecker
+                        standards={selectedStandards}
+                        addPolicy={addPolicy}
+                        removePolicy={removePolicy}
+                        policies={policies}
+                        progressStep={incrementStep}
+                    />);
             case 2:
                 return (<Report />);
             case 3:

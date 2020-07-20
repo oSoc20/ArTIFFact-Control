@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import MuiTableCell from '@material-ui/core/TableCell';
-import { Box, TableContainer, TableHead, TableBody, TableRow, Table, withStyles, Typography } from '@material-ui/core';
+import { Box, Typography } from '@material-ui/core';
 import ConfigurationTable, { tempConfigs } from 'Components/ConfigurationTable/ConfigurationTable'
 import ImportIcon from 'Assets/icons/icons8-import-500.svg';
 import PlusIcon from 'Assets/icons/icons8-plus-math-500.svg';
@@ -15,36 +14,8 @@ interface Stage2Props {
     progressStep: () => void;
 }
 
-interface Config {
-    name: string;
-    implementation: string;
-    policy: Array<string>;
-    report: Array<string>
-}
-
 
 /* Styling */
-
-const StyledTableRow = withStyles((theme: Theme) =>
-    createStyles({
-        root: {
-            '&:nth-of-type(odd)': {
-                backgroundColor: theme.palette.action.hover,
-            },
-            '&$selected': {
-                backgroundColor: "#2A4B5B",
-            },
-            '&:hover': {
-                '&$selected': {
-                    backgroundColor: "#2A4B5B"
-                },
-            },
-        },
-        selected: {},
-        hover: {}
-    }),
-)(TableRow);
-
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -114,18 +85,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 
-// Styled Material UI Table Cell component
-const TableCell = withStyles({
-    root: {
-        borderBottom: "none"
-    }
-})(MuiTableCell);
-
-
-
 /* Functions and components */
-
-
 
 /**
  * The component that handles the rendering of stage 2 of file checks.
@@ -138,28 +98,6 @@ const Stage2 = (props: Stage2Props) => {
     // React state object that holds the currently selected configuration
     // Maybe put this in Redux store in order to use at next stage
     let [currentSelected, setCurrent] = React.useState<null | number>(null);
-
-    /**
-     * Handles the selection procedure of table entries.
-     * @param selectedIndex the index of the clicked row
-     */
-    const handleSelect = (selectedIndex: number) => {
-        setCurrent(selectedIndex);
-    }
-
-    /**
-     * Create a string representation that displays the possible types of created reports.
-     * @param reports array of strings that contains the allowed report types.
-     * @returns string of the following format: 'TYPE 1, TYPE 2, ... TYPE N'
-     */
-    const getReports = (reports: Array<string>) => {
-        let result: string = "";
-        reports.forEach((report) => {
-            result += report;
-            result += ', '
-        });
-        return <Typography className={classes.typography}>{result.slice(0, -2)}</Typography>
-    }
 
     return (
         <>

@@ -60,7 +60,7 @@ const StandardPick = (props: StandardPickProps) => {
                     );
                 })}
             </List>
-            <Button disabled={props.standardCount === 0 } onClick={() => props.progressStep}>Continue</Button>
+            <Button disabled={props.standardCount === 0 } onClick={() => props.progressStep()}>Continue</Button>
         </>
     );
 }
