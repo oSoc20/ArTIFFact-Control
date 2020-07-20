@@ -10,7 +10,11 @@ import CheckIcon from '@material-ui/icons/Check';
 import ClearIcon from '@material-ui/icons/Clear';
 
 
-const JHOVE_API_BASE = "https://soc.openpreservation.org/"
+const JHOVE_API_BASE = 'https://soc.openpreservation.org/';
+
+const INFO = 'info', ERROR = 'error', WARNING = 'warning';
+type MessageType = 'info' | 'warning' | 'error';
+
 
 /**
  * Combines JHOVE base with endpoint.
@@ -39,16 +43,16 @@ interface Stage3Props {
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         divider: {
-            marginBottom: "1rem",
-            marginLeft: "22px",
-            marginRight: "22px",
-            height: "1px",
-            backgroundColor: "#2A4B5B"
+            marginBottom: '1rem',
+            marginLeft: '22px',
+            marginRight: '22px',
+            height: '1px',
+            backgroundColor: '#2A4B5B'
         },
         progressContainer: {
-            margin: "100px 65px 100px",
-            textAlign: "center",
-            "& small": {
+            margin: '100px 65px 100px',
+            textAlign: 'center',
+            '& small': {
                 fontFamily: "'DIN 2014'",
             }
         },
@@ -62,13 +66,13 @@ const ProgressBar = withStyles((theme) => (
         root: {
             height: 20,
             borderRadius: 12,
-            marginBottom: "3px"
+            marginBottom: '3px'
         },
         colorPrimary: {
-            backgroundColor: "#E0E0E0"
+            backgroundColor: '#E0E0E0'
         },
         bar: {
-            backgroundColor: "#54C77B"
+            backgroundColor: '#54C77B'
         }
 
     }
@@ -101,8 +105,8 @@ const CheckProgress = (props: CheckProgressProps) => {
     // therefore, the current property needs to be incremented by 1
     return (
         <div className={classes.progressContainer}>
-            <ProgressBar value={getProgressValue()} variant={"determinate"} />
-            {finished() ? <small>Done!</small> : <small><Spinner size={"10px"} /> Checking file {props.current + 1} of {props.max}</small>}
+            <ProgressBar value={getProgressValue()} variant={'determinate'} />
+            {finished() ? <small>Done!</small> : <small><Spinner size={'10px'} /> Checking file {props.current + 1} of {props.max}</small>}
         </div>
     );
 }
@@ -132,7 +136,7 @@ const Stage3 = (props: Stage3Props) => {
             let formData = new FormData();
             formData.append('module', 'TIFF-opf');
             formData.append('file', files[currentFileIndex]);
-            axios.post(JHOVE_API("api/jhove/validate"), formData)
+            axios.post(JHOVE_API('api/jhove/validate'), formData)
                 .then((res: AxiosResponse) => {
                     let data: JhoveValidationResponse = res.data;
                     setResponseObjects([...responseObjects, data]);
@@ -169,21 +173,21 @@ const Stage3 = (props: Stage3Props) => {
      * @param response the JHOVE validation response to filter the messages from
      * @param type the type of message to filter on.
      */
-    const filterMessages = (response: JhoveValidationResponse, type: "info" | "error" | "warning") => {
+    const filterMessages = (response: JhoveValidationResponse, type: MessageType) => {
         switch (type) {
-            case "info":
+            case INFO:
                 return response.messages.filter((report: JhoveMessage) => {
-                    return report.prefix === 'Info';
+                    return report.prefix.toLowerCase() === INFO;
                 });
-            case "error":
+            case ERROR:
                 return response.messages.filter((report: JhoveMessage) => {
-                    return report.prefix === 'Error';
+                    return report.prefix.toLowerCase() === ERROR;
                 });
-            case "warning":
+            case WARNING:
                 return response.messages.filter((report: JhoveMessage) => {
                     // A warning type does not exist in JHOVE (yet). Right now, JHOVE info messages
                     // Are both DPF info messages AND warnings
-                    return report.prefix === 'Warning' || report.prefix === 'Info';
+                    return report.prefix.toLowerCase() === WARNING || report.prefix.toLowerCase() === INFO;
                 });
             default:
                 return response.messages;
@@ -195,7 +199,7 @@ const Stage3 = (props: Stage3Props) => {
      * @param response JHOVE validation response to count message types in.
      * @param type type of messages to count
      */
-    const getMessageCount = (response: JhoveValidationResponse, type: "info" | "error" | "warning") => {
+    const getMessageCount = (response: JhoveValidationResponse, type: MessageType) => {
         return filterMessages(response, type).length;
     }
 
@@ -209,12 +213,12 @@ const Stage3 = (props: Stage3Props) => {
                 date: new Date(),
                 files: 1,
                 input: response.fileName,
-                errors: getMessageCount(response, 'error'),
+                errors: getMessageCount(response, ERROR),
                 passed: response.valid,
                 result: response.wellFormed === 1,
                 score: 100,
-                warnings: getMessageCount(response, 'warning'),
-                infos: getMessageCount(response, 'warning'),
+                warnings: getMessageCount(response, WARNING),
+                infos: getMessageCount(response, INFO),
                 filePath: files[responseObjects.indexOf(response)].path
             }
             reports.push(report);
@@ -255,9 +259,9 @@ const Stage3 = (props: Stage3Props) => {
 
     return (
         <>
-            <Typography component="span" gutterBottom>
-                <Box fontSize='h6.fontSize' style={{ marginBottom: '22px', textAlign: "center" }}>
-                    {(processFinished && showResult) ? "Results" : "Checking the files..."}
+            <Typography component='span' gutterBottom>
+                <Box fontSize='h6.fontSize' style={{ marginBottom: '22px', textAlign: 'center' }}>
+                    {(processFinished && showResult) ? 'Results' : 'Checking the files...'}
                 </Box>
             </Typography>
             <Divider className={classes.divider} />
