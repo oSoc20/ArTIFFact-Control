@@ -35,7 +35,7 @@ export interface FileData {
 
 export interface SetFilesAction extends Action {
     type: 'SET_FILES';
-    files: Array<FileData>;
+    files: Array<File>;
 }
 
 export interface ClearFilesAction extends Action {
@@ -72,7 +72,7 @@ export const clearFiles: ActionCreator<ClearFilesAction> = () => ({
 /**
  * Set the list of files to a new list of files
  */
-export const setFiles: ActionCreator<SetFilesAction> = (files: Array<FileData>) => ({
+export const setFiles: ActionCreator<SetFilesAction> = (files: Array<File>) => ({
     type: SET_FILES,
     files: files
 });
