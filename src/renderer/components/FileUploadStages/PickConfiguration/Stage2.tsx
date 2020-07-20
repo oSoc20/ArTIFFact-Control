@@ -2,10 +2,7 @@ import * as React from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import MuiTableCell from '@material-ui/core/TableCell';
 import { Box, TableContainer, TableHead, TableBody, TableRow, Table, withStyles, Typography } from '@material-ui/core';
-import { Configuration, ReportTypes } from 'Interfaces/Configuration';
-import ConfigurationTable from 'Components/ConfigurationTable/ConfigurationTable'
-import EditIcon from 'Assets/icons/icons8-edit-property-500.svg';
-import TrashIcon from 'Assets/icons/icons8-delete-bin-500.svg';
+import ConfigurationTable, { tempConfigs } from 'Components/ConfigurationTable/ConfigurationTable'
 import ImportIcon from 'Assets/icons/icons8-import-500.svg';
 import PlusIcon from 'Assets/icons/icons8-plus-math-500.svg';
 import BackArrow from 'Assets/icons/icons8-arrow-500.svg';
@@ -128,24 +125,7 @@ const TableCell = withStyles({
 
 /* Functions and components */
 
-// Temporary array of configs. In a later version, the configs will be stored somewhere on disk
-const tempConfigs: Array<Configuration> = [
-    { name: "Default", implementation: "Baseline TIFF 6.0", policies: [], reports: ["JSON", "PDF"] },
-    {
-        name: "Extended",
-        implementation: "Baseline TIFF 6.0",
-        policies: [
-            { lhs: "IccProfileClass", operator: '=', rhs: 'input' },
-            { lhs: "ImageWidth", operator: '>', rhs: 500 },
-            { lhs: "ImageHeight", operator: '<=', rhs: 300 }
-        ], reports: ["JSON", "PDF"]
-    },
-    { name: "Extended", implementation: "Baseline TIFF 6.0", policies: [], reports: ["JSON", "PDF"] },
-    { name: "Extended", implementation: "Baseline TIFF 6.0", policies: [], reports: ["JSON", "PDF"] },
-    { name: "Extended", implementation: "Baseline TIFF 6.0", policies: [], reports: ["JSON", "PDF"] },
-    { name: "Extended", implementation: "Baseline TIFF 6.0", policies: [], reports: ["JSON", "PDF"] },
 
-]
 
 /**
  * The component that handles the rendering of stage 2 of file checks.

@@ -21,6 +21,26 @@ interface ConfigTablePropsWithSelection {
 }
 
 
+// Temporary array of configs. In a later version, the configs will be stored somewhere on disk
+export const tempConfigs: Array<Configuration> = [
+    { name: "Default", implementation: "Baseline TIFF 6.0", policies: [], reports: ["JSON", "PDF"] },
+    {
+        name: "Extended",
+        implementation: "Baseline TIFF 6.0",
+        policies: [
+            { lhs: "IccProfileClass", operator: '=', rhs: 'input' },
+            { lhs: "ImageWidth", operator: '>', rhs: 500 },
+            { lhs: "ImageHeight", operator: '<=', rhs: 300 }
+        ], reports: ["JSON", "PDF"]
+    },
+    { name: "Extended", implementation: "Baseline TIFF 6.0", policies: [], reports: ["JSON", "PDF"] },
+    { name: "Extended", implementation: "Baseline TIFF 6.0", policies: [], reports: ["JSON", "PDF"] },
+    { name: "Extended", implementation: "Baseline TIFF 6.0", policies: [], reports: ["JSON", "PDF"] },
+    { name: "Extended", implementation: "Baseline TIFF 6.0", policies: [], reports: ["JSON", "PDF"] },
+
+]
+
+
 const StyledTableRow = withStyles((theme: Theme) =>
     createStyles({
         root: {
