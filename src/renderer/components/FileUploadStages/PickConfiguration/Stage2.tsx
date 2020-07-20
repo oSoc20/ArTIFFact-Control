@@ -2,6 +2,8 @@ import * as React from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import MuiTableCell from '@material-ui/core/TableCell';
 import { Box, TableContainer, TableHead, TableBody, TableRow, Table, withStyles, Typography } from '@material-ui/core';
+import { Configuration, ReportTypes } from 'Interfaces/Configuration';
+import ConfigurationTable from 'Components/ConfigurationTable/ConfigurationTable'
 import EditIcon from 'Assets/icons/icons8-edit-property-500.svg';
 import TrashIcon from 'Assets/icons/icons8-delete-bin-500.svg';
 import ImportIcon from 'Assets/icons/icons8-import-500.svg';
@@ -127,13 +129,21 @@ const TableCell = withStyles({
 /* Functions and components */
 
 // Temporary array of configs. In a later version, the configs will be stored somewhere on disk
-const tempConfigs: Array<Config> = [
-    { name: "Default", implementation: "Baseline TIFF 6.0", policy: ["IccProfileClass = Input", "ImageWidth > 500", "ImageHeight > 300"], report: ["Json, PDF"] },
-    { name: "Extended", implementation: "Baseline TIFF 6.0", policy: [], report: ["Json", "PDF"] },
-    { name: "Extended", implementation: "Baseline TIFF 6.0", policy: [], report: ["Json", "PDF"] },
-    { name: "Extended", implementation: "Baseline TIFF 6.0", policy: [], report: ["Json", "PDF"] },
-    { name: "Extended", implementation: "Baseline TIFF 6.0", policy: [], report: ["Json", "PDF"] },
-    { name: "Extended", implementation: "Baseline TIFF 6.0", policy: [], report: ["Json", "PDF"] },
+const tempConfigs: Array<Configuration> = [
+    { name: "Default", implementation: "Baseline TIFF 6.0", policies: [], reports: ["JSON", "PDF"] },
+    {
+        name: "Extended",
+        implementation: "Baseline TIFF 6.0",
+        policies: [
+            { lhs: "IccProfileClass", operator: '=', rhs: 'input' },
+            { lhs: "ImageWidth", operator: '>', rhs: 500 },
+            { lhs: "ImageHeight", operator: '<=', rhs: 300 }
+        ], reports: ["JSON", "PDF"]
+    },
+    { name: "Extended", implementation: "Baseline TIFF 6.0", policies: [], reports: ["JSON", "PDF"] },
+    { name: "Extended", implementation: "Baseline TIFF 6.0", policies: [], reports: ["JSON", "PDF"] },
+    { name: "Extended", implementation: "Baseline TIFF 6.0", policies: [], reports: ["JSON", "PDF"] },
+    { name: "Extended", implementation: "Baseline TIFF 6.0", policies: [], reports: ["JSON", "PDF"] },
 
 ]
 
@@ -179,60 +189,12 @@ const Stage2 = (props: Stage2Props) => {
                     Step 2 - TIFF Configuration settings
                 </Box>
             </Typography>
-            <TableContainer className={classes.tableContainer}>
-                <Table stickyHeader size="small" aria-label="span">
-                    <TableHead>
-                        <TableRow className={classes.tableHeadRow}>
-                            <TableCell className={classes.tableHeadCell}>Name</TableCell>
-                            <TableCell className={classes.tableHeadCell}>Implementation</TableCell>
-                            <TableCell className={classes.tableHeadCell}>Policy checker</TableCell>
-                            <TableCell className={classes.tableHeadCell}>Report</TableCell>
-                            <TableCell className={classes.tableHeadCell} />
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {tempConfigs.map((config, index) => {
-                            return (
-                                <StyledTableRow
-                                    key={index}
-                                    onClick={() => handleSelect(index)}
-                                    selected={index === currentSelected}
-                                >
-                                    <TableCell className={`${classes.tableContentCell} ${index === currentSelected ? classes.selected : ""}`}>
-                                        <Typography className={classes.typography}>{config.name}</Typography>
-                                    </TableCell>
-                                    <TableCell className={`${classes.tableContentCell} ${index === currentSelected ? classes.selected : ""}`}>
-                                        <Typography className={classes.typography}>{config.implementation}</Typography>
-                                    </TableCell>
-                                    <TableCell className={`${classes.tableContentCell} ${index === currentSelected ? classes.selected : ""}`}>
-                                        {config.policy.map((policy, index) => {
-                                            return (<Typography key={index} className={classes.typography}>{policy}</Typography>);
-                                        })}
-                                    </TableCell>
-                                    <TableCell className={`${classes.tableContentCell} ${index === currentSelected ? classes.selected : ""}`} >
-                                        {getReports(config.report)}
-                                    </TableCell>
-                                    <TableCell className={`${classes.tableContentCell} ${index === currentSelected ? classes.selected : ""}`} >
-                                        <button
-                                            style={{
-                                                border: "none",
-                                                background: "transparent",
-                                                cursor: "pointer"
-                                            }}
-                                        ><img src={EditIcon} style={{ height: "25px", width: "25px" }} /></button>
-                                        <button
-                                            style={{
-                                                border: "none",
-                                                background: "transparent",
-                                                cursor: "pointer"
-                                            }}> <img src={TrashIcon} style={{ height: "25px", width: "25px", paddingBottom: "4px" }} /></button>
-                                    </TableCell>
-                                </StyledTableRow>
-                            );
-                        })}
-                    </TableBody>
-                </Table>
-            </TableContainer>
+            <ConfigurationTable
+                configs={tempConfigs}
+                selectable
+                currentSelected={currentSelected}
+                setCurrentSelected={setCurrent}
+            />
             <Box display={"flex"} width={"100%"}>
                 <button className={classes.configControlButton}>
                     <Typography style={{ fontSize: 15 }}>

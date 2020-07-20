@@ -6,6 +6,7 @@ import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 // Icons
 import SettingsIcon from 'Assets/icons/icons8-settings-500.svg';
 import { useHistory } from 'react-router-dom';
+import { Configuration } from 'Interfaces/Configuration';
 
 /* STYLE */
 const TableCell = withStyles({
