@@ -16,24 +16,74 @@ const STEPS = ['Implementation', 'Policy check', 'Report', 'Summary'];
 export default function Configuration() {
 
     const [step, setStep] = React.useState<number>(-1);
+    const [selectedStandards, setSelectedStandards] = React.useState<Array<string>>([]);
+
+    const addStandard = (standard: string) => {
+        if (!selectedStandards.includes(standard)) {
+            setSelectedStandards([...selectedStandards, standard]);
+        }
+    }
+
+    const removeStandard = (standard: string) => {
+        if (selectedStandards.includes(standard)) {
+            const newStandards = [...selectedStandards];
+            const index = newStandards.indexOf(standard);
+            newStandards.splice(index, 1);
+            setSelectedStandards(newStandards);
+        }
+    }
+
+    const incrementStep = () => {
+        setStep(step + 1);
+    }
+
+    const goBackOneStep = () => {
+        setStep(step - 1);
+    }
+
 
     const renderStep = () => {
-        switch(step) {
+        switch (step) {
             case 0:
-                return (<StandardPick />);
+                return (
+                    <StandardPick
+                        addStandard={addStandard}
+                        removeStandard={removeStandard}
+                        progressStep={incrementStep}
+                        goBackOneStep={goBackOneStep}
+                        standardCount={selectedStandards.length}
+                    />);
             case 1:
                 return (<PolicyChecker />);
-            case 2: 
+            case 2:
                 return (<Report />);
             case 3:
                 return (<Summary />);
             default:
-                return <></>;
+                return (
+                    <>
+                        <ConfigurationTable configs={tempConfigs} />
+                        <Box display={"flex"} width={"100%"}>
+                            <button>
+                                <Typography style={{ fontSize: 15 }}>
+                                    <img src={ImportIcon} style={{ width: "17px" }} />
+                                    import
+                                </Typography>
+                            </button>
+                            <button onClick={() => handleClickCreate()}>
+                                <Typography style={{ fontSize: 15 }}>
+                                    <img src={PlusIcon} style={{ width: "22px" }} />
+                                    new
+                                </Typography>
+                            </button>
+                        </Box>
+                    </>
+                );
         }
     }
 
     const handleClickCreate = () => {
-        if(step < 0) {
+        if (step < 0) {
             setStep(step + 1);
         }
     }
@@ -45,24 +95,7 @@ export default function Configuration() {
                     Configuration
                 </Box>
             </Typography>
-            <ConfigurationTable configs={tempConfigs} />
-            <Box display={"flex"} width={"100%"}>
-                <button>
-                    <Typography style={{ fontSize: 15 }}>
-                        <img src={ImportIcon} style={{ width: "17px" }} />
-                        import
-                    </Typography>
-                </button>
-                <button onClick={() => handleClickCreate()}>
-                    <Typography style={{ fontSize: 15 }}>
-                        <img src={PlusIcon} style={{ width: "22px" }} />
-                         new
-                    </Typography>
-                </button>
-            </Box>
-
             {renderStep()}
-
             {step >= 0 && <ConfigStepper stepLabels={STEPS} step={step} />}
         </>
     )
