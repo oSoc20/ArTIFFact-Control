@@ -116,7 +116,7 @@ const FileChecksStepper = (props: StepperProps) => {
     const classes = useStyle();
     return (
         <Stepper alternativeLabel activeStep={props.step} connector={<CustomConnector />} style={{backgroundColor: 'transparent', marginBottom: 0}}>
-            {steps.map((stepName, index) => {
+            {props.stepLabels.map((stepName, index) => {
                 return (
                     <Step key={stepName} >
                         <StepLabel StepIconComponent={CustomStepIcon}>
