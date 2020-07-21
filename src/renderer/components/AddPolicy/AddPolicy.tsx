@@ -39,7 +39,7 @@ const POSSIBLE_POLICIES: Array<PolicyRule> = [
 
 
 interface AddPolicyProps {
-    goBackOneStep: () => void;
+    back: () => void;
     addPolicy: (policy: Policy) => void;
 }
 
@@ -48,7 +48,7 @@ const AddPolicy = (props: AddPolicyProps) => {
 
     const [selectedPolicy, setSelected] = React.useState<PolicyRule | null>(POSSIBLE_POLICIES[0])
     const [policyName, setPolicyName] = React.useState<string>("ImageWidth");
-    const [policyOperator, setOperator] = React.useState<string>("=");
+    const [policyOperator, setOperator] = React.useState<'<' | '=' | '>'>("=");
     const [policyValue, setValue] = React.useState<string | number | boolean>("");
 
     const handlePolicyNameChange = (event: any) => {
@@ -110,7 +110,7 @@ const AddPolicy = (props: AddPolicyProps) => {
 
     return (
         <>
-            <Button onClick={() => props.goBackOneStep()}>Back</Button>
+            <Button onClick={() => props.back()}>Back</Button>
             <Typography component="span" gutterBottom>
                 <Box fontSize='h6.fontSize' style={{ marginBottom: '40px', textAlign: "center" }}>
                     Choose a policy to add
@@ -166,6 +166,15 @@ const AddPolicy = (props: AddPolicyProps) => {
 
                 </Table>
             </TableContainer>
+            <Button onClick={() => {
+                let policy: Policy = {
+                    lhs: policyName,
+                    operator: policyOperator,
+                    rhs: policyValue
+                }
+                props.addPolicy(policy);
+                props.back();
+            }}>Save rule</Button>
         </>
     );
 }

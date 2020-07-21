@@ -35,6 +35,11 @@ const PolicyChecker = (props: PolicyCheckerProps) => {
 
     const [renderState, setRenderState] = React.useState<PolicyCheckerState>("default");
 
+
+    const backToDefault = () => {
+        setRenderState(DEFAULT);
+    }
+
     return (
         <>  {
             renderState === DEFAULT ?
@@ -92,7 +97,7 @@ const PolicyChecker = (props: PolicyCheckerProps) => {
                                 Choose a policy to add
                         </Box>
                         </Typography>
-                        <AddPolicy goBackOneStep={() => {console.log("TOOD")}} addPolicy={props.addPolicy} />
+                        <AddPolicy back={() => {setRenderState(DEFAULT)}} addPolicy={props.addPolicy} />
                     </> :
                     <>
 
