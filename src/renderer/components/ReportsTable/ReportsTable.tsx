@@ -1,7 +1,9 @@
 import * as React from 'react';
+// Themes
+import { useMainStyles } from 'Theme/Main';
+import { TableCell, StyledTableRow2, useTableStyles } from 'Theme/Table';
 // Material UI
-import { Paper, makeStyles, Theme, createStyles, TableContainer, Table, TableHead, TableRow, withStyles, TableBody, Button, Popper, Typography, PopperPlacementType, FormControlLabel, Radio, Grid, RadioGroup, ClickAwayListener } from '@material-ui/core';
-import MuiTableCell from "@material-ui/core/TableCell";
+import { Paper, makeStyles, Theme, createStyles, TableContainer, Table, TableHead, TableRow, TableBody, Button, Popper, Typography, PopperPlacementType, FormControlLabel, Radio, Grid, RadioGroup, ClickAwayListener, Tooltip } from '@material-ui/core';
 import CustomDatePicker from 'Components/CustomDatePicker/CustomDatePicker';
 // Icons
 import CheckIcon from '@material-ui/icons/Check';
@@ -14,46 +16,11 @@ import RightArrowIcon from 'Assets/icons/right-arrow.svg';
 import { useEffect } from 'react';
 
 /* STYLE */
-const TableCell = withStyles({
-    root: {
-        borderBottom: "none"
-    }
-})(MuiTableCell);
-
-const StyledTableRow = withStyles((theme: Theme) =>
-    createStyles({
-        root: {
-            '&:nth-of-type(odd)': {
-                backgroundColor: theme.palette.action.hover,
-            },
-            '&:hover': {
-                backgroundColor: theme.palette.secondary.light,
-                cursor: 'pointer'
-            }
-        }
-    })
-)(TableRow);
-
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        paper: {
-            padding: theme.spacing(2),
-            color: 'black',
-            background: '#FCFCFC',
-            boxShadow: '0px 0px 19px rgba(0, 0, 0, 0.05)',
-            borderRadius: '12px',
-            width: '100%'
-        },
         box: {
             display: 'flex',
             alignItems: 'center'
-        },
-        tableHeadRow: {
-            borderBottom: '1px solid black'
-        },
-        tableHeadCell: {
-            color: '#39657B',
-            fontWeight: 600
         },
         popup: {
             padding: theme.spacing(2),
@@ -63,26 +30,11 @@ const useStyles = makeStyles((theme: Theme) =>
             borderRadius: '12px',
         },
         closeIcon: {
-            color: theme.palette.grey[100],
+            color: theme.palette.grey[300],
             "&:hover": {
                 color: 'black',
                 cursor: 'pointer'
             }
-        },
-        pagination: {
-            marginLeft: '20px',
-            marginRight: '20px',
-            color: theme.palette.primary.main,
-            fontWeight: 600
-        },
-        paginationArrow: {
-            "&:hover": {
-                cursor: 'pointer'
-            }
-        },
-        paginationArrowDisabled: {
-            filter: 'grayscale(100%)',
-            opacity: '25%'
         }
     })
 );
@@ -99,6 +51,9 @@ interface ReportsTableProps {
 /* COMPONENT */
 const ReportsTable = (props: ReportsTableProps) => {
     const classes = useStyles();
+    const mainClasses = useMainStyles();
+    const tableClasses = useTableStyles();
+
     const [currentPage, setCurrentPage] = React.useState<number>(0);
     const [nbPages, setNbPages] = React.useState<number>(0);
     let nbElementsPerPage = 20;
@@ -172,28 +127,28 @@ const ReportsTable = (props: ReportsTableProps) => {
     let maxIndex = (currentPage * nbElementsPerPage) - 1;
 
     return <>
-        <Paper className={classes.paper}>
+        <Paper className={mainClasses.paper}>
             {props.reports.length > 0 ?
                 <>
                     <TableContainer style={{ height: '60vh', overflow: "auto" }} >
                         <Table aria-label="span" size="small" stickyHeader>
                             <TableHead>
-                                <TableRow className={classes.tableHeadRow}>
-                                    <TableCell className={classes.tableHeadCell}>Date</TableCell>
-                                    <TableCell className={classes.tableHeadCell}>Files</TableCell>
-                                    <TableCell className={classes.tableHeadCell}>Input</TableCell>
-                                    <TableCell className={classes.tableHeadCell}>Result</TableCell>
-                                    <TableCell className={classes.tableHeadCell}>Errors</TableCell>
-                                    <TableCell className={classes.tableHeadCell}>Passed</TableCell>
-                                    <TableCell className={classes.tableHeadCell}>Score</TableCell>
-                                    <TableCell className={classes.tableHeadCell}></TableCell>
+                                <TableRow className={tableClasses.tableHeadRow}>
+                                    <TableCell className={tableClasses.tableHeadCell}>Date</TableCell>
+                                    <TableCell className={tableClasses.tableHeadCell}>Files</TableCell>
+                                    <TableCell className={tableClasses.tableHeadCell}>Input</TableCell>
+                                    <TableCell className={tableClasses.tableHeadCell}>Result</TableCell>
+                                    <TableCell className={tableClasses.tableHeadCell}>Errors</TableCell>
+                                    <TableCell className={tableClasses.tableHeadCell}>Passed</TableCell>
+                                    <TableCell className={tableClasses.tableHeadCell}>Score</TableCell>
+                                    <TableCell className={tableClasses.tableHeadCell}></TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
                                 {props.reports.map((report, index) => {
                                     if (props.reports.length <= nbElementsPerPage || (index >= minIndex && index <= maxIndex)) {
                                         return (
-                                            <StyledTableRow key={index} onClick={() => props.setReport(report)}>
+                                            <StyledTableRow2 key={index} onClick={() => props.setReport(report)}>
                                                 <TableCell component="th" scope="row">
                                                     {report.date.toLocaleDateString()}
                                                 </TableCell>
@@ -201,16 +156,18 @@ const ReportsTable = (props: ReportsTableProps) => {
                                                     {report.files}
                                                 </TableCell>
                                                 <TableCell component="th" scope="row">
-                                                    {report.input}
+                                                    <Tooltip title={report.input} aria-label={report.input} placement="bottom">
+                                                        <div style={{ maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis' }}>{report.input}</div>
+                                                    </Tooltip>
                                                 </TableCell>
                                                 <TableCell component="th" scope="row">
                                                     {report.result ? <CheckIcon style={{ color: 'green' }} /> : <ClearIcon style={{ color: 'red' }} />}
                                                 </TableCell>
                                                 <TableCell component="th" scope="row">
-                                                    {report.errors} errors
+                                                    {report.errors}
                                                 </TableCell>
                                                 <TableCell component="th" scope="row">
-                                                    {report.passed} Passed
+                                                    {report.passed}
                                                 </TableCell>
                                                 <TableCell component="th" scope="row">
                                                     {report.score}%
@@ -218,7 +175,7 @@ const ReportsTable = (props: ReportsTableProps) => {
                                                 <TableCell component="th" scope="row">
                                                     <Button onClick={(event) => { event.stopPropagation(); props.removeReport(report) }}><img src={DeleteBinIcon} style={{ width: '24px' }} /></Button>
                                                 </TableCell>
-                                            </StyledTableRow>
+                                            </StyledTableRow2>
                                         );
                                     }
                                 })}
@@ -231,9 +188,9 @@ const ReportsTable = (props: ReportsTableProps) => {
                         <Grid item xs={4} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                             {nbPages > 1 ?
                                 <>
-                                    <img src={LeftArrowIcon} className={currentPage > 1 ? classes.paginationArrow : classes.paginationArrowDisabled} onClick={() => previousPage()} />
-                                    <Typography className={classes.pagination}>Page {currentPage} / {nbPages}</Typography>
-                                    <img src={RightArrowIcon} className={currentPage < nbPages ? classes.paginationArrow : classes.paginationArrowDisabled} onClick={() => nextPage()} />
+                                    <img src={LeftArrowIcon} className={currentPage > 1 ? tableClasses.paginationArrow : tableClasses.paginationArrowDisabled} onClick={() => previousPage()} />
+                                    <Typography className={tableClasses.pagination}>Page {currentPage} / {nbPages}</Typography>
+                                    <img src={RightArrowIcon} className={currentPage < nbPages ? tableClasses.paginationArrow : tableClasses.paginationArrowDisabled} onClick={() => nextPage()} />
                                 </>
                                 : null
                             }

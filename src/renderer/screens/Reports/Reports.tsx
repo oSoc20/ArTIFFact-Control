@@ -97,7 +97,7 @@ const Reports = () => {
                 </div>
             </Typography>
             <Grid container spacing={3}>
-                <Grid item xs={12} lg={11} xl={8} style={{ display: 'flex', margin: 'auto' }}>
+                <Grid item xs={12} xl={10} style={{margin: 'auto'}}>
                     {report === null ?
                         <ReportsTable reports={reports} removeReport={removeReport} removeReportsOlderThan={removeReportsOlderThan} clearReports={clearReports} setReport={setReport} />
                         : <ReportDetails report={report} setReport={setReport} removeReport={removeReport} />

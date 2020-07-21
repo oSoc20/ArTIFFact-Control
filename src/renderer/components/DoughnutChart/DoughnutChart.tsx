@@ -45,8 +45,7 @@ const DoughnutChart = (props: DoughnutChartProps) => {
             borderWidth: 2
         }],
         labels: props.labels,
-        text: text,
-        fontWeight: 700
+        text: text
     };
     const options = {
         responsive: true,
