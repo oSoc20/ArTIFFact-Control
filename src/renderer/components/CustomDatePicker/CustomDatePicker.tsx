@@ -8,6 +8,7 @@ import {
 } from '@material-ui/pickers';
 // Icons
 import CalendarIcon from 'Assets/icons/icons8-calendar-100 1.svg';
+import { format } from 'date-fns';
 
 /* STYLE */
 const useStyles = makeStyles((theme: Theme) =>
@@ -68,7 +69,7 @@ const CustomDatePicker = (props: CustomDatePickerProps) => {
                 id="date-picker-dialog"
                 format="dd/MM/yy"
                 orientation="landscape"
-                value={props.selectedDate}
+                value={props.selectedDate !== null ? format(props.selectedDate, 'dd/MM/yyyy') : null}
                 onChange={handleDateChange}
                 KeyboardButtonProps={{
                     'aria-label': 'change date',

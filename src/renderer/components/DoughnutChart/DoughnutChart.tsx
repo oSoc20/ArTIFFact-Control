@@ -1,21 +1,18 @@
 import * as React from 'react';
 import { Doughnut } from 'react-chartjs-2';
-import Chart from 'chart.js'
+import * as Chart from 'chart.js'
 
 /* INTERFACE */
 interface DoughnutChartProps {
     labels: Array<string>;
     colors?: Array<string>;
     values: Array<number>;
-    focusedValue?: number
+    textValue?: string
 }
 
 /* COMPONENT */
 const DoughnutChart = (props: DoughnutChartProps) => {
-    const total = props.values.reduce((a, b) => {
-        return a + b;
-    }, 0);
-    const text = props.focusedValue !== undefined && total > 0 ? (props.focusedValue / total * 100).toFixed(0) + '%' : '0%';
+    const text = props.textValue !== undefined ? props.textValue : '';
 
     var originalDoughnutDraw = Chart.controllers.doughnut.prototype.draw;
     Chart.helpers.extend(Chart.controllers.doughnut.prototype, {

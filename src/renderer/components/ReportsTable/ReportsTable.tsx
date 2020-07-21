@@ -14,6 +14,7 @@ import ClearOptionIcon from 'Assets/icons/icons8-clear-option-500.svg';
 import LeftArrowIcon from 'Assets/icons/left-arrow.svg';
 import RightArrowIcon from 'Assets/icons/right-arrow.svg';
 import { useEffect } from 'react';
+import { format } from 'date-fns';
 
 /* STYLE */
 const useStyles = makeStyles((theme: Theme) =>
@@ -150,14 +151,14 @@ const ReportsTable = (props: ReportsTableProps) => {
                                         return (
                                             <StyledTableRow2 key={index} onClick={() => props.setReport(report)}>
                                                 <TableCell component="th" scope="row">
-                                                    {report.date.toLocaleDateString()}
+                                                    {format(report.date, 'dd/MM/yyyy')}
                                                 </TableCell>
                                                 <TableCell component="th" scope="row">
                                                     {report.files}
                                                 </TableCell>
                                                 <TableCell component="th" scope="row">
-                                                    <Tooltip title={report.input} aria-label={report.input} placement="bottom">
-                                                        <div style={{ maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis' }}>{report.input}</div>
+                                                    <Tooltip title={report.path} aria-label={report.path} placement="bottom">
+                                                        <div style={{ maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis' }}>{report.path}</div>
                                                     </Tooltip>
                                                 </TableCell>
                                                 <TableCell component="th" scope="row">

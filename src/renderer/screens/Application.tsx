@@ -11,8 +11,7 @@ import FileChecks from './FileChecks/FileChecks';
 import Reports from './Reports/Reports';
 import Statistics from './Statistics/Statistics';
 import PeriodicalChecks from './PeriodicalChecks/PeriodicalChecks';
-import ConformanceChecks from './ConformanceChecks/PeriodicalChecks';
-import Configurations from './Configurations/Configurations';
+import Configuration from './Configuration/Configuration';
 import Help from './Help/Help';
 import About from './About/About';
 
@@ -48,8 +47,7 @@ function Application() {
                         <Route path="/reports" exact component={Reports} />
                         <Route path="/statistics" exact component={Statistics} />
                         <Route path="/periodicalChecks" exact component={PeriodicalChecks} />
-                        <Route path="/conformanceChecks" exact component={ConformanceChecks} />
-                        <Route path="/configurations" exact component={Configurations} />
+                        <Route path="/configuration" exact component={Configuration} />
                         <Route path="/help" exact component={Help} />
                         <Route path="/about" exact component={About} />
                         <Redirect from="/*" to="/dashboard" />

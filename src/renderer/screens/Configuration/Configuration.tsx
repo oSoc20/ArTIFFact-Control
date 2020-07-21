@@ -1,9 +1,9 @@
 import * as React from 'react';
 
-export default function ConformanceChecks() {
+export default function ConformanceCheck() {
     return (
         <>
-            Conformance Checks
+            Configuration
         </>
     )
 }

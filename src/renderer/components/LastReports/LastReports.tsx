@@ -4,6 +4,7 @@ import {useMainStyles} from 'Theme/Main';
 import {TableCell, StyledTableRow1, useTableStyles} from 'Theme/Table';
 // Material UI
 import { Typography, Paper, Box, makeStyles, Theme, createStyles, TableContainer, Table, TableHead, TableRow, TableBody, Button } from '@material-ui/core';
+import { format } from 'date-fns';
 // Icons
 import CheckIcon from '@material-ui/icons/Check';
 import ClearIcon from '@material-ui/icons/Clear';
@@ -36,12 +37,12 @@ const LastReports = (props: LastReportsProps) => {
 
     const history = useHistory();
     var reportsData: Report[] = [
-        { name: 'Tifffile.tiff', date: new Date('7/07/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, warnings: 0, score: 100, duration: 99 },
-        { name: 'Tifffile.tiff', date: new Date('7/07/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, warnings: 0, score: 100, duration: 99 },
-        { name: 'Tifffile.tiff', date: new Date('7/07/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, warnings: 0, score: 100, duration: 99 },
-        { name: 'Tifffile.tiff', date: new Date('7/07/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, warnings: 0, score: 80, duration: 99 },
-        { name: 'Tifffile.tiff', date: new Date('7/07/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, warnings: 0, score: 100, duration: 99 },
-        { name: 'Tifffile.tiff', date: new Date('7/07/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, warnings: 0, score: 100, duration: 99 }
+        { name: 'Tifffile.tiff', directory: '/users/name/file', path: '/users/name/file/Tifffile.tiff', date: new Date('7/21/2020'), files: 1, result: true, errors: 0, passed: 1, warnings: 0, score: 100, duration: 99 },
+        { name: 'Tifffile.tiff', directory: '/users/name/file', path: '/users/name/file/Tifffile.tiff', date: new Date('7/20/2020'), files: 12, result: false, errors: 9, passed: 3, warnings: 0, score: 100, duration: 99 },
+        { name: 'Tifffile.tiff', directory: '/users/name/file', path: '/users/name/file/Tifffile.tiff', date: new Date('7/18/2020'), files: 1, result: true, errors: 0, passed: 1, warnings: 0, score: 100, duration: 99 },
+        { name: 'Tifffile.tiff', directory: '/users/name/file', path: '/users/name/file/Tifffile.tiff', date: new Date('7/17/2020'), files: 4, result: false, errors: 1, passed: 3, warnings: 0, score: 100, duration: 99 },
+        { name: 'Tifffile.tiff', directory: '/users/name/file', path: '/users/name/file/Tifffile.tiff', date: new Date('7/15/2020'), files: 1, result: true, errors: 0, passed: 1, warnings: 0, score: 100, duration: 99 },
+        { name: 'Tifffile.tiff', directory: '/users/name/file', path: '/users/name/file/Tifffile.tiff', date: new Date('6/08/2020'), files: 2, result: true, errors: 0, passed: 1, warnings: 1, score: 100, duration: 99 }
     ];
     const [reports, setReports] = React.useState(reportsData);
 
@@ -75,13 +76,13 @@ const LastReports = (props: LastReportsProps) => {
                                     return (
                                         <StyledTableRow1 key={index} style={opacity}>
                                             <TableCell component="th" scope="row">
-                                                {report.date.toLocaleDateString()}
+                                                {format(report.date, 'dd/MM/yyyy')}
                                             </TableCell>
                                             <TableCell component="th" scope="row">
                                                 {report.files}
                                             </TableCell>
                                             <TableCell component="th" scope="row">
-                                                {report.input}
+                                                {report.path}
                                             </TableCell>
                                             <TableCell component="th" scope="row">
                                                 {report.result ? <CheckIcon style={{ color: 'green' }} /> : <ClearIcon style={{ color: 'red' }} />}

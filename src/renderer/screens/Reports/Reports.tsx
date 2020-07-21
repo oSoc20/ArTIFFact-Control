@@ -1,7 +1,7 @@
 import * as React from 'react';
 // Material UI
 import { Typography, Grid, Box, makeStyles, Theme, createStyles } from '@material-ui/core';
-import { isBefore, setHours, setMinutes, setSeconds, setMilliseconds, getDaysInMonth } from 'date-fns';
+import { isBefore, setHours, setMinutes, setSeconds, setMilliseconds } from 'date-fns';
 // Icons
 import RatingsIcon from 'Assets/icons/icons8-ratings-500.svg';
 import ReportsTable from 'Components/ReportsTable/ReportsTable';
@@ -39,8 +39,8 @@ const Reports = () => {
     const classes = useStyles();
     const [report, setReport] = React.useState<Report | null>(null);
     var reportsData: Report[] = [
-        { name: 'file_example_TIFF_1MB.tiff', date: new Date('07/15/2020'), files: 27, input: "D:\\Bureau\\Téléchargements\\file_example_TIFF_1MB.tiff", result: false, errors: 1, passed: 3, warnings: 0, score: 90 , duration: 93, formats: [{title: 'HTML', url: null}, {title: 'PDF', url: null}, {title: 'XML', url: null}, {title: 'JSON', url: null}, {title: 'METS', url: null}] },
-        { name: 'file_example_TIFF_10MB.tiff', date: new Date('07/22/2020'), files: 27, input: "D:\\Bureau\\Téléchargements\\file_example_TIFF_10MB.tiff", result: false, errors: 1, passed: 3, warnings: 0, score: 90 , duration: 93, formats: [{title: 'HTML', url: null}, {title: 'PDF', url: null}, {title: 'XML', url: null}, {title: 'JSON', url: null}, {title: 'METS', url: null}] }
+        { name: 'file_example_TIFF_1MB.tiff', directory: "D:\\Bureau\\Téléchargements", path: "D:\\Bureau\\Téléchargements\\file_example_TIFF_1MB.tiff", date: new Date('07/15/2020'), files: 1, result: true, errors: 0, passed: 3, warnings: 1, score: 75 , duration: 93, formats: [{title: 'HTML', url: null}, {title: 'PDF', url: null}, {title: 'XML', url: null}, {title: 'JSON', url: null}, {title: 'METS', url: null}] },
+        { name: 'file_example_TIFF_10MB.tiff', directory: "D:\\Bureau\\Téléchargements", path: "D:\\Bureau\\Téléchargements\\file_example_TIFF_10MB.tiff", date: new Date('07/22/2020'), files: 1, result: false, errors: 2, passed: 2, warnings: 0, score: 50 , duration: 198, formats: [{title: 'HTML', url: null}, {title: 'PDF', url: null}, {title: 'XML', url: null}, {title: 'JSON', url: null}, {title: 'METS', url: null}] }
     ];
     const [reports, setReports] = React.useState(reportsData);
 

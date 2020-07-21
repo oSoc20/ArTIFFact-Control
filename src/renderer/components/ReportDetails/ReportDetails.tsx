@@ -15,6 +15,7 @@ import FolderIcon from 'Assets/icons/folder.svg';
 import RatingsIcon from 'Assets/icons/icons8-ratings-500.svg';
 import DoughnutChart from 'Components/DoughnutChart/DoughnutChart';
 import { shell } from 'electron';
+import { format } from 'date-fns';
 
 /* STYLE */
 const useStyles = makeStyles((theme: Theme) =>
@@ -60,11 +61,11 @@ const ReportDetails = (props: ReportsTableProps) => {
                     <Typography component='span'>
                         <Box fontSize='h6.fontSize' fontWeight='fontWeightBold'>
                             Summary
-                            </Box>
+                        </Box>
                     </Typography>
                     <Grid container style={{ marginTop: '10px' }}>
                         <Grid item xs={6}>
-                            <DoughnutChart labels={['Errors', 'passed', 'passed with warnings']} values={[props.report.errors!, props.report.passed!, props.report.warnings!]} focusedValue={props.report.passed} />
+                            <DoughnutChart labels={['Errors', 'passed', 'passed with warnings']} values={[props.report.errors!, props.report.passed!, props.report.warnings!]} textValue={props.report.score + '%'} />
                         </Grid>
                         <Grid item xs={6} style={{ display: 'flex', alignItems: 'center' }}>
                             <Grid container spacing={1}>
@@ -96,7 +97,7 @@ const ReportDetails = (props: ReportsTableProps) => {
                                     <Typography className={classes.label}>Date</Typography>
                                 </Grid>
                                 <Grid item xs={9}>
-                                    <Typography style={{ fontSize: '16px' }}>{props.report.date.toLocaleDateString()}</Typography>
+                                    <Typography style={{ fontSize: '16px' }}>{format(props.report.date, 'dd/MM/yyyy hh:mm:ss')}</Typography>
                                 </Grid>
                             </Grid>
                         </Grid>
@@ -131,7 +132,7 @@ const ReportDetails = (props: ReportsTableProps) => {
                             </Grid>
                         </Grid>
                         <Grid item xs={12} style={{ display: 'flex', marginTop: '15px', justifyContent: 'flex-end' }}>
-                            <Button style={{ fontSize: '16px', textTransform: 'none' }} onClick={() => shell.openPath(props.report.input)}><img src={FolderIcon} style={{ width: '20px', marginRight: '8px' }} /> See report in directory</Button>
+                            <Button style={{ fontSize: '16px', textTransform: 'none' }} onClick={() => shell.openPath(props.report.directory)}><img src={FolderIcon} style={{ width: '20px', marginRight: '8px' }} /> See report in directory</Button>
                             <Button style={{ fontSize: '16px', textTransform: 'none' }} onClick={() => props.removeReport(props.report)}><img src={DeleteBinIcon} style={{ width: '20px', marginRight: '8px' }} /> Delete report</Button>
                         </Grid>
                     </Grid>
@@ -179,8 +180,8 @@ const ReportDetails = (props: ReportsTableProps) => {
                                             {props.report.name}
                                         </TableCell>
                                         <TableCell component="th" scope="row">
-                                            <Tooltip title={props.report.input} aria-label={props.report.input} placement="bottom">
-                                                <div style={{ maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis' }}>{props.report.input}</div>
+                                            <Tooltip title={props.report.directory} aria-label={props.report.directory} placement="bottom">
+                                                <div style={{ maxWidth: '275px', overflow: 'hidden', textOverflow: 'ellipsis' }}>{props.report.directory}</div>
                                             </Tooltip>
                                         </TableCell>
                                         <TableCell component="th" scope="row">

@@ -98,7 +98,7 @@ const FileChecks = (props: FilecheckerProps) => {
                         </Paper>
                     </Container>
                 </Grid>
-                <Grid item xs={12} lg={10}>
+                <Grid item xs={12} lg={10} style={{margin: 'auto'}}>
                     <div className={classes.stepperContainer}>
                         <FileCheckStepper />
                     </div>

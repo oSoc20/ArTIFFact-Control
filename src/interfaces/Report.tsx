@@ -1,8 +1,9 @@
 interface Report {
     name: string;
+    directory: string;
+    path: string;
     date: Date;
     files: number;
-    input: string;
     result: boolean;
     errors?: number;
     passed?: number;
