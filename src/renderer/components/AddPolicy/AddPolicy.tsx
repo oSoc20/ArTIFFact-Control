@@ -46,7 +46,7 @@ interface AddPolicyProps {
 
 const AddPolicy = (props: AddPolicyProps) => {
 
-    const [selectedPolicy, setSelected] = React.useState<PolicyRule | null>(null)
+    const [selectedPolicy, setSelected] = React.useState<PolicyRule | null>(POSSIBLE_POLICIES[0])
     const [policyName, setPolicyName] = React.useState<string>("ImageWidth");
     const [policyOperator, setOperator] = React.useState<string>("=");
     const [policyValue, setValue] = React.useState<string | number | boolean>("");
@@ -54,6 +54,7 @@ const AddPolicy = (props: AddPolicyProps) => {
     const handlePolicyNameChange = (event: any) => {
         const name = event.target.value;
         setPolicyName(name);
+        setValue("");
     }
 
     const handlePolicyOperatorChange = (event: any) => {
@@ -146,6 +147,7 @@ const AddPolicy = (props: AddPolicyProps) => {
                                     <Select
                                         value={policyOperator}
                                         onChange={handlePolicyOperatorChange}
+                                        defaultValue={'='}
                                     >
                                         {getAllowedOperators(selectedPolicy).map((op: string, index: number) => {
                                             return <MenuItem key={index} value={op}>{op}</MenuItem>
