@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Typography, Box } from '@material-ui/core';
-import { Policy } from 'Interfaces/Configuration';
+import { Policy, ReportTypes } from 'Interfaces/Configuration';
 import ConfigurationTable, { tempConfigs } from 'Components/ConfigurationTable/ConfigurationTable';
 import PlusIcon from 'Assets/icons/icons8-plus-math-500.svg';
 import ImportIcon from 'Assets/icons/icons8-import-500.svg';
@@ -19,6 +19,7 @@ export default function Configuration() {
     const [step, setStep] = React.useState<number>(-1);
     const [selectedStandards, setSelectedStandards] = React.useState<Array<string>>([]);
     const [policies, setPolicies] = React.useState<Array<Policy>>([]);
+    const [reportTypes, setReportTypes] = React.useState<Array<ReportTypes>>([]);
 
     const addStandard = (standard: string) => {
         if (!selectedStandards.includes(standard)) {
@@ -47,6 +48,21 @@ export default function Configuration() {
             const index = newPolicies.indexOf(policy);
             newPolicies.splice(index, 1);
             setPolicies(newPolicies);
+        }
+    }
+
+    const addReportType = (reportType: ReportTypes) => {
+        if(!reportTypes.includes(reportType)) {
+            setReportTypes([...reportTypes, reportType]);
+        }
+    }
+
+    const removeReportType = (reportType: ReportTypes) => {
+        if (reportTypes.includes(reportType)) {
+            const newReportTypes = [...reportTypes];
+            const index = newReportTypes.indexOf(reportType);
+            newReportTypes.splice(index, 1);
+            setReportTypes(newReportTypes);
         }
     }
 
@@ -80,9 +96,22 @@ export default function Configuration() {
                         progressStep={incrementStep}
                     />);
             case 2:
-                return (<Report />);
+                return (<Report 
+                    goBackOneStep={goBackOneStep}
+                    addReportType={addReportType}
+                    removeReportType={removeReportType}
+                    progress={incrementStep}
+                />);
             case 3:
-                return (<Summary />);
+                return (<Summary 
+                    goBack={goBackOneStep}
+                    config={{
+                        name: "TEMP",
+                        implementation: selectedStandards.toString(),
+                        policies: policies,
+                        reports: reportTypes
+                    }}
+                />);
             default:
                 return (
                     <>

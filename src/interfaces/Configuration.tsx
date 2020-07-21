@@ -4,7 +4,7 @@ export interface Policy {
     rhs: string | number | any;
 }
 
-export type ReportTypes = 'JSON' | 'PDF' | 'XML' | 'METS'
+export type ReportTypes = 'HTML' | 'JSON' | 'PDF' | 'XML and METS'
 
 export interface Configuration {
     name: string;
