@@ -30,8 +30,14 @@ const useStyles = makeStyles((theme: Theme) =>
         textcontainer: {
             padding: '65px',
             display: 'flex',
+            flexFlow: 'column',
             justifyContent: 'center',
-            alignItems: 'center',
+        },
+        margin: {
+            margin: '10px 0',
+        },
+        extraMargin: {
+            marginTop: '30px',
         },
         imagecontainer: {
             padding: '0 65px 65px',
@@ -66,17 +72,29 @@ export default function About() {
                                 of code 2020. The project was commissioned by Meemoo. The goals of
                                 this project was to create a new, refreshed user interface that can
                                 replace the current DPF Manager.
-                                <br />
-                                <br />
-                                <br /> All project members are: <br />
-                                <br />
+                            </Typography>
+                            <Typography className={classes.extraMargin}>
+                                All project members are:
+                            </Typography>
+                            <Typography className={classes.margin}>
                                 Bram De Coninck - Coach
-                                <br /> Christopher Denis - Front-end Developer <br />
-                                Freek De Sagher - Front-end Developer <br />
-                                Tim Pensart - UX/UI design <br />
-                                Amber Pérard - UX/UI design <br />
-                                <br /> The project is build on the JHOVE rest API and Electron. The
-                                GitHub repository is available at{' '}
+                            </Typography>
+                            <Typography className={classes.margin}>
+                                {' '}
+                                Christopher Denis - Front-end Developer{' '}
+                            </Typography>
+                            <Typography className={classes.margin}>
+                                Freek De Sagher - Front-end Developer{' '}
+                            </Typography>
+                            <Typography className={classes.margin}>
+                                Tim Pensart - UX/UI design{' '}
+                            </Typography>
+                            <Typography className={classes.margin}>
+                                Amber Pérard - UX/UI design
+                            </Typography>
+                            <Typography className={classes.extraMargin}>
+                                he project is build on the JHOVE rest API and Electron. The GitHub
+                                repository is available at{' '}
                                 <a href="https://github.com/oSoc20/ArTIFFact-Control">
                                     https://github.com/oSoc20/ArTIFFact-Control
                                 </a>
