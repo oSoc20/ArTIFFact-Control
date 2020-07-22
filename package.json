@@ -1,6 +1,6 @@
 {
   "name": "ArTIFFact-Control",
-  "version": "0.0.3",
+  "version": "0.0.2",
   "description": "ArTIFFact-Control is a desktop app",
   "main": "./webpack-config/dist/main.js",
   "scripts": {

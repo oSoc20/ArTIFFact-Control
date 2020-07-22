@@ -42,11 +42,11 @@ const useStyles = makeStyles((theme: Theme) =>
 
 /* INTERFACE */
 interface ReportsTableProps {
-    reports: Array<Report>;
-    removeReport: (report: Report) => void;
-    removeReportsOlderThan: (date: Date | null) => void;
-    clearReports: () => void;
-    setReport: (report: Report) => void;
+    reportParents: Array<ReportParent> | null;
+    removeReportParent: (report: ReportParent) => void;
+    removeReportParentsOlderThan: (date: Date | null) => void;
+    clearReportParents: () => void;
+    setReportParent: (report: ReportParent) => void;
 }
 
 /* COMPONENT */
@@ -80,9 +80,9 @@ const ReportsTable = (props: ReportsTableProps) => {
 
     const handleClear = () => {
         if (action == 'clearAll') {
-            props.clearReports();
+            props.clearReportParents();
         } else if (action == 'olderThan') {
-            props.removeReportsOlderThan(selectedDate);
+            props.removeReportParentsOlderThan(selectedDate);
         }
 
         setOpen(false);
@@ -99,17 +99,19 @@ const ReportsTable = (props: ReportsTableProps) => {
     }
 
     const initPagination = () => {
-        if (nbPages == 0 && props.reports.length > nbElementsPerPage) {
+        if (nbPages == 0 && props.reportParents !== null && props.reportParents.length > nbElementsPerPage) {
             setPagination();
             setCurrentPage(1);
         }
     }
 
     const setPagination = () => {
-        let nbPages = Math.ceil(props.reports.length / nbElementsPerPage);
-        setNbPages(nbPages);
-        if (currentPage > nbPages)
-            setCurrentPage(nbPages);
+        if (props.reportParents !== null) {
+            let nbPages = Math.ceil(props.reportParents.length / nbElementsPerPage);
+            setNbPages(nbPages);
+            if (currentPage > nbPages)
+                setCurrentPage(nbPages);
+        }
     }
 
     initPagination();
@@ -122,14 +124,14 @@ const ReportsTable = (props: ReportsTableProps) => {
             }
         };
         window.addEventListener('keydown', handleEsc);
-    }, [props.reports]);
+    }, [props.reportParents]);
 
     let minIndex = (currentPage - 1) * nbElementsPerPage;
     let maxIndex = (currentPage * nbElementsPerPage) - 1;
 
     return <>
         <Paper className={mainClasses.paper}>
-            {props.reports.length > 0 ?
+            {props.reportParents! !== null && props.reportParents.length > 0 ?
                 <>
                     <TableContainer style={{ height: '60vh', overflow: "auto" }} >
                         <Table aria-label="span" size="small" stickyHeader>
@@ -146,40 +148,56 @@ const ReportsTable = (props: ReportsTableProps) => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {props.reports.map((report, index) => {
-                                    if (props.reports.length <= nbElementsPerPage || (index >= minIndex && index <= maxIndex)) {
-                                        return (
-                                            <StyledTableRow2 key={index} onClick={() => props.setReport(report)}>
-                                                <TableCell component="th" scope="row">
-                                                    {format(report.date, 'dd/MM/yyyy')}
+                                {props.reportParents !== null ?
+                                    props.reportParents.map((reportParent, index) => {
+                                        if (props.reportParents!.length <= nbElementsPerPage || (index >= minIndex && index <= maxIndex)) {
+                                            const directory = reportParent.reports[0].filePath.replace(reportParent.reports[0].fileName, '');
+                                            const files = reportParent.reports.length;
+                                            let result = true; let errors = 0; let passed = 0; let warnings = 0; let score = 0;
+                                            reportParent.reports.forEach(report => {
+                                                if (!report.result)
+                                                    result = false;
+                                                if (report.errors !== undefined)
+                                                    errors += report.errors;
+                                                if (report.passed !== undefined)
+                                                    passed += report.passed;
+                                                if (report.warnings !== undefined)
+                                                    warnings += report.warnings;
+                                            });
+                                            score = passed / (errors + passed + warnings) * 100
+
+                                            return (
+                                                <StyledTableRow2 key={index} onClick={() => props.setReportParent(reportParent)}>
+                                                    <TableCell component="th" scope="row">
+                                                        {format(reportParent.reports[0].date, 'dd/MM/yyyy')}
+                                                    </TableCell>
+                                                    <TableCell component="th" scope="row">
+                                                        {files}
+                                                    </TableCell>
+                                                    <TableCell component="th" scope="row">
+                                                        <Tooltip title={directory} aria-label={directory} placement="bottom">
+                                                            <div style={{ maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis' }}>{directory}</div>
+                                                        </Tooltip>
+                                                    </TableCell>
+                                                    <TableCell component="th" scope="row">
+                                                        {result ? <CheckIcon style={{ color: 'green' }} /> : <ClearIcon style={{ color: 'red' }} />}
+                                                    </TableCell>
+                                                    <TableCell component="th" scope="row">
+                                                        {errors}
+                                                    </TableCell>
+                                                    <TableCell component="th" scope="row">
+                                                        {passed}
+                                                    </TableCell>
+                                                    <TableCell component="th" scope="row">
+                                                        {score}%
                                                 </TableCell>
-                                                <TableCell component="th" scope="row">
-                                                    1
-                                                </TableCell>
-                                                <TableCell component="th" scope="row">
-                                                    <Tooltip title={report.filePath} aria-label={report.filePath} placement="bottom">
-                                                        <div style={{ maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis' }}>{report.filePath}</div>
-                                                    </Tooltip>
-                                                </TableCell>
-                                                <TableCell component="th" scope="row">
-                                                    {report.result ? <CheckIcon style={{ color: 'green' }} /> : <ClearIcon style={{ color: 'red' }} />}
-                                                </TableCell>
-                                                <TableCell component="th" scope="row">
-                                                    {report.errors}
-                                                </TableCell>
-                                                <TableCell component="th" scope="row">
-                                                    {report.passed}
-                                                </TableCell>
-                                                <TableCell component="th" scope="row">
-                                                    {report.score}%
-                                                </TableCell>
-                                                <TableCell component="th" scope="row">
-                                                    <Button onClick={(event) => { event.stopPropagation(); props.removeReport(report) }}><img src={DeleteBinIcon} style={{ width: '24px' }} /></Button>
-                                                </TableCell>
-                                            </StyledTableRow2>
-                                        );
-                                    }
-                                })}
+                                                    <TableCell component="th" scope="row">
+                                                        <Button onClick={(event) => { event.stopPropagation(); props.removeReportParent(reportParent) }}><img src={DeleteBinIcon} style={{ width: '24px' }} /></Button>
+                                                    </TableCell>
+                                                </StyledTableRow2>
+                                            );
+                                        }
+                                    }) : null}
                             </TableBody>
                         </Table>
                     </TableContainer>
