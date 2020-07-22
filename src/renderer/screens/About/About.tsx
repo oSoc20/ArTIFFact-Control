@@ -80,21 +80,20 @@ export default function About() {
                                 Bram De Coninck - Coach
                             </Typography>
                             <Typography className={classes.margin}>
-                                {' '}
-                                Christopher Denis - Front-end Developer{' '}
+                                Christopher Denis - Front-end Developer
                             </Typography>
                             <Typography className={classes.margin}>
-                                Freek De Sagher - Front-end Developer{' '}
+                                Freek De Sagher - Front-end Developer
                             </Typography>
                             <Typography className={classes.margin}>
-                                Tim Pensart - UX/UI design{' '}
+                                Tim Pensart - UX/UI design
                             </Typography>
                             <Typography className={classes.margin}>
                                 Amber Pérard - UX/UI design
                             </Typography>
                             <Typography className={classes.extraMargin}>
                                 he project is build on the JHOVE rest API and Electron. The GitHub
-                                repository is available at{' '}
+                                repository is available at
                                 <a href="https://github.com/oSoc20/ArTIFFact-Control">
                                     https://github.com/oSoc20/ArTIFFact-Control
                                 </a>
