@@ -79,7 +79,7 @@ const Sidebar = (props: SidebarProps) => {
         { name: 'Dashboard', link: 'dashboard', icon: HomeIcon },
         { name: 'Check a file', link: 'fileChecks', icon: CheckFileIcon },
         { name: 'Reports', link: 'reports', icon: RatingsIcon },
-        { name: 'Configuration', link: 'configurations', icon: SettingsIcon },
+        { name: 'Configuration', link: 'configuration', icon: SettingsIcon },
         { name: 'Periodical checks', link: 'periodicalChecks', icon: ClockCheckedIcon },
         { name: 'Statistics', link: 'statistics', icon: ComboChartIcon }
     ];
