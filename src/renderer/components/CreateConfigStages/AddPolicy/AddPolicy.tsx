@@ -92,6 +92,7 @@ const AddPolicy = (props: AddPolicyProps) => {
         if (policyRule.allowAllOperators) {
             return ALL;
         }
+        
         switch (policyRule.type) {
             case "boolean":
                 return ['='];

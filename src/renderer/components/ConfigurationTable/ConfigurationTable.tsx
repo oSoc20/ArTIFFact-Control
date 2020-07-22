@@ -10,7 +10,6 @@ interface ConfigTableProps {
     selectable?: false;
     currentSelected?: null;
     setCurrentSelected?: null;
-
 }
 
 interface ConfigTablePropsWithSelection {
@@ -37,7 +36,6 @@ export const tempConfigs: Array<Configuration> = [
     { name: "Extended", implementation: "Baseline TIFF 6.0", policies: [], reports: ["JSON", "PDF"] },
     { name: "Extended", implementation: "Baseline TIFF 6.0", policies: [], reports: ["JSON", "PDF"] },
     { name: "Extended", implementation: "Baseline TIFF 6.0", policies: [], reports: ["JSON", "PDF"] },
-
 ]
 
 
