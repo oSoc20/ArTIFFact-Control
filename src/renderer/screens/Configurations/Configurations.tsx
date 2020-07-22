@@ -9,9 +9,10 @@ import PolicyChecker from 'Components/CreateConfigStages/PolicyChecker/PolicyChe
 import Report from 'Components/CreateConfigStages/Report/Report';
 import StandardPick from 'Components/CreateConfigStages/StandardPick/StandardPick';
 import Summary from 'Components/CreateConfigStages/Summary/Summary';
+import NameSetter from 'Components/CreateConfigStages/NameSetter/NameSetter';
 
 
-const STEPS = ['Implementation', 'Policy check', 'Report', 'Summary'];
+const STEPS = ['Name', 'Implementation', 'Policy', 'Report', 'Summary'];
 
 
 export default function Configuration() {
@@ -20,6 +21,7 @@ export default function Configuration() {
     const [selectedStandards, setSelectedStandards] = React.useState<Array<string>>([]);
     const [policies, setPolicies] = React.useState<Array<Policy>>([]);
     const [reportTypes, setReportTypes] = React.useState<Array<ReportTypes>>([]);
+    const [policyName, setName] = React.useState<string>("");
 
     const addStandard = (standard: string) => {
         if (!selectedStandards.includes(standard)) {
@@ -79,14 +81,23 @@ export default function Configuration() {
         switch (step) {
             case 0:
                 return (
+                    <NameSetter 
+                        setName={setName}
+                        continue={incrementStep}
+                        back={goBackOneStep}
+                        name={policyName}
+                    />
+                );
+            case 1:
+                return (
                     <StandardPick
                         addStandard={addStandard}
                         removeStandard={removeStandard}
-                        progressStep={incrementStep}
-                        goBackOneStep={goBackOneStep}
+                        continue={incrementStep}
+                        back={goBackOneStep}
                         standardCount={selectedStandards.length}
                     />);
-            case 1:
+            case 2:
                 return (
                     <PolicyChecker
                         standards={selectedStandards}
@@ -94,19 +105,20 @@ export default function Configuration() {
                         removePolicy={removePolicy}
                         policies={policies}
                         progressStep={incrementStep}
+                        back={goBackOneStep}
                     />);
-            case 2:
+            case 3:
                 return (<Report 
                     goBackOneStep={goBackOneStep}
                     addReportType={addReportType}
                     removeReportType={removeReportType}
                     progress={incrementStep}
                 />);
-            case 3:
+            case 4:
                 return (<Summary 
                     goBack={goBackOneStep}
                     config={{
-                        name: "TEMP",
+                        name: policyName,
                         implementation: selectedStandards.toString(),
                         policies: policies,
                         reports: reportTypes

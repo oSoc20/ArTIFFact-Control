@@ -14,7 +14,7 @@ import {
 } from '@material-ui/core';
 import EditIcon from 'Assets/icons/icons8-edit-property-500.svg';
 import TrashIcon from 'Assets/icons/icons8-delete-bin-500.svg';
-import AddPolicy from 'Components/AddPolicy/AddPolicy';
+import AddPolicy from 'Components/CreateConfigStages/AddPolicy/AddPolicy';
 
 
 const DEFAULT = 'default', ADD = 'add', EDIT = 'edit';
@@ -28,6 +28,7 @@ interface PolicyCheckerProps {
     removePolicy: (policy: Policy) => void;
     policies: Array<Policy>;
     progressStep: () => void;
+    back: () => void;
 }
 
 
@@ -35,18 +36,15 @@ const PolicyChecker = (props: PolicyCheckerProps) => {
 
     const [renderState, setRenderState] = React.useState<PolicyCheckerState>("default");
 
-
-    const backToDefault = () => {
-        setRenderState(DEFAULT);
-    }
-
     return (
-        <>  {
+        <>  
+        <Button onClick={() => props.back()}>Back</Button>
+        {
             renderState === DEFAULT ?
                 <>
                     <Typography component="span" gutterBottom>
                         <Box fontSize='h6.fontSize' style={{ marginBottom: '40px', textAlign: "center" }}>
-                            Step 2 - Policy checker
+                            Step 3 - Policy
                         </Box>
                     </Typography>
                     <Typography>ISO</Typography>
@@ -75,10 +73,10 @@ const PolicyChecker = (props: PolicyCheckerProps) => {
                                             <TableCell>{policy.rhs}</TableCell>
                                             <TableCell>
                                                 <Button>
-                                                    <img src={EditIcon} style={{ height: "10px", width: "10px" }} />
+                                                    <img src={EditIcon} style={{ height: "20px", width: "20px" }} />
                                                 </Button>
                                                 <Button>
-                                                    <img src={TrashIcon} style={{ height: "10px", width: "10px", paddingBottom: "4px" }} />
+                                                    <img src={TrashIcon} style={{ height: "20px", width: "20px", paddingBottom: "4px" }} />
                                                 </Button>
                                             </TableCell>
                                         </TableRow>

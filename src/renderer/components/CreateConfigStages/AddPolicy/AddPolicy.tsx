@@ -55,6 +55,7 @@ const AddPolicy = (props: AddPolicyProps) => {
         const name = event.target.value;
         setPolicyName(name);
         setValue("");
+        setOperator('=');
     }
 
     const handlePolicyOperatorChange = (event: any) => {

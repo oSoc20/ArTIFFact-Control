@@ -1,6 +1,6 @@
 import *  as React from 'react';
 import { Typography, Box, Button } from '@material-ui/core';
-import { Configuration } from 'Interfaces/Configuration';
+import { Configuration, Policy, ReportTypes } from 'Interfaces/Configuration';
 
 
 interface SummaryProps {
@@ -10,6 +10,24 @@ interface SummaryProps {
 
 
 const Summary = (props: SummaryProps) => {
+
+    const getPoliciesAsString = () => {
+        let result: string = "";
+        props.config.policies?.forEach((policy: Policy) => {
+            result += `${policy.lhs} ${policy.operator} ${policy.rhs} \n`
+        });
+        return result;
+    }
+
+    const getReportsAsString = () => {
+        let result: string = "";
+        props.config.reports?.forEach((report: ReportTypes) => {
+            result += `${report}\n`;
+        })
+        return result;
+    }
+
+
     return (
         <>
             <Button onClick={() => props.goBack()}>Back</Button>
@@ -18,10 +36,10 @@ const Summary = (props: SummaryProps) => {
                     Step 5 - Summary
                 </Box>
             </Typography>
-            <Typography>Name: </Typography>
-            <Typography>Implementation: </Typography>
-            <Typography>Policy: </Typography>
-            <Typography>Report: </Typography>
+            <Typography>Name: {props.config.name}</Typography>
+            <Typography>Implementation: {props.config.implementation}</Typography>
+            <Typography>Policy: {getPoliciesAsString()}</Typography>
+            <Typography>Report: {getReportsAsString()}</Typography>
             <Button>Save configuration</Button>
         </>
     );

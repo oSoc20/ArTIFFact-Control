@@ -5,6 +5,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Checkbox from '@material-ui/core/Checkbox';
 import ListItemText from '@material-ui/core/ListItemText';
 import Button from '@material-ui/core/Button'
+import { Typography, Box } from '@material-ui/core';
 
 
 
@@ -13,8 +14,8 @@ const STANDARDS = ['TI/A Draft', 'TIFF/IT-P1', 'TIFF/IT-P2', 'TIFF/IT', 'Baselin
 interface StandardPickProps {
     addStandard: (standard: string) => void;
     removeStandard: (standard: string) => void;
-    progressStep: () => void;
-    goBackOneStep: () => void;
+    continue: () => void;
+    back: () => void;
     standardCount: number;
 }
 
@@ -41,6 +42,12 @@ const StandardPick = (props: StandardPickProps) => {
 
     return (
         <>
+            <Button onClick={() => props.back()}>Back</Button>
+            <Typography component="span" gutterBottom>
+                <Box fontSize='h6.fontSize' style={{ marginBottom: '40px', textAlign: "center" }}>
+                    Step 2 - Implementations
+                </Box>
+            </Typography>
             <List>
                 {STANDARDS.map((standard: string, index: number) => {
                     const labelId = `checkbox-list-label-${index}`;
@@ -60,7 +67,7 @@ const StandardPick = (props: StandardPickProps) => {
                     );
                 })}
             </List>
-            <Button disabled={props.standardCount === 0 } onClick={() => props.progressStep()}>Continue</Button>
+            <Button disabled={props.standardCount === 0 } onClick={() => props.continue()}>Continue</Button>
         </>
     );
 }
