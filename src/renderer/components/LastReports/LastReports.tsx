@@ -89,16 +89,16 @@ const LastReports = (props: LastReportsProps) => {
 
                                     return (
                                         <StyledTableRow1 key={index} style={opacity}>
-                                            <TableCell component="th" scope="row">
+                                            <TableCell>
                                                 {date}
                                             </TableCell>
-                                            <TableCell component="th" scope="row">
+                                            <TableCell>
                                                 {files}
                                             </TableCell>
-                                            <TableCell component="th" scope="row">
+                                            <TableCell>
                                                 {directory}
                                             </TableCell>
-                                            <TableCell component="th" scope="row">
+                                            <TableCell>
                                                 {result ? <CheckIcon style={{ color: 'green' }} /> : <ClearIcon style={{ color: 'red' }} />}
                                             </TableCell>
                                         </StyledTableRow1>

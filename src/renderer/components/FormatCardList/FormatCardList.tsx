@@ -7,8 +7,7 @@ const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         list: {
             display: 'flex',
-            alignItems: 'normal',
-            justifyContent: 'space-between'
+            alignItems: 'stretch'
         }
     })
 );
@@ -55,11 +54,15 @@ const FormatCardList = (props: FormatCardListProps) => {
     }
 
     return <>
-        <div className={classes.list} style={{width: width}}>
+        <div className={classes.list} style={{ width: width }}>
             {props.formats !== undefined && props.formats !== null ?
-                props.formats.map((format: Format) => {
+                props.formats.map((format, index) => {
                     color = getColor(format.title);
-                    return <FormatCard key={format.title} format={format} color={color} width={props.cardsWidth !== undefined ? props.cardsWidth : undefined} height={props.cardsHeight !== undefined ? props.cardsHeight : undefined} />
+                    return (
+                        <div key={format.title} style={index > 0 && index < props.formats!.length ? {marginLeft: '10px'} : undefined}>
+                            <FormatCard format={format} color={color} width={props.cardsWidth !== undefined ? props.cardsWidth : undefined} height={props.cardsHeight !== undefined ? props.cardsHeight : undefined} />
+                        </div>
+                    )
                 })
                 : null
             }

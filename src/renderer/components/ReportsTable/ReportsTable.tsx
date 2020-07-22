@@ -168,30 +168,30 @@ const ReportsTable = (props: ReportsTableProps) => {
 
                                             return (
                                                 <StyledTableRow2 key={index} onClick={() => props.setReportParent(reportParent)}>
-                                                    <TableCell component="th" scope="row">
+                                                    <TableCell>
                                                         {format(reportParent.reports[0].date, 'dd/MM/yyyy')}
                                                     </TableCell>
-                                                    <TableCell component="th" scope="row">
+                                                    <TableCell>
                                                         {files}
                                                     </TableCell>
-                                                    <TableCell component="th" scope="row">
+                                                    <TableCell>
                                                         <Tooltip title={directory} aria-label={directory} placement="bottom">
                                                             <div style={{ maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis' }}>{directory}</div>
                                                         </Tooltip>
                                                     </TableCell>
-                                                    <TableCell component="th" scope="row">
+                                                    <TableCell>
                                                         {result ? <CheckIcon style={{ color: 'green' }} /> : <ClearIcon style={{ color: 'red' }} />}
                                                     </TableCell>
-                                                    <TableCell component="th" scope="row">
+                                                    <TableCell>
                                                         {errors}
                                                     </TableCell>
-                                                    <TableCell component="th" scope="row">
+                                                    <TableCell>
                                                         {passed}
                                                     </TableCell>
-                                                    <TableCell component="th" scope="row">
+                                                    <TableCell>
                                                         {score}%
                                                 </TableCell>
-                                                    <TableCell component="th" scope="row">
+                                                    <TableCell>
                                                         <Button onClick={(event) => { event.stopPropagation(); props.removeReportParent(reportParent) }}><img src={DeleteBinIcon} style={{ width: '24px' }} /></Button>
                                                     </TableCell>
                                                 </StyledTableRow2>

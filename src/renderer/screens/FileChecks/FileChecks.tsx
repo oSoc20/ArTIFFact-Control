@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme: Theme) =>
             justifyContent: 'center',
 
             textAlign: "center",
-            marginTop: "2rem",
+            marginTop: "1.5rem",
             marginBottom: "3rem",
             fontFamily: "DIN 2014",
             fontStyle: "normal",

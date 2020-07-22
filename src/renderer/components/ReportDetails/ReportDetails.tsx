@@ -41,7 +41,7 @@ const ReportDetails = (props: ReportsDetailsProps) => {
     const tableClasses = useTableStyles();
 
     const directory = props.reportParent !== null ? props.reportParent.reports[0].filePath.replace(props.reportParent.reports[0].fileName, '') : '';
-    const date = format(props.reportParent.reports[0].date, 'dd/MM/yyyy hh:mm:ss');
+    const date = format(props.reportParent.reports[0].date, "dd/MM/yyyy hh:mm:ss a");
     const files = props.reportParent.reports.length;
     let result = true; let errors = 0; let passed = 0; let warnings = 0; let score = 0;
     props.reportParent.reports.forEach(report => {
@@ -174,33 +174,33 @@ const ReportDetails = (props: ReportsDetailsProps) => {
                                 </TableHead>
                                 <TableBody>
                                     {props.reportParent.reports.map((report, index) => {
-                                        return <>
+                                        return (
                                             <StyledTableRow1 key={index}>
-                                                <TableCell component="th" scope="row">
+                                                <TableCell>
                                                     {report.result ? <CheckIcon style={{ color: 'green' }} /> : <ClearIcon style={{ color: 'red' }} />}
                                                 </TableCell>
-                                                <TableCell component="th" scope="row">
+                                                <TableCell>
                                                     {report.fileName}
                                                 </TableCell>
-                                                <TableCell component="th" scope="row">
+                                                <TableCell>
                                                     <Tooltip title={directory} aria-label={directory} placement="bottom">
                                                         <div style={{ maxWidth: '275px', overflow: 'hidden', textOverflow: 'ellipsis' }}>{directory}</div>
                                                     </Tooltip>
                                                 </TableCell>
-                                                <TableCell component="th" scope="row">
+                                                <TableCell>
                                                     {report.errors}
                                                 </TableCell>
-                                                <TableCell component="th" scope="row">
+                                                <TableCell>
                                                     {report.passed}
                                                 </TableCell>
                                                 {report.formats !== undefined && report.formats !== null && report.formats.length > 0 ?
-                                                    <TableCell component="th" scope="row">
+                                                    <TableCell>
                                                         <FormatCardList formats={report.formats} listWidth='200px' cardsWidth='34px' cardsHeight='41px' />
                                                     </TableCell>
                                                     : null
                                                 }
                                             </StyledTableRow1>
-                                        </>
+                                        )
                                     })}
                                 </TableBody>
                             </Table>
