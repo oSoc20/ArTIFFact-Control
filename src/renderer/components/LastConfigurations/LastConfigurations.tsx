@@ -8,6 +8,7 @@ import { Typography, Paper, Box, makeStyles, Theme, createStyles, TableContainer
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import SettingsIcon from 'Assets/icons/icons8-settings-500.svg';
 import { useHistory } from 'react-router-dom';
+import { Configuration } from 'Interfaces/Configuration';
 import { SidebarAction, setActiveItem } from 'Actions/SidebarAction';
 import { connect } from 'react-redux';
 
