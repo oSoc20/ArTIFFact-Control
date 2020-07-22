@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box, Divider, makeStyles, createStyles, Theme, LinearProgress, Typography, withStyles, CircularProgress as Spinner, TableContainer, TableRow, Table, TableHead, TableCell, TableBody } from '@material-ui/core';
+import { Box, Divider, makeStyles, createStyles, Theme, LinearProgress, Typography, withStyles, CircularProgress as Spinner, TableContainer, TableRow, Table, TableHead, TableCell, TableBody, Paper } from '@material-ui/core';
 import { RootState } from 'Reducers';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux'
@@ -8,6 +8,8 @@ import { resetStep, FilecheckAction, clearFiles } from 'Actions/FileCheckActions
 import JhoveValidationResponse, { JhoveMessage } from 'Interfaces/JhoveResults';
 import CheckIcon from '@material-ui/icons/Check';
 import ClearIcon from '@material-ui/icons/Clear';
+import ReportDetails from 'Components/ReportDetails/ReportDetails';
+import { useMainStyles } from 'Theme/Main';
 
 
 const JHOVE_API_BASE = 'https://soc.openpreservation.org/';
@@ -118,13 +120,13 @@ const CheckProgress = (props: CheckProgressProps) => {
  */
 const Stage3 = (props: Stage3Props) => {
     const classes = useStyles();
+    const mainClasses = useMainStyles();
     const { files } = props;
 
     // React state variable and setter that keeps track of the current file index
     const [currentFileIndex, setCurrentFileIndex] = React.useState<number>(0);
     const [responseObjects, setResponseObjects] = React.useState<Array<JhoveValidationResponse>>([]);
     const [processFinished, setFinishState] = React.useState<boolean>(false);
-    const [showResult, setShowResult] = React.useState<boolean>(false);
 
 
     /**
@@ -204,10 +206,10 @@ const Stage3 = (props: Stage3Props) => {
     }
 
     /**
-     * Render the response objects in a simple table.
+     * Render the response objects
      */
     const renderResults = () => {
-        let reports: Array<Report> = [];
+        let reports: ReportParent = {reports: [], formats: null};
         responseObjects.forEach((response: JhoveValidationResponse) => {
             let report: Report = {
                 date: new Date(),
@@ -220,52 +222,28 @@ const Stage3 = (props: Stage3Props) => {
                 infos: getMessageCount(response, INFO),
                 filePath: files[responseObjects.indexOf(response)].path,
             }
-            reports.push(report);
+            reports.reports.push(report);
         });
-        return <TableContainer>
-            <Table>
-                <TableHead>
-                    <TableRow>
-                        <TableCell>Date</TableCell>
-                        <TableCell>Files</TableCell>
-                        <TableCell>Input</TableCell>
-                        <TableCell>Result</TableCell>
-                        <TableCell>Errors</TableCell>
-                        <TableCell>Warnings</TableCell>
-                        <TableCell>Passed</TableCell>
-                        <TableCell>Score</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {reports.map((report, index) => {
-                        return (
-                            <TableRow key={index} onClick={() => console.log(responseObjects[index])}>
-                                <TableCell>{report.date.toLocaleDateString()}</TableCell>
-                                <TableCell>1</TableCell>
-                                <TableCell>{report.fileName}</TableCell>
-                                <TableCell>{report.passed === 1 ? <CheckIcon style={{ color: 'green' }} /> : <ClearIcon style={{ color: 'red' }} />}</TableCell>
-                                <TableCell>{report.errors}</TableCell>
-                                <TableCell>{report.warnings}</TableCell>
-                                <TableCell>{report.passed}</TableCell>
-                                <TableCell>{report.score}</TableCell>
-                            </TableRow>
-                        );
-                    })}
-                </TableBody>
-            </Table>
-        </TableContainer>;
+
+        return <>
+            <ReportDetails reportParent={reports} />
+        </>
     }
 
     return (
         <>
-            <Typography component='span' gutterBottom>
-                <Box fontSize='h6.fontSize' style={{ marginBottom: '22px', textAlign: 'center' }}>
-                    {(processFinished && showResult) ? 'Results' : 'Checking the files...'}
-                </Box>
-            </Typography>
-            <Divider className={classes.divider} />
-            {showResult ? renderResults(): <CheckProgress current={currentFileIndex} max={files.length} />}
-            {(processFinished && !showResult) && <button onClick={() => setShowResult(true)}>Show results</button>}
+            {!processFinished ?
+                <Paper className={mainClasses.paper}>
+                    <Typography component='span' gutterBottom>
+                        <Box fontSize='h6.fontSize' style={{ marginBottom: '22px', textAlign: 'center' }}>
+                            Checking the files...
+                        </Box>
+                    </Typography>
+                    <Divider className={classes.divider} />
+                    <CheckProgress current={currentFileIndex} max={files.length} />
+                </Paper>
+                : renderResults()
+            }
         </>
     );
 }

@@ -7,8 +7,9 @@ import { FilecheckAction, clearFiles, setFiles, FileData } from 'Actions/FileChe
 import FileDropZone, { formatBytes } from 'Components/FileCheckDropzone/FileCheckDropzone'
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import MuiTableCell from '@material-ui/core/TableCell';
-import { Box, TableContainer, TableHead, TableBody, TableRow, Table, withStyles, Typography } from '@material-ui/core';
+import { Box, TableContainer, TableHead, TableBody, TableRow, Table, withStyles, Typography, Paper } from '@material-ui/core';
 import TrashIcon from 'Assets/icons/icons8-delete-bin-500.svg'
+import { useMainStyles } from 'Theme/Main';
 
 
 /* Typescript interfaces */
@@ -44,7 +45,7 @@ const useStyles = makeStyles((theme: Theme) =>
             borderRadius: "12px",
             width: "125px",
             height: "45px",
-            marginLeft: "auto", 
+            marginLeft: "auto",
             marginRight: "1rem",
             cursor: "pointer",
             fontFamily: "'Open Sans'"
@@ -94,6 +95,7 @@ const TableCell = withStyles({
  */
 const Stage1 = (props: Stage1Props) => {
     const classes = useStyles();
+    const mainClasses = useMainStyles();
     const fileInput = createRef<HTMLInputElement>();
 
     /**
@@ -132,63 +134,65 @@ const Stage1 = (props: Stage1Props) => {
 
     return (
         <>
-            <Typography component="span" gutterBottom>
-                <Box fontSize='h6.fontSize' style={{ marginBottom: '40px', textAlign: "center" }}>
-                    Step 1 - File upload
+            <Paper className={mainClasses.paper}>
+                <Typography component="span" gutterBottom>
+                    <Box fontSize='h6.fontSize' style={{ marginBottom: '40px', textAlign: "center" }}>
+                        Step 1 - File upload
                 </Box>
-            </Typography>
-            {!hasFiles() ?
-                <>
-                    <FileDropZone updateFiles={props.setFiles} />
-                </>
-                :
-                <>
-                    <TableContainer className={classes.tableContainer}>
-                        <Table stickyHeader size="small" aria-label="span">
-                            <TableHead>
-                                <TableRow className={classes.tableHeadRow}>
-                                    <TableCell className={classes.tableHeadCell}>Path</TableCell>
-                                    <TableCell className={classes.tableHeadCell}>Size</TableCell>
-                                    <TableCell className={classes.tableHeadCell} />
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {props.files.map((file, index) => {
-                                    return (
-                                        <TableRow key={index}>
-                                            <TableCell className={classes.tableContentCell}>{file.path}</TableCell>
-                                            <TableCell className={classes.tableContentCell} >{formatBytes(file.size)}</TableCell>
-                                            <TableCell className={classes.tableContentCell} >
-                                                <button style={{ background: "none", border: "none" }}
-                                                    onClick={() => removeFile(index)}
-                                                >
-                                                    <img src={TrashIcon} style={{width: "22px"}}/>
-                                                </button>
-                                            </TableCell>
-                                        </TableRow>
-                                    );
-                                })}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                    <Box display={"flex"} width={"100%"} margin={"1rem 0rem 1rem"}>
-                        <input
-                            multiple
-                            onChange={() => handleFileAdding()}
-                            ref={fileInput}
-                            type={"file"}
-                            accept={".tiff,.TIFF,.tif,.TIF,.zip,.gz,.tar.gz"}
-                            style={{ display: "none" }}
-                        />
-                        <button
-                            className={classes.addButton}
-                            onClick={() => fileInput.current?.click()}>+ new file or folder</button>
-                        <button
-                            className={classes.continueButton}
-                            onClick={() => props.progressStep()}>Continue</button>
-                    </Box>
-                </>
-            }
+                </Typography>
+                {!hasFiles() ?
+                    <>
+                        <FileDropZone updateFiles={props.setFiles} />
+                    </>
+                    :
+                    <>
+                        <TableContainer className={classes.tableContainer}>
+                            <Table stickyHeader size="small" aria-label="span">
+                                <TableHead>
+                                    <TableRow className={classes.tableHeadRow}>
+                                        <TableCell className={classes.tableHeadCell}>Path</TableCell>
+                                        <TableCell className={classes.tableHeadCell}>Size</TableCell>
+                                        <TableCell className={classes.tableHeadCell} />
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {props.files.map((file, index) => {
+                                        return (
+                                            <TableRow key={index}>
+                                                <TableCell className={classes.tableContentCell}>{file.path}</TableCell>
+                                                <TableCell className={classes.tableContentCell} >{formatBytes(file.size)}</TableCell>
+                                                <TableCell className={classes.tableContentCell} >
+                                                    <button style={{ background: "none", border: "none" }}
+                                                        onClick={() => removeFile(index)}
+                                                    >
+                                                        <img src={TrashIcon} style={{ width: "22px" }} />
+                                                    </button>
+                                                </TableCell>
+                                            </TableRow>
+                                        );
+                                    })}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                        <Box display={"flex"} width={"100%"} margin={"1rem 0rem 1rem"}>
+                            <input
+                                multiple
+                                onChange={() => handleFileAdding()}
+                                ref={fileInput}
+                                type={"file"}
+                                accept={".tiff,.TIFF,.tif,.TIF,.zip,.gz,.tar.gz"}
+                                style={{ display: "none" }}
+                            />
+                            <button
+                                className={classes.addButton}
+                                onClick={() => fileInput.current?.click()}>+ new file or folder</button>
+                            <button
+                                className={classes.continueButton}
+                                onClick={() => props.progressStep()}>Continue</button>
+                        </Box>
+                    </>
+                }
+            </Paper>
         </>
     );
 }

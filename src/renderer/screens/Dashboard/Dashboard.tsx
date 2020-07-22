@@ -48,7 +48,7 @@ const Dashboard = (props: DashboardProps) => {
                                 <Typography component='span' style={{ display: 'flex', marginBottom: '20px' }}>
                                     <Box className={classes.box} fontSize='h6.fontSize' fontWeight='fontWeightBold'>
                                         <img src={CheckFileIcon} style={{ marginRight: '20px', width: '40px' }} />
-                                        Last reports
+                                        Check a file
                                     </Box>
                                 </Typography>
                                 <FileDropZone updateFiles={props.setFiles} redirect='fileChecks' />

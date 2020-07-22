@@ -5,6 +5,7 @@ import ConfigurationTable, { tempConfigs } from 'Components/ConfigurationTable/C
 import ImportIcon from 'Assets/icons/icons8-import-500.svg';
 import PlusIcon from 'Assets/icons/icons8-plus-math-500.svg';
 import BackArrow from 'Assets/icons/icons8-arrow-500.svg';
+import { useMainStyles } from 'Theme/Main';
 
 
 /* Typescript interfaces */
@@ -94,6 +95,7 @@ const useStyles = makeStyles((theme: Theme) =>
  */
 const Stage2 = (props: Stage2Props) => {
     const classes = useStyles();
+    const mainClasses = useMainStyles();
 
     // React state object that holds the currently selected configuration
     // Maybe put this in Redux store in order to use at next stage
@@ -101,10 +103,11 @@ const Stage2 = (props: Stage2Props) => {
 
     return (
         <>
-            <button className={classes.backButton} onClick={() => props.goBackOneStep()}><img src={BackArrow} style={{ paddingBottom: "2px", marginRight: "3px" }} />Back</button>
-            <Typography component="span" gutterBottom>
-                <Box fontSize='h6.fontSize' style={{ marginBottom: '40px', textAlign: "center" }}>
-                    Step 2 - TIFF Configuration settings
+            <Paper className={mainClasses.paper}>
+                <button className={classes.backButton} onClick={() => props.goBackOneStep()}><img src={BackArrow} style={{ paddingBottom: "2px", marginRight: "3px" }} />Back</button>
+                <Typography component="span" gutterBottom>
+                    <Box fontSize='h6.fontSize' style={{ marginBottom: '40px', textAlign: "center" }}>
+                        Step 2 - TIFF Configuration settings
                 </Box>
             </Typography>
             <ConfigurationTable
@@ -119,17 +122,18 @@ const Stage2 = (props: Stage2Props) => {
                         <img src={ImportIcon} style={{ width: "17px" }} />
                         import
                     </Typography>
-                </button>
-                <button className={classes.configControlButton}>
-                    <Typography style={{ fontSize: 15 }}>
-                        <img src={PlusIcon} style={{ width: "22px" }} />
+                    </button>
+                    <button className={classes.configControlButton}>
+                        <Typography style={{ fontSize: 15 }}>
+                            <img src={PlusIcon} style={{ width: "22px" }} />
                          new
-                    </Typography>
-                </button>
-                <button disabled={currentSelected == null ? true : false} className={classes.confirmButton} onClick={() => props.progressStep()}>
-                    {currentSelected == null ? <>No configuration selected</> : <>Check files</>}
-                </button>
-            </Box>
+                        </Typography>
+                    </button>
+                    <button disabled={currentSelected == null ? true : false} className={classes.confirmButton} onClick={() => props.progressStep()}>
+                        {currentSelected == null ? <>No configuration selected</> : <>Check files</>}
+                    </button>
+                </Box>
+            </Paper>
         </>
     );
 }
