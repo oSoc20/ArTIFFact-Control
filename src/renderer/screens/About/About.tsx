@@ -54,56 +54,64 @@ export default function About() {
 
     return (
         <>
-            <Typography component="span" gutterBottom className={classes.title}>
-                <Box
-                    fontSize="h4.fontSize"
-                    style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-                >
-                    <img src={InfoFileIcon} className={classes.titleIcon} />
-                    <span>About</span>
-                </Box>
-            </Typography>
             <Grid container spacing={3}>
                 <Grid item xs={12} lg={10} style={{ margin: 'auto' }}>
-                    <Paper className={mainClasses.paper}>
-                        <div className={classes.textcontainer}>
-                            <Typography>
-                                ArTIFFact Control is a project made by a student team at open Summer
-                                of code 2020. The project was commissioned by Meemoo. The goals of
-                                this project was to create a new, refreshed user interface that can
-                                replace the current DPF Manager.
-                            </Typography>
-                            <Typography className={classes.extraMargin}>
-                                All project members are:
-                            </Typography>
-                            <Typography className={classes.margin}>
-                                Bram De Coninck - Coach
-                            </Typography>
-                            <Typography className={classes.margin}>
-                                Christopher Denis - Front-end Developer
-                            </Typography>
-                            <Typography className={classes.margin}>
-                                Freek De Sagher - Front-end Developer
-                            </Typography>
-                            <Typography className={classes.margin}>
-                                Tim Pensart - UX/UI design
-                            </Typography>
-                            <Typography className={classes.margin}>
-                                Amber Pérard - UX/UI design
-                            </Typography>
-                            <Typography className={classes.extraMargin}>
-                                he project is build on the JHOVE rest API and Electron. The GitHub
-                                repository is available at
-                                <a href="https://github.com/oSoc20/ArTIFFact-Control">
-                                    https://github.com/oSoc20/ArTIFFact-Control
-                                </a>
-                            </Typography>
-                        </div>
-                        <div className={classes.imagecontainer}>
-                            <img src={OsocLogo} className={classes.logo}></img>
-                            <img src={MeemooLogo}></img>
-                        </div>
-                    </Paper>
+                    <Typography component="span" gutterBottom className={classes.title}>
+                        <Box
+                            fontSize="h4.fontSize"
+                            style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                            }}
+                        >
+                            <img src={InfoFileIcon} className={classes.titleIcon} />
+                            <span>About</span>
+                        </Box>
+                    </Typography>
+                </Grid>
+                <Grid container spacing={3}>
+                    <Grid item xs={12} lg={10} style={{ margin: 'auto' }}>
+                        <Paper className={mainClasses.paper}>
+                            <div className={classes.textcontainer}>
+                                <Typography>
+                                    ArTIFFact Control is a project made by a student team at open
+                                    Summer of code 2020. The project was commissioned by Meemoo. The
+                                    goals of this project was to create a new, refreshed user
+                                    interface that can replace the current DPF Manager.
+                                </Typography>
+                                <Typography className={classes.extraMargin}>
+                                    All project members are:
+                                </Typography>
+                                <Typography className={classes.margin}>
+                                    Bram De Coninck - Coach
+                                </Typography>
+                                <Typography className={classes.margin}>
+                                    Christopher Denis - Front-end Developer
+                                </Typography>
+                                <Typography className={classes.margin}>
+                                    Freek De Sagher - Front-end Developer
+                                </Typography>
+                                <Typography className={classes.margin}>
+                                    Tim Pensart - UX/UI design
+                                </Typography>
+                                <Typography className={classes.margin}>
+                                    Amber Pérard - UX/UI design
+                                </Typography>
+                                <Typography className={classes.extraMargin}>
+                                    he project is build on the JHOVE rest API and Electron. The
+                                    GitHub repository is available at
+                                    <a href="https://github.com/oSoc20/ArTIFFact-Control">
+                                        https://github.com/oSoc20/ArTIFFact-Control
+                                    </a>
+                                </Typography>
+                            </div>
+                            <div className={classes.imagecontainer}>
+                                <img src={OsocLogo} className={classes.logo}></img>
+                                <img src={MeemooLogo}></img>
+                            </div>
+                        </Paper>
+                    </Grid>
                 </Grid>
             </Grid>
         </>
