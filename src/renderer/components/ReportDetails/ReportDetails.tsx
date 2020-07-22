@@ -147,7 +147,7 @@ const ReportDetails = (props: ReportsTableProps) => {
                     </Typography>
                     <div style={{ display: 'flex', alignItems: 'flex-end', marginTop: '5px' }}>
                         <FormatCardList formats={props.report.formats} />
-                        <Button style={{ fontSize: '16px', textTransform: 'none', marginLeft: 'auto', display: 'flex', marginBottom: 0 }}><img src={RatingsIcon} style={{ width: '20px', marginRight: '8px' }} /> Generate all reports</Button>
+                        <Button style={{ fontSize: '16px', textTransform: 'none', marginLeft: 'auto', display: 'flex', marginBottom: 0 }}><img src={RatingsIcon} style={{ width: '20px', marginRight: '8px' }} /> Generate all exports formats</Button>
                     </div>
                 </Paper>
             </Grid>
