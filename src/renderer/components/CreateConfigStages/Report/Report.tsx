@@ -16,10 +16,16 @@ const Report = (props: ReportProps) => {
 
     const [checked, setChecked] = React.useState<Array<ReportTypes>>([]);
 
+    // Called upon mount. Sets the current selected report types to checked.
     React.useEffect(() => {
         setChecked(props.currentReports);
     });
 
+    /**
+     * Function thats called upon checking or unchecking an item
+     * Adds or removes a report type from the list
+     * @param value report type to add or remove
+     */
     const handleToggle = (value: ReportTypes) => {
         const currentIndex = checked.indexOf(value);
         const newChecked = [...checked];

@@ -51,6 +51,12 @@ const AddPolicy = (props: AddPolicyProps) => {
     const [policyOperator, setOperator] = React.useState<'<' | '=' | '>'>("=");
     const [policyValue, setValue] = React.useState<string | number | boolean>("");
 
+    /**
+     * Handles the change of the policy name.
+     * The values for the policy are set to default values in order to avoid
+     * warnings.
+     * @param event event thats generated upon changing
+     */
     const handlePolicyNameChange = (event: any) => {
         const name = event.target.value;
         setPolicyName(name);
@@ -58,16 +64,28 @@ const AddPolicy = (props: AddPolicyProps) => {
         setOperator('=');
     }
 
+    /**
+     * Update the current policy operator
+     * @param event event thats generated upon changing
+     */
     const handlePolicyOperatorChange = (event: any) => {
         const operator = event.target.value;
         setOperator(operator);
     }
 
+    /**
+     * Update the current policy value
+     * @param event event thats generated upon chaning
+     */
     const handlePolicyValueChange = (event: any) => {
         const value = event.target.value;
         setValue(value);
     }
 
+    /**
+     * Get the allowed operators of a certain policy rule
+     * @param policyRule policy rule to get the allowed operators from
+     */
     const getAllowedOperators = (policyRule: PolicyRule) => {
         const ALL = ["<", ">", "="];
 
@@ -88,6 +106,10 @@ const AddPolicy = (props: AddPolicyProps) => {
         }
     }
 
+    /**
+     * Renders the allowed values of a certain policy rule.
+     * @param policyRule policy rule of which the options need to be rendered
+     */
     const renderAllowedValues = (policyRule: PolicyRule) => {
         switch (policyRule.type) {
             case "boolean":

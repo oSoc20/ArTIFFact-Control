@@ -25,10 +25,16 @@ const StandardPick = (props: StandardPickProps) => {
 
     const [checked, setChecked] = React.useState<Array<string>>([]);
 
+    // Runs on mount, set the selected standards to checked
     React.useEffect(() => {
         setChecked(props.currentStandards);
     });
 
+    /**
+     * Function thats called upon checking something in the list.
+     * Adds or removes selected standards from the list of selected standards.
+     * @param value current standard value
+     */
     const handleToggle = (value: string) => {
         const currentIndex = checked.indexOf(value);
         const newChecked = [...checked];

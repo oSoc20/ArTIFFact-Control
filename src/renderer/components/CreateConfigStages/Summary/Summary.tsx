@@ -11,6 +11,10 @@ interface SummaryProps {
 
 const Summary = (props: SummaryProps) => {
 
+    /**
+     * Convert configuration policies to a string format
+     * @returns string that contains the policies
+     */
     const getPoliciesAsString = () => {
         let result: string = "";
         props.config.policies?.forEach((policy: Policy) => {
@@ -19,6 +23,10 @@ const Summary = (props: SummaryProps) => {
         return result;
     }
 
+    /**
+     * Convert report types to string
+     * @returns string that contains all report types
+     */
     const getReportsAsString = () => {
         let result: string = "";
         props.config.reports?.forEach((report: ReportTypes) => {
