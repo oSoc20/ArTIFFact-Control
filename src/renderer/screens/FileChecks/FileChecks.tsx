@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { RootState } from 'Reducers';
 import { FilecheckAction, incrementStep, resetStep, goBackOneStep } from 'Actions/FileCheckActions';
-import FileCheckStepper from 'Components/FileCheckStepper/FileCheckStepper';
+import FileCheckStepper from 'Components/Stepper/Stepper';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Stage1 from 'Components/FileUploadStages/PickFiles/Stage1'
 import Stage2 from 'Components/FileUploadStages/PickConfiguration/Stage2'
@@ -62,6 +62,8 @@ const useStyles = makeStyles((theme: Theme) =>
 
 /* Components */
 
+const STEPS = ["Upload", "Settings", "Check"]
+
 /**
  * Screen used to handle the file checks
  * @param props props that are passed in by the Redux store
@@ -100,7 +102,7 @@ const FileChecks = (props: FilecheckerProps) => {
                 </Grid>
                 <Grid item xs={12} lg={10} style={{margin: 'auto'}}>
                     <div className={classes.stepperContainer}>
-                        <FileCheckStepper />
+                        <FileCheckStepper stepLabels={STEPS} step={props.step} />
                     </div>
                 </Grid>
             </Grid>

@@ -1,14 +1,13 @@
 import * as React from 'react';
 import { Stepper, Step, StepLabel, StepConnector } from '@material-ui/core';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
-import { connect } from 'react-redux';
-import { RootState } from 'Reducers';
 
 
 /* Typescript interfaces */
 
 interface StepperProps {
-    step: number
+    step: number;
+    stepLabels: Array<string>;
 }
 
 interface IconProps {
@@ -117,7 +116,7 @@ const FileChecksStepper = (props: StepperProps) => {
     const classes = useStyle();
     return (
         <Stepper alternativeLabel activeStep={props.step} connector={<CustomConnector />} style={{backgroundColor: 'transparent', marginBottom: 0}}>
-            {steps.map((stepName, index) => {
+            {props.stepLabels.map((stepName, index) => {
                 return (
                     <Step key={stepName} >
                         <StepLabel StepIconComponent={CustomStepIcon}>
@@ -131,15 +130,5 @@ const FileChecksStepper = (props: StepperProps) => {
 }
 
 
-/* Redux functions */
-
-/**
- * Function that maps all required state variables to props.
- * @param state Rootstate that has all reducers combined
- */
-const mapStateToProps = (state: RootState) => ({
-    step: state.filecheck.step
-});
-
 // Connect to the Redux store
-export default connect(mapStateToProps)(FileChecksStepper)
+export default FileChecksStepper
