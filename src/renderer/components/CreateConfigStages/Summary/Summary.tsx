@@ -106,18 +106,16 @@ const Summary = (props: SummaryProps) => {
             .serializeToString(xmlDoc)
             .replace(' xmlns="http://www.w3.org/1999/xhtml"', '');
 
-        let format = require('xml-formatter')
-        console.log(format(xmlHead + xml));
+        let format = require('xml-formatter');
         return format(xmlHead + xml);
     }
 
 
     const saveConfigToDisk = () => {
         const { app } = remote;
-        console.log("PATH", app.getAppPath());
-        let filePath =  `${app.getAppPath()}/config/${props.config.name}.xml`;
+        let filePath = `${process.env.NODE_ENV === 'development' ? app.getAppPath() : app.getPath('exe')}/config/${props.config.name}.xml`;
         let content = configurationToXml(props.config);
-        fs.writeFile(filePath, content, (err) => {});
+        fs.writeFile(filePath, content, (err) => { });
         props.resetStep()
     }
 
