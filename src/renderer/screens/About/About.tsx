@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { Grid, Typography, Box, Paper, Container, FormHelperText } from '@material-ui/core';
+import { Grid, Typography, Box, Paper } from '@material-ui/core';
 import InfoFileIcon from 'Assets/icons/icons8-info-500.svg';
 import MeemooLogo from 'Assets/logos/meemoo_logo.svg';
 import OsocLogo from 'Assets/logos/osoc_logo 1.svg';
