@@ -52,6 +52,9 @@ const useStyles = makeStyles((theme: Theme) =>
             fontSize: '16px',
             textTransform: 'none',
         },
+        paper: {
+            minHeight: '50vh',
+        },
     })
 );
 
@@ -267,10 +270,10 @@ export default function Configuration() {
             </Typography>
             <Grid container spacing={3}>
                 <Grid item xs={12} lg={10} style={{ margin: 'auto' }}>
-                    <Paper className={mainClasses.paper}>
+                    <Paper className={`${mainClasses.paper} ${classes.paper}`}>
                         {renderStep()}
-                        {step >= 0 && <ConfigStepper stepLabels={STEPS} step={step} />}
                     </Paper>
+                    {step >= 0 && <ConfigStepper stepLabels={STEPS} step={step} />}
                 </Grid>
             </Grid>
         </>
