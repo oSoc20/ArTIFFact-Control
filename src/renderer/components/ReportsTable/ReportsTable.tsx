@@ -154,11 +154,11 @@ const ReportsTable = (props: ReportsTableProps) => {
                                                     {format(report.date, 'dd/MM/yyyy')}
                                                 </TableCell>
                                                 <TableCell component="th" scope="row">
-                                                    {report.files}
+                                                    1
                                                 </TableCell>
                                                 <TableCell component="th" scope="row">
-                                                    <Tooltip title={report.path} aria-label={report.path} placement="bottom">
-                                                        <div style={{ maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis' }}>{report.path}</div>
+                                                    <Tooltip title={report.filePath} aria-label={report.filePath} placement="bottom">
+                                                        <div style={{ maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis' }}>{report.filePath}</div>
                                                     </Tooltip>
                                                 </TableCell>
                                                 <TableCell component="th" scope="row">

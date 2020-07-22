@@ -211,15 +211,14 @@ const Stage3 = (props: Stage3Props) => {
         responseObjects.forEach((response: JhoveValidationResponse) => {
             let report: Report = {
                 date: new Date(),
-                files: 1,
-                input: response.fileName,
+                fileName: response.fileName,
                 errors: getMessageCount(response, ERROR),
                 passed: response.valid,
                 result: response.wellFormed === 1,
                 score: 100,
                 warnings: getMessageCount(response, WARNING),
                 infos: getMessageCount(response, INFO),
-                filePath: files[responseObjects.indexOf(response)].path
+                filePath: files[responseObjects.indexOf(response)].path,
             }
             reports.push(report);
         });
@@ -242,8 +241,8 @@ const Stage3 = (props: Stage3Props) => {
                         return (
                             <TableRow key={index} onClick={() => console.log(responseObjects[index])}>
                                 <TableCell>{report.date.toLocaleDateString()}</TableCell>
-                                <TableCell>{report.files}</TableCell>
-                                <TableCell>{report.input}</TableCell>
+                                <TableCell>1</TableCell>
+                                <TableCell>{report.fileName}</TableCell>
                                 <TableCell>{report.passed === 1 ? <CheckIcon style={{ color: 'green' }} /> : <ClearIcon style={{ color: 'red' }} />}</TableCell>
                                 <TableCell>{report.errors}</TableCell>
                                 <TableCell>{report.warnings}</TableCell>
