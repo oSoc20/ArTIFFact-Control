@@ -162,6 +162,7 @@ export default function Configuration() {
                         policies: policies,
                         reports: reportTypes
                     }}
+                    resetStep={() => setStep(-1)}
                 />);
             default:
                 return (
