@@ -6,7 +6,7 @@ import { STEP_PROGRESS, FilecheckAction, STEP_RESET, CLEAR_FILES, SET_FILES, Fil
 
 export interface FilecheckState {
     readonly step: number;
-    readonly files: Array<FileData>;
+    readonly files: Array<File>;
 }
 
 /* Reducer */

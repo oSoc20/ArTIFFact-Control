@@ -15,9 +15,9 @@ import TrashIcon from 'Assets/icons/icons8-delete-bin-500.svg'
 
 interface Stage1Props {
     progressStep: () => void;
-    files: Array<FileData>;
+    files: Array<File>;
     clearFiles: () => void;
-    setFiles: (files: Array<FileData>) => void
+    setFiles: (files: Array<File>) => void
 }
 
 
@@ -125,17 +125,7 @@ const Stage1 = (props: Stage1Props) => {
         const inputFiles = fileInput.current?.files;
         if (inputFiles) {
             const fileList = Array.from(inputFiles);
-            let newFiles: Array<FileData> = [];
-            fileList.forEach(file => {
-                let newFile: FileData = {
-                    path: file.path,
-                    size: formatBytes(file.size),
-                }
-                if(!props.files.includes(newFile)) {
-                    newFiles.push(newFile);
-                }
-            });
-            props.setFiles([...props.files, ...newFiles]);
+            props.setFiles([...props.files, ...fileList]);
         }
 
     }
@@ -167,7 +157,7 @@ const Stage1 = (props: Stage1Props) => {
                                     return (
                                         <TableRow key={index}>
                                             <TableCell className={classes.tableContentCell}>{file.path}</TableCell>
-                                            <TableCell className={classes.tableContentCell} >{file.size}</TableCell>
+                                            <TableCell className={classes.tableContentCell} >{formatBytes(file.size)}</TableCell>
                                             <TableCell className={classes.tableContentCell} >
                                                 <button style={{ background: "none", border: "none" }}
                                                     onClick={() => removeFile(index)}
@@ -219,7 +209,7 @@ const mapStateToProps = (state: RootState) => ({
  * @param dispatch the dispatch function used by Redux
  */
 const mapDispatchToProps = (dispatch: Dispatch<FilecheckAction>) => ({
-    setFiles: (files: Array<FileData>) => dispatch(setFiles(files)),
+    setFiles: (files: Array<File>) => dispatch(setFiles(files)),
     clearFiles: () => dispatch(clearFiles())
 });
 

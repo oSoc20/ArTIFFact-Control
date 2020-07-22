@@ -135,6 +135,7 @@
     "@types/chart.js": "^2.9.23",
     "@types/react-router-dom": "^5.1.5",
     "chart.js": "^2.9.3",
+    "axios": "^0.19.2",
     "date-fns": "^2.14.0",
     "history": "^5.0.0",
     "react": "^16.8.6",
