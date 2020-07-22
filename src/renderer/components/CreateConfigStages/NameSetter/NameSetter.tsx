@@ -24,7 +24,7 @@ const NameSetter = (props: NameSetterProps) => {
             <FormControl>
                 <Input onChange={(event) => props.setName(event.target.value)} value={props.name} type="text" />
             </FormControl>
-            <Button onClick={() => props.continue()}>Continue</Button>
+            <Button disabled={props.name === ""} onClick={() => props.continue()}>Continue</Button>
         </>
     );
 }

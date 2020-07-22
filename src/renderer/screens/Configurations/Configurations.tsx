@@ -23,12 +23,30 @@ export default function Configuration() {
     const [reportTypes, setReportTypes] = React.useState<Array<ReportTypes>>([]);
     const [policyName, setName] = React.useState<string>("");
 
+    // Reset everything if we are back on the configuration overview
+    React.useEffect(() => {
+        if(step === -1) {
+            setSelectedStandards([]);
+            setPolicies([]);
+            setReportTypes([]);
+            setName("");
+        }
+    }, [step]);
+
+    /**
+     * Add standard to selected standards
+     * @param standard standard to add
+     */
     const addStandard = (standard: string) => {
         if (!selectedStandards.includes(standard)) {
             setSelectedStandards([...selectedStandards, standard]);
         }
     }
 
+    /**
+     * Remove standard from the list of selected standard
+     * @param standard standard to remove
+     */
     const removeStandard = (standard: string) => {
         if (selectedStandards.includes(standard)) {
             const newStandards = [...selectedStandards];
@@ -38,12 +56,20 @@ export default function Configuration() {
         }
     }
 
+    /**
+     * Add a policy check to the configuration
+     * @param policy policy check to add
+     */
     const addPolicy = (policy: Policy) => {
         if (!policies.includes(policy)) {
             setPolicies([...policies, policy]);
         }
     }
 
+    /**
+     * Remove policy check from the configuration
+     * @param policy policy to remove
+     */
     const removePolicy = (policy: Policy) => {
         if (policies.includes(policy)) {
             const newPolicies = [...policies];
@@ -53,12 +79,20 @@ export default function Configuration() {
         }
     }
 
+    /**
+     * Add report type to generate to the configuration
+     * @param reportType report type to add
+     */
     const addReportType = (reportType: ReportTypes) => {
         if(!reportTypes.includes(reportType)) {
             setReportTypes([...reportTypes, reportType]);
         }
     }
 
+    /**
+     * Remove report type from the configuration
+     * @param reportType report type to remove
+     */
     const removeReportType = (reportType: ReportTypes) => {
         if (reportTypes.includes(reportType)) {
             const newReportTypes = [...reportTypes];
@@ -77,6 +111,9 @@ export default function Configuration() {
     }
 
 
+    /**
+     * Render the current step of the create configuration flow
+     */
     const renderStep = () => {
         switch (step) {
             case 0:
@@ -96,6 +133,7 @@ export default function Configuration() {
                         continue={incrementStep}
                         back={goBackOneStep}
                         standardCount={selectedStandards.length}
+                        currentStandards={selectedStandards}
                     />);
             case 2:
                 return (
@@ -113,6 +151,7 @@ export default function Configuration() {
                     addReportType={addReportType}
                     removeReportType={removeReportType}
                     progress={incrementStep}
+                    currentReports={reportTypes}
                 />);
             case 4:
                 return (<Summary 
@@ -147,6 +186,9 @@ export default function Configuration() {
         }
     }
 
+    /**
+     * Handler thats called when the create new configuration button is pressed
+     */
     const handleClickCreate = () => {
         if (step < 0) {
             setStep(step + 1);

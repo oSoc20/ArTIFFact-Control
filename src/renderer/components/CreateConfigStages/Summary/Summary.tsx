@@ -14,7 +14,7 @@ const Summary = (props: SummaryProps) => {
     const getPoliciesAsString = () => {
         let result: string = "";
         props.config.policies?.forEach((policy: Policy) => {
-            result += `${policy.lhs} ${policy.operator} ${policy.rhs} \n`
+            result += `${policy.name} ${policy.operator} ${policy.value} \n`
         });
         return result;
     }

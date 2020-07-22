@@ -91,6 +91,7 @@ const AddPolicy = (props: AddPolicyProps) => {
     const renderAllowedValues = (policyRule: PolicyRule) => {
         switch (policyRule.type) {
             case "boolean":
+                setValue(false);
                 return <Switch onChange={(event: any) => setValue(event.target.checked)} />
             case "number":
                 return <label><input type="number" onChange={(event: any) => setValue(event.target.value)} /></label>
@@ -167,15 +168,17 @@ const AddPolicy = (props: AddPolicyProps) => {
 
                 </Table>
             </TableContainer>
-            <Button onClick={() => {
-                let policy: Policy = {
-                    lhs: policyName,
-                    operator: policyOperator,
-                    rhs: policyValue
-                }
-                props.addPolicy(policy);
-                props.back();
-            }}>Save rule</Button>
+            <Button
+                disabled={policyValue === ""}
+                onClick={() => {
+                    let policy: Policy = {
+                        name: policyName,
+                        operator: policyOperator,
+                        value: policyValue
+                    }
+                    props.addPolicy(policy);
+                    props.back();
+                }}>Save rule</Button>
         </>
     );
 }

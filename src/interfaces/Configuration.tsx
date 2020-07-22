@@ -1,7 +1,7 @@
 export interface Policy {
-    lhs: string;
+    name: string;
     operator: '=' | '<' | '>' | '<=' | '>=';
-    rhs: string | number | any;
+    value: string | number | any;
 }
 
 export type ReportTypes = 'HTML' | 'JSON' | 'PDF' | 'XML and METS'

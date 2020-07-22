@@ -28,9 +28,9 @@ export const tempConfigs: Array<Configuration> = [
         name: "Extended",
         implementation: "Baseline TIFF 6.0",
         policies: [
-            { lhs: "IccProfileClass", operator: '=', rhs: 'input' },
-            { lhs: "ImageWidth", operator: '>', rhs: 500 },
-            { lhs: "ImageHeight", operator: '<=', rhs: 300 }
+            { name: "IccProfileClass", operator: '=', value: 'input' },
+            { name: "ImageWidth", operator: '>', value: 500 },
+            { name: "ImageHeight", operator: '<=', value: 300 }
         ], reports: ["JSON", "PDF"]
     },
     { name: "Extended", implementation: "Baseline TIFF 6.0", policies: [], reports: ["JSON", "PDF"] },
@@ -147,7 +147,7 @@ const ConfigurationTable = (props: ConfigTableProps | ConfigTablePropsWithSelect
                                 </TableCell>
                                 <TableCell className={`${classes.tableContentCell} ${index === props.currentSelected ? classes.selected : ""}`}>
                                     {config.policies?.map((policy, index) => {
-                                        return (<Typography key={index} className={classes.typography}>{`${policy.lhs} ${policy.operator} ${policy.rhs}`}</Typography>);
+                                        return (<Typography key={index} className={classes.typography}>{`${policy.name} ${policy.operator} ${policy.value}`}</Typography>);
                                     })}
                                 </TableCell>
                                 <TableCell className={`${classes.tableContentCell} ${index === props.currentSelected ? classes.selected : ""}`} >

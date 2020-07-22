@@ -17,12 +17,17 @@ interface StandardPickProps {
     continue: () => void;
     back: () => void;
     standardCount: number;
+    currentStandards: Array<string>;
 }
 
 
 const StandardPick = (props: StandardPickProps) => {
 
     const [checked, setChecked] = React.useState<Array<string>>([]);
+
+    React.useEffect(() => {
+        setChecked(props.currentStandards);
+    });
 
     const handleToggle = (value: string) => {
         const currentIndex = checked.indexOf(value);

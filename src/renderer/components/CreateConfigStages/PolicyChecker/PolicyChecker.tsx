@@ -67,15 +67,15 @@ const PolicyChecker = (props: PolicyCheckerProps) => {
                             <TableBody>
                                 {props.policies.map((policy: Policy, index: number) => {
                                     return (
-                                        <TableRow>
-                                            <TableCell>{policy.lhs}</TableCell>
+                                        <TableRow key={index}>
+                                            <TableCell>{policy.name}</TableCell>
                                             <TableCell>{policy.operator}</TableCell>
-                                            <TableCell>{policy.rhs}</TableCell>
+                                            <TableCell>{policy.value}</TableCell>
                                             <TableCell>
                                                 <Button>
                                                     <img src={EditIcon} style={{ height: "20px", width: "20px" }} />
                                                 </Button>
-                                                <Button>
+                                                <Button onClick={() => props.removePolicy(policy)}>
                                                     <img src={TrashIcon} style={{ height: "20px", width: "20px", paddingBottom: "4px" }} />
                                                 </Button>
                                             </TableCell>
@@ -98,8 +98,7 @@ const PolicyChecker = (props: PolicyCheckerProps) => {
                         <AddPolicy back={() => {setRenderState(DEFAULT)}} addPolicy={props.addPolicy} />
                     </> :
                     <>
-
-
+                        Edit component here
                     </>
         }
 

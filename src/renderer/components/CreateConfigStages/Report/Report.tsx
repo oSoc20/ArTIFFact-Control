@@ -9,11 +9,16 @@ interface ReportProps {
     addReportType: (report: ReportTypes) => void;
     removeReportType: (report: ReportTypes) => void;
     progress: () => void;
+    currentReports: Array<ReportTypes>;
 }
 
 const Report = (props: ReportProps) => {
 
     const [checked, setChecked] = React.useState<Array<ReportTypes>>([]);
+
+    React.useEffect(() => {
+        setChecked(props.currentReports);
+    });
 
     const handleToggle = (value: ReportTypes) => {
         const currentIndex = checked.indexOf(value);
@@ -73,7 +78,7 @@ const Report = (props: ReportProps) => {
                     </TableBody>
                 </Table>
             </TableContainer>
-            <Button onClick={() => props.progress()}>Continue</Button>
+            <Button disabled={props.currentReports.length === 0} onClick={() => props.progress()}>Continue</Button>
         </>);
 }
 
