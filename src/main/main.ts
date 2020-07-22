@@ -50,19 +50,27 @@ const createWindow = async () => {
     } else {
       win!.setMenu(null);
     }
+    
+    // Open DevTools, see https://github.com/electron/electron/issues/12438 for why we wait for dom-ready
+    win.webContents.once('dom-ready', () => {
+        if (process.env.NODE_ENV !== 'production') {
+            win!.webContents.openDevTools();
+        } else {
+            win!.setMenu(null);
+        }
 
-    // Fullscreen
-    win!.maximize();
-    win!.show();
-  });
+        // Fullscreen
+        win!.maximize();
+        win!.show();
+    });
 
-  win.on('closed', () => {
-    win = null;
-  });
+    win.on('closed', () => {
+        win = null;
+    });
 
-  win.on('page-title-updated', (e) => {
-    e.preventDefault();
-  });
+    win.on('page-title-updated', function (e) {
+        e.preventDefault()
+    });
 };
 
 app.on('ready', createWindow);

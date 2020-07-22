@@ -44,6 +44,7 @@
       "Interfaces/*": ["src/interfaces/*"],  
       "Assets/*": ["src/renderer/assets/*"],  
       "Styles/*": ["src/renderer/styles/*"],
+      "Theme/*": ["src/renderer/theme/*"],
       "Actions/*": ["src/renderer/actions/*"],
       "Reducers": ["src/renderer/reducers/"],
       "Components/*": ["src/renderer/components/*"]  

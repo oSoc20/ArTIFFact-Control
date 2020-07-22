@@ -12,7 +12,6 @@ import CheckFileIcon from 'Assets/icons/icons8-check-file-500.svg';
 import RatingsIcon from 'Assets/icons/icons8-ratings-500.svg';
 import SettingsIcon from 'Assets/icons/icons8-settings-500.svg';
 import ClockCheckedIcon from 'Assets/icons/icons8-clock-checked-500.svg';
-import StatisticsReportIcon from 'Assets/icons/icons8-statistics-report-500.svg';
 import ComboChartIcon from 'Assets/icons/icons8-combo-chart-500.svg';
 import HelpIcon from 'Assets/icons/icons8-help-500.svg';
 import InfoIcon from 'Assets/icons/icons8-info-500.svg';
@@ -78,11 +77,10 @@ const Sidebar = (props: SidebarProps) => {
 
     const middleItems: SidebarItem[] = [
         { name: 'Dashboard', link: 'dashboard', icon: HomeIcon },
-        { name: 'File checks', link: 'fileChecks', icon: CheckFileIcon },
+        { name: 'Check a file', link: 'fileChecks', icon: CheckFileIcon },
         { name: 'Reports', link: 'reports', icon: RatingsIcon },
-        { name: 'Configurations', link: 'configurations', icon: SettingsIcon },
+        { name: 'Configuration', link: 'configurations', icon: SettingsIcon },
         { name: 'Periodical checks', link: 'periodicalChecks', icon: ClockCheckedIcon },
-        { name: 'Conformance checks', link: 'conformanceChecks', icon: StatisticsReportIcon },
         { name: 'Statistics', link: 'statistics', icon: ComboChartIcon }
     ];
 

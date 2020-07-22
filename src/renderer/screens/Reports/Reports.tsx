@@ -1,10 +1,11 @@
 import * as React from 'react';
 // Material UI
 import { Typography, Grid, Box, makeStyles, Theme, createStyles } from '@material-ui/core';
-import { isBefore, setHours, setMinutes, setSeconds, setMilliseconds, getDaysInMonth } from 'date-fns';
+import { isBefore, setHours, setMinutes, setSeconds, setMilliseconds } from 'date-fns';
 // Icons
 import RatingsIcon from 'Assets/icons/icons8-ratings-500.svg';
 import ReportsTable from 'Components/ReportsTable/ReportsTable';
+import ReportDetails from 'Components/ReportDetails/ReportDetails';
 
 /* STYLE */
 const useStyles = makeStyles((theme: Theme) =>
@@ -36,47 +37,19 @@ const useStyles = makeStyles((theme: Theme) =>
 /* COMPONENT */
 const Reports = () => {
     const classes = useStyles();
+    const [report, setReport] = React.useState<Report | null>(null);
     var reportsData: Report[] = [
-        { date: new Date('07/15/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100 },
-        { date: new Date('07/15/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, score: 100 },
-        { date: new Date('07/15/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, score: 100 },
-        { date: new Date('07/15/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, score: 100 },
-        { date: new Date('07/15/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, score: 100 },
-        { date: new Date('07/15/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100 },
-        { date: new Date('07/15/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100 },
-        { date: new Date('07/15/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, score: 100 },
-        { date: new Date('07/15/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100 },
-        { date: new Date('07/15/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, score: 100 },
-        { date: new Date('07/15/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100 },
-        { date: new Date('07/15/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, score: 100 },
-        { date: new Date('07/15/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100 },
-        { date: new Date('07/15/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, score: 100 },
-        { date: new Date('07/15/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, score: 100 },
-        { date: new Date('07/15/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, score: 100 },
-        { date: new Date('07/15/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, score: 100 },
-        { date: new Date('07/15/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100 },
-        { date: new Date('07/15/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100 },
-        { date: new Date('07/15/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100 },
-        { date: new Date('07/15/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100 },
-        { date: new Date('07/15/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100 },
-        { date: new Date('07/15/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, score: 100 },
-        { date: new Date('07/15/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, score: 100 },
-        { date: new Date('07/15/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, score: 100 },
-        { date: new Date('07/15/2020'), files: 27, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, score: 100 },
-        { date: new Date('07/16/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100 },
-        { date: new Date('07/16/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, score: 100 },
-        { date: new Date('07/16/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, score: 100 },
-        { date: new Date('07/16/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, score: 100 },
-        { date: new Date('07/17/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100 },
-        { date: new Date('07/17/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: true, errors: 0, passed: 3, score: 100 },
-        { date: new Date('07/17/2020'), files: 1, input: '/users/name/file/Tifffile.tiff', result: false, errors: 0, passed: 3, score: 100 }
+        { name: 'file_example_TIFF_1MB.tiff', directory: "D:\\Bureau\\Téléchargements", path: "D:\\Bureau\\Téléchargements\\file_example_TIFF_1MB.tiff", date: new Date('07/15/2020'), files: 1, result: true, errors: 0, passed: 3, warnings: 1, score: 75 , duration: 93, formats: [{title: 'HTML', url: null}, {title: 'PDF', url: null}, {title: 'XML', url: null}, {title: 'JSON', url: null}, {title: 'METS', url: null}] },
+        { name: 'file_example_TIFF_10MB.tiff', directory: "D:\\Bureau\\Téléchargements", path: "D:\\Bureau\\Téléchargements\\file_example_TIFF_10MB.tiff", date: new Date('07/22/2020'), files: 1, result: false, errors: 2, passed: 2, warnings: 0, score: 50 , duration: 198, formats: [{title: 'HTML', url: null}, {title: 'PDF', url: null}, {title: 'XML', url: null}, {title: 'JSON', url: null}, {title: 'METS', url: null}] }
     ];
     const [reports, setReports] = React.useState(reportsData);
 
-    const removeReport = (index: number) => {
+    const removeReport = (report: Report) => {
         let tempReports = [...reports];
+        let index = tempReports.indexOf(report);
         tempReports.splice(index, 1);
         setReports(tempReports);
+        setReport(null);
     }
 
     const removeReportsOlderThan = (date: Date | null) => {
@@ -88,8 +61,12 @@ const Reports = () => {
             selectedDate = setSeconds(selectedDate, 0);
             selectedDate = setMilliseconds(selectedDate, 0);
 
-            tempReports = tempReports.filter(report => {
+            tempReports = tempReports.filter((report: Report) => {
                 let reportDate = report.date;
+                reportDate = setHours(reportDate, 0);
+                reportDate = setMinutes(reportDate, 0);
+                reportDate = setSeconds(reportDate, 0);
+                reportDate = setMilliseconds(reportDate, 0);
                 return !isBefore(reportDate, selectedDate);
             });
             setReports(tempReports);
@@ -106,14 +83,25 @@ const Reports = () => {
                 <div>
                     <Box fontSize='h4.fontSize' style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', }}>
                         <img src={RatingsIcon} className={classes.titleIcon} />
-                        <span>Reports</span>
+                        <span>
+                            {report === null ?
+                                "Reports"
+                                : "Report: " + report.name
+                            }
+                        </span>
                     </Box>
-                    <span style={{ fontSize: '16px' }}>Click on an item to see the full report</span>
+                    {report === null ?
+                        <span style={{ fontSize: '16px' }}>Click on an item to see the full report</span>
+                        : null
+                    }
                 </div>
             </Typography>
             <Grid container spacing={3}>
-                <Grid item xs={12} lg={11} style={{ display: 'flex', margin: 'auto' }}>
-                    <ReportsTable reports={reports} removeReport={removeReport} removeReportsOlderThan={removeReportsOlderThan} clearReports={clearReports} />
+                <Grid item xs={12} xl={10} style={{margin: 'auto'}}>
+                    {report === null ?
+                        <ReportsTable reports={reports} removeReport={removeReport} removeReportsOlderThan={removeReportsOlderThan} clearReports={clearReports} setReport={setReport} />
+                        : <ReportDetails report={report} setReport={setReport} removeReport={removeReport} />
+                    }
                 </Grid>
             </Grid>
         </>
