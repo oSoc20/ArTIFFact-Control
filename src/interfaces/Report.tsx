@@ -1,16 +1,12 @@
 interface Report {
-    name: string;
-    directory: string;
-    path: string;
+    fileName: string;
+    filePath: string;
     date: Date;
-    files: number;
-    result: boolean;
-    errors: number;
-    passed: number;
-    warnings: number;
-    score: number;
-    duration: number;
-    formats: Array<Format>;
+    result?: boolean;
+    errors?: number;
+    passed?: number;
+    warnings?: number;
     infos?: number;
-    filePath?: string;
+    score?: number;
+    formats?: Array<Format> | null;
 }

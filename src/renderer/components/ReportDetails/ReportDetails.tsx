@@ -40,18 +40,7 @@ const ReportDetails = (props: ReportsTableProps) => {
     const classes = useStyles();
     const mainClasses = useMainStyles();
     const tableClasses = useTableStyles();
-
-    const toHHMMSS = (): string => {
-        const secs = props.report.duration!.toString();
-        var sec_num = parseInt(secs, 10)
-        var hours = Math.floor(sec_num / 3600)
-        var minutes = Math.floor(sec_num / 60) % 60
-        var seconds = sec_num % 60
-
-        return [hours, minutes, seconds]
-            .map(v => v < 10 ? "0" + v : v)
-            .join(":")
-    }
+    const directory = props.report.filePath.replace(props.report.fileName, '');
 
     return <>
         <Button style={{ fontWeight: 600, textTransform: 'none', width: 'auto' }} onClick={() => { props.setReport(null) }}><img src={LeftArrowIcon} style={{ marginRight: '7px', fontSize: '20px' }} /> Back</Button>
@@ -107,7 +96,7 @@ const ReportDetails = (props: ReportsTableProps) => {
                                     <Typography className={classes.label}>Files</Typography>
                                 </Grid>
                                 <Grid item xs={9}>
-                                    <Typography style={{ fontSize: '16px' }}>{props.report.files}</Typography>
+                                    <Typography style={{ fontSize: '16px' }}>1</Typography>
                                 </Grid>
                             </Grid>
                         </Grid>
@@ -121,18 +110,8 @@ const ReportDetails = (props: ReportsTableProps) => {
                                 </Grid>
                             </Grid>
                         </Grid>
-                        <Grid item xs={12}>
-                            <Grid container>
-                                <Grid item xs={3}>
-                                    <Typography className={classes.label}>Duration</Typography>
-                                </Grid>
-                                <Grid item xs={9}>
-                                    <Typography style={{ fontSize: '16px' }}>{toHHMMSS()}</Typography>
-                                </Grid>
-                            </Grid>
-                        </Grid>
                         <Grid item xs={12} style={{ display: 'flex', marginTop: '15px', justifyContent: 'flex-end' }}>
-                            <Button style={{ fontSize: '16px', textTransform: 'none' }} onClick={() => shell.openPath(props.report.directory)}><img src={FolderIcon} style={{ width: '20px', marginRight: '8px' }} /> See report in directory</Button>
+                            <Button style={{ fontSize: '16px', textTransform: 'none' }} onClick={() => shell.openPath(directory)}><img src={FolderIcon} style={{ width: '20px', marginRight: '8px' }} /> See report in directory</Button>
                             <Button style={{ fontSize: '16px', textTransform: 'none' }} onClick={() => props.removeReport(props.report)}><img src={DeleteBinIcon} style={{ width: '20px', marginRight: '8px' }} /> Delete report</Button>
                         </Grid>
                     </Grid>
@@ -177,11 +156,11 @@ const ReportDetails = (props: ReportsTableProps) => {
                                             {props.report.result ? <CheckIcon style={{ color: 'green' }} /> : <ClearIcon style={{ color: 'red' }} />}
                                         </TableCell>
                                         <TableCell component="th" scope="row">
-                                            {props.report.name}
+                                            {props.report.fileName}
                                         </TableCell>
                                         <TableCell component="th" scope="row">
-                                            <Tooltip title={props.report.directory} aria-label={props.report.directory} placement="bottom">
-                                                <div style={{ maxWidth: '275px', overflow: 'hidden', textOverflow: 'ellipsis' }}>{props.report.directory}</div>
+                                            <Tooltip title={directory} aria-label={directory} placement="bottom">
+                                                <div style={{ maxWidth: '275px', overflow: 'hidden', textOverflow: 'ellipsis' }}>{directory}</div>
                                             </Tooltip>
                                         </TableCell>
                                         <TableCell component="th" scope="row">

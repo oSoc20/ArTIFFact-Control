@@ -37,12 +37,12 @@ const LastReports = (props: LastReportsProps) => {
 
     const history = useHistory();
     var reportsData: Report[] = [
-        { name: 'Tifffile.tiff', directory: '/users/name/file', path: '/users/name/file/Tifffile.tiff', date: new Date('7/21/2020'), files: 1, result: true, errors: 0, passed: 1, warnings: 0, score: 100, duration: 99 },
-        { name: 'Tifffile.tiff', directory: '/users/name/file', path: '/users/name/file/Tifffile.tiff', date: new Date('7/20/2020'), files: 12, result: false, errors: 9, passed: 3, warnings: 0, score: 100, duration: 99 },
-        { name: 'Tifffile.tiff', directory: '/users/name/file', path: '/users/name/file/Tifffile.tiff', date: new Date('7/18/2020'), files: 1, result: true, errors: 0, passed: 1, warnings: 0, score: 100, duration: 99 },
-        { name: 'Tifffile.tiff', directory: '/users/name/file', path: '/users/name/file/Tifffile.tiff', date: new Date('7/17/2020'), files: 4, result: false, errors: 1, passed: 3, warnings: 0, score: 100, duration: 99 },
-        { name: 'Tifffile.tiff', directory: '/users/name/file', path: '/users/name/file/Tifffile.tiff', date: new Date('7/15/2020'), files: 1, result: true, errors: 0, passed: 1, warnings: 0, score: 100, duration: 99 },
-        { name: 'Tifffile.tiff', directory: '/users/name/file', path: '/users/name/file/Tifffile.tiff', date: new Date('6/08/2020'), files: 2, result: true, errors: 0, passed: 1, warnings: 1, score: 100, duration: 99 }
+        { fileName: 'Tifffile.tiff', filePath: '/users/name/file/Tifffile.tiff', date: new Date('7/21/2020'), result: true, errors: 0, passed: 1, warnings: 0, infos: 0, score: 100, formats: null },
+        { fileName: 'Tifffile.tiff', filePath: '/users/name/file/Tifffile.tiff', date: new Date('7/21/2020'), result: true, errors: 0, passed: 1, warnings: 0, infos: 0, score: 100, formats: null },
+        { fileName: 'Tifffile.tiff', filePath: '/users/name/file/Tifffile.tiff', date: new Date('7/21/2020'), result: true, errors: 0, passed: 1, warnings: 0, infos: 0, score: 100, formats: null },
+        { fileName: 'Tifffile.tiff', filePath: '/users/name/file/Tifffile.tiff', date: new Date('7/21/2020'), result: true, errors: 0, passed: 1, warnings: 0, infos: 0, score: 100, formats: null },
+        { fileName: 'Tifffile.tiff', filePath: '/users/name/file/Tifffile.tiff', date: new Date('7/21/2020'), result: true, errors: 0, passed: 1, warnings: 0, infos: 0, score: 100, formats: null },
+        { fileName: 'Tifffile.tiff', filePath: '/users/name/file/Tifffile.tiff', date: new Date('7/21/2020'), result: true, errors: 0, passed: 1, warnings: 0, infos: 0, score: 100, formats: null }
     ];
     const [reports, setReports] = React.useState(reportsData);
 
@@ -79,10 +79,10 @@ const LastReports = (props: LastReportsProps) => {
                                                 {format(report.date, 'dd/MM/yyyy')}
                                             </TableCell>
                                             <TableCell component="th" scope="row">
-                                                {report.files}
+                                                1
                                             </TableCell>
                                             <TableCell component="th" scope="row">
-                                                {report.path}
+                                                {report.filePath}
                                             </TableCell>
                                             <TableCell component="th" scope="row">
                                                 {report.result ? <CheckIcon style={{ color: 'green' }} /> : <ClearIcon style={{ color: 'red' }} />}
