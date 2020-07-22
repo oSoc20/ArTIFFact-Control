@@ -93,14 +93,14 @@ const FileChecks = (props: FilecheckerProps) => {
                 </Box>
             </Typography>
             <Grid container spacing={3}>
-                <Grid item xs={12} lg={10} style={{ display: 'flex', margin: "auto" }}>
+                <Grid item xs={12} lg={10} style={{margin: 'auto'}}>
                     <Container>
                         <Paper className={classes.paper}>
                             {renderStage()}
                         </Paper>
                     </Container>
                 </Grid>
-                <Grid item xs={12} lg={10} style={{ display: 'flex', margin: "auto" }}>
+                <Grid item xs={12} lg={10} style={{margin: 'auto'}}>
                     <div className={classes.stepperContainer}>
                         <FileCheckStepper stepLabels={STEPS} step={props.step} />
                     </div>
