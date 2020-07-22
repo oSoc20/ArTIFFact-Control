@@ -175,7 +175,7 @@ const ReportDetails = (props: ReportsDetailsProps) => {
                                 <TableBody>
                                     {props.reportParent.reports.map((report, index) => {
                                         return <>
-                                            <StyledTableRow1>
+                                            <StyledTableRow1 key={index}>
                                                 <TableCell component="th" scope="row">
                                                     {report.result ? <CheckIcon style={{ color: 'green' }} /> : <ClearIcon style={{ color: 'red' }} />}
                                                 </TableCell>

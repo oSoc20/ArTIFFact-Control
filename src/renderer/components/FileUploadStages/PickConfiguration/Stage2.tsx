@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { Box, Typography } from '@material-ui/core';
+import { Box, Typography, Paper } from '@material-ui/core';
 import ConfigurationTable, { tempConfigs } from 'Components/ConfigurationTable/ConfigurationTable'
 import ImportIcon from 'Assets/icons/icons8-import-500.svg';
 import PlusIcon from 'Assets/icons/icons8-plus-math-500.svg';
@@ -109,17 +109,17 @@ const Stage2 = (props: Stage2Props) => {
                     <Box fontSize='h6.fontSize' style={{ marginBottom: '40px', textAlign: "center" }}>
                         Step 2 - TIFF Configuration settings
                 </Box>
-            </Typography>
-            <ConfigurationTable
-                configs={tempConfigs}
-                selectable
-                currentSelected={currentSelected}
-                setCurrentSelected={setCurrent}
-            />
-            <Box display={"flex"} width={"100%"}>
-                <button className={classes.configControlButton}>
-                    <Typography style={{ fontSize: 15 }}>
-                        <img src={ImportIcon} style={{ width: "17px" }} />
+                </Typography>
+                <ConfigurationTable
+                    configs={tempConfigs}
+                    selectable
+                    currentSelected={currentSelected}
+                    setCurrentSelected={setCurrent}
+                />
+                <Box display={"flex"} width={"100%"}>
+                    <button className={classes.configControlButton}>
+                        <Typography style={{ fontSize: 15 }}>
+                            <img src={ImportIcon} style={{ width: "17px" }} />
                         import
                     </Typography>
                     </button>
