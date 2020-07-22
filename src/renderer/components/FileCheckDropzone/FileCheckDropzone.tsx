@@ -1,14 +1,20 @@
 import * as React from 'react'
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
-import { FileData } from 'Actions/FileCheckActions';
+import { FileData, setFiles } from 'Actions/FileCheckActions';
 import { useDropzone } from 'react-dropzone';
 import PublishIcon from '@material-ui/icons/Publish';
 import { Button } from '@material-ui/core';
+import { useHistory } from 'react-router-dom';
+import { RootState } from 'src/renderer/reducers';
+import { SidebarAction, setActiveItem } from 'Actions/SidebarAction';
+import { connect } from 'react-redux';
 
 /* Typescript interfaces */
 
 interface DropZoneProps {
     updateFiles: (files: Array<File>) => void;
+    setActiveItem: (item: string) => void;
+    redirect?: string;
 }
 
 /* Styles */
@@ -21,7 +27,7 @@ const useStyles = makeStyles((theme: Theme) =>
             borderRadius: "20px",
             margin: "auto",
             height: 200,
-            alignContent: "center"
+            alignContent: "center",
         }
     })
 );
@@ -54,7 +60,7 @@ export const formatBytes = (bytes: number, decimals = 2) => {
  * @param props props that are passed by the parent component
  */
 const FileDropZone = (props: DropZoneProps) => {
-
+    const history = useHistory();
     const classes = useStyles();
 
     /**
@@ -64,6 +70,10 @@ const FileDropZone = (props: DropZoneProps) => {
      */
     const onDrop = React.useCallback((acceptedFiles: Array<File>) => {
         props.updateFiles(acceptedFiles);
+        if(props.redirect !== undefined && props.redirect !== null) {
+            props.setActiveItem(props.redirect);
+            history.push('/' + props.redirect);
+        }
     }, []);
 
     // Destructure the things we need
@@ -127,4 +137,14 @@ const FileDropZone = (props: DropZoneProps) => {
     );
 };
 
-export default FileDropZone;
+/* REDUX */
+const mapStateToProps = (state: RootState) => ({
+
+});
+
+const mapDispatchToProps = (dispatch: React.Dispatch<SidebarAction>) => ({
+    setActiveItem: (item: string) => dispatch(setActiveItem(item)),
+});
+
+// Connect to the Redux store
+export default connect(mapStateToProps, mapDispatchToProps)(FileDropZone);
