@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
-export default function Help() {
+export default function PeriodicalChecks() {
     const classes = useStyles();
     const mainClasses = useMainStyles();
 
