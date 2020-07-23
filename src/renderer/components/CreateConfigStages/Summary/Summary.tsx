@@ -12,6 +12,10 @@ import { Configuration, Policy, ReportTypes } from 'Interfaces/Configuration';
 import LeftArrowIcon from 'Assets/icons/icons8-arrow-500.svg';
 import { useMainStyles } from 'Theme/Main';
 import { useTableStyles } from 'Theme/Table';
+import { RootState } from 'Reducers';
+import { ConfigurationAction, addConfiguration } from 'Actions/ConfigurationActions';
+import { Dispatch } from 'redux';
+import { connect } from 'react-redux';
 
 /* STYLE */
 const useStyles = makeStyles((theme: Theme) =>
@@ -55,6 +59,17 @@ const useStyles = makeStyles((theme: Theme) =>
 interface SummaryProps {
     goBack: () => void;
     config: Configuration;
+    resetStep: () => void;
+    addConfiguration: (config: Configuration) => void;
+}
+
+
+const OPERATOR_TRANSLATION = {
+    '<': "&lt;",
+    '=': "=",
+    '>': '&gt;',
+    '<=': '&lte;',
+    '>=': '&gte;'
 }
 
 const Summary = (props: SummaryProps) => {
@@ -76,12 +91,17 @@ const Summary = (props: SummaryProps) => {
      * @returns string that contains all report types
      */
     const getReportsAsString = () => {
-        let result: string = '';
-        props.config.reports?.forEach((report: ReportTypes) => {
+        let result: string = "";
+        props.config.reports?.forEach((report: ReportTypes | string) => {
             result += `${report}\n`;
         });
         return result;
-    };
+    }
+
+    const saveConfig = () => {
+        props.addConfiguration(props.config);
+        props.resetStep();
+    }
 
     return (
         <>
@@ -96,7 +116,6 @@ const Summary = (props: SummaryProps) => {
                     Step 5 - Summary
                 </Box>
             </Typography>
-
             <Typography className={classes.headText}>
                 Name: <span className={classes.result}>{props.config.name}</span>
             </Typography>
@@ -114,9 +133,27 @@ const Summary = (props: SummaryProps) => {
                 Report: <span className={classes.result}>{getReportsAsString()}</span>
             </Typography>
             <Divider className={classes.divider} />
-            <Button className={classes.button}>Save configuration</Button>
+            <Button onClick={() => saveConfig()} className={classes.button}>Save configuration</Button>
         </>
     );
 };
+/* Redux functions */
 
-export default Summary;
+/**
+ * Function that maps all required state variables to props.
+ * @param state Rootstate that has all reducers combined
+ */
+const mapStateToProps = (state: RootState) => ({
+    configs: state.configuration.configs
+});
+
+/**
+ * Function that maps dispatch functions to props
+ * @param dispatch the dispatch function used by Redux
+ */
+const mapDispatchToProps = (dispatch: Dispatch<ConfigurationAction>) => ({
+    addConfiguration: (config: Configuration) => dispatch(addConfiguration(config))
+});
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Summary);

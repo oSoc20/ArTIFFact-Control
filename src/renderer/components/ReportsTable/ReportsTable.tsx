@@ -62,11 +62,11 @@ const useStyles = makeStyles((theme: Theme) =>
 
 /* INTERFACE */
 interface ReportsTableProps {
-    reports: Array<Report>;
-    removeReport: (report: Report) => void;
-    removeReportsOlderThan: (date: Date | null) => void;
-    clearReports: () => void;
-    setReport: (report: Report) => void;
+    reportParents: Array<ReportParent> | null;
+    removeReportParent: (report: ReportParent) => void;
+    removeReportParentsOlderThan: (date: Date | null) => void;
+    clearReportParents: () => void;
+    setReportParent: (report: ReportParent) => void;
 }
 
 /* COMPONENT */
@@ -98,9 +98,9 @@ const ReportsTable = (props: ReportsTableProps) => {
 
     const handleClear = () => {
         if (action == 'clearAll') {
-            props.clearReports();
+            props.clearReportParents();
         } else if (action == 'olderThan') {
-            props.removeReportsOlderThan(selectedDate);
+            props.removeReportParentsOlderThan(selectedDate);
         }
 
         setOpen(false);
@@ -115,17 +115,20 @@ const ReportsTable = (props: ReportsTableProps) => {
     };
 
     const initPagination = () => {
-        if (nbPages == 0 && props.reports.length > nbElementsPerPage) {
+        if (nbPages == 0 && props.reportParents !== null && props.reportParents.length > nbElementsPerPage) {
             setPagination();
             setCurrentPage(1);
         }
     };
 
     const setPagination = () => {
-        let nbPages = Math.ceil(props.reports.length / nbElementsPerPage);
-        setNbPages(nbPages);
-        if (currentPage > nbPages) setCurrentPage(nbPages);
-    };
+        if (props.reportParents !== null) {
+            let nbPages = Math.ceil(props.reportParents.length / nbElementsPerPage);
+            setNbPages(nbPages);
+            if (currentPage > nbPages)
+                setCurrentPage(nbPages);
+        }
+    }
 
     initPagination();
 
@@ -137,169 +140,98 @@ const ReportsTable = (props: ReportsTableProps) => {
             }
         };
         window.addEventListener('keydown', handleEsc);
-    }, [props.reports]);
+    }, [props.reportParents]);
 
     let minIndex = (currentPage - 1) * nbElementsPerPage;
-    let maxIndex = currentPage * nbElementsPerPage - 1;
+    let maxIndex = (currentPage * nbElementsPerPage) - 1;
 
-    return (
-        <>
-            <Paper className={mainClasses.paper}>
-                {props.reports.length > 0 ? (
-                    <>
-                        <TableContainer style={{ height: '60vh', overflow: 'auto' }}>
-                            <Table aria-label="span" size="small" stickyHeader>
-                                <TableHead>
-                                    <TableRow className={tableClasses.tableHeadRow}>
-                                        <TableCell className={tableClasses.tableHeadCell}>
-                                            Date
-                                        </TableCell>
-                                        <TableCell className={tableClasses.tableHeadCell}>
-                                            Files
-                                        </TableCell>
-                                        <TableCell className={tableClasses.tableHeadCell}>
-                                            Input
-                                        </TableCell>
-                                        <TableCell className={tableClasses.tableHeadCell}>
-                                            Result
-                                        </TableCell>
-                                        <TableCell className={tableClasses.tableHeadCell}>
-                                            Errors
-                                        </TableCell>
-                                        <TableCell className={tableClasses.tableHeadCell}>
-                                            Passed
-                                        </TableCell>
-                                        <TableCell className={tableClasses.tableHeadCell}>
-                                            Score
-                                        </TableCell>
-                                        <TableCell
-                                            className={tableClasses.tableHeadCell}
-                                        ></TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {props.reports.map((report, index) => {
-                                        if (
-                                            props.reports.length <= nbElementsPerPage ||
-                                            (index >= minIndex && index <= maxIndex)
-                                        ) {
+    return <>
+        <Paper className={mainClasses.paper}>
+            {props.reportParents! !== null && props.reportParents.length > 0 ?
+                <>
+                    <TableContainer style={{ height: '60vh', overflow: "auto" }} >
+                        <Table aria-label="span" size="small" stickyHeader>
+                            <TableHead>
+                                <TableRow className={tableClasses.tableHeadRow}>
+                                    <TableCell className={tableClasses.tableHeadCell}>Date</TableCell>
+                                    <TableCell className={tableClasses.tableHeadCell}>Files</TableCell>
+                                    <TableCell className={tableClasses.tableHeadCell}>Input</TableCell>
+                                    <TableCell className={tableClasses.tableHeadCell}>Result</TableCell>
+                                    <TableCell className={tableClasses.tableHeadCell}>Errors</TableCell>
+                                    <TableCell className={tableClasses.tableHeadCell}>Passed</TableCell>
+                                    <TableCell className={tableClasses.tableHeadCell}>Score</TableCell>
+                                    <TableCell className={tableClasses.tableHeadCell}></TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {props.reportParents !== null ?
+                                    props.reportParents.map((reportParent, index) => {
+                                        if (props.reportParents!.length <= nbElementsPerPage || (index >= minIndex && index <= maxIndex)) {
+                                            const directory = reportParent.reports[0].filePath.replace(reportParent.reports[0].fileName, '');
+                                            const files = reportParent.reports.length;
+                                            let result = true; let errors = 0; let passed = 0; let warnings = 0; let score = 0;
+                                            reportParent.reports.forEach(report => {
+                                                if (!report.result)
+                                                    result = false;
+                                                if (report.errors !== undefined)
+                                                    errors += report.errors;
+                                                if (report.passed !== undefined)
+                                                    passed += report.passed;
+                                                if (report.warnings !== undefined)
+                                                    warnings += report.warnings;
+                                            });
+                                            score = passed / (errors + passed + warnings) * 100
+
                                             return (
-                                                <StyledTableRow2
-                                                    key={index}
-                                                    onClick={() => props.setReport(report)}
-                                                >
-                                                    <TableCell component="th" scope="row">
-                                                        {format(report.date, 'dd/MM/yyyy')}
+                                                <StyledTableRow2 key={index} onClick={() => props.setReportParent(reportParent)}>
+                                                    <TableCell>
+                                                        {format(reportParent.reports[0].date, 'dd/MM/yyyy')}
                                                     </TableCell>
-                                                    <TableCell component="th" scope="row">
-                                                        1
+                                                    <TableCell>
+                                                        {files}
                                                     </TableCell>
-                                                    <TableCell component="th" scope="row">
-                                                        <Tooltip
-                                                            title={report.filePath}
-                                                            aria-label={report.filePath}
-                                                            placement="bottom"
-                                                        >
-                                                            <div
-                                                                style={{
-                                                                    maxWidth: '300px',
-                                                                    overflow: 'hidden',
-                                                                    textOverflow: 'ellipsis',
-                                                                }}
-                                                            >
-                                                                {report.filePath}
-                                                            </div>
+                                                    <TableCell>
+                                                        <Tooltip title={directory} aria-label={directory} placement="bottom">
+                                                            <div style={{ maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis' }}>{directory}</div>
                                                         </Tooltip>
                                                     </TableCell>
-                                                    <TableCell component="th" scope="row">
-                                                        {report.result ? (
-                                                            <CheckIcon style={{ color: 'green' }} />
-                                                        ) : (
-                                                            <ClearIcon style={{ color: 'red' }} />
-                                                        )}
+                                                    <TableCell>
+                                                        {result ? <CheckIcon style={{ color: 'green' }} /> : <ClearIcon style={{ color: 'red' }} />}
                                                     </TableCell>
-                                                    <TableCell component="th" scope="row">
-                                                        {report.errors}
+                                                    <TableCell>
+                                                        {errors}
                                                     </TableCell>
-                                                    <TableCell component="th" scope="row">
-                                                        {report.passed}
+                                                    <TableCell>
+                                                        {passed}
                                                     </TableCell>
-                                                    <TableCell component="th" scope="row">
-                                                        {report.score}%
-                                                    </TableCell>
-                                                    <TableCell component="th" scope="row">
-                                                        <Button
-                                                            onClick={(event) => {
-                                                                event.stopPropagation();
-                                                                props.removeReport(report);
-                                                            }}
-                                                        >
-                                                            <img
-                                                                src={DeleteBinIcon}
-                                                                style={{ width: '24px' }}
-                                                            />
-                                                        </Button>
+                                                    <TableCell>
+                                                        {score}%
+                                                </TableCell>
+                                                    <TableCell>
+                                                        <Button onClick={(event) => { event.stopPropagation(); props.removeReportParent(reportParent) }}><img src={DeleteBinIcon} style={{ width: '24px' }} /></Button>
                                                     </TableCell>
                                                 </StyledTableRow2>
                                             );
                                         }
-                                    })}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
-                        <Grid container style={{ marginTop: '20px' }}>
-                            <Grid item xs={4}></Grid>
-                            <Grid
-                                item
-                                xs={4}
-                                style={{
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                }}
-                            >
-                                {nbPages > 1 ? (
-                                    <>
-                                        <img
-                                            src={LeftArrowIcon}
-                                            className={
-                                                currentPage > 1
-                                                    ? tableClasses.paginationArrow
-                                                    : tableClasses.paginationArrowDisabled
-                                            }
-                                            onClick={() => previousPage()}
-                                        />
-                                        <Typography className={tableClasses.pagination}>
-                                            Page {currentPage} / {nbPages}
-                                        </Typography>
-                                        <img
-                                            src={RightArrowIcon}
-                                            className={
-                                                currentPage < nbPages
-                                                    ? tableClasses.paginationArrow
-                                                    : tableClasses.paginationArrowDisabled
-                                            }
-                                            onClick={() => nextPage()}
-                                        />
-                                    </>
-                                ) : null}
-                            </Grid>
-                            <Grid item xs={4} style={{ display: 'flex', alignItems: 'center' }}>
-                                <Button
-                                    style={{
-                                        fontSize: '16px',
-                                        textTransform: 'none',
-                                        marginLeft: 'auto',
-                                    }}
-                                    onClick={handleClick('left-end')}
-                                >
-                                    <img
-                                        src={ClearOptionIcon}
-                                        style={{ width: '20px', marginRight: '8px' }}
-                                    />{' '}
-                                    Clear options
-                                </Button>
-                            </Grid>
+                                    }) : null}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                    <Grid container style={{ marginTop: '20px' }}>
+                        <Grid item xs={4}>
+                        </Grid>
+                        <Grid item xs={4} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            {nbPages > 1 ?
+                                <>
+                                    <img src={LeftArrowIcon} className={currentPage > 1 ? tableClasses.paginationArrow : tableClasses.paginationArrowDisabled} onClick={() => previousPage()} />
+                                    <Typography className={tableClasses.pagination}>Page {currentPage} / {nbPages}</Typography>
+                                    <img src={RightArrowIcon} className={currentPage < nbPages ? tableClasses.paginationArrow : tableClasses.paginationArrowDisabled} onClick={() => nextPage()} />
+                                </>
+                                : null
+                            }
+                        </Grid>
+                        <Grid item xs={4} style={{ display: 'flex', alignItems: 'center' }}>
+                            <Button style={{ fontSize: '16px', textTransform: 'none', marginLeft: 'auto' }} onClick={handleClick("left-end")}><img src={ClearOptionIcon} style={{ width: '20px', marginRight: '8px' }} /> Clear options</Button>
                         </Grid>
                         <Popper
                             open={open}
