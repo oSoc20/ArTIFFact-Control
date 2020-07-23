@@ -23,6 +23,15 @@ const useStyles = makeStyles((theme: Theme) =>
             fontSize: '16px',
             fontWeight: 700,
             color: theme.palette.primary.main
+        },
+        secondaryColor: {
+            color: theme.palette.secondary.main
+        },
+        successColor: {
+            color: theme.palette.success.main
+        },
+        errorColor: {
+            color: theme.palette.error.main
         }
     })
 );
@@ -54,7 +63,7 @@ const ReportDetails = (props: ReportsDetailsProps) => {
         if (report.warnings !== undefined)
             warnings += report.warnings;
     });
-    score = passed / (errors + passed + warnings) * 100
+    score = passed / (errors + passed + warnings) * 100;
 
     return <>
         <Grid container spacing={3}>
@@ -72,13 +81,13 @@ const ReportDetails = (props: ReportsDetailsProps) => {
                         <Grid item xs={6} style={{ display: 'flex', alignItems: 'center' }}>
                             <Grid container spacing={1}>
                                 <Grid item xs={12} style={{ display: 'flex', alignItems: 'center' }}>
-                                    <ClearIcon style={{ color: '#F02929' }} /><Typography style={{ fontSize: '16px', marginLeft: '10px' }}>{errors} Error</Typography>
+                                    <ClearIcon className={classes.errorColor} /><Typography style={{ fontSize: '16px', marginLeft: '10px' }}>{errors} Error</Typography>
                                 </Grid>
                                 <Grid item xs={12} style={{ display: 'flex', alignItems: 'center' }}>
-                                    <CheckIcon style={{ color: '#54C77B' }} /><Typography style={{ fontSize: '16px', marginLeft: '10px' }}>{passed} passed</Typography>
+                                    <CheckIcon className={classes.successColor} /><Typography style={{ fontSize: '16px', marginLeft: '10px' }}>{passed} passed</Typography>
                                 </Grid>
                                 <Grid item xs={12} style={{ display: 'flex', alignItems: 'center' }}>
-                                    <WarningRoundedIcon style={{ color: '#F69947' }} /><Typography style={{ fontSize: '16px', marginLeft: '10px' }}>{warnings} passed with warnings</Typography>
+                                    <WarningRoundedIcon className={classes.secondaryColor} /><Typography style={{ fontSize: '16px', marginLeft: '10px' }}>{warnings} passed with warnings</Typography>
                                 </Grid>
                             </Grid>
                         </Grid>
@@ -177,7 +186,7 @@ const ReportDetails = (props: ReportsDetailsProps) => {
                                         return (
                                             <StyledTableRow1 key={index}>
                                                 <TableCell>
-                                                    {report.result ? <CheckIcon style={{ color: 'green' }} /> : <ClearIcon style={{ color: 'red' }} />}
+                                                    {report.result ? <CheckIcon className={classes.successColor} /> : <ClearIcon className={classes.errorColor} />}
                                                 </TableCell>
                                                 <TableCell>
                                                     {report.fileName}

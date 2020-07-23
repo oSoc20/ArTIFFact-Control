@@ -1,9 +1,31 @@
 import * as React from 'react';
 // Themes
 import { useMainStyles } from 'Theme/Main';
+import { usePopperStyles } from 'Theme/Popper';
 import { TableCell, StyledTableRow2, useTableStyles } from 'Theme/Table';
 // Material UI
-import { Paper, makeStyles, Theme, createStyles, TableContainer, Table, TableHead, TableRow, TableBody, Button, Popper, Typography, PopperPlacementType, FormControlLabel, Radio, Grid, RadioGroup, ClickAwayListener, Tooltip } from '@material-ui/core';
+import {
+    Paper,
+    makeStyles,
+    Theme,
+    createStyles,
+    TableContainer,
+    Table,
+    TableHead,
+    TableRow,
+    TableBody,
+    Button,
+    Popper,
+    Typography,
+    PopperPlacementType,
+    FormControlLabel,
+    Radio,
+    Grid,
+    RadioGroup,
+    ClickAwayListener,
+    Tooltip,
+} from '@material-ui/core';
+
 import CustomDatePicker from 'Components/CustomDatePicker/CustomDatePicker';
 // Icons
 import CheckIcon from '@material-ui/icons/Check';
@@ -17,11 +39,11 @@ import { useEffect } from 'react';
 import { format } from 'date-fns';
 
 /* STYLE */
-const useStyles = makeStyles((theme: Theme) =>
+export const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         box: {
             display: 'flex',
-            alignItems: 'center'
+            alignItems: 'center',
         },
         popup: {
             padding: theme.spacing(2),
@@ -32,10 +54,16 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         closeIcon: {
             color: theme.palette.grey[300],
-            "&:hover": {
+            '&:hover': {
                 color: 'black',
-                cursor: 'pointer'
-            }
+                cursor: 'pointer',
+            },
+        },
+        successColor: {
+            color: theme.palette.success.main
+        },
+        errorColor: {
+            color: theme.palette.error.main
         }
     })
 );
@@ -53,6 +81,7 @@ interface ReportsTableProps {
 const ReportsTable = (props: ReportsTableProps) => {
     const classes = useStyles();
     const mainClasses = useMainStyles();
+    const popperClasses = usePopperStyles();
     const tableClasses = useTableStyles();
 
     const [currentPage, setCurrentPage] = React.useState<number>(0);
@@ -62,12 +91,10 @@ const ReportsTable = (props: ReportsTableProps) => {
     const [open, setOpen] = React.useState(false);
     const [placement, setPlacement] = React.useState<PopperPlacementType>();
     const [action, setAction] = React.useState('clearAll');
-    const [selectedDate, setSelectedDate] = React.useState<Date | null>(
-        new Date()
-    );
+    const [selectedDate, setSelectedDate] = React.useState<Date | null>(new Date());
 
     const handleClick = (newPlacement: PopperPlacementType) => (
-        event: React.MouseEvent<HTMLButtonElement>,
+        event: React.MouseEvent<HTMLButtonElement>
     ) => {
         setAnchorEl(event.currentTarget);
         setOpen((prev) => placement !== newPlacement || !prev);
@@ -86,24 +113,22 @@ const ReportsTable = (props: ReportsTableProps) => {
         }
 
         setOpen(false);
-    }
+    };
 
     const previousPage = () => {
-        if (currentPage - 1 >= 1)
-            setCurrentPage(currentPage - 1)
-    }
+        if (currentPage - 1 >= 1) setCurrentPage(currentPage - 1);
+    };
 
     const nextPage = () => {
-        if (currentPage + 1 <= nbPages)
-            setCurrentPage(currentPage + 1)
-    }
+        if (currentPage + 1 <= nbPages) setCurrentPage(currentPage + 1);
+    };
 
     const initPagination = () => {
         if (nbPages == 0 && props.reportParents !== null && props.reportParents.length > nbElementsPerPage) {
             setPagination();
             setCurrentPage(1);
         }
-    }
+    };
 
     const setPagination = () => {
         if (props.reportParents !== null) {
@@ -180,7 +205,7 @@ const ReportsTable = (props: ReportsTableProps) => {
                                                         </Tooltip>
                                                     </TableCell>
                                                     <TableCell>
-                                                        {result ? <CheckIcon style={{ color: 'green' }} /> : <ClearIcon style={{ color: 'red' }} />}
+                                                        {result ? <CheckIcon className={classes.successColor} /> : <ClearIcon className={classes.errorColor} />}
                                                     </TableCell>
                                                     <TableCell>
                                                         {errors}
@@ -220,10 +245,10 @@ const ReportsTable = (props: ReportsTableProps) => {
                     </Grid>
                     <Popper open={open} anchorEl={anchorEl} placement={placement} style={{ marginRight: '5px' }}>
                         <ClickAwayListener onClickAway={() => setOpen(false)}>
-                            <Paper className={classes.popup}>
+                            <Paper className={popperClasses.popper}>
                                 <Grid container>
                                     <Grid item xs={12} style={{ textAlign: 'right' }}>
-                                        <CloseIcon className={classes.closeIcon} style={{ width: '22px' }} onClick={() => setOpen(false)} />
+                                        <CloseIcon className={popperClasses.closeIcon} style={{ width: '22px' }} onClick={() => setOpen(false)} />
                                     </Grid>
                                     <Grid item xs={12}>
                                         <RadioGroup aria-label="action" name="action" value={action} onChange={handleActionChange}>
@@ -242,9 +267,6 @@ const ReportsTable = (props: ReportsTableProps) => {
                                             } />
                                         </RadioGroup>
                                     </Grid>
-                                    <Grid item xs={12} style={{ textAlign: 'right', marginTop: '10px' }}>
-                                        <Button variant="contained" color="primary" style={{ textTransform: 'none', borderRadius: '5px' }} onClick={handleClear}>Clear</Button>
-                                    </Grid>
                                 </Grid>
                             </Paper>
                         </ClickAwayListener>
@@ -254,6 +276,6 @@ const ReportsTable = (props: ReportsTableProps) => {
             }
         </Paper>
     </>
-}
+};
 
-export default (ReportsTable);
+export default ReportsTable;

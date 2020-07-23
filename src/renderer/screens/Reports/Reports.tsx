@@ -1,6 +1,6 @@
 import * as React from 'react';
 // Material UI
-import { Typography, Grid, Box, makeStyles, Theme, createStyles, Button } from '@material-ui/core';
+import { Typography, Grid, Box, Button } from '@material-ui/core';
 import { isBefore, setHours, setMinutes, setSeconds, setMilliseconds, format } from 'date-fns';
 // Icons
 import RatingsIcon from 'Assets/icons/icons8-ratings-500.svg';
@@ -11,30 +11,7 @@ import { RootState } from 'src/renderer/reducers';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { ReportsAction, removeReports, loadReports } from 'Actions/ReportActions';
-
-/* STYLE */
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        title: {
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-
-            textAlign: "center",
-            marginTop: "1.5rem",
-            fontFamily: "DIN 2014",
-            fontStyle: "normal",
-            fontWeight: "normal",
-            fontSize: "36px",
-            lineHeight: "46px",
-            color: "#2A4B5B"
-        },
-        titleIcon: {
-            width: '50px',
-            marginRight: '20px'
-        }
-    })
-);
+import { useMainStyles } from 'Theme/Main';
 
 interface ReportsProps {
     loadReports: () => void;
@@ -44,7 +21,7 @@ interface ReportsProps {
 
 /* COMPONENT */
 const Reports = (props: ReportsProps) => {
-    const classes = useStyles();
+    const mainClasses = useMainStyles();
     const [reportParent, setReportParent] = React.useState<ReportParent | null>(null);
 
     React.useEffect(() => {
@@ -90,10 +67,10 @@ const Reports = (props: ReportsProps) => {
 
     return (
         <>
-            <Typography component="span" gutterBottom className={classes.title}>
+            <Typography component="span" gutterBottom className={mainClasses.topTitle}>
                 <div>
-                    <Box fontSize='h4.fontSize' style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', }}>
-                        <img src={RatingsIcon} className={classes.titleIcon} />
+                    <Box fontSize='h4.fontSize' className={mainClasses.boxTitle} style={{justifyContent: 'center'}}>
+                        <img src={RatingsIcon} className={mainClasses.topTitleIcon} />
                         <span>
                             {reportParent === null ?
                                 "Reports"

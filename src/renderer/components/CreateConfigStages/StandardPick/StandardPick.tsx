@@ -1,15 +1,70 @@
-import *  as React from 'react';
+import * as React from 'react';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Checkbox from '@material-ui/core/Checkbox';
 import ListItemText from '@material-ui/core/ListItemText';
-import Button from '@material-ui/core/Button'
-import { Typography, Box } from '@material-ui/core';
+import {
+    Typography,
+    Box,
+    Divider,
+    Button,
+    makeStyles,
+    Theme,
+    createStyles,
+} from '@material-ui/core';
+import LeftArrowIcon from 'Assets/icons/icons8-arrow-500.svg';
 
+const STANDARDS = [
+    'TI/A Draft',
+    'TIFF/IT-P1',
+    'TIFF/IT-P2',
+    'TIFF/IT',
+    'Baseline TIFF 6.0',
+    'Extended TIFF 6.0',
+    'TIFF/EP',
+];
 
-
-const STANDARDS = ['TI/A Draft', 'TIFF/IT-P1', 'TIFF/IT-P2', 'TIFF/IT', 'Baseline TIFF 6.0', 'Extended TIFF 6.0', 'TIFF/EP'];
+/* STYLE */
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        label: {
+            color: theme.palette.primary.dark,
+            alignItems: 'center',
+            fontWeight: 700,
+            textAlign: 'center',
+        },
+        divider: {
+            marginBottom: '1rem',
+            marginLeft: '22px',
+            marginRight: '22px',
+            height: '1px',
+            backgroundColor: '#2A4B5B',
+        },
+        flex: {
+            maxWidth: '300px',
+            display: 'flex',
+            flexFlow: 'column',
+            margin: '0 auto',
+        },
+        button: {
+            display: 'flex',
+            marginLeft: 'auto',
+            backgroundColor: theme.palette.primary.main,
+            borderRadius: '12px',
+            color: '#FCFCFC',
+            padding: '6px 30px',
+            '&:disabled': {
+                backgroundColor: theme.palette.grey[300],
+                color: '#FCFCFC',
+            },
+            '&:hover': {
+                backgroundColor: theme.palette.primary.light,
+                color: '#FCFCFC',
+            },
+        },
+    })
+);
 
 interface StandardPickProps {
     addStandard: (standard: string) => void;
@@ -20,10 +75,9 @@ interface StandardPickProps {
     currentStandards: Array<string>;
 }
 
-
 const StandardPick = (props: StandardPickProps) => {
-
     const [checked, setChecked] = React.useState<Array<string>>([]);
+    const classes = useStyles();
 
     // Runs on mount, set the selected standards to checked
     React.useEffect(() => {
@@ -41,25 +95,30 @@ const StandardPick = (props: StandardPickProps) => {
         if (currentIndex === -1) {
             newChecked.push(value);
             props.addStandard(value);
-        }
-        else {
+        } else {
             newChecked.splice(currentIndex, 1);
             props.removeStandard(value);
         }
 
         setChecked(newChecked);
-
-    }
+    };
 
     return (
         <>
-            <Button onClick={() => props.back()}>Back</Button>
+            <Button
+                style={{ fontWeight: 600, textTransform: 'none', width: 'auto' }}
+                onClick={() => props.back()}
+            >
+                <img src={LeftArrowIcon} style={{ marginRight: '7px', fontSize: '20px' }} /> Back
+            </Button>
             <Typography component="span" gutterBottom>
-                <Box fontSize='h6.fontSize' style={{ marginBottom: '40px', textAlign: "center" }}>
+                <Box fontSize="h6.fontSize" style={{ marginBottom: '40px', textAlign: 'center' }}>
                     Step 2 - Implementations
                 </Box>
             </Typography>
-            <List>
+            <Typography className={classes.label}>Standards</Typography>
+            <Divider className={classes.divider} />
+            <List className={classes.flex}>
                 {STANDARDS.map((standard: string, index: number) => {
                     const labelId = `checkbox-list-label-${index}`;
                     return (
@@ -78,9 +137,15 @@ const StandardPick = (props: StandardPickProps) => {
                     );
                 })}
             </List>
-            <Button disabled={props.standardCount === 0 } onClick={() => props.continue()}>Continue</Button>
+            <Button
+                disabled={props.standardCount === 0}
+                onClick={() => props.continue()}
+                className={classes.button}
+            >
+                Continue
+            </Button>
         </>
     );
-}
+};
 
 export default StandardPick;

@@ -134,7 +134,9 @@ const Stage1 = (props: Stage1Props) => {
 
     return (
         <>
-            <Paper className={mainClasses.paper}>
+            <Paper className={mainClasses.paper} style={{
+                padding: "50px"
+            }}>
                 <Typography component="span" gutterBottom>
                     <Box fontSize='h6.fontSize' style={{ marginBottom: '40px', textAlign: "center" }}>
                         Step 1 - File upload

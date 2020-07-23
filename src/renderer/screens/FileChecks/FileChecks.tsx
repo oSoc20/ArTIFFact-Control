@@ -8,7 +8,7 @@ import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Stage1 from 'Components/FileUploadStages/PickFiles/Stage1'
 import Stage2 from 'Components/FileUploadStages/PickConfiguration/Stage2'
 import Stage3 from 'Components/FileUploadStages/ProcessFiles/Stage3'
-import { Grid, Typography, Box, Paper, Container } from '@material-ui/core';
+import { Grid, Typography, Box, Container } from '@material-ui/core';
 import CheckFileIcon from 'Assets/icons/icons8-check-file-500.svg';
 
 /* Typescript interfaces */
@@ -48,14 +48,6 @@ const useStyles = makeStyles((theme: Theme) =>
             marginLeft: "auto",
             marginRight: "auto",
             marginTop: "1rem"
-        },
-        paper: {
-            color: 'black',
-            overflow: "hidden",
-            background: '#FCFCFC',
-            boxShadow: '0px 0px 19px rgba(0, 0, 0, 0.05)',
-            borderRadius: '12px',
-            padding: "40px"
         },
     })
 );

@@ -51,7 +51,7 @@ const Dashboard = (props: DashboardProps) => {
                                         Check a file
                                     </Box>
                                 </Typography>
-                                <FileDropZone updateFiles={props.setFiles} redirect='fileChecks' />
+                                <FileDropZone dashboardVersion={true} updateFiles={props.setFiles} redirect='fileChecks' />
                             </Paper>
                         </Grid>
                         <Grid item xs={12} lg={7} style={{ display: 'flex' }}>
