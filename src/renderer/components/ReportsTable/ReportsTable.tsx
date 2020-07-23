@@ -4,7 +4,28 @@ import { useMainStyles } from 'Theme/Main';
 import { usePopperStyles } from 'Theme/Popper';
 import { TableCell, StyledTableRow2, useTableStyles } from 'Theme/Table';
 // Material UI
-import { Paper, TableContainer, Table, TableHead, TableRow, TableBody, Button, Popper, Typography, PopperPlacementType, FormControlLabel, Radio, Grid, RadioGroup, ClickAwayListener, Tooltip, makeStyles, Theme, createStyles } from '@material-ui/core';
+import {
+    Paper,
+    makeStyles,
+    Theme,
+    createStyles,
+    TableContainer,
+    Table,
+    TableHead,
+    TableRow,
+    TableBody,
+    Button,
+    Popper,
+    Typography,
+    PopperPlacementType,
+    FormControlLabel,
+    Radio,
+    Grid,
+    RadioGroup,
+    ClickAwayListener,
+    Tooltip,
+} from '@material-ui/core';
+
 import CustomDatePicker from 'Components/CustomDatePicker/CustomDatePicker';
 // Icons
 import CheckIcon from '@material-ui/icons/Check';
@@ -20,6 +41,24 @@ import { format } from 'date-fns';
 /* STYLE */
 export const useStyles = makeStyles((theme: Theme) =>
     createStyles({
+        box: {
+            display: 'flex',
+            alignItems: 'center',
+        },
+        popup: {
+            padding: theme.spacing(2),
+            color: 'black',
+            background: '#FCFCFC',
+            boxShadow: '0px 0px 19px rgba(0, 0, 0, 0.05)',
+            borderRadius: '12px',
+        },
+        closeIcon: {
+            color: theme.palette.grey[300],
+            '&:hover': {
+                color: 'black',
+                cursor: 'pointer',
+            },
+        },
         successColor: {
             color: theme.palette.success.main
         },
@@ -52,12 +91,10 @@ const ReportsTable = (props: ReportsTableProps) => {
     const [open, setOpen] = React.useState(false);
     const [placement, setPlacement] = React.useState<PopperPlacementType>();
     const [action, setAction] = React.useState('clearAll');
-    const [selectedDate, setSelectedDate] = React.useState<Date | null>(
-        new Date()
-    );
+    const [selectedDate, setSelectedDate] = React.useState<Date | null>(new Date());
 
     const handleClick = (newPlacement: PopperPlacementType) => (
-        event: React.MouseEvent<HTMLButtonElement>,
+        event: React.MouseEvent<HTMLButtonElement>
     ) => {
         setAnchorEl(event.currentTarget);
         setOpen((prev) => placement !== newPlacement || !prev);
@@ -76,24 +113,22 @@ const ReportsTable = (props: ReportsTableProps) => {
         }
 
         setOpen(false);
-    }
+    };
 
     const previousPage = () => {
-        if (currentPage - 1 >= 1)
-            setCurrentPage(currentPage - 1)
-    }
+        if (currentPage - 1 >= 1) setCurrentPage(currentPage - 1);
+    };
 
     const nextPage = () => {
-        if (currentPage + 1 <= nbPages)
-            setCurrentPage(currentPage + 1)
-    }
+        if (currentPage + 1 <= nbPages) setCurrentPage(currentPage + 1);
+    };
 
     const initPagination = () => {
         if (nbPages == 0 && props.reportParents !== null && props.reportParents.length > nbElementsPerPage) {
             setPagination();
             setCurrentPage(1);
         }
-    }
+    };
 
     const setPagination = () => {
         if (props.reportParents !== null) {
@@ -232,18 +267,16 @@ const ReportsTable = (props: ReportsTableProps) => {
                                             } />
                                         </RadioGroup>
                                     </Grid>
-                                    <Grid item xs={12} style={{ textAlign: 'right', marginTop: '10px' }}>
-                                        <Button variant="contained" color="primary" style={{ textTransform: 'none', borderRadius: '5px' }} onClick={handleClear}>Clear</Button>
-                                    </Grid>
-                                </Grid>
-                            </Paper>
-                        </ClickAwayListener>
-                    </Popper>
-                </>
-                : <Typography>No data found.</Typography>
-            }
-        </Paper>
-    </>
-}
+                                </Paper>
+                            </ClickAwayListener>
+                        </Popper>
+                    </>
+                ) : (
+                    <Typography>No data found.</Typography>
+                )}
+            </Paper>
+        </>
+    );
+};
 
-export default (ReportsTable);
+export default ReportsTable;

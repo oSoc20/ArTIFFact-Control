@@ -99,8 +99,8 @@ export default function About() {
                                     Amber Pérard - UX/UI design
                                 </Typography>
                                 <Typography className={classes.extraMargin}>
-                                    he project is build on the JHOVE rest API and Electron. The
-                                    GitHub repository is available at
+                                    The project is build on the JHOVE rest API and Electron. The
+                                    GitHub repository is available at &nbsp;
                                     <a href="https://github.com/oSoc20/ArTIFFact-Control">
                                         https://github.com/oSoc20/ArTIFFact-Control
                                     </a>
