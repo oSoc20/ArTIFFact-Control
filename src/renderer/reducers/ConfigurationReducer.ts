@@ -45,11 +45,9 @@ const OPERATOR_TRANSLATION = {
 const convertXmlToConfiguration = (data: string, name: string) => {
     let parser = new DOMParser();
     const xmlDoc = parser.parseFromString(data, 'text/xml');
-    console.log("convertXmlToConfiguration", xmlDoc);
     const configName = name.split('.')[0] as string;
 
     const isoElements = Array.from(xmlDoc.getElementsByTagName('iso'));
-    console.log("iso elems", isoElements)
     const implementation: Array<string> = [];
     isoElements.forEach((iso) => {
         let value = iso.childNodes[0].nodeValue?.trim() as string;
