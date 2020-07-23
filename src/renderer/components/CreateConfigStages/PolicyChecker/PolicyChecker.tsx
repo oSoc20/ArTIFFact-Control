@@ -42,12 +42,6 @@ const useStyles = makeStyles((theme: Theme) =>
             height: '1px',
             backgroundColor: '#2A4B5B',
         },
-        flex: {
-            maxWidth: '300px',
-            display: 'flex',
-            flexFlow: 'column',
-            margin: '0 auto',
-        },
         button: {
             display: 'flex',
             backgroundColor: theme.palette.primary.main,

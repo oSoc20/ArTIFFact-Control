@@ -20,6 +20,7 @@ import {
 } from '@material-ui/core';
 import { ReportTypes } from 'Interfaces/Configuration';
 import LeftArrowIcon from 'Assets/icons/icons8-arrow-500.svg';
+import mapIcon from 'Assets/icons/folder.svg';
 import { useMainStyles } from 'Theme/Main';
 import { useTableStyles } from 'Theme/Table';
 
@@ -47,6 +48,7 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         button: {
             display: 'flex',
+            marginLeft: 'auto',
             backgroundColor: theme.palette.primary.main,
             borderRadius: '12px',
             color: '#FCFCFC',
@@ -59,26 +61,6 @@ const useStyles = makeStyles((theme: Theme) =>
                 backgroundColor: theme.palette.primary.light,
                 color: '#FCFCFC',
             },
-        },
-        buttonSmall: {
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            border: 'none',
-            backgroundColor: '#FCFCFC',
-            margin: '0 46px',
-            fontSize: '16px',
-            textTransform: 'none',
-            cursor: 'pointer',
-        },
-
-        boxButtons: {
-            alignSelf: 'flex-end',
-            width: '100%',
-            display: 'flex',
-            justifyContent: 'space-between',
-            marginLeft: 'auto',
-            marginTop: '3Opx',
         },
         leftMargin: {
             margin: '0 25px',
@@ -93,6 +75,13 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         tableHeadRow: {
             borderBottom: '2px solid #2A4B5B',
+        },
+        destination: {
+            verticalAlign: 'top',
+        },
+        destinationFolder: {
+            color: theme.palette.grey[300],
+            paddingLeft: '20px',
         },
     })
 );
@@ -147,7 +136,7 @@ const Report = (props: ReportProps) => {
                     Step 4 - Report
                 </Box>
             </Typography>
-            <TableContainer>
+            <TableContainer style={{ height: '40vh', overflow: 'auto', border: 'none' }}>
                 <Table>
                     <TableHead>
                         <TableRow className={tableClasses.tableHeadRow}>
@@ -157,7 +146,7 @@ const Report = (props: ReportProps) => {
                     </TableHead>
                     <TableBody>
                         <TableRow>
-                            <TableCell>
+                            <TableCell style={{ border: 'none' }}>
                                 <List>
                                     {REPORT_TYPES.map((type: ReportTypes, index: number) => {
                                         const labelId = `checkbox-list-label-${index}`;
@@ -181,14 +170,31 @@ const Report = (props: ReportProps) => {
                                     })}
                                 </List>
                             </TableCell>
-                            <TableCell>
-                                <Button>Choose destination</Button>
+                            <TableCell style={{ border: 'none' }} className={classes.destination}>
+                                <Button>
+                                    <img
+                                        src={mapIcon}
+                                        style={{ marginRight: '7px', fontSize: '20px' }}
+                                    />
+                                    Choose destination...
+                                </Button>
+                                <Typography
+                                    component="span"
+                                    gutterBottom
+                                    className={classes.destinationFolder}
+                                >
+                                    ThisPC/users/Joe/Documents/Images/TIFF/Reports
+                                </Typography>
                             </TableCell>
                         </TableRow>
                     </TableBody>
                 </Table>
             </TableContainer>
-            <Button disabled={props.currentReports.length === 0} onClick={() => props.progress()}>
+            <Button
+                disabled={props.currentReports.length === 0}
+                onClick={() => props.progress()}
+                className={classes.button}
+            >
                 Continue
             </Button>
         </>
