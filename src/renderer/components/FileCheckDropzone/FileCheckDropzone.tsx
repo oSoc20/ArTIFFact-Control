@@ -3,7 +3,7 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
 import { FileData, setFiles } from 'Actions/FileCheckActions';
 import { useDropzone } from 'react-dropzone';
 import PublishIcon from '@material-ui/icons/Publish';
-import { Button } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import { RootState } from 'src/renderer/reducers';
 import { SidebarAction, setActiveItem } from 'Actions/SidebarAction';
@@ -15,21 +15,77 @@ interface DropZoneProps {
     updateFiles: (files: Array<File>) => void;
     setActiveItem: (item: string) => void;
     redirect?: string;
+    dashboardVersion?: boolean;
 }
 
 /* Styles */
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
+        dropzoneWrapper: {
+            position: "relative",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            boxSizing: "border-box",
+            margin: "auto",
+            height: (props: DropZoneProps) => props.dashboardVersion ? "170px" : "250px",
+            alignContent: "center",
+        },
+        dashedBorderSVG: {
+            position: "absolute",
+            top: "0px",
+            left: "0px",
+            height: "100%",
+            width: "100%",
+            overflow: "visible",
+            userSelect: "none",
+            pointerEvents: "none",
+        },
+        rectDashedBorder: {
+            fill: "none",
+            stroke: "black",
+            strokeWidth: "1",
+            strokeDasharray: "15, 15",
+        },
         dropzone: {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            flexFlow: "column",
+            flexFlow: (props: DropZoneProps) => props.dashboardVersion ? "row" : "column",
             boxSizing: "border-box",
-            margin: "auto",
-            alignContent: "center"
-        }
+            margin: "0 auto",
+            alignContent: "center",
+            width: "100%",
+            height: "100%",
+        },
+        dropzoneText: {
+            marginLeft: (props: DropZoneProps) => props.dashboardVersion ? "0" : "auto",
+            marginRight: (props: DropZoneProps) => props.dashboardVersion ? "0" : "auto",
+            textAlign: "center",
+            fontFamily: '"DIN 2014"',
+            fontStyle: "normal",
+            fontWeight: 250,
+            fontSize: "36px",
+            lineHeight: "46px"
+        },
+        uploadButton: {
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            background: "#FCFCFC",
+            border: "2px solid #282828",
+            boxSizing: "border-box",
+            borderRadius: "12px",
+            width: "220px",
+            height: "50px",
+            margin: (props: DropZoneProps) => props.dashboardVersion ? "0 2rem 0 0" : " 0 0 2rem 0",
+            cursor: "pointer",
+            fontFamily: "DIN 2014",
+            fontStyle: "normal",
+            fontSize: "18px",
+            lineHeight: "23px",
+        },
     })
 );
 
@@ -62,7 +118,7 @@ export const formatBytes = (bytes: number, decimals = 2) => {
  */
 const FileDropZone = (props: DropZoneProps) => {
     const history = useHistory();
-    const classes = useStyles();
+    const classes = useStyles(props);
 
     /**
      * Callback function that handles the onDrop event
@@ -82,84 +138,18 @@ const FileDropZone = (props: DropZoneProps) => {
 
     // TODO better view of where files can be dropped + other styling
     return (
-        <div style={
-            {
-                position: "relative",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                flexFlow: "column",
-                boxSizing: "border-box",
-                margin: "auto",
-                height: 250,
-                alignContent: "center",
-            }
-        }>
-            <svg width="100%" height="100%" preserveAspectRatio="none" style={{
-                position: "absolute",
-                top: "0px",
-                left: "0px",
-                height: "100%",
-                width: "100%",
-                overflow: "visible",
-                userSelect: "none",
-                pointerEvents: "none",
-            }}>
-                <rect x="0" y="0" width="100%" height="100%" rx="20" ry="20" style={{
-                    fill: "none",
-                    stroke: "black",
-                    strokeWidth: "1",
-                    strokeDasharray: "15, 15",
-                }} />
+        <div className={classes.dropzoneWrapper}>
+            <svg className={classes.dashedBorderSVG} width="100%" height="100%" preserveAspectRatio="none">
+                <rect className={classes.rectDashedBorder} x="0" y="0" width="100%" height="100%" rx="20" ry="20" />
             </svg>
             <div {...getRootProps()} className={classes.dropzone}>
                 <input {...getInputProps()} />
                 {isDragActive ?
-                    <p style={
-                        {
-                            marginLeft: "auto",
-                            marginRight: "auto",
-                            textAlign: "center",
-                            fontFamily: '"DIN 2014"',
-                            fontStyle: "normal",
-                            fontWeight: 250,
-                            fontSize: "36px",
-                            lineHeight: "46px"
-                        }
-                    }>Release files here</p> :
-                    <p
-                        style={{
-                            fontFamily: '"DIN 2014"',
-                            fontStyle: "normal",
-                            fontWeight: 250,
-                            fontSize: "36px",
-                            lineHeight: "46px",
-                            textAlign: "center",
-                            color: "#282828"
-                        }}
-                    >Drop .TIFF files here</p>
+                    <p className={classes.dropzoneText}>Release files here</p> :
+                    <p className={classes.dropzoneText}>Drop .TIFF files here</p>
                 }
-                <button onClick={() => open}
-                    style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-
-                        background: "#FCFCFC",
-                        border: "2px solid #282828",
-                        boxSizing: "border-box",
-                        borderRadius: "12px",
-                        width: "220px",
-                        height: "50px",
-                        marginBottom: "2rem",
-
-                        cursor: "pointer",
-
-                        fontFamily: "DIN 2014",
-                        fontStyle: "normal",
-                        fontSize: "18px",
-                        lineHeight: "23px",
-                    }}>
+                {props.dashboardVersion ? <Typography style={{ margin: "0 10%"}}>Or</Typography> : null}
+                <button className={classes.uploadButton} onClick={() => open}>
                     <PublishIcon style={{ marginRight: '5px' }} /> <span style={{ fontFamily: 'Open Sans' }}>Upload your files</span>
                 </button>
             </div>
