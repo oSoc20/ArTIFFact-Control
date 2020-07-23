@@ -267,16 +267,15 @@ const ReportsTable = (props: ReportsTableProps) => {
                                             } />
                                         </RadioGroup>
                                     </Grid>
-                                </Paper>
-                            </ClickAwayListener>
-                        </Popper>
-                    </>
-                ) : (
-                    <Typography>No data found.</Typography>
-                )}
-            </Paper>
-        </>
-    );
+                                </Grid>
+                            </Paper>
+                        </ClickAwayListener>
+                    </Popper>
+                </>
+                : <Typography>No data found.</Typography>
+            }
+        </Paper>
+    </>
 };
 
 export default ReportsTable;

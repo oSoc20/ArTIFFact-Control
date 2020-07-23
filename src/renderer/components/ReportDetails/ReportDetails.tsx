@@ -63,7 +63,7 @@ const ReportDetails = (props: ReportsDetailsProps) => {
         if (report.warnings !== undefined)
             warnings += report.warnings;
     });
-    score = passed / (errors + passed + warnings) * 100
+    score = passed / (errors + passed + warnings) * 100;
 
     return <>
         <Grid container spacing={3}>
@@ -76,7 +76,7 @@ const ReportDetails = (props: ReportsDetailsProps) => {
                     </Typography>
                     <Grid container style={{ marginTop: '10px' }}>
                         <Grid item xs={6}>
-                            <DoughnutChart labels={['Errors', 'passed', 'passed with warnings']} values={[errors, passed, warnings]} textValue={score + '%'} />
+                            <DoughnutChart labels={['Errors', 'passed', 'passed with warnings']} values={[errors, passed, warnings]} textValue={score.toFixed(0) + '%'} />
                         </Grid>
                         <Grid item xs={6} style={{ display: 'flex', alignItems: 'center' }}>
                             <Grid container spacing={1}>
