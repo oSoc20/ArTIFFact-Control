@@ -1,4 +1,4 @@
-import *  as React from 'react';
+import * as React from 'react';
 import { Policy } from 'Interfaces/Configuration';
 import {
     Box,
@@ -10,17 +10,95 @@ import {
     TableRow,
     TableCell,
     TableBody,
-    Button
+    Button,
+    makeStyles,
+    Theme,
+    createStyles,
 } from '@material-ui/core';
 import EditIcon from 'Assets/icons/icons8-edit-property-500.svg';
 import TrashIcon from 'Assets/icons/icons8-delete-bin-500.svg';
 import AddPolicy from 'Components/CreateConfigStages/AddPolicy/AddPolicy';
+import LeftArrowIcon from 'Assets/icons/icons8-arrow-500.svg';
+import { useMainStyles } from 'Theme/Main';
+import { useTableStyles } from 'Theme/Table';
 
+const DEFAULT = 'default',
+    ADD = 'add',
+    EDIT = 'edit';
+type PolicyCheckerState = 'default' | 'add' | 'edit';
 
-const DEFAULT = 'default', ADD = 'add', EDIT = 'edit';
-type PolicyCheckerState = "default" | "add" | "edit";
+/* STYLE */
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        label: {
+            color: theme.palette.primary.dark,
+            marginLeft: '25px',
+            fontWeight: 700,
+        },
+        divider: {
+            marginBottom: '1rem',
+            marginLeft: '22px',
+            marginRight: '22px',
+            height: '1px',
+            backgroundColor: '#2A4B5B',
+        },
+        flex: {
+            maxWidth: '300px',
+            display: 'flex',
+            flexFlow: 'column',
+            margin: '0 auto',
+        },
+        button: {
+            display: 'flex',
+            backgroundColor: theme.palette.primary.main,
+            borderRadius: '12px',
+            color: '#FCFCFC',
+            padding: '6px 30px',
+            '&:disabled': {
+                backgroundColor: theme.palette.grey[300],
+                color: '#FCFCFC',
+            },
+            '&:hover': {
+                backgroundColor: theme.palette.primary.light,
+                color: '#FCFCFC',
+            },
+        },
+        buttonSmall: {
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            border: 'none',
+            backgroundColor: '#FCFCFC',
+            margin: '0 46px',
+            fontSize: '16px',
+            textTransform: 'none',
+            cursor: 'pointer',
+        },
 
-
+        boxButtons: {
+            alignSelf: 'flex-end',
+            width: '100%',
+            display: 'flex',
+            justifyContent: 'space-between',
+            marginLeft: 'auto',
+            marginTop: '3Opx',
+        },
+        leftMargin: {
+            margin: '0 25px',
+        },
+        isoElement: {
+            borderBottom: '1px solid #E9E9E9',
+            padding: '8px 0',
+        },
+        tableContainer: {
+            maxWidth: '96%',
+            minHeight: '30vh',
+        },
+        tableHeadRow: {
+            borderBottom: '2px solid #2A4B5B',
+        },
+    })
+);
 
 interface PolicyCheckerProps {
     standards: Array<string>;
@@ -31,37 +109,57 @@ interface PolicyCheckerProps {
     back: () => void;
 }
 
-
 const PolicyChecker = (props: PolicyCheckerProps) => {
-
-    const [renderState, setRenderState] = React.useState<PolicyCheckerState>("default");
+    const [renderState, setRenderState] = React.useState<PolicyCheckerState>('default');
+    const classes = useStyles();
+    const mainClasses = useMainStyles();
+    const tableClasses = useTableStyles();
 
     return (
-        <>  
-        <Button onClick={() => props.back()}>Back</Button>
-        {
-            renderState === DEFAULT ?
+        <>
+            {renderState === DEFAULT ? (
                 <>
+                    <Button
+                        style={{ fontWeight: 600, textTransform: 'none', width: 'auto' }}
+                        onClick={() => props.back()}
+                    >
+                        <img src={LeftArrowIcon} style={{ marginRight: '7px', fontSize: '20px' }} />{' '}
+                        Back
+                    </Button>
                     <Typography component="span" gutterBottom>
-                        <Box fontSize='h6.fontSize' style={{ marginBottom: '40px', textAlign: "center" }}>
+                        <Box
+                            fontSize="h6.fontSize"
+                            style={{ marginBottom: '40px', textAlign: 'center' }}
+                        >
                             Step 3 - Policy
                         </Box>
                     </Typography>
-                    <Typography>ISO</Typography>
-                    <Divider style={{ height: '1px' }} />
+                    <Typography className={classes.label}>ISO</Typography>
+                    <Divider className={classes.divider} />
                     {props.standards.map((standard: string, index: number) => {
                         return (
-                            <Typography key={index}>{standard}</Typography>
+                            <Typography
+                                className={`${classes.leftMargin} ${classes.isoElement}`}
+                                key={index}
+                            >
+                                {standard}
+                            </Typography>
                         );
                     })}
-                    <TableContainer>
+                    <TableContainer className={`${classes.leftMargin} ${classes.tableContainer}`}>
                         <Table>
                             <TableHead>
-                                <TableRow>
-                                    <TableCell>Custom policies</TableCell>
-                                    <TableCell>Operator</TableCell>
-                                    <TableCell>Value</TableCell>
-                                    <TableCell />
+                                <TableRow className={classes.tableHeadRow}>
+                                    <TableCell className={tableClasses.tableHeadCell}>
+                                        Policy
+                                    </TableCell>
+                                    <TableCell className={tableClasses.tableHeadCell}>
+                                        Operator
+                                    </TableCell>
+                                    <TableCell className={tableClasses.tableHeadCell}>
+                                        Value
+                                    </TableCell>
+                                    <TableCell className={tableClasses.tableHeadCell} />
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -73,10 +171,20 @@ const PolicyChecker = (props: PolicyCheckerProps) => {
                                             <TableCell>{policy.value}</TableCell>
                                             <TableCell>
                                                 <Button>
-                                                    <img src={EditIcon} style={{ height: "20px", width: "20px" }} />
+                                                    <img
+                                                        src={EditIcon}
+                                                        style={{ height: '20px', width: '20px' }}
+                                                    />
                                                 </Button>
                                                 <Button onClick={() => props.removePolicy(policy)}>
-                                                    <img src={TrashIcon} style={{ height: "20px", width: "20px", paddingBottom: "4px" }} />
+                                                    <img
+                                                        src={TrashIcon}
+                                                        style={{
+                                                            height: '20px',
+                                                            width: '20px',
+                                                            paddingBottom: '4px',
+                                                        }}
+                                                    />
                                                 </Button>
                                             </TableCell>
                                         </TableRow>
@@ -85,25 +193,40 @@ const PolicyChecker = (props: PolicyCheckerProps) => {
                             </TableBody>
                         </Table>
                     </TableContainer>
-                    <Button onClick={() => setRenderState('add')}>+ Add rule</Button>
-                    <Button onClick={() => props.progressStep()}>Continue</Button>
-                </> :
-                renderState === ADD ?
-                    <>
-                        <Typography component="span" gutterBottom>
-                            <Box fontSize='h6.fontSize' style={{ marginBottom: '40px', textAlign: "center" }}>
-                                Choose a policy to add
+                    <Box display={'flex'} width={'100%'} className={classes.boxButtons}>
+                        <Button
+                            onClick={() => setRenderState('add')}
+                            className={classes.buttonSmall}
+                        >
+                            + Add a policy
+                        </Button>
+                        <Button onClick={() => props.progressStep()} className={classes.button}>
+                            Continue
+                        </Button>
+                    </Box>
+                </>
+            ) : renderState === ADD ? (
+                <>
+                    {/* <Typography component="span" gutterBottom>
+                        <Box
+                            fontSize="h6.fontSize"
+                            style={{ marginBottom: '40px', textAlign: 'center' }}
+                        >
+                            Choose a policy to add
                         </Box>
-                        </Typography>
-                        <AddPolicy back={() => {setRenderState(DEFAULT)}} addPolicy={props.addPolicy} />
-                    </> :
-                    <>
-                        Edit component here
-                    </>
-        }
-
+                    </Typography> */}
+                    <AddPolicy
+                        back={() => {
+                            setRenderState(DEFAULT);
+                        }}
+                        addPolicy={props.addPolicy}
+                    />
+                </>
+            ) : (
+                <>Edit component here</>
+            )}
         </>
     );
-}
+};
 
 export default PolicyChecker;

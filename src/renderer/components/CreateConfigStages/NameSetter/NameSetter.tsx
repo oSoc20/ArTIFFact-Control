@@ -39,10 +39,23 @@ const useStyles = makeStyles((theme: Theme) =>
             alignItems: 'center',
         },
         button: {
+            display: 'flex',
             marginLeft: 'auto',
             backgroundColor: theme.palette.primary.main,
             borderRadius: '12px',
             color: '#FCFCFC',
+            padding: '6px 30px',
+            position: 'absolute',
+            bottom: '400px',
+            right: '200px',
+            '&:disabled': {
+                backgroundColor: theme.palette.grey[300],
+                color: '#FCFCFC',
+            },
+            '&:hover': {
+                backgroundColor: theme.palette.primary.light,
+                color: '#FCFCFC',
+            },
         },
     })
 );

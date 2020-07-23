@@ -1,8 +1,101 @@
-import *  as React from 'react';
-import { TableContainer, Table, Button, TableHead, TableRow, TableCell, TableBody, List, ListItem, ListItemIcon, Checkbox, ListItemText, Typography, Box } from '@material-ui/core';
+import * as React from 'react';
+import {
+    TableContainer,
+    Table,
+    Button,
+    TableHead,
+    TableRow,
+    TableCell,
+    TableBody,
+    List,
+    ListItem,
+    ListItemIcon,
+    Checkbox,
+    ListItemText,
+    Typography,
+    Box,
+    makeStyles,
+    Theme,
+    createStyles,
+} from '@material-ui/core';
 import { ReportTypes } from 'Interfaces/Configuration';
+import LeftArrowIcon from 'Assets/icons/icons8-arrow-500.svg';
+import { useMainStyles } from 'Theme/Main';
+import { useTableStyles } from 'Theme/Table';
 
-const REPORT_TYPES: Array<ReportTypes> = ['HTML', 'PDF', 'XML and METS', 'JSON']
+const REPORT_TYPES: Array<ReportTypes> = ['HTML', 'PDF', 'XML and METS', 'JSON'];
+
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        label: {
+            color: theme.palette.primary.dark,
+            marginLeft: '25px',
+            fontWeight: 700,
+        },
+        divider: {
+            marginBottom: '1rem',
+            marginLeft: '22px',
+            marginRight: '22px',
+            height: '1px',
+            backgroundColor: '#2A4B5B',
+        },
+        flex: {
+            maxWidth: '300px',
+            display: 'flex',
+            flexFlow: 'column',
+            margin: '0 auto',
+        },
+        button: {
+            display: 'flex',
+            backgroundColor: theme.palette.primary.main,
+            borderRadius: '12px',
+            color: '#FCFCFC',
+            padding: '6px 30px',
+            '&:disabled': {
+                backgroundColor: theme.palette.grey[300],
+                color: '#FCFCFC',
+            },
+            '&:hover': {
+                backgroundColor: theme.palette.primary.light,
+                color: '#FCFCFC',
+            },
+        },
+        buttonSmall: {
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            border: 'none',
+            backgroundColor: '#FCFCFC',
+            margin: '0 46px',
+            fontSize: '16px',
+            textTransform: 'none',
+            cursor: 'pointer',
+        },
+
+        boxButtons: {
+            alignSelf: 'flex-end',
+            width: '100%',
+            display: 'flex',
+            justifyContent: 'space-between',
+            marginLeft: 'auto',
+            marginTop: '3Opx',
+        },
+        leftMargin: {
+            margin: '0 25px',
+        },
+        isoElement: {
+            borderBottom: '1px solid #E9E9E9',
+            padding: '8px 0',
+        },
+        tableContainer: {
+            maxWidth: '96%',
+            minHeight: '30vh',
+        },
+        tableHeadRow: {
+            borderBottom: '2px solid #2A4B5B',
+        },
+    })
+);
 
 interface ReportProps {
     goBackOneStep: () => void;
@@ -13,8 +106,10 @@ interface ReportProps {
 }
 
 const Report = (props: ReportProps) => {
-
     const [checked, setChecked] = React.useState<Array<ReportTypes>>([]);
+    const classes = useStyles();
+    const mainClasses = useMainStyles();
+    const tableClasses = useTableStyles();
 
     // Called upon mount. Sets the current selected report types to checked.
     React.useEffect(() => {
@@ -31,61 +126,73 @@ const Report = (props: ReportProps) => {
         const newChecked = [...checked];
         if (currentIndex === -1) {
             newChecked.push(value);
-            props.addReportType(value)
-        }
-        else {
+            props.addReportType(value);
+        } else {
             newChecked.splice(currentIndex, 1);
-            props.removeReportType(value)
+            props.removeReportType(value);
         }
         setChecked(newChecked);
-    }
+    };
 
     return (
         <>
-            <Button onClick={() => props.goBackOneStep()}>Back</Button>
+            <Button
+                style={{ fontWeight: 600, textTransform: 'none', width: 'auto' }}
+                onClick={() => props.goBackOneStep()}
+            >
+                <img src={LeftArrowIcon} style={{ marginRight: '7px', fontSize: '20px' }} /> Back
+            </Button>
             <Typography component="span" gutterBottom>
-                <Box fontSize='h6.fontSize' style={{ marginBottom: '40px', textAlign: "center" }}>
+                <Box fontSize="h6.fontSize" style={{ marginBottom: '40px', textAlign: 'center' }}>
                     Step 4 - Report
                 </Box>
             </Typography>
             <TableContainer>
                 <Table>
                     <TableHead>
-                        <TableRow>
-                            <TableCell>Format</TableCell>
-                            <TableCell>Output</TableCell>
+                        <TableRow className={tableClasses.tableHeadRow}>
+                            <TableCell className={tableClasses.tableHeadCell}>Format</TableCell>
+                            <TableCell className={tableClasses.tableHeadCell}>Output</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        <TableCell>
-                            <List>
-                                {REPORT_TYPES.map((type: ReportTypes, index: number) => {
-                                    const labelId = `checkbox-list-label-${index}`;
-                                    return (
-                                        <ListItem key={index} onClick={() => handleToggle(type)}>
-                                            <ListItemIcon>
-                                                <Checkbox
-                                                    edge="start"
-                                                    checked={checked.indexOf(type) !== -1}
-                                                    tabIndex={-1}
-                                                    disableRipple
-                                                    inputProps={{ 'aria-labelledby': labelId }}
-                                                />
-                                            </ListItemIcon>
-                                            <ListItemText id={labelId} primary={type} />
-                                        </ListItem>
-                                    );
-                                })}
-                            </List>
-                        </TableCell>
-                        <TableCell>
-                            <Button>Choose destination</Button>
-                        </TableCell>
+                        <TableRow>
+                            <TableCell>
+                                <List>
+                                    {REPORT_TYPES.map((type: ReportTypes, index: number) => {
+                                        const labelId = `checkbox-list-label-${index}`;
+                                        return (
+                                            <ListItem
+                                                key={index}
+                                                onClick={() => handleToggle(type)}
+                                            >
+                                                <ListItemIcon>
+                                                    <Checkbox
+                                                        edge="start"
+                                                        checked={checked.indexOf(type) !== -1}
+                                                        tabIndex={-1}
+                                                        disableRipple
+                                                        inputProps={{ 'aria-labelledby': labelId }}
+                                                    />
+                                                </ListItemIcon>
+                                                <ListItemText id={labelId} primary={type} />
+                                            </ListItem>
+                                        );
+                                    })}
+                                </List>
+                            </TableCell>
+                            <TableCell>
+                                <Button>Choose destination</Button>
+                            </TableCell>
+                        </TableRow>
                     </TableBody>
                 </Table>
             </TableContainer>
-            <Button disabled={props.currentReports.length === 0} onClick={() => props.progress()}>Continue</Button>
-        </>);
-}
+            <Button disabled={props.currentReports.length === 0} onClick={() => props.progress()}>
+                Continue
+            </Button>
+        </>
+    );
+};
 
 export default Report;

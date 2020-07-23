@@ -38,9 +38,11 @@ const useStyles = makeStyles((theme: Theme) =>
             marginRight: '20px',
         },
         boxButtons: {
+            alignSelf: 'flex-end',
             width: '100%',
             display: 'flex',
             justifyContent: 'flex-end',
+            marginLeft: 'auto',
         },
         button: {
             display: 'flex',
@@ -51,9 +53,16 @@ const useStyles = makeStyles((theme: Theme) =>
             margin: '0 46px',
             fontSize: '16px',
             textTransform: 'none',
+            cursor: 'pointer',
         },
         paper: {
             minHeight: '50vh',
+        },
+        tabel: {
+            minHeight: '50vh',
+            display: 'flex',
+            flexFlow: 'column',
+            justifyContent: 'space-between',
         },
     })
 );
@@ -215,30 +224,36 @@ export default function Configuration() {
             default:
                 return (
                     <>
-                        <ConfigurationTable configs={tempConfigs} />
-                        <Grid container spacing={3}>
-                            <Grid item xs={12} lg={10}>
-                                <Box display={'flex'} width={'100%'} className={classes.boxButtons}>
-                                    <Button className={classes.button}>
-                                        <img
-                                            src={ImportIcon}
-                                            style={{ width: '17px', marginRight: '8px' }}
-                                        />
-                                        import
-                                    </Button>
-                                    <Button
-                                        onClick={() => handleClickCreate()}
-                                        className={classes.button}
+                        <div className={classes.tabel}>
+                            <ConfigurationTable configs={tempConfigs} />
+                            <Grid container spacing={10}>
+                                <Grid item xs={12} lg={12}>
+                                    <Box
+                                        display={'flex'}
+                                        width={'100%'}
+                                        className={classes.boxButtons}
                                     >
-                                        <img
-                                            src={PlusIcon}
-                                            style={{ width: '22px', marginRight: '8px' }}
-                                        />
-                                        new
-                                    </Button>
-                                </Box>
+                                        <Button className={classes.button}>
+                                            <img
+                                                src={ImportIcon}
+                                                style={{ width: '17px', marginRight: '8px' }}
+                                            />
+                                            import
+                                        </Button>
+                                        <Button
+                                            onClick={() => handleClickCreate()}
+                                            className={classes.button}
+                                        >
+                                            <img
+                                                src={PlusIcon}
+                                                style={{ width: '22px', marginRight: '8px' }}
+                                            />
+                                            new
+                                        </Button>
+                                    </Box>
+                                </Grid>
                             </Grid>
-                        </Grid>
+                        </div>
                     </>
                 );
         }
@@ -268,7 +283,7 @@ export default function Configuration() {
                     <span>Configuration</span>
                 </Box>
             </Typography>
-            <Grid container spacing={3}>
+            <Grid container spacing={10}>
                 <Grid item xs={12} lg={10} style={{ margin: 'auto' }}>
                     <Paper className={`${mainClasses.paper} ${classes.paper}`}>
                         {renderStep()}
