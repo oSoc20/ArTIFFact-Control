@@ -1,20 +1,19 @@
 import * as React from 'react';
-// Themes
 import { useMainStyles } from 'Theme/Main';
 import { TableCell, StyledTableRow1, useTableStyles } from 'Theme/Table';
-// Material UI
 import { Typography, Paper, Box, makeStyles, Theme, createStyles, TableContainer, Table, TableHead, TableRow, TableBody, Button } from '@material-ui/core';
-// Icons
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import SettingsIcon from 'Assets/icons/icons8-settings-500.svg';
 import { useHistory } from 'react-router-dom';
 import { Configuration } from 'Interfaces/Configuration';
 import { SidebarAction, setActiveItem } from 'Actions/SidebarAction';
 import { connect } from 'react-redux';
+import { RootState } from 'Reducers'
 
 /* INTERFACES */
 interface LastConfigurationsProps {
-    setActiveItem: (item: string) => void
+    setActiveItem: (item: string) => void;
+    configs: Array<Configuration>;
 }
 
 /* COMPONENT */
@@ -24,15 +23,6 @@ const LastConfigurations = (props: LastConfigurationsProps) => {
     const maxItems = 6;
 
     const history = useHistory();
-    var configurationsData: Configuration[] = [
-        { name: 'Default', implementation: 'Baseline TIFF 6.0' },
-        { name: 'Special', implementation: 'Extended TIFF 6.0' },
-        { name: 'Special', implementation: 'Extended TIFF 6.0' },
-        { name: 'Special', implementation: 'Extended TIFF 6.0' },
-        { name: 'Special', implementation: 'Extended TIFF 6.0' },
-        { name: 'Special', implementation: 'Extended TIFF 6.0' }
-    ];
-    const [configurations, setConfigurations] = React.useState(configurationsData);
 
     return (
         <>
@@ -42,11 +32,16 @@ const LastConfigurations = (props: LastConfigurationsProps) => {
                         <img src={SettingsIcon} className={mainClasses.titleIcon} />
                         Configurations
                     </Box>
-                    <Button style={{ marginLeft: 'auto', fontWeight: 600, textTransform: 'none' }} onClick={() => { props.setActiveItem('configurations'); history.push('/configurations') }}>More <ArrowForwardIcon style={{ marginLeft: '3px', fontSize: '20px' }} /></Button>
+                    <Button style={{ marginLeft: 'auto', fontWeight: 600, textTransform: 'none' }} onClick={() => {
+                        props.setActiveItem('configurations');
+                        history.push('/configuration')
+                    }}>
+                        More <ArrowForwardIcon style={{ marginLeft: '3px', fontSize: '20px' }} />
+                    </Button>
                 </Typography>
-                {configurations.length > 0 ?
+                {props.configs.length > 0 ?
                     <TableContainer style={{ marginTop: '20px' }}>
-                        <Table aria-label="span" size="small">
+                        <Table aria-label='span' size='small'>
                             <TableHead>
                                 <TableRow className={tableClasses.tableHeadRow}>
                                     <TableCell className={tableClasses.tableHeadCell}>Name</TableCell>
@@ -54,7 +49,7 @@ const LastConfigurations = (props: LastConfigurationsProps) => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {configurations.map((row, index) => {
+                                {props.configs.map((row, index) => {
                                     if (index < maxItems) {
                                         const opacity = index < maxItems - 2 ? { opacity: 1 }
                                             : index === maxItems - 2 ? { opacity: 0.6 }
@@ -83,9 +78,19 @@ const LastConfigurations = (props: LastConfigurationsProps) => {
 }
 
 /* REDUX STORE */
+
+/**
+ * Function that maps all required state variables to props.
+ * @param state Rootstate that has all reducers combined
+ */
+const mapStateToProps = (state: RootState) => ({
+    configs: state.configuration.configs
+});
+
+
 const mapDispatchToProps = (dispatch: React.Dispatch<SidebarAction>) => ({
     setActiveItem: (item: string) => dispatch(setActiveItem(item))
 });
 
 // Connect to the Redux store
-export default connect(null, mapDispatchToProps)(LastConfigurations);
+export default connect(mapStateToProps, mapDispatchToProps)(LastConfigurations);
