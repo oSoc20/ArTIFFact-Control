@@ -71,10 +71,10 @@ const LastConfigurations = (props: LastConfigurationsProps) => {
 
                                     return (
                                         <StyledTableRow1 key={index} style={opacity}>
-                                            <TableCell component="th" scope="row">
+                                            <TableCell>
                                                 {row.name}
                                             </TableCell>
-                                            <TableCell component="th" scope="row">
+                                            <TableCell>
                                                 {row.implementation}
                                             </TableCell>
                                         </StyledTableRow1>

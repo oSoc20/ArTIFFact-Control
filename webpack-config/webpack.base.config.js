@@ -1,4 +1,6 @@
 const path = require('path');
+const CopyPlugin = require('copy-webpack-plugin');
+
 
 module.exports = {
     mode: 'development',
@@ -18,11 +20,20 @@ module.exports = {
             Theme: path.resolve(__dirname, '../src/renderer/theme'),
             Actions: path.resolve(__dirname, '../src/renderer/actions'),
             Reducers: path.resolve(__dirname, '../src/renderer/reducers'),
-            Components: path.resolve(__dirname, '../src/renderer/components')
+            Components: path.resolve(__dirname, '../src/renderer/components'),
+            ExtConfig: path.resolve(__dirname, '../config')
         },
         extensions: ['.tsx', '.ts', '.js', '.json']
     },
     devtool: 'source-map',
     plugins: [
+        new CopyPlugin({
+            patterns: [
+                {
+                    from: path.resolve(__dirname, '../config'),
+                    to: 'config/'
+                }
+            ]
+        })
     ]
 };

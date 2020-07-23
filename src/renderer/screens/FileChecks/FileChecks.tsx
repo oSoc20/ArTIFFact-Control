@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme: Theme) =>
             justifyContent: 'center',
 
             textAlign: "center",
-            marginTop: "2rem",
+            marginTop: "1.5rem",
             marginBottom: "3rem",
             fontFamily: "DIN 2014",
             fontStyle: "normal",
@@ -93,14 +93,12 @@ const FileChecks = (props: FilecheckerProps) => {
                 </Box>
             </Typography>
             <Grid container spacing={3}>
-                <Grid item xs={12} lg={10} style={{margin: 'auto'}}>
+                <Grid item xs={12} lg={10} style={{ margin: 'auto' }}>
                     <Container>
-                        <Paper className={classes.paper}>
-                            {renderStage()}
-                        </Paper>
+                        {renderStage()}
                     </Container>
                 </Grid>
-                <Grid item xs={12} lg={10} style={{margin: 'auto'}}>
+                <Grid item xs={12} lg={10} style={{ margin: 'auto' }}>
                     <div className={classes.stepperContainer}>
                         <FileCheckStepper stepLabels={STEPS} step={props.step} />
                     </div>

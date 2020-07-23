@@ -13,6 +13,11 @@ import StandardPick from 'Components/CreateConfigStages/StandardPick/StandardPic
 import Summary from 'Components/CreateConfigStages/Summary/Summary';
 import NameSetter from 'Components/CreateConfigStages/NameSetter/NameSetter';
 import { useMainStyles } from 'Theme/Main';
+import { removeConfiguration, ConfigurationAction, loadConfigs } from 'Actions/ConfigurationActions';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
+import { RootState } from 'src/renderer/reducers';
+import {Configuration as ConfigInterface} from 'Interfaces/Configuration'
 
 const STEPS = ['Name', 'Implementation', 'Policy', 'Report', 'Summary'];
 
@@ -67,6 +72,17 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
+const STEPS = ['Name', 'Implementation', 'Policy', 'Report', 'Summary'];
+
+interface ConfigProps{
+    loadConfigs: () => void;
+    removeConfiguration: (config: ConfigInterface) => void;
+    configs: Array<ConfigInterface>;
+}
+
+const Configuration = (props: ConfigProps) => {
+
+
 export default function Configuration() {
     const [step, setStep] = React.useState<number>(-1);
     const [selectedStandards, setSelectedStandards] = React.useState<Array<string>>([]);
@@ -85,6 +101,10 @@ export default function Configuration() {
             setName('');
         }
     }, [step]);
+
+    React.useEffect(() => {
+        props.loadConfigs();
+    }, []);
 
     /**
      * Add standard to selected standards
@@ -219,13 +239,14 @@ export default function Configuration() {
                             policies: policies,
                             reports: reportTypes,
                         }}
+                       resetStep={() => setStep(-1)}
                     />
                 );
             default:
                 return (
                     <>
                         <div className={classes.tabel}>
-                            <ConfigurationTable configs={tempConfigs} />
+                            <ConfigurationTable configs={tempConfigs} removeConfig={props.removeConfiguration}/>
                             <Grid container spacing={10}>
                                 <Grid item xs={12} lg={12}>
                                     <Box
@@ -253,7 +274,7 @@ export default function Configuration() {
                                     </Box>
                                 </Grid>
                             </Grid>
-                        </div>
+                        </div
                     </>
                 );
         }
@@ -294,3 +315,26 @@ export default function Configuration() {
         </>
     );
 }
+
+
+/* Redux functions */
+
+/**
+ * Function that maps all required state variables to props.
+ * @param state Rootstate that has all reducers combined
+ */
+const mapStateToProps = (state: RootState) => ({
+    configs: state.configuration.configs
+});
+
+/**
+ * Function that maps dispatch functions to props
+ * @param dispatch the dispatch function used by Redux
+ */
+const mapDispatchToProps = (dispatch: Dispatch<ConfigurationAction>) => ({
+    loadConfigs: () => dispatch(loadConfigs()),
+    removeConfiguration: (config: ConfigInterface) => dispatch(removeConfiguration(config))
+});
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Configuration);

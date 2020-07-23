@@ -61,7 +61,16 @@
     },
     "win": {
       "target": "nsis"
-    }
+    },
+    "extraFiles": [
+      {
+        "from": "./config",
+        "to": "config",
+        "filter": [
+          "**/*"
+        ]
+      }
+    ]
   },
   "repository": {
     "type": "git",
@@ -134,8 +143,9 @@
     "@material-ui/pickers": "^3.2.10",
     "@types/chart.js": "^2.9.23",
     "@types/react-router-dom": "^5.1.5",
-    "chart.js": "^2.9.3",
     "axios": "^0.19.2",
+    "chart.js": "^2.9.3",
+    "copy-webpack-plugin": "^6.0.3",
     "date-fns": "^2.14.0",
     "history": "^5.0.0",
     "react": "^16.8.6",
@@ -144,6 +154,7 @@
     "react-dropzone": "^11.0.1",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.2.0",
-    "redux": "^4.0.5"
+    "redux": "^4.0.5",
+    "xml-formatter": "^2.1.2"
   }
 }
