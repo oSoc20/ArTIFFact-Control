@@ -178,7 +178,6 @@ const configurationToXml = (config?: Configuration) => {
     configElement.appendChild(fixesElement);
 
     xmlDoc.appendChild(configElement);
-    console.log(xmlDoc);
 
     let xml = new XMLSerializer()
         .serializeToString(xmlDoc)

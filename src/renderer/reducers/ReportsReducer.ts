@@ -2,7 +2,6 @@ import { Reducer } from 'redux';
 import * as fs from 'fs';
 import * as path from 'path';
 import { remote } from 'electron';
-// import { ReportParent } from 'Interfaces/ReportParent';
 import { ReportsAction, ADD_REPORTS, REMOVE_REPORTS, LOAD_REPORTS } from 'Actions/ReportActions';
 import { format } from 'date-fns';
 
@@ -21,7 +20,10 @@ const defaultState: ReportsState = {
     reports: []
 };
 
-
+/**
+ * Save reports to disk
+ * @param reports reports to save to disk
+ */
 const saveReportsToDisk = (reports: ReportParent) => {
     const content = JSON.stringify(reports, null, 4);
     const { app } = remote;
@@ -30,7 +32,9 @@ const saveReportsToDisk = (reports: ReportParent) => {
     fs.writeFileSync(`${filePath}/${name}.json`, content);
 }
 
-
+/**
+ * Load the reports from disk and convert them to report parent objects
+ */
 const loadReportsFromDisk = () => {
     const { app } = remote;
     const dirPath = `${process.env.NODE_ENV === 'development' ? app.getAppPath() : app.getPath('exe')}/reports/`;

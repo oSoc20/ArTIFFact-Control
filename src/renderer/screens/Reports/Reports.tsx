@@ -24,10 +24,16 @@ const Reports = (props: ReportsProps) => {
     const mainClasses = useMainStyles();
     const [reportParent, setReportParent] = React.useState<ReportParent | null>(null);
 
+    // Only try to load the reports upon mounting
     React.useEffect(() => {
         props.loadReports();
     }, []);
 
+    /**
+     * Remove a report parent from the Redux store.
+     * Also clear the currently selected report parent
+     * @param reportParent Report parent to remove
+     */
     const removeReportParent = (reportParent: ReportParent) => {
         if (props.reports !== null && props.reports.length > 0) {
             props.removeReports(reportParent);
@@ -35,6 +41,10 @@ const Reports = (props: ReportsProps) => {
         }
     }
 
+    /**
+     * Remove all the reports that are older than a specific date
+     * @param date Reports older than this date will be removed
+     */
     const removeReportsOlderThan = (date: Date | null) => {
         if (date !== null && props.reports !== null && props.reports.length > 0) {
             let tempReportParents = [...props.reports];
@@ -58,6 +68,9 @@ const Reports = (props: ReportsProps) => {
         }
     }
 
+    /**
+     * Remove all report parents
+     */
     const clearReportParents = () => {
         props.reports.forEach((reportParent: ReportParent) => {
             props.removeReports(reportParent);
