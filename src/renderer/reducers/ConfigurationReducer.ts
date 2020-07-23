@@ -2,6 +2,7 @@ import { Reducer } from 'redux';
 import { ADD_CONFIG, REMOVE_CONFIG, LOAD_CONFIGS, ConfigurationAction } from 'Actions/ConfigurationActions';
 import { Configuration, ReportTypes, Policy, ValidOperator } from 'Interfaces/Configuration';
 import * as fs from 'fs';
+import * as path from 'path';
 import { remote } from 'electron';
 
 
@@ -29,28 +30,33 @@ const OPERATOR_TRANSLATION = {
     '&gte;': '>='
 }
 
-const convertXmlToConfiguration = (data: string, path: string) => {
+const convertXmlToConfiguration = (data: string, name: string) => {
     let parser = new DOMParser();
     const xmlDoc = parser.parseFromString(data, 'text/xml');
     console.log("convertXmlToConfiguration", xmlDoc);
-    const configName = path.split('/').pop()?.split('.')[0] as string;
+    const configName = name.split('.')[0] as string;
 
-    const isoElements = xmlDoc.getElementsByName('iso');
+    const isoElements = Array.from(xmlDoc.getElementsByTagName('iso'));
+    console.log("iso elems", isoElements)
     const implementation: Array<string> = [];
     isoElements.forEach((iso) => {
-        implementation.push(iso.childNodes[0].nodeValue as string);
+        let value = iso.childNodes[0].nodeValue?.trim() as string;
+        if (value === 'TIFF_Baseline_Core_6_0') {
+            value = 'Baseline TIFF 6.0';
+        }
+        implementation.push(value);
     });
 
-    const formatElements = xmlDoc.getElementsByName('format');
+    const formatElements = Array.from(xmlDoc.getElementsByTagName('format'));
     const formats: Array<ReportTypes | string> = [];
     formatElements.forEach((format) => {
-        const value = format.childNodes[0].nodeValue as ReportTypes;
+        const value = format.childNodes[0].nodeValue?.trim() as ReportTypes;
         if (value) {
             formats.push(value);
         }
     });
 
-    const ruleElements = xmlDoc.getElementsByName('rule');
+    const ruleElements = Array.from(xmlDoc.getElementsByTagName('rule'));
     const policies: Array<Policy> = [];
     ruleElements.forEach((ruleElement) => {
         const policyName = ruleElement.childNodes[0].nodeValue;
@@ -75,7 +81,7 @@ const convertXmlToConfiguration = (data: string, path: string) => {
         policies,
         reports: formats
     }
-    console.log("Did this work?", configuration);
+
     return configuration;
 }
 
@@ -88,7 +94,7 @@ const readConfigsFromDisk: () => Array<Configuration> = () => {
     const configs: Array<Configuration> = [];
     console.log("All files in disk", filesPaths)
     filesPaths.forEach((file: string) => {
-        let data = fs.readFileSync(file).toString();
+        let data = fs.readFileSync(path.join(dirPath, file)).toString();
         let config: Configuration = convertXmlToConfiguration(data, file);
         configs.push(config);
     })
@@ -181,6 +187,7 @@ export const configurationReducer: Reducer<ConfigurationState, ConfigurationActi
         case ADD_CONFIG:
             const { config } = action;
             const content = configurationToXml(config);
+            console.log("SAVING TO DISK?", content);
             saveConfigToDisk(config, content);
             return {
                 ...state,

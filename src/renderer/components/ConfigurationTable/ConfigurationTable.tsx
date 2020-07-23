@@ -108,7 +108,7 @@ const ConfigurationTable = (props: ConfigTableProps | ConfigTablePropsWithSelect
      * @param reports array of strings that contains the allowed report types.
      * @returns string of the following format: 'TYPE 1, TYPE 2, ... TYPE N'
      */
-    const getReports = (reports: Array<ReportTypes>) => {
+    const getReports = (reports: Array<ReportTypes> | Array<string>) => {
         let result: string = "";
         reports.forEach((report) => {
             result += report;

@@ -10,12 +10,21 @@ import Report from 'Components/CreateConfigStages/Report/Report';
 import StandardPick from 'Components/CreateConfigStages/StandardPick/StandardPick';
 import Summary from 'Components/CreateConfigStages/Summary/Summary';
 import NameSetter from 'Components/CreateConfigStages/NameSetter/NameSetter';
+import { addConfiguration, ConfigurationAction, loadConfigs } from 'Actions/ConfigurationActions';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
+import { RootState } from 'src/renderer/reducers';
+import {Configuration as ConfigInterface} from 'Interfaces/Configuration'
 
 
 const STEPS = ['Name', 'Implementation', 'Policy', 'Report', 'Summary'];
 
+interface ConfigProps{
+    loadConfigs: () => void;
+    configs: Array<ConfigInterface>;
+}
 
-export default function Configuration() {
+const Configuration = (props: ConfigProps) => {
 
     const [step, setStep] = React.useState<number>(-1);
     const [selectedStandards, setSelectedStandards] = React.useState<Array<string>>([]);
@@ -32,6 +41,11 @@ export default function Configuration() {
             setName("");
         }
     }, [step]);
+
+    React.useEffect(() => {
+        console.log("TRYING TO LOAD")
+        props.loadConfigs();
+    }, []);
 
     /**
      * Add standard to selected standards
@@ -167,7 +181,7 @@ export default function Configuration() {
             default:
                 return (
                     <>
-                        <ConfigurationTable configs={tempConfigs} />
+                        <ConfigurationTable configs={props.configs} />
                         <Box display={"flex"} width={"100%"}>
                             <button>
                                 <Typography style={{ fontSize: 15 }}>
@@ -208,3 +222,25 @@ export default function Configuration() {
         </>
     )
 }
+
+
+/* Redux functions */
+
+/**
+ * Function that maps all required state variables to props.
+ * @param state Rootstate that has all reducers combined
+ */
+const mapStateToProps = (state: RootState) => ({
+    configs: state.configuration.configs
+});
+
+/**
+ * Function that maps dispatch functions to props
+ * @param dispatch the dispatch function used by Redux
+ */
+const mapDispatchToProps = (dispatch: Dispatch<ConfigurationAction>) => ({
+    loadConfigs: () => dispatch(loadConfigs()),
+});
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Configuration);

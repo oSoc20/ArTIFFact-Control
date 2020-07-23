@@ -38,7 +38,7 @@ export const removeConfiguration: ActionCreator<RemoveConfigAction> =  (config: 
     config
 });
 
-export const setReadState: ActionCreator<LoadConfigsAction> =  () => ({
+export const loadConfigs: ActionCreator<LoadConfigsAction> =  () => ({
     type: LOAD_CONFIGS,
 });
 
