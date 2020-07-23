@@ -19,29 +19,8 @@ import { Dispatch } from 'redux';
 import { RootState } from 'src/renderer/reducers';
 import {Configuration as ConfigInterface} from 'Interfaces/Configuration'
 
-const STEPS = ['Name', 'Implementation', 'Policy', 'Report', 'Summary'];
-
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        title: {
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-
-            textAlign: 'center',
-            marginTop: '2rem',
-            marginBottom: '3rem',
-            fontFamily: 'DIN 2014',
-            fontStyle: 'normal',
-            fontWeight: 'normal',
-            fontSize: '36px',
-            lineHeight: '46px',
-            color: theme.palette.primary.dark,
-        },
-        titleIcon: {
-            width: '50px',
-            marginRight: '20px',
-        },
         boxButtons: {
             alignSelf: 'flex-end',
             width: '100%',
@@ -81,9 +60,6 @@ interface ConfigProps{
 }
 
 const Configuration = (props: ConfigProps) => {
-
-
-export default function Configuration() {
     const [step, setStep] = React.useState<number>(-1);
     const [selectedStandards, setSelectedStandards] = React.useState<Array<string>>([]);
     const [policies, setPolicies] = React.useState<Array<Policy>>([]);
@@ -244,7 +220,6 @@ export default function Configuration() {
                 );
             default:
                 return (
-                    <>
                         <div className={classes.tabel}>
                             <ConfigurationTable configs={tempConfigs} removeConfig={props.removeConfiguration}/>
                             <Grid container spacing={10}>
@@ -274,8 +249,7 @@ export default function Configuration() {
                                     </Box>
                                 </Grid>
                             </Grid>
-                        </div
-                    </>
+                        </div>
                 );
         }
     };
@@ -291,7 +265,7 @@ export default function Configuration() {
 
     return (
         <>
-            <Typography component="span" gutterBottom className={classes.title}>
+            <Typography component="span" gutterBottom className={mainClasses.topTitle}>
                 <Box
                     fontSize="h4.fontSize"
                     style={{
@@ -300,7 +274,7 @@ export default function Configuration() {
                         justifyContent: 'center',
                     }}
                 >
-                    <img src={ConfigurationFileIcon} className={classes.titleIcon} />
+                    <img src={ConfigurationFileIcon} className={mainClasses.topTitleIcon} />
                     <span>Configuration</span>
                 </Box>
             </Typography>
