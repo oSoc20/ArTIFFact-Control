@@ -39,7 +39,7 @@ export const removeReports: ActionCreator<RemoveReportAction> =  (reports: Repor
     reports
 });
 
-export const loadConfigs: ActionCreator<LoadReportsAction> =  () => ({
+export const loadReports: ActionCreator<LoadReportsAction> =  () => ({
     type: LOAD_REPORTS,
 });
 

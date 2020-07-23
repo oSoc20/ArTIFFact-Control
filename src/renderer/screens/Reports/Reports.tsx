@@ -7,6 +7,10 @@ import RatingsIcon from 'Assets/icons/icons8-ratings-500.svg';
 import ReportsTable from 'Components/ReportsTable/ReportsTable';
 import ReportDetails from 'Components/ReportDetails/ReportDetails';
 import LeftArrowIcon from 'Assets/icons/icons8-arrow-500.svg';
+import { RootState } from 'src/renderer/reducers';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
+import { ReportsAction, removeReports, loadReports } from 'Actions/ReportActions';
 
 /* STYLE */
 const useStyles = makeStyles((theme: Theme) =>
@@ -32,60 +36,56 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
+interface ReportsProps {
+    loadReports: () => void;
+    removeReports: (reports: ReportParent) => void;
+    reports: Array<ReportParent>;
+}
+
 /* COMPONENT */
-const Reports = () => {
+const Reports = (props: ReportsProps) => {
     const classes = useStyles();
     const [reportParent, setReportParent] = React.useState<ReportParent | null>(null);
-    const [reportParents, setReportParents] = React.useState<Array<ReportParent> | null>([
-        {
-            reports: [
-                { fileName: 'file_example_TIFF_1MB.tiff', filePath: "D:\\Bureau\\Téléchargements\\file_example_TIFF_1MB.tiff", date: new Date(), result: true, errors: 0, passed: 1, warnings: 0, score: 100, infos: 0, formats: [{ title: 'HTML', url: null }, { title: 'PDF', url: null }, { title: 'XML', url: null }, { title: 'JSON', url: null }, { title: 'METS', url: null }] },
-                { fileName: 'file_example_TIFF_1MB.tiff', filePath: "D:\\Bureau\\Téléchargements\\file_example_TIFF_1MB.tiff", date: new Date(), result: false, errors: 1, passed: 0, warnings: 0, score: 0, infos: 0, formats: [{ title: 'HTML', url: null }, { title: 'PDF', url: null }, { title: 'XML', url: null }] },
-            ],
-            formats: [{ title: 'HTML', url: null }, { title: 'PDF', url: null }, { title: 'XML', url: null }, { title: 'JSON', url: null }, { title: 'METS', url: null }]
-        },
-        {
-            reports: [
-                { fileName: 'file_example_TIFF_1MB.tiff', filePath: "D:\\Bureau\\Téléchargements\\file_example_TIFF_1MB.tiff", date: new Date('07/15/2020 17:52:16'), result: true, errors: 0, passed: 1, warnings: 0, score: 100, infos: 0, formats: [{ title: 'HTML', url: null }, { title: 'PDF', url: null }, { title: 'XML', url: null }, { title: 'JSON', url: null }, { title: 'METS', url: null }] },
-            ],
-            formats: null
-        }
-    ]);
+
+    React.useEffect(() => {
+        props.loadReports();
+    }, []);
 
     const removeReportParent = (reportParent: ReportParent) => {
-        if (reportParents !== null && reportParents.length > 0) {
-            let tempReportParents = [...reportParents];
-            let index = tempReportParents.indexOf(reportParent);
-            tempReportParents.splice(index, 1);
-            setReportParents(tempReportParents);
+        console.log('PARRY THIS CASUAL', reportParent, props.reports)
+        if (props.reports !== null && props.reports.length > 0) {
+            props.removeReports(reportParent);
             setReportParent(null);
         }
     }
 
     const removeReportsOlderThan = (date: Date | null) => {
-        if (date !== null && reportParents !== null && reportParents.length > 0) {
-            let tempReportParents = [...reportParents];
+        if (date !== null && props.reports !== null && props.reports.length > 0) {
+            let tempReportParents = [...props.reports];
             let selectedDate = date;
             selectedDate = setHours(selectedDate, 0);
             selectedDate = setMinutes(selectedDate, 0);
             selectedDate = setSeconds(selectedDate, 0);
             selectedDate = setMilliseconds(selectedDate, 0);
 
-            tempReportParents = tempReportParents.filter((reportParent: ReportParent) => {
+            tempReportParents.forEach((reportParent: ReportParent) => {
                 let report: Report = reportParent.reports[0];
                 let reportDate = report.date;
                 reportDate = setHours(reportDate, 0);
                 reportDate = setMinutes(reportDate, 0);
                 reportDate = setSeconds(reportDate, 0);
                 reportDate = setMilliseconds(reportDate, 0);
-                return !isBefore(reportDate, selectedDate);
+                if(isBefore(reportDate, selectedDate)) {
+                    props.removeReports(reportParent);
+                }
             });
-            setReportParents(tempReportParents);
         }
     }
 
     const clearReportParents = () => {
-        setReportParents([]);
+        props.reports.forEach((reportParent: ReportParent) => {
+            props.removeReports(reportParent);
+        });
     }
 
     return (
@@ -110,7 +110,7 @@ const Reports = () => {
             <Grid container spacing={3}>
                 <Grid item xs={12} xl={10} style={{ margin: 'auto' }}>
                     {reportParent === null ?
-                        <ReportsTable reportParents={reportParents} removeReportParent={removeReportParent} removeReportParentsOlderThan={removeReportsOlderThan} clearReportParents={clearReportParents} setReportParent={setReportParent} />
+                        <ReportsTable reportParents={props.reports} removeReportParent={removeReportParent} removeReportParentsOlderThan={removeReportsOlderThan} clearReportParents={clearReportParents} setReportParent={setReportParent} />
                         :
                         <>
                             <Button style={{ fontWeight: 600, textTransform: 'none', width: 'auto' }} onClick={() => { setReportParent!(null) }}><img src={LeftArrowIcon} style={{ marginRight: '7px', fontSize: '20px' }} /> Back</Button>
@@ -123,4 +123,24 @@ const Reports = () => {
     )
 }
 
-export default (Reports);
+/* Redux functions */
+
+/**
+ * Function that maps all required state variables to props.
+ * @param state Rootstate that has all reducers combined
+ */
+const mapStateToProps = (state: RootState) => ({
+    reports: state.reports.reports
+});
+
+/**
+ * Function that maps dispatch functions to props
+ * @param dispatch the dispatch function used by Redux
+ */
+const mapDispatchToProps = (dispatch: Dispatch<ReportsAction>) => ({
+    loadReports: () => dispatch(loadReports()),
+    removeReports: (reports: ReportParent) => dispatch(removeReports(reports))
+});
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Reports);

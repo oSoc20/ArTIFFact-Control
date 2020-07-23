@@ -40,6 +40,9 @@ const loadReportsFromDisk = () => {
         if (file.endsWith('.json')) {
             let data = fs.readFileSync(path.join(dirPath, file)).toString();
             let report: ReportParent = JSON.parse(data) as ReportParent;
+            for(let i = 0; i < report.reports.length; i++) {
+                report.reports[i].date = new Date(Date.parse(report.reports[i].date as unknown as string));
+            }
             console.log("well well, how the turntables", report, file);
             reportParents.push(report);
         }
@@ -49,11 +52,11 @@ const loadReportsFromDisk = () => {
 
 
 /**
- * The actual configuration reducer:
- *  - ADD_CONFIG: add reports to the current state and save it to disk
- *  - REMOVE_CONFIG: remove reports from current state and remove it from disk
- *  - LOAD_CONFIGS: load the reports from disk if they are not loaded yet
- * @param state current configuration state
+ * The actual reports reducer:
+ *  - ADD_REPORTS: add reports to the current state and save it to disk
+ *  - REMOVE_REPORTS: remove reports from current state and remove it from disk
+ *  - LOAD_REPORTS: load the reports from disk if they are not loaded yet
+ * @param state current reports state
  * @param action action to perform on the state
  */
 export const reportsReducer: Reducer<ReportsState, ReportsAction> = (
@@ -75,7 +78,7 @@ export const reportsReducer: Reducer<ReportsState, ReportsAction> = (
             if (index !== -1) {
                 newReports.splice(index, 1);
             }
-            return { ...state, configs: newReports }
+            return { ...state, reports: newReports }
         }
         case LOAD_REPORTS: {
             let reports = [...state.reports];
