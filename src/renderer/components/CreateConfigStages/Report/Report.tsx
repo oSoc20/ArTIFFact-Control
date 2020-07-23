@@ -62,19 +62,9 @@ const useStyles = makeStyles((theme: Theme) =>
                 color: '#FCFCFC',
             },
         },
-        leftMargin: {
-            margin: '0 25px',
-        },
-        isoElement: {
-            borderBottom: '1px solid #E9E9E9',
-            padding: '8px 0',
-        },
         tableContainer: {
             maxWidth: '96%',
             minHeight: '30vh',
-        },
-        tableHeadRow: {
-            borderBottom: '2px solid #2A4B5B',
         },
         destination: {
             verticalAlign: 'top',

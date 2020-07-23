@@ -59,8 +59,6 @@ interface SummaryProps {
 
 const Summary = (props: SummaryProps) => {
     const classes = useStyles();
-    const mainClasses = useMainStyles();
-    const tableClasses = useTableStyles();
     /**
      * Convert configuration policies to a string format
      * @returns string that contains the policies
