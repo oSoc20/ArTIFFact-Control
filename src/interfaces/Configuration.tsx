@@ -1,6 +1,8 @@
+export type ValidOperator = '=' | '<' | '>' | '<=' | '>='
+
 export interface Policy {
     name: string;
-    operator: '=' | '<' | '>' | '<=' | '>=';
+    operator: ValidOperator;
     value: string | number | any;
 }
 
@@ -10,5 +12,5 @@ export interface Configuration {
     name: string;
     implementation: string;
     policies?: Array<Policy>;
-    reports?: Array<ReportTypes>;
+    reports?: Array<ReportTypes | string>;
 }

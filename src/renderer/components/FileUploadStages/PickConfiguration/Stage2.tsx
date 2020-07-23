@@ -5,6 +5,11 @@ import ConfigurationTable, { tempConfigs } from 'Components/ConfigurationTable/C
 import ImportIcon from 'Assets/icons/icons8-import-500.svg';
 import PlusIcon from 'Assets/icons/icons8-plus-math-500.svg';
 import BackArrow from 'Assets/icons/icons8-arrow-500.svg';
+import { ConfigurationAction, loadConfigs, removeConfiguration } from 'Actions/ConfigurationActions';
+import { Configuration } from 'Interfaces/Configuration';
+import { Dispatch } from 'redux';
+import { connect } from 'react-redux';
+import { RootState } from 'src/renderer/reducers';
 import { useMainStyles } from 'Theme/Main';
 
 
@@ -13,6 +18,9 @@ import { useMainStyles } from 'Theme/Main';
 interface Stage2Props {
     goBackOneStep: () => void;
     progressStep: () => void;
+    loadConfigs: () => void;
+    removeConfiguration: (config: Configuration) => void;
+    configs: Array<Configuration>;
 }
 
 
@@ -101,6 +109,10 @@ const Stage2 = (props: Stage2Props) => {
     // Maybe put this in Redux store in order to use at next stage
     let [currentSelected, setCurrent] = React.useState<null | number>(null);
 
+    React.useEffect(() => {
+        props.loadConfigs();
+    }, []);
+
     return (
         <>
             <Paper className={mainClasses.paper}>
@@ -109,17 +121,18 @@ const Stage2 = (props: Stage2Props) => {
                     <Box fontSize='h6.fontSize' style={{ marginBottom: '40px', textAlign: "center" }}>
                         Step 2 - TIFF Configuration settings
                 </Box>
-                </Typography>
-                <ConfigurationTable
-                    configs={tempConfigs}
-                    selectable
-                    currentSelected={currentSelected}
-                    setCurrentSelected={setCurrent}
-                />
-                <Box display={"flex"} width={"100%"}>
-                    <button className={classes.configControlButton}>
-                        <Typography style={{ fontSize: 15 }}>
-                            <img src={ImportIcon} style={{ width: "17px" }} />
+            </Typography>
+            <ConfigurationTable
+                configs={props.configs}
+                selectable
+                currentSelected={currentSelected}
+                setCurrentSelected={setCurrent}
+                removeConfig={props.removeConfiguration}
+            />
+            <Box display={"flex"} width={"100%"}>
+                <button className={classes.configControlButton}>
+                    <Typography style={{ fontSize: 15 }}>
+                        <img src={ImportIcon} style={{ width: "17px" }} />
                         import
                     </Typography>
                     </button>
@@ -138,4 +151,24 @@ const Stage2 = (props: Stage2Props) => {
     );
 }
 
-export default Stage2
+/* Redux functions */
+
+/**
+ * Function that maps all required state variables to props.
+ * @param state Rootstate that has all reducers combined
+ */
+const mapStateToProps = (state: RootState) => ({
+    configs: state.configuration.configs
+});
+
+/**
+ * Function that maps dispatch functions to props
+ * @param dispatch the dispatch function used by Redux
+ */
+const mapDispatchToProps = (dispatch: Dispatch<ConfigurationAction>) => ({
+    loadConfigs: () => dispatch(loadConfigs()),
+    removeConfiguration: (config: Configuration) => dispatch(removeConfiguration(config))
+});
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Stage2);

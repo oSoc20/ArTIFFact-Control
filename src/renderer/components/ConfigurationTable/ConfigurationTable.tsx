@@ -7,6 +7,7 @@ import TrashIcon from 'Assets/icons/icons8-delete-bin-500.svg';
 
 interface ConfigTableProps {
     configs: Array<Configuration>;
+    removeConfig: (config: Configuration) => void;
     selectable?: false;
     currentSelected?: null;
     setCurrentSelected?: null;
@@ -14,6 +15,7 @@ interface ConfigTableProps {
 
 interface ConfigTablePropsWithSelection {
     configs: Array<Configuration>;
+    removeConfig: (config: Configuration) => void;
     selectable: true;
     currentSelected: number | null;
     setCurrentSelected: (index: number) => void;
@@ -108,7 +110,7 @@ const ConfigurationTable = (props: ConfigTableProps | ConfigTablePropsWithSelect
      * @param reports array of strings that contains the allowed report types.
      * @returns string of the following format: 'TYPE 1, TYPE 2, ... TYPE N'
      */
-    const getReports = (reports: Array<ReportTypes>) => {
+    const getReports = (reports: Array<ReportTypes> | Array<string>) => {
         let result: string = "";
         reports.forEach((report) => {
             result += report;
@@ -160,6 +162,7 @@ const ConfigurationTable = (props: ConfigTableProps | ConfigTablePropsWithSelect
                                         }}
                                     ><img src={EditIcon} style={{ height: "25px", width: "25px" }} /></button>
                                     <button
+                                        onClick={() => props.removeConfig(config)}
                                         style={{
                                             border: "none",
                                             background: "transparent",

@@ -1,11 +1,26 @@
 import *  as React from 'react';
 import { Typography, Box, Button } from '@material-ui/core';
 import { Configuration, Policy, ReportTypes } from 'Interfaces/Configuration';
+import { RootState } from 'Reducers';
+import { ConfigurationAction, addConfiguration } from 'Actions/ConfigurationActions';
+import { Dispatch } from 'redux';
+import { connect } from 'react-redux';
 
 
 interface SummaryProps {
     goBack: () => void;
     config: Configuration;
+    resetStep: () => void;
+    addConfiguration: (config: Configuration) => void;
+}
+
+
+const OPERATOR_TRANSLATION = {
+    '<': "&lt;",
+    '=': "=",
+    '>': '&gt;',
+    '<=': '&lte;',
+    '>=': '&gte;'
 }
 
 
@@ -29,12 +44,16 @@ const Summary = (props: SummaryProps) => {
      */
     const getReportsAsString = () => {
         let result: string = "";
-        props.config.reports?.forEach((report: ReportTypes) => {
+        props.config.reports?.forEach((report: ReportTypes | string) => {
             result += `${report}\n`;
         })
         return result;
     }
 
+    const saveConfig = () => {
+        props.addConfiguration(props.config);
+        props.resetStep();
+    }
 
     return (
         <>
@@ -48,9 +67,28 @@ const Summary = (props: SummaryProps) => {
             <Typography>Implementation: {props.config.implementation}</Typography>
             <Typography>Policy: {getPoliciesAsString()}</Typography>
             <Typography>Report: {getReportsAsString()}</Typography>
-            <Button>Save configuration</Button>
+            <Button onClick={() => saveConfig()}>Save configuration</Button>
         </>
     );
 }
 
-export default Summary;
+/* Redux functions */
+
+/**
+ * Function that maps all required state variables to props.
+ * @param state Rootstate that has all reducers combined
+ */
+const mapStateToProps = (state: RootState) => ({
+    configs: state.configuration.configs
+});
+
+/**
+ * Function that maps dispatch functions to props
+ * @param dispatch the dispatch function used by Redux
+ */
+const mapDispatchToProps = (dispatch: Dispatch<ConfigurationAction>) => ({
+    addConfiguration: (config: Configuration) => dispatch(addConfiguration(config))
+});
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Summary);
