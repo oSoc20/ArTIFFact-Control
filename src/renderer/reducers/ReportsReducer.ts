@@ -26,7 +26,7 @@ const saveReportsToDisk = (reports: ReportParent) => {
     const content = JSON.stringify(reports, null, 4);
     const { app } = remote;
     let filePath = `${process.env.NODE_ENV === 'development' ? app.getAppPath() : app.getPath('exe')}/reports`;
-    const name = `report-${format(new Date(), 'dd-MM-yyyy-hh-mm-ss')}`;
+    const name = `report-${format(reports.reports[0].date, 'dd-MM-yyyy-hh-mm-ss')}`;
     fs.writeFileSync(`${filePath}/${name}.json`, content);
 }
 
@@ -52,6 +52,23 @@ const loadReportsFromDisk = () => {
 
 
 /**
+ * Removes reports from disk
+ * @param reports Reports to remove
+ */
+const eraseConfigFromDisk = (reports: ReportParent) => {
+    const { app } = remote;
+    const name = `report-${format(reports.reports[0].date, 'dd-MM-yyyy-hh-mm-ss')}`;
+    let filePath = `${process.env.NODE_ENV === 'development' ? app.getAppPath() : app.getPath('exe')}/reports/${name}.json`;
+    if (fs.existsSync(filePath)) {
+        fs.unlinkSync(filePath);
+    }
+    else{
+        console.log("NOONOOOOO NOOOOOOO NOOOOO", filePath);
+    }
+}
+
+
+/**
  * The actual reports reducer:
  *  - ADD_REPORTS: add reports to the current state and save it to disk
  *  - REMOVE_REPORTS: remove reports from current state and remove it from disk
@@ -66,17 +83,21 @@ export const reportsReducer: Reducer<ReportsState, ReportsAction> = (
     switch (action.type) {
         case ADD_REPORTS: {
             const { reports } = action;
-            saveReportsToDisk(reports);
-            return {
-                ...state,
-                configs: [...state.reports, reports]
-            };
+            if(!state.reports.includes(reports)) {
+                saveReportsToDisk(reports);
+                return {
+                    ...state,
+                    reports: [...state.reports, reports]
+                };
+            }
+            return state;
         }
         case REMOVE_REPORTS: {
             let newReports = [...state.reports];
             const index = newReports.indexOf(action.reports);
             if (index !== -1) {
                 newReports.splice(index, 1);
+                eraseConfigFromDisk(action.reports)
             }
             return { ...state, reports: newReports }
         }
