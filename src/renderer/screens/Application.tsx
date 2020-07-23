@@ -14,15 +14,11 @@ import PeriodicalChecks from './PeriodicalChecks/PeriodicalChecks';
 import Configuration from './Configuration/Configuration';
 import Help from './Help/Help';
 import About from './About/About';
+import { useMainStyles } from 'Theme/Main';
 
 /* STYLE */
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        root: {
-            display: 'flex',
-            height: 'auto',
-            overflowY: 'hidden'
-        },
         content: {
             padding: theme.spacing(2),
             width: '100%',
@@ -35,10 +31,11 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function Application() {
     const classes = useStyles();
+    const mainClasses = useMainStyles();
 
     return (
         <HashRouter>
-            <div className={classes.root}>
+            <div className={mainClasses.root}>
                 <Sidebar />
                 <Container className={classes.content}>
                     <Switch>

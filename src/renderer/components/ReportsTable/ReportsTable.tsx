@@ -1,9 +1,10 @@
 import * as React from 'react';
 // Themes
 import { useMainStyles } from 'Theme/Main';
+import { usePopperStyles } from 'Theme/Popper';
 import { TableCell, StyledTableRow2, useTableStyles } from 'Theme/Table';
 // Material UI
-import { Paper, makeStyles, Theme, createStyles, TableContainer, Table, TableHead, TableRow, TableBody, Button, Popper, Typography, PopperPlacementType, FormControlLabel, Radio, Grid, RadioGroup, ClickAwayListener, Tooltip } from '@material-ui/core';
+import { Paper, TableContainer, Table, TableHead, TableRow, TableBody, Button, Popper, Typography, PopperPlacementType, FormControlLabel, Radio, Grid, RadioGroup, ClickAwayListener, Tooltip, makeStyles, Theme, createStyles } from '@material-ui/core';
 import CustomDatePicker from 'Components/CustomDatePicker/CustomDatePicker';
 // Icons
 import CheckIcon from '@material-ui/icons/Check';
@@ -17,25 +18,13 @@ import { useEffect } from 'react';
 import { format } from 'date-fns';
 
 /* STYLE */
-const useStyles = makeStyles((theme: Theme) =>
+export const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        box: {
-            display: 'flex',
-            alignItems: 'center'
+        successColor: {
+            color: theme.palette.success.main
         },
-        popup: {
-            padding: theme.spacing(2),
-            color: 'black',
-            background: '#FCFCFC',
-            boxShadow: '0px 0px 19px rgba(0, 0, 0, 0.05)',
-            borderRadius: '12px',
-        },
-        closeIcon: {
-            color: theme.palette.grey[300],
-            "&:hover": {
-                color: 'black',
-                cursor: 'pointer'
-            }
+        errorColor: {
+            color: theme.palette.error.main
         }
     })
 );
@@ -53,6 +42,7 @@ interface ReportsTableProps {
 const ReportsTable = (props: ReportsTableProps) => {
     const classes = useStyles();
     const mainClasses = useMainStyles();
+    const popperClasses = usePopperStyles();
     const tableClasses = useTableStyles();
 
     const [currentPage, setCurrentPage] = React.useState<number>(0);
@@ -180,7 +170,7 @@ const ReportsTable = (props: ReportsTableProps) => {
                                                         </Tooltip>
                                                     </TableCell>
                                                     <TableCell>
-                                                        {result ? <CheckIcon style={{ color: 'green' }} /> : <ClearIcon style={{ color: 'red' }} />}
+                                                        {result ? <CheckIcon className={classes.successColor} /> : <ClearIcon className={classes.errorColor} />}
                                                     </TableCell>
                                                     <TableCell>
                                                         {errors}
@@ -220,10 +210,10 @@ const ReportsTable = (props: ReportsTableProps) => {
                     </Grid>
                     <Popper open={open} anchorEl={anchorEl} placement={placement} style={{ marginRight: '5px' }}>
                         <ClickAwayListener onClickAway={() => setOpen(false)}>
-                            <Paper className={classes.popup}>
+                            <Paper className={popperClasses.popper}>
                                 <Grid container>
                                     <Grid item xs={12} style={{ textAlign: 'right' }}>
-                                        <CloseIcon className={classes.closeIcon} style={{ width: '22px' }} onClick={() => setOpen(false)} />
+                                        <CloseIcon className={popperClasses.closeIcon} style={{ width: '22px' }} onClick={() => setOpen(false)} />
                                     </Grid>
                                     <Grid item xs={12}>
                                         <RadioGroup aria-label="action" name="action" value={action} onChange={handleActionChange}>

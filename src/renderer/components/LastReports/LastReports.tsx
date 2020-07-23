@@ -14,16 +14,6 @@ import { useHistory } from 'react-router-dom';
 import { SidebarAction, setActiveItem } from 'Actions/SidebarAction';
 import { connect } from 'react-redux';
 
-/* STYLE */
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        box: {
-            display: 'flex',
-            alignItems: 'center'
-        }
-    })
-);
-
 /* INTERFACES */
 interface LastReportsProps {
     setActiveItem: (item: string) => void
@@ -31,9 +21,9 @@ interface LastReportsProps {
 
 /* COMPONENT */
 const LastReports = (props: LastReportsProps) => {
-    const classes = useStyles();
     const mainClasses = useMainStyles();
     const tableClasses = useTableStyles();
+    const maxItems = 5;
 
     const history = useHistory();
     const [reportParents, setReportParents] = React.useState<Array<ReportParent>>([
@@ -49,6 +39,24 @@ const LastReports = (props: LastReportsProps) => {
                 { fileName: 'file_example_TIFF_1MB.tiff', filePath: "D:\\Bureau\\Téléchargements\\file_example_TIFF_1MB.tiff", date: new Date('07/15/2020'), result: true, errors: 0, passed: 1, warnings: 0, score: 100, infos: 0, formats: [{ title: 'HTML', url: null }, { title: 'PDF', url: null }, { title: 'XML', url: null }, { title: 'JSON', url: null }, { title: 'METS', url: null }] },
             ],
             formats: null
+        },
+        {
+            reports: [
+                { fileName: 'file_example_TIFF_1MB.tiff', filePath: "D:\\Bureau\\Téléchargements\\file_example_TIFF_1MB.tiff", date: new Date('07/15/2020'), result: true, errors: 0, passed: 1, warnings: 0, score: 100, infos: 0, formats: [{ title: 'HTML', url: null }, { title: 'PDF', url: null }, { title: 'XML', url: null }, { title: 'JSON', url: null }, { title: 'METS', url: null }] },
+            ],
+            formats: null
+        },
+        {
+            reports: [
+                { fileName: 'file_example_TIFF_1MB.tiff', filePath: "D:\\Bureau\\Téléchargements\\file_example_TIFF_1MB.tiff", date: new Date('07/15/2020'), result: true, errors: 0, passed: 1, warnings: 0, score: 100, infos: 0, formats: [{ title: 'HTML', url: null }, { title: 'PDF', url: null }, { title: 'XML', url: null }, { title: 'JSON', url: null }, { title: 'METS', url: null }] },
+            ],
+            formats: null
+        },
+        {
+            reports: [
+                { fileName: 'file_example_TIFF_1MB.tiff', filePath: "D:\\Bureau\\Téléchargements\\file_example_TIFF_1MB.tiff", date: new Date('07/15/2020'), result: true, errors: 0, passed: 1, warnings: 0, score: 100, infos: 0, formats: [{ title: 'HTML', url: null }, { title: 'PDF', url: null }, { title: 'XML', url: null }, { title: 'JSON', url: null }, { title: 'METS', url: null }] },
+            ],
+            formats: null
         }
     ]);
 
@@ -56,8 +64,8 @@ const LastReports = (props: LastReportsProps) => {
         <>
             <Paper className={mainClasses.paper}>
                 <Typography component='span' style={{ display: 'flex' }}>
-                    <Box className={classes.box} fontSize='h6.fontSize' fontWeight='fontWeightBold'>
-                        <img src={RatingsIcon} style={{ marginRight: '20px', width: '40px' }} />
+                    <Box className={mainClasses.boxTitle} fontSize='h6.fontSize' fontWeight='fontWeightBold'>
+                        <img src={RatingsIcon} className={mainClasses.titleIcon} />
                         Last reports
                     </Box>
                     <Button style={{ marginLeft: 'auto', fontWeight: 600, textTransform: 'none' }} onClick={() => { props.setActiveItem('reports'); history.push('/reports') }}>More <ArrowForwardIcon style={{ marginLeft: '3px', fontSize: '20px' }} /></Button>
@@ -75,34 +83,36 @@ const LastReports = (props: LastReportsProps) => {
                             </TableHead>
                             <TableBody>
                                 {reportParents.map((reportParent, index) => {
-                                    const opacity = index < reportParents.length - 2 ? { opacity: 1 }
-                                        : index === reportParents.length - 2 ? { opacity: 0.6 }
-                                            : { opacity: 0.3 };
-                                    const date = format(reportParent.reports[0].date, 'dd/MM/yyyy');
-                                    const directory = reportParent.reports[0].filePath.replace(reportParent.reports[0].fileName, '');
-                                    const files = reportParent.reports.length;
-                                    let result = true;
-                                    reportParent.reports.forEach(report => {
-                                        if (!report.result)
-                                            result = false;
-                                    });
+                                    if (index < maxItems) {
+                                        const opacity = index < maxItems - 2 ? { opacity: 1 }
+                                            : index === maxItems - 2 ? { opacity: 0.6 }
+                                                : { opacity: 0.3 };
+                                        const date = format(reportParent.reports[0].date, 'dd/MM/yyyy');
+                                        const directory = reportParent.reports[0].filePath.replace(reportParent.reports[0].fileName, '');
+                                        const files = reportParent.reports.length;
+                                        let result = true;
+                                        reportParent.reports.forEach(report => {
+                                            if (!report.result)
+                                                result = false;
+                                        });
 
-                                    return (
-                                        <StyledTableRow1 key={index} style={opacity}>
-                                            <TableCell>
-                                                {date}
-                                            </TableCell>
-                                            <TableCell>
-                                                {files}
-                                            </TableCell>
-                                            <TableCell>
-                                                {directory}
-                                            </TableCell>
-                                            <TableCell>
-                                                {result ? <CheckIcon style={{ color: 'green' }} /> : <ClearIcon style={{ color: 'red' }} />}
-                                            </TableCell>
-                                        </StyledTableRow1>
-                                    );
+                                        return (
+                                            <StyledTableRow1 key={index} style={opacity}>
+                                                <TableCell>
+                                                    {date}
+                                                </TableCell>
+                                                <TableCell>
+                                                    {files}
+                                                </TableCell>
+                                                <TableCell>
+                                                    {directory}
+                                                </TableCell>
+                                                <TableCell>
+                                                    {result ? <CheckIcon style={{ color: 'green' }} /> : <ClearIcon style={{ color: 'red' }} />}
+                                                </TableCell>
+                                            </StyledTableRow1>
+                                        );
+                                    }
                                 })}
                             </TableBody>
                         </Table>
