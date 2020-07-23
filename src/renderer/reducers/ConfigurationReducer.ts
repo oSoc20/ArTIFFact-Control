@@ -179,6 +179,14 @@ const eraseConfigFromDisk = (config: Configuration) => {
 }
 
 
+/**
+ * The actual configuration reducer:
+ *  - ADD_CONFIG: add config to the current state and save it to disk
+ *  - REMOVE_CONFIG: remove config from current state and remove it from disk
+ *  - LOAD_CONFIGS: load the configurations from disk if they are not loaded yet
+ * @param state current configuration state
+ * @param action action to perform on the state
+ */
 export const configurationReducer: Reducer<ConfigurationState, ConfigurationAction> = (
     state = defaultState,
     action: ConfigurationAction
@@ -187,7 +195,6 @@ export const configurationReducer: Reducer<ConfigurationState, ConfigurationActi
         case ADD_CONFIG:
             const { config } = action;
             const content = configurationToXml(config);
-            console.log("SAVING TO DISK?", content);
             saveConfigToDisk(config, content);
             return {
                 ...state,

@@ -87,7 +87,7 @@ const mapStateToProps = (state: RootState) => ({
  * @param dispatch the dispatch function used by Redux
  */
 const mapDispatchToProps = (dispatch: Dispatch<ConfigurationAction>) => ({
-    addConfiguration: (config: Configuration) => dispatch(addConfiguration(config)),
+    addConfiguration: (config: Configuration) => dispatch(addConfiguration(config))
 });
 
 
