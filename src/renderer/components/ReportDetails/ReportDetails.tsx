@@ -67,7 +67,7 @@ const ReportDetails = (props: ReportsDetailsProps) => {
                     </Typography>
                     <Grid container style={{ marginTop: '10px' }}>
                         <Grid item xs={6}>
-                            <DoughnutChart labels={['Errors', 'passed', 'passed with warnings']} values={[errors, passed, warnings]} textValue={score + '%'} />
+                            <DoughnutChart labels={['Errors', 'passed', 'passed with warnings']} values={[errors, passed, warnings]} textValue={score.toFixed(0) + '%'} />
                         </Grid>
                         <Grid item xs={6} style={{ display: 'flex', alignItems: 'center' }}>
                             <Grid container spacing={1}>
