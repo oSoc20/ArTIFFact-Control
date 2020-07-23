@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, shell, webContents } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 
@@ -47,6 +47,16 @@ const createWindow = async () => {
     win!.maximize();
     win!.show();
   });
+
+  const handleRedirect = (event: any, url: string) => {
+    if(url !== win?.webContents.getURL()) {
+      event.preventDefault();
+      shell.openExternal(url);
+    }
+  }
+
+  win.webContents.on('will-navigate', handleRedirect);
+  win.webContents.on('new-window', handleRedirect);
 
   win.on('closed', () => {
     win = null;
