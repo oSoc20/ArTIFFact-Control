@@ -5,10 +5,10 @@ import { AppContainer } from 'react-hot-loader';
 import Application from './screens/Application';
 import store from './store';
 // Themes
-import {theme} from 'Theme/Main';
+import { DefaultTheme } from 'Theme/Default';
 // Style
 import 'Styles/app.css';
-import { ThemeProvider, createMuiTheme } from '@material-ui/core';
+import { ThemeProvider, CssBaseline } from '@material-ui/core';
 
 // Create main element
 const mainElement = document.createElement('div');
@@ -19,7 +19,7 @@ const render = (Component: () => JSX.Element) => {
     ReactDOM.render(
         <AppContainer>
             <Provider store={store}>
-                <ThemeProvider theme={theme}>
+                <ThemeProvider theme={DefaultTheme}>
                     <Component />
                 </ThemeProvider>
             </Provider>

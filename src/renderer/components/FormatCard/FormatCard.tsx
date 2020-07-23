@@ -6,7 +6,7 @@ import { format } from 'date-fns';
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         card: {
-            background: '#52BF7E',
+            background: theme.palette.grey[400],
             boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.2)',
             color: 'white',
             display: 'flex',
@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme: Theme) =>
 /* INTERFACE */
 interface FormatCardProps {
     format: Format,
-    color: string | null,
+    color?: string,
     width?: string,
     height?: string
 }
@@ -34,12 +34,12 @@ interface FormatCardProps {
 /* COMPONENT */
 const FormatCard = (props: FormatCardProps) => {
     const classes = useStyles();
-    const color = props.color !== null ? props.color : 'grey';
-    let width = props.width !== undefined ? props.width : '65px';
-    let height = props.height !== undefined ? props.height : '79px';
-    let size = width !== undefined ? width.replace('px', '') : '';
-    let fontSize= (Number.parseInt(size) / 4) + 'px'; 
-    let borderRadius = (Number.parseInt(size) / 5) + 'px'; 
+    const color = props.color !== null ? props.color : undefined;
+    const width = props.width !== undefined ? props.width : '65px';
+    const height = props.height !== undefined ? props.height : '79px';
+    const size = width !== undefined ? width.replace('px', '') : '';
+    const fontSize= (Number.parseInt(size) / 4) + 'px'; 
+    const borderRadius = (Number.parseInt(size) / 5) + 'px'; 
 
     return <>
         <div key={props.format.title} style={{ backgroundColor: color, borderRadius: borderRadius, width: width, height: height }} className={classes.card}>

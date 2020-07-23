@@ -1,7 +1,7 @@
 import * as React from 'react';
 // Themes
-import {useMainStyles} from 'Theme/Main';
-import {TableCell, StyledTableRow1, useTableStyles} from 'Theme/Table';
+import { useMainStyles } from 'Theme/Main';
+import { TableCell, StyledTableRow1, useTableStyles } from 'Theme/Table';
 // Material UI
 import { Typography, Paper, Box, makeStyles, Theme, createStyles, TableContainer, Table, TableHead, TableRow, TableBody, Button } from '@material-ui/core';
 // Icons
@@ -11,16 +11,6 @@ import { SidebarAction, setActiveItem } from 'Actions/SidebarAction';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import { connect } from 'react-redux';
 
-/* STYLE */
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        box: {
-            display: 'flex',
-            alignItems: 'center'
-        }
-    })
-);
-
 /* INTERFACES */
 interface LastPeriodicalChecksProps {
     setActiveItem: (item: string) => void
@@ -28,14 +18,15 @@ interface LastPeriodicalChecksProps {
 
 /* COMPONENT */
 const LastPeriodicalChecks = (props: LastPeriodicalChecksProps) => {
-    const classes = useStyles();
     const mainClasses = useMainStyles();
     const tableClasses = useTableStyles();
+    const maxItems = 5;
 
     const history = useHistory();
     var periodicalChecksData: PeriodicalCheck[] = [
         { files: 1, input: '/users/name/file/Tifffile.tiff', configuration: 'Default', periodicity: 'Daily, at 12:30' },
         { files: 12, input: '/users/name/file/', configuration: 'Default', periodicity: 'Weekly, at 12:30' },
+        { files: 7, input: '/users/name/file/', configuration: 'Default', periodicity: 'Weekly, at 12:30' },
         { files: 7, input: '/users/name/file/', configuration: 'Default', periodicity: 'Weekly, at 12:30' },
         { files: 3, input: '/users/name/file/', configuration: 'Default', periodicity: 'Weekly, at 12:30' }
     ];
@@ -45,11 +36,11 @@ const LastPeriodicalChecks = (props: LastPeriodicalChecksProps) => {
         <>
             <Paper className={mainClasses.paper}>
                 <Typography component='span' style={{ display: 'flex' }}>
-                    <Box className={classes.box} fontSize='h6.fontSize' fontWeight='fontWeightBold'>
-                        <img src={ClockCheckedIcon} style={{ marginRight: '20px', width: '40px' }} />
+                    <Box className={mainClasses.boxTitle} fontSize='h6.fontSize' fontWeight='fontWeightBold'>
+                        <img src={ClockCheckedIcon} className={mainClasses.titleIcon} />
                         Periodical Checks
                     </Box>
-                    <Button style={{ marginLeft: 'auto', fontWeight: 600, textTransform: 'none' }} onClick={() => {props.setActiveItem('periodicalChecks'); history.push('/periodicalChecks')}}>More <ArrowForwardIcon style={{ marginLeft: '3px', fontSize: '20px' }} /></Button>
+                    <Button style={{ marginLeft: 'auto', fontWeight: 600, textTransform: 'none' }} onClick={() => { props.setActiveItem('periodicalChecks'); history.push('/periodicalChecks') }}>More <ArrowForwardIcon style={{ marginLeft: '3px', fontSize: '20px' }} /></Button>
                 </Typography>
                 {periodicalChecks.length > 0 ?
                     <TableContainer style={{ marginTop: '20px' }}>
@@ -64,31 +55,33 @@ const LastPeriodicalChecks = (props: LastPeriodicalChecksProps) => {
                             </TableHead>
                             <TableBody>
                                 {periodicalChecks.map((row, index) => {
-                                    const opacity = index < periodicalChecks.length - 2 ? { opacity: 1 }
-                                        : index === periodicalChecks.length - 2 ? { opacity: 0.6 }
-                                            : { opacity: 0.3 };
+                                    if (index < maxItems) {
+                                        const opacity = index < maxItems - 2 ? { opacity: 1 }
+                                            : index === maxItems - 2 ? { opacity: 0.6 }
+                                                : { opacity: 0.3 };
 
-                                    return (
-                                        <StyledTableRow1 key={index} style={opacity}>
-                                            <TableCell>
-                                                {row.files}
-                                            </TableCell>
-                                            <TableCell>
-                                                {row.input}
-                                            </TableCell>
-                                            <TableCell>
-                                                {row.configuration}
-                                            </TableCell>
-                                            <TableCell>
-                                                {row.periodicity}
-                                            </TableCell>
-                                        </StyledTableRow1>
-                                    );
+                                        return (
+                                            <StyledTableRow1 key={index} style={opacity}>
+                                                <TableCell>
+                                                    {row.files}
+                                                </TableCell>
+                                                <TableCell>
+                                                    {row.input}
+                                                </TableCell>
+                                                <TableCell>
+                                                    {row.configuration}
+                                                </TableCell>
+                                                <TableCell>
+                                                    {row.periodicity}
+                                                </TableCell>
+                                            </StyledTableRow1>
+                                        );
+                                    }
                                 })}
                             </TableBody>
                         </Table>
                     </TableContainer>
-                    : <Typography style={{marginTop: '15px'}}>No data found.</Typography>
+                    : <Typography style={{ marginTop: '15px' }}>No data found.</Typography>
                 }
             </Paper>
         </>

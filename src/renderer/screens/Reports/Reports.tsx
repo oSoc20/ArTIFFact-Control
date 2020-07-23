@@ -7,34 +7,11 @@ import RatingsIcon from 'Assets/icons/icons8-ratings-500.svg';
 import ReportsTable from 'Components/ReportsTable/ReportsTable';
 import ReportDetails from 'Components/ReportDetails/ReportDetails';
 import LeftArrowIcon from 'Assets/icons/icons8-arrow-500.svg';
-
-/* STYLE */
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        title: {
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-
-            textAlign: "center",
-            marginTop: "1.5rem",
-            fontFamily: "DIN 2014",
-            fontStyle: "normal",
-            fontWeight: "normal",
-            fontSize: "36px",
-            lineHeight: "46px",
-            color: "#2A4B5B"
-        },
-        titleIcon: {
-            width: '50px',
-            marginRight: '20px'
-        }
-    })
-);
+import { useMainStyles } from 'Theme/Main';
 
 /* COMPONENT */
 const Reports = () => {
-    const classes = useStyles();
+    const mainClasses = useMainStyles();
     const [reportParent, setReportParent] = React.useState<ReportParent | null>(null);
     const [reportParents, setReportParents] = React.useState<Array<ReportParent> | null>([
         {
@@ -90,10 +67,10 @@ const Reports = () => {
 
     return (
         <>
-            <Typography component="span" gutterBottom className={classes.title}>
+            <Typography component="span" gutterBottom className={mainClasses.topTitle}>
                 <div>
-                    <Box fontSize='h4.fontSize' style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', }}>
-                        <img src={RatingsIcon} className={classes.titleIcon} />
+                    <Box fontSize='h4.fontSize' className={mainClasses.boxTitle} style={{justifyContent: 'center'}}>
+                        <img src={RatingsIcon} className={mainClasses.topTitleIcon} />
                         <span>
                             {reportParent === null ?
                                 "Reports"
