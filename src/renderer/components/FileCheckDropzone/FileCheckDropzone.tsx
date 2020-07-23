@@ -22,12 +22,13 @@ interface DropZoneProps {
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         dropzone: {
-            border: "3px dashed #282828",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            flexFlow: "column",
             boxSizing: "border-box",
-            borderRadius: "20px",
             margin: "auto",
-            height: 200,
-            alignContent: "center",
+            alignContent: "center"
         }
     })
 );
@@ -70,7 +71,7 @@ const FileDropZone = (props: DropZoneProps) => {
      */
     const onDrop = React.useCallback((acceptedFiles: Array<File>) => {
         props.updateFiles(acceptedFiles);
-        if(props.redirect !== undefined && props.redirect !== null) {
+        if (props.redirect !== undefined && props.redirect !== null) {
             props.setActiveItem(props.redirect);
             history.push('/' + props.redirect);
         }
@@ -81,59 +82,88 @@ const FileDropZone = (props: DropZoneProps) => {
 
     // TODO better view of where files can be dropped + other styling
     return (
-        <div {...getRootProps()} className={classes.dropzone} style={{
-            display: "flex", justifyContent: "center", alignItems: "center", flexFlow: "column"
-        }}>
-            <input {...getInputProps()} />
-            {isDragActive ?
-                <p style={
-                    {
-                        marginLeft: "auto",
-                        marginRight: "auto",
-                        textAlign: "center",
-                        fontFamily: '"DIN 2014"',
-                        fontStyle: "normal",
-                        fontWeight: 250,
-                        fontSize: "36px",
-                        lineHeight: "46px"
-                    }
-                }>Release files here</p> :
-                <p
-                    style={{
-                        fontFamily: '"DIN 2014"',
-                        fontStyle: "normal",
-                        fontWeight: 250,
-                        fontSize: "36px",
-                        lineHeight: "46px",
-                        textAlign: "center",
-                        color: "#282828"
-                    }}
-                >Drop .TIFF files here</p>
+        <div style={
+            {
+                position: "relative",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                flexFlow: "column",
+                boxSizing: "border-box",
+                margin: "auto",
+                height: 250,
+                alignContent: "center",
             }
-            <button  onClick={() => open}
-                 style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
+        }>
+            <svg width="100%" height="100%" preserveAspectRatio="none" style={{
+                position: "absolute",
+                top: "0px",
+                left: "0px",
+                height: "100%",
+                width: "100%",
+                overflow: "visible",
+                userSelect: "none",
+                pointerEvents: "none",
+            }}>
+                <rect x="0" y="0" width="100%" height="100%" rx="20" ry="20" style={{
+                    fill: "none",
+                    stroke: "black",
+                    strokeWidth: "1",
+                    strokeDasharray: "15, 15",
+                }} />
+            </svg>
+            <div {...getRootProps()} className={classes.dropzone}>
+                <input {...getInputProps()} />
+                {isDragActive ?
+                    <p style={
+                        {
+                            marginLeft: "auto",
+                            marginRight: "auto",
+                            textAlign: "center",
+                            fontFamily: '"DIN 2014"',
+                            fontStyle: "normal",
+                            fontWeight: 250,
+                            fontSize: "36px",
+                            lineHeight: "46px"
+                        }
+                    }>Release files here</p> :
+                    <p
+                        style={{
+                            fontFamily: '"DIN 2014"',
+                            fontStyle: "normal",
+                            fontWeight: 250,
+                            fontSize: "36px",
+                            lineHeight: "46px",
+                            textAlign: "center",
+                            color: "#282828"
+                        }}
+                    >Drop .TIFF files here</p>
+                }
+                <button onClick={() => open}
+                    style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
 
-                    background: "#FCFCFC",
-                    border: "2px solid #282828",
-                    boxSizing: "border-box",
-                    borderRadius: "12px",
-                    width: "220px",
-                    height: "50px",
-                    marginBottom: "2rem",
-    
-                    cursor: "pointer",
-    
-                    fontFamily: "DIN 2014",
-                    fontStyle: "normal",
-                    fontSize: "18px",
-                    lineHeight: "23px",
-                }}>
-                <PublishIcon style={{marginRight: '5px'}} /> <span style={{fontFamily: 'Open Sans'}}>Upload your files</span>
-            </button>
-        </div>
+                        background: "#FCFCFC",
+                        border: "2px solid #282828",
+                        boxSizing: "border-box",
+                        borderRadius: "12px",
+                        width: "220px",
+                        height: "50px",
+                        marginBottom: "2rem",
+
+                        cursor: "pointer",
+
+                        fontFamily: "DIN 2014",
+                        fontStyle: "normal",
+                        fontSize: "18px",
+                        lineHeight: "23px",
+                    }}>
+                    <PublishIcon style={{ marginRight: '5px' }} /> <span style={{ fontFamily: 'Open Sans' }}>Upload your files</span>
+                </button>
+            </div>
+        </div >
     );
 };
 
