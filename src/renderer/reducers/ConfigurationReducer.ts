@@ -5,19 +5,26 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { remote } from 'electron';
 
+/* Typescript interfaces and types */
 
 export interface ConfigurationState {
     hasLoaded: boolean;
     configs: Array<Configuration>;
 }
 
+// Type that defines the HTML operators
+type HtmlOp = '&lt;' | '&lte;' | '&gt;' | '&gte;';
+
+
+/* Functions and objects */
+
 const defaultState: ConfigurationState = {
     hasLoaded: false,
     configs: []
 };
 
-type HtmlOp = '&lt;' | '&lte;' | '&gt;' | '&gte;';
-
+// Object used to translate the operators to html operators
+// This is necessary in order to save '<' or '>' to XML files
 const OPERATOR_TRANSLATION = {
     '<': "&lt;",
     '=': "=",
@@ -30,6 +37,11 @@ const OPERATOR_TRANSLATION = {
     '&gte;': '>='
 }
 
+/**
+ * Converts an XML file to a Configuration object
+ * @param data XML string
+ * @param name name of the configuration
+ */
 const convertXmlToConfiguration = (data: string, name: string) => {
     let parser = new DOMParser();
     const xmlDoc = parser.parseFromString(data, 'text/xml');
@@ -41,9 +53,14 @@ const convertXmlToConfiguration = (data: string, name: string) => {
     const implementation: Array<string> = [];
     isoElements.forEach((iso) => {
         let value = iso.childNodes[0].nodeValue?.trim() as string;
+        
+        // TODO: this is necessary in order to translate old DPF config files to our Configuration objects
+        // I don't know the exact values of the DPF iso implementations. This probably also needs to become
+        // a translation object as I did with the operators.
         if (value === 'TIFF_Baseline_Core_6_0') {
             value = 'Baseline TIFF 6.0';
         }
+
         implementation.push(value);
     });
 
@@ -61,7 +78,7 @@ const convertXmlToConfiguration = (data: string, name: string) => {
     ruleElements.forEach((ruleElement) => {
         const policyName = ruleElement.childNodes[0].nodeValue;
         let policyOperator = ruleElement.children[1].nodeValue as HtmlOp | ValidOperator;
-        if(policyOperator) {
+        if (policyOperator) {
             policyOperator = OPERATOR_TRANSLATION[policyOperator] as ValidOperator;
         }
         const policyValue = ruleElement.children[2].nodeValue;
@@ -85,22 +102,31 @@ const convertXmlToConfiguration = (data: string, name: string) => {
     return configuration;
 }
 
-
+/**
+ * Read the configurations from disk (the files in config/ folder)
+ * Only reads .xml or .dpf files
+ */
 const readConfigsFromDisk: () => Array<Configuration> = () => {
     const { app } = remote;
     const dirPath = `${process.env.NODE_ENV === 'development' ? app.getAppPath() : app.getPath('exe')}/config/`;
-    console.log("Reading", dirPath);
     const filesPaths = fs.readdirSync(dirPath);
     const configs: Array<Configuration> = [];
-    console.log("All files in disk", filesPaths)
     filesPaths.forEach((file: string) => {
-        let data = fs.readFileSync(path.join(dirPath, file)).toString();
-        let config: Configuration = convertXmlToConfiguration(data, file);
-        configs.push(config);
+        if (file.endsWith('.xml') || file.endsWith('.dpf')) {
+            let data = fs.readFileSync(path.join(dirPath, file)).toString();
+            let config: Configuration = convertXmlToConfiguration(data, file);
+            configs.push(config);
+        }
     })
     return configs;
 }
 
+/**
+ * Long function to convert a configuration object to an XML string.
+ * Also applies formatting to the XML string.
+ * @param config configuration to convert
+ * @returns formatted XML string
+ */
 const configurationToXml = (config?: Configuration) => {
     let xmlHead = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>';
     let xmlDoc = document.implementation.createDocument("", "", null);
@@ -164,12 +190,21 @@ const configurationToXml = (config?: Configuration) => {
     return format(xmlHead + xml);
 }
 
+/**
+ * Save a configuration to disk under the config/ folder
+ * @param config configuration to save
+ * @param content contents of the file to save
+ */
 const saveConfigToDisk = (config: Configuration, content: string) => {
     const { app } = remote;
     let filePath = `${process.env.NODE_ENV === 'development' ? app.getAppPath() : app.getPath('exe')}/config/${config.name}.xml`;
     fs.writeFileSync(filePath, content);
 }
 
+/**
+ * Removes a configuration from disk
+ * @param config configuration to remove
+ */
 const eraseConfigFromDisk = (config: Configuration) => {
     const { app } = remote;
     let filePath = `${process.env.NODE_ENV === 'development' ? app.getAppPath() : app.getPath('exe')}/config/${config.name}.xml`;
