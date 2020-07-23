@@ -70,16 +70,16 @@ const LastPeriodicalChecks = (props: LastPeriodicalChecksProps) => {
 
                                     return (
                                         <StyledTableRow1 key={index} style={opacity}>
-                                            <TableCell component="th" scope="row">
+                                            <TableCell>
                                                 {row.files}
                                             </TableCell>
-                                            <TableCell component="th" scope="row">
+                                            <TableCell>
                                                 {row.input}
                                             </TableCell>
-                                            <TableCell component="th" scope="row">
+                                            <TableCell>
                                                 {row.configuration}
                                             </TableCell>
-                                            <TableCell component="th" scope="row">
+                                            <TableCell>
                                                 {row.periodicity}
                                             </TableCell>
                                         </StyledTableRow1>
