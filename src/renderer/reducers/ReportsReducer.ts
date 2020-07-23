@@ -43,7 +43,6 @@ const loadReportsFromDisk = () => {
             for(let i = 0; i < report.reports.length; i++) {
                 report.reports[i].date = new Date(Date.parse(report.reports[i].date as unknown as string));
             }
-            console.log("well well, how the turntables", report, file);
             reportParents.push(report);
         }
     });
@@ -63,7 +62,7 @@ const eraseConfigFromDisk = (reports: ReportParent) => {
         fs.unlinkSync(filePath);
     }
     else{
-        console.log("NOONOOOOO NOOOOOOO NOOOOO", filePath);
+        console.log(`File ${filePath} does not exist`);
     }
 }
 

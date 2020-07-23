@@ -29,7 +29,6 @@ const Reports = (props: ReportsProps) => {
     }, []);
 
     const removeReportParent = (reportParent: ReportParent) => {
-        console.log('PARRY THIS CASUAL', reportParent, props.reports)
         if (props.reports !== null && props.reports.length > 0) {
             props.removeReports(reportParent);
             setReportParent(null);
