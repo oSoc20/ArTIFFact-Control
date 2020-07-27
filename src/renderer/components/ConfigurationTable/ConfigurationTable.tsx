@@ -19,7 +19,6 @@ import EditIcon from 'Assets/icons/icons8-edit-property-500.svg';
 import TrashIcon from 'Assets/icons/icons8-delete-bin-500.svg';
 
 interface ConfigTableProps {
-    radioSelect?: false;
     configs: Array<Configuration>;
     removeConfig: (config: Configuration) => void;
     selectable?: false;

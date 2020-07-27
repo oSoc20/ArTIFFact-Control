@@ -60,9 +60,6 @@ const useStyles = makeStyles((theme: Theme) =>
             border: "none",
             fontFamily: "'DIN 2014'",
             fontSize: "18px",
-
-            //color: "#FCFCFC",
-
             color: theme.palette.grey[100],
             cursor: "pointer",
             textTransform: 'none',
