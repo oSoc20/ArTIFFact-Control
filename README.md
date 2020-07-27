@@ -66,8 +66,13 @@ In order to build the application yourself, follow the next steps:
 	> npm run start-dev
   
 ## Deployment information
-At the moment, a Windows version of the application is deployed automatically using Github Actions. The deployed version
+At the moment, a Windows version of the application is deployed using Github Actions. The deployed versions
 can be found [here](https://github.com/oSoc20/ArTIFFact-Control/releases).
+In order to create a new release, follow the next steps:
+1. Update the version number of the project in the `package.json` file (ex. 1.2.3)
+2. Commit that change (`git commit -am v1.2.3`)
+3. Tag your commit (`git tag v1.2.3`). Make sure the tag name's format is `v*.*.*`. The workflow will use this tag to detect when to create a release.
+4. Push your changes to github (`git push && git push --tags`)
 
 ## The Future
 ArTIFFact Control is not completed yet: there are still some parts that need to be added/tweaked. Below there are some items listed we think of right now
