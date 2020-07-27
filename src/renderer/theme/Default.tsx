@@ -13,7 +13,7 @@ export const DefaultTheme = createMuiTheme({
         primary: {
             main: '#2A4B5B',
             light: '#598AA3',
-            dark: '#2A4B5B'
+            dark: '#2a435b'
         },
         secondary: {
             main: '#F69947',

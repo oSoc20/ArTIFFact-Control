@@ -23,13 +23,7 @@ const LastPeriodicalChecks = (props: LastPeriodicalChecksProps) => {
     const maxItems = 5;
 
     const history = useHistory();
-    var periodicalChecksData: PeriodicalCheck[] = [
-        { files: 1, input: '/users/name/file/Tifffile.tiff', configuration: 'Default', periodicity: 'Daily, at 12:30' },
-        { files: 12, input: '/users/name/file/', configuration: 'Default', periodicity: 'Weekly, at 12:30' },
-        { files: 7, input: '/users/name/file/', configuration: 'Default', periodicity: 'Weekly, at 12:30' },
-        { files: 7, input: '/users/name/file/', configuration: 'Default', periodicity: 'Weekly, at 12:30' },
-        { files: 3, input: '/users/name/file/', configuration: 'Default', periodicity: 'Weekly, at 12:30' }
-    ];
+    var periodicalChecksData: Array<PeriodicalCheck> = [];
     const [periodicalChecks, setPeriodicalChecks] = React.useState(periodicalChecksData);
 
     return (
