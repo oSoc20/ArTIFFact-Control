@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { Box, Typography, Paper, Button } from '@material-ui/core';
-import ConfigurationTable, { tempConfigs } from 'Components/ConfigurationTable/ConfigurationTable'
+import ConfigurationTable from 'Components/ConfigurationTable/ConfigurationTable'
 import ImportIcon from 'Assets/icons/icons8-import-500.svg';
 import PlusIcon from 'Assets/icons/icons8-plus-math-500.svg';
 import BackArrow from 'Assets/icons/icons8-arrow-500.svg';
@@ -19,6 +19,7 @@ interface Stage2Props {
     goBackOneStep: () => void;
     progressStep: () => void;
     loadConfigs: () => void;
+    setConfiguration: (configuration: Configuration | null) => void;
     removeConfiguration: (config: Configuration) => void;
     configs: Array<Configuration>;
 }
@@ -111,8 +112,15 @@ const Stage2 = (props: Stage2Props) => {
     const mainClasses = useMainStyles();
 
     // React state object that holds the currently selected configuration
-    // Maybe put this in Redux store in order to use at next stage
     let [currentSelected, setCurrent] = React.useState<null | number>(null);
+
+    const setConfiguration = (index: number | null) => {
+        setCurrent(index);
+        if (index !== null)
+            props.setConfiguration(props.configs[index]);
+        else
+            props.setConfiguration(null);
+    }
 
     React.useEffect(() => {
         props.loadConfigs();

@@ -146,7 +146,7 @@ const ConfigurationTable = (props: ConfigTableProps | ConfigTablePropsWithSelect
                                         }`}
                                 >
                                     <Typography className={classes.typography}>
-                                        {config.implementation}
+                                        {config.profiles.join(', ')}
                                     </Typography>
                                 </TableCell>
                                 <TableCell
@@ -159,7 +159,7 @@ const ConfigurationTable = (props: ConfigTableProps | ConfigTablePropsWithSelect
                                             <Typography
                                                 key={index}
                                                 className={classes.typography}
-                                            >{`${policy.name} ${policy.operator} ${policy.value}`}</Typography>
+                                            >{`${policy.name} ${policy.type} ${policy.value}`}</Typography>
                                         );
                                     })}
                                 </TableCell>

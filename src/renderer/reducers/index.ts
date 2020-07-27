@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 
-import { SidebarState, sidebarReducer } from './sidebarReducer';
+import { SidebarState, sidebarReducer } from './SidebarReducer';
 import { FilecheckState, fileCheckReducer} from './FileCheckReducer';
 import { ConfigurationState, configurationReducer } from './ConfigurationReducer'
 import { ReportsState, reportsReducer } from './ReportsReducer';

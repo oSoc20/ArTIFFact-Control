@@ -211,7 +211,7 @@ const Configuration = (props: ConfigProps) => {
                         goBack={goBackOneStep}
                         config={{
                             name: policyName,
-                            implementation: selectedStandards.toString(),
+                            profiles: selectedStandards,
                             policies: policies,
                             reports: reportTypes,
                         }}

@@ -370,7 +370,7 @@ const AddPolicy = (props: AddPolicyProps) => {
                 onClick={() => {
                     let policy: Policy = {
                         name: policyName,
-                        operator: policyOperator,
+                        type: policyOperator,
                         value: policyValue,
                     };
                     props.addPolicy(policy);
