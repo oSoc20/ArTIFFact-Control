@@ -6,10 +6,9 @@ import { Dispatch } from 'redux'
 import axios, { AxiosResponse } from 'axios';
 import { resetStep, FilecheckAction, clearFiles } from 'Actions/FileCheckActions';
 import JhoveValidationResponse, { JhoveMessage } from 'Interfaces/JhoveResults';
-import CheckIcon from '@material-ui/icons/Check';
-import ClearIcon from '@material-ui/icons/Clear';
 import ReportDetails from 'Components/ReportDetails/ReportDetails';
 import { useMainStyles } from 'Theme/Main';
+import { addReports, ReportsAction } from 'Actions/ReportActions';
 
 
 const JHOVE_API_BASE = 'https://soc.openpreservation.org/';
@@ -37,6 +36,7 @@ interface Stage3Props {
     files: Array<File>;
     resetStep: () => void;
     clearFiles: () => void;
+    addReports: (reports: ReportParent) => void; 
 }
 
 
@@ -209,7 +209,7 @@ const Stage3 = (props: Stage3Props) => {
      * Render the response objects
      */
     const renderResults = () => {
-        let reports: ReportParent = {reports: [], formats: null};
+        let reports: ReportParent = { reports: [], formats: null };
         responseObjects.forEach((response: JhoveValidationResponse) => {
             let report: Report = {
                 date: new Date(),
@@ -224,6 +224,8 @@ const Stage3 = (props: Stage3Props) => {
             }
             reports.reports.push(report);
         });
+
+        props.addReports(reports);
 
         return <>
             <ReportDetails reportParent={reports} />
@@ -258,9 +260,10 @@ const mapStateToProps = (state: RootState) => ({
     files: state.filecheck.files
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<FilecheckAction>) => ({
+const mapDispatchToProps = (dispatch: Dispatch<FilecheckAction | ReportsAction>) => ({
     resetStep: () => dispatch(resetStep()),
-    clearFiles: () => dispatch(clearFiles())
+    clearFiles: () => dispatch(clearFiles()),
+    addReports: (report: ReportParent) => dispatch(addReports(report))
 });
 
 
