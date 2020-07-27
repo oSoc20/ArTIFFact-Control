@@ -1,8 +1,18 @@
 # ArTIFFact-Control
 
+<img src="" alt="ArTIFFact Control logo"/>
+
 > A desktop application in which you can validate TIFF image files with information about cultural heritage collections.
 
 ## Contents
+- [About](#about)
+- [Used Technologies](#used-technologies)
+	- [Installation Guide](#installation-guide)
+- [Deployment Information](#deployment-information)
+- [The Future](#the-future)
+- [The Team](#the-team)
+- [License](#license)
+- [References](#references)
 
 ## About
 Cultural heritage is something we like to preserve for future generations. 
@@ -23,9 +33,13 @@ It is a newer version of the deprecated DPF Manager that validates the internal 
 Apart from a complete design overhaul, ArTIFFact Control uses an adapted version of JHOVE for the back-end. 
 The application connects to the JHOVE REST API to validate the structure of the files containing cultural heritage objects.
 
+<p align="center">
+	<img src="https://meemoo.be/img/logo.svg" alt="meemoo"/> <img src="https://jhove.openpreservation.org/img/jhovelogo.png" alt="jhove"/>
+</p>
+
 ### Used Technologies
 ArTIFFact control uses the following technologies to achieve its goals:
-- Figma: Figma was the design tool our designers used to create the new interface for the application. A link to the complete design can be found **here**.
+- Figma: Figma was the design tool our designers used to create the new interface for the application. A link to the complete design can be found [here](https://www.figma.com/file/bJpNHJT4xGdcZAsjDO4car/OSOC-arTIFFact-control?node-id=286%3A2447).
 - Electron: used to create the application. The benefit of Electron is that it is easy to create cross platform applications. This was requested by Meemoo, the client.
 - Electron Builder: used to create an installer for the project and to build the project.
 - TypeScript: the language that the project is written in. This was also requested by the client.
@@ -53,21 +67,23 @@ In order to build the application yourself, follow the next steps:
   
 ## Deployment information
 At the moment, a Windows version of the application is deployed automatically using Github Actions. The deployed version
-can be found *here*.
+can be found [here](https://github.com/oSoc20/ArTIFFact-Control/releases).
 
 ## The Future
 ArTIFFact Control is not completed yet: there are still some parts that need to be added/tweaked. Below there are some items listed we think of right now
 ... TODO
 
 ## The Team
-- Bram De Coninck - Coach
-- Amber Perard - UI/UX Design
-- Tim Pensart - UI/UX Design
-- Christopher Denis - Frontend developer
-- Freek De Sagher - Frontend developer
+| Member | Role |
+| -------| -----|
+| Bram De Coninck | Coach |
+| Amber Perard | UI/UX Design |
+| Tim Pensart | UI/UX Design |
+| Christopher Denis | Frontend developer |
+| Freek De Sagher | Frontend developer |
 
 ## License
-This project is MIT licensed. Go to the LICENSE file for more information.
+This project is MIT licensed. Go to the [LICENSE](https://github.com/oSoc20/ArTIFFact-Control/blob/master/LICENSE) file for more information.
 
 ## References
  - JHOVE: https://jhove.openpreservation.org/
@@ -77,3 +93,7 @@ This project is MIT licensed. Go to the LICENSE file for more information.
  - Electron: https://www.electronjs.org/
  - React: https://reactjs.org/
  - TypeScript: https://www.typescriptlang.org/
+ 
+ <p align="right">
+	<img src="https://raw.githubusercontent.com/oSoc20/ArTIFFact-Control/develop/src/renderer/assets/logos/osoc_logo%201.svg" alt="osoc"/>	
+</p>
