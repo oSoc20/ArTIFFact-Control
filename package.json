@@ -69,6 +69,11 @@
         "filter": [
           "**/*"
         ]
+      },
+      {
+        "from": "./reports",
+        "to": "reports",
+        "filter": ["**/*"]
       }
     ]
   },

@@ -9,7 +9,7 @@ import JhoveValidationResponse, { JhoveMessage } from 'Interfaces/JhoveResults';
 import ReportDetails from 'Components/ReportDetails/ReportDetails';
 import { useMainStyles } from 'Theme/Main';
 import { Configuration, Policy } from 'Interfaces/Configuration';
-
+import { addReports, ReportsAction } from 'Actions/ReportActions';
 
 const JHOVE_API_BASE = 'https://soc.openpreservation.org/';
 
@@ -36,6 +36,7 @@ interface Stage3Props {
     configuration: Configuration;
     resetStep: () => void;
     clearFiles: () => void;
+    addReports: (reports: ReportParent) => void; 
 }
 
 
@@ -268,6 +269,8 @@ const Stage3 = (props: Stage3Props) => {
             reports.reports.push(report);
         });
 
+        props.addReports(reports);
+
         return <>
             <ReportDetails reportParent={reports} />
         </>
@@ -301,9 +304,10 @@ const mapStateToProps = (state: RootState) => ({
     files: state.filecheck.files
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<FilecheckAction>) => ({
+const mapDispatchToProps = (dispatch: Dispatch<FilecheckAction | ReportsAction>) => ({
     resetStep: () => dispatch(resetStep()),
-    clearFiles: () => dispatch(clearFiles())
+    clearFiles: () => dispatch(clearFiles()),
+    addReports: (report: ReportParent) => dispatch(addReports(report))
 });
 
 

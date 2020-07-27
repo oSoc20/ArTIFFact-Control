@@ -32,6 +32,10 @@ module.exports = {
                 {
                     from: path.resolve(__dirname, '../config'),
                     to: 'config/'
+                },
+                {
+                    from: path.resolve(__dirname, '../reports'),
+                    to: 'reports/'
                 }
             ]
         })

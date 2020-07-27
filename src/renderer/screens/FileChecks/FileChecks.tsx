@@ -50,14 +50,6 @@ const useStyles = makeStyles((theme: Theme) =>
             marginRight: "auto",
             marginTop: "1rem"
         },
-        paper: {
-            color: 'black',
-            overflow: "hidden",
-            background: '#FCFCFC',
-            boxShadow: '0px 0px 19px rgba(0, 0, 0, 0.05)',
-            borderRadius: '12px',
-            padding: "40px"
-        },
     })
 );
 
