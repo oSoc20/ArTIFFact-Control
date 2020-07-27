@@ -1,5 +1,6 @@
 # ArTIFFact-Control 
 ![logo](./src/renderer/assets/logos/logoWithLabelBlue.svg)
+
 ![CI](https://github.com/oSoc20/ArTIFFact-Control/workflows/CI/badge.svg)
 
 
