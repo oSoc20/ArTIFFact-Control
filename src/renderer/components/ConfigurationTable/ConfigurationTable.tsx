@@ -32,50 +32,6 @@ interface ConfigTablePropsWithSelection {
     setCurrentSelected: (index: number) => void;
 }
 
-// Temporary array of configs. In a later version, the configs will be stored somewhere on disk
-export const tempConfigs: Array<Configuration> = [
-    {
-        name: 'Default',
-        implementation: 'Baseline TIFF 6.0',
-        policies: [],
-        reports: ['JSON', 'PDF'],
-    },
-    {
-        name: 'Extended',
-        implementation: 'Baseline TIFF 6.0',
-        policies: [
-            { name: 'IccProfileClass', operator: '=', value: 'input' },
-            { name: 'ImageWidth', operator: '>', value: 500 },
-            { name: 'ImageHeight', operator: '<=', value: 300 },
-        ],
-        reports: ['JSON', 'PDF'],
-    },
-    {
-        name: 'Extended',
-        implementation: 'Baseline TIFF 6.0',
-        policies: [],
-        reports: ['JSON', 'PDF'],
-    },
-    {
-        name: 'Extended',
-        implementation: 'Baseline TIFF 6.0',
-        policies: [],
-        reports: ['JSON', 'PDF'],
-    },
-    {
-        name: 'Extended',
-        implementation: 'Baseline TIFF 6.0',
-        policies: [],
-        reports: ['JSON', 'PDF'],
-    },
-    {
-        name: 'Extended',
-        implementation: 'Baseline TIFF 6.0',
-        policies: [],
-        reports: ['JSON', 'PDF'],
-    },
-];
-
 const StyledTableRow = withStyles((theme: Theme) =>
     createStyles({
         root: {
@@ -190,7 +146,7 @@ const ConfigurationTable = (props: ConfigTableProps | ConfigTablePropsWithSelect
                                     }`}
                                 >
                                     <Typography className={classes.typography}>
-                                        {config.implementation}
+                                        {config.profiles.join(', ')}
                                     </Typography>
                                 </TableCell>
                                 <TableCell
@@ -203,7 +159,7 @@ const ConfigurationTable = (props: ConfigTableProps | ConfigTablePropsWithSelect
                                             <Typography
                                                 key={index}
                                                 className={classes.typography}
-                                            >{`${policy.name} ${policy.operator} ${policy.value}`}</Typography>
+                                            >{`${policy.name} ${policy.type} ${policy.value}`}</Typography>
                                         );
                                     })}
                                 </TableCell>

@@ -10,8 +10,6 @@ import {
 } from '@material-ui/core';
 import { Configuration, Policy, ReportTypes } from 'Interfaces/Configuration';
 import LeftArrowIcon from 'Assets/icons/icons8-arrow-500.svg';
-import { useMainStyles } from 'Theme/Main';
-import { useTableStyles } from 'Theme/Table';
 import { RootState } from 'Reducers';
 import { ConfigurationAction, addConfiguration } from 'Actions/ConfigurationActions';
 import { Dispatch } from 'redux';
@@ -81,7 +79,7 @@ const Summary = (props: SummaryProps) => {
     const getPoliciesAsString = () => {
         let result: string = '';
         props.config.policies?.forEach((policy: Policy) => {
-            result += `${policy.name} ${policy.operator} ${policy.value} \n`;
+            result += `${policy.name} ${policy.type} ${policy.value} \n`;
         });
         return result;
     };
@@ -122,7 +120,7 @@ const Summary = (props: SummaryProps) => {
             <Divider className={classes.divider} />
             <Typography className={classes.headText}>
                 Implementation:{' '}
-                <span className={classes.result}>{props.config.implementation}</span>
+                <span className={classes.result}>{props.config.profiles}</span>
             </Typography>
             <Divider className={classes.divider} />
             <Typography className={classes.headText}>

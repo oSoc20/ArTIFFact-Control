@@ -6,17 +6,15 @@ import { Dispatch } from 'redux'
 import axios, { AxiosResponse } from 'axios';
 import { resetStep, FilecheckAction, clearFiles } from 'Actions/FileCheckActions';
 import JhoveValidationResponse, { JhoveMessage } from 'Interfaces/JhoveResults';
-import CheckIcon from '@material-ui/icons/Check';
-import ClearIcon from '@material-ui/icons/Clear';
 import ReportDetails from 'Components/ReportDetails/ReportDetails';
 import { useMainStyles } from 'Theme/Main';
+import { Configuration, Policy } from 'Interfaces/Configuration';
 
 
 const JHOVE_API_BASE = 'https://soc.openpreservation.org/';
 
 const INFO = 'info', ERROR = 'error', WARNING = 'warning';
 type MessageType = 'info' | 'warning' | 'error';
-
 
 /**
  * Combines JHOVE base with endpoint.
@@ -35,6 +33,7 @@ interface CheckProgressProps {
 
 interface Stage3Props {
     files: Array<File>;
+    configuration: Configuration;
     resetStep: () => void;
     clearFiles: () => void;
 }
@@ -138,11 +137,55 @@ const Stage3 = (props: Stage3Props) => {
             let formData = new FormData();
             formData.append('module', 'TIFF-opf');
             formData.append('file', files[currentFileIndex]);
+
+            // TIFF Validation
             axios.post(JHOVE_API('api/jhove/validate'), formData)
                 .then((res: AxiosResponse) => {
                     let data: JhoveValidationResponse = res.data;
                     setResponseObjects([...responseObjects, data]);
-                    setCurrentFileIndex(currentFileIndex + 1);
+
+                    // Conformance
+                    // props.configuration.profiles.forEach((profile: string) => {
+                    //     let value = '';
+                    //     switch (profile.toUpperCase()) {
+                    //         case 'TI/A DRAFT':
+                    //             value = 'A_0_1';
+                    //             break;
+                    //         case 'TIFF/IT-P1':
+                    //             value = 'IT_P1';
+                    //             break;
+                    //         case 'TIFF/IT-P2':
+                    //             value = 'IT_P2';
+                    //             break;
+                    //         case 'TIFF/IT':
+                    //             value = 'IT';
+                    //             break;
+                    //         case 'BASELINE TIFF 6.0':
+                    //             value = 'BASELINE_6_0';
+                    //             break;
+                    //         case 'EXTENDED TIFF 6.0':
+                    //             value = 'EXTENSIONS_6_0';
+                    //             break;
+                    //         case 'TIFF/EP':
+                    //             value = 'EP';
+                    //             break;
+                    //         default:
+                    //             break;
+                    //     }
+
+                    //     if(value.length > 0)
+                    //         formData.append('profiles', value);
+                    // });
+                    // props.configuration.policies.forEach((policy: Policy) => {
+                    //     formData.append('policies', JSON.stringify(policy));
+                    // });
+
+                    // axios.post(JHOVE_API('api/jhove/conformance'), formData)
+                    //     .then((res: AxiosResponse) => {
+                    //         let data: any = res.data;
+                            setResponseObjects([...responseObjects, data]);
+                            setCurrentFileIndex(currentFileIndex + 1);
+                    //     });
                 });
         }
         else {
@@ -209,7 +252,7 @@ const Stage3 = (props: Stage3Props) => {
      * Render the response objects
      */
     const renderResults = () => {
-        let reports: ReportParent = {reports: [], formats: null};
+        let reports: ReportParent = { reports: [], formats: null };
         responseObjects.forEach((response: JhoveValidationResponse) => {
             let report: Report = {
                 date: new Date(),

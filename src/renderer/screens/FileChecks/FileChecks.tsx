@@ -8,8 +8,9 @@ import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Stage1 from 'Components/FileUploadStages/PickFiles/Stage1'
 import Stage2 from 'Components/FileUploadStages/PickConfiguration/Stage2'
 import Stage3 from 'Components/FileUploadStages/ProcessFiles/Stage3'
-import { Grid, Typography, Box, Paper, Container } from '@material-ui/core';
+import { Grid, Typography, Box, Container } from '@material-ui/core';
 import CheckFileIcon from 'Assets/icons/icons8-check-file-500.svg';
+import { Configuration } from 'Interfaces/Configuration';
 
 /* Typescript interfaces */
 
@@ -70,19 +71,24 @@ const STEPS = ["Upload", "Settings", "Check"]
  */
 const FileChecks = (props: FilecheckerProps) => {
     const classes = useStyles();
+    const [configuration, setConfiguration] = React.useState<Configuration | null>(null);
 
     const renderStage = () => {
         switch (props.step) {
             case 0:
                 return <Stage1 progressStep={props.progressStep} />
             case 1:
-                return <Stage2 goBackOneStep={props.goBackOneStep} progressStep={props.progressStep} />
+                return <Stage2 goBackOneStep={props.goBackOneStep} progressStep={props.progressStep} setConfiguration={setConfiguration} />
             case 2:
-                return <Stage3 />
+                return <Stage3 configuration={configuration!} />
             default:
                 return <div>Other stage</div>
         }
     }
+
+    React.useEffect(() => {
+
+    }, [configuration]);
 
     return (
         <>

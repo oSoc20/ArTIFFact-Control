@@ -24,15 +24,7 @@ const LastConfigurations = (props: LastConfigurationsProps) => {
     const maxItems = 6;
 
     const history = useHistory();
-    var configurationsData: Configuration[] = [
-        { name: 'Default', implementation: 'Baseline TIFF 6.0' },
-        { name: 'Special', implementation: 'Extended TIFF 6.0' },
-        { name: 'Special', implementation: 'Extended TIFF 6.0' },
-        { name: 'Special', implementation: 'Extended TIFF 6.0' },
-        { name: 'Special', implementation: 'Extended TIFF 6.0' },
-        { name: 'Special', implementation: 'Extended TIFF 6.0' }
-    ];
-    const [configurations, setConfigurations] = React.useState(configurationsData);
+    const [configurations, setConfigurations] = React.useState<Array<Configuration>>([]);
 
     return (
         <>
@@ -50,7 +42,7 @@ const LastConfigurations = (props: LastConfigurationsProps) => {
                             <TableHead>
                                 <TableRow className={tableClasses.tableHeadRow}>
                                     <TableCell className={tableClasses.tableHeadCell}>Name</TableCell>
-                                    <TableCell className={tableClasses.tableHeadCell}>Implementation</TableCell>
+                                    <TableCell className={tableClasses.tableHeadCell}>Profile</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -66,7 +58,7 @@ const LastConfigurations = (props: LastConfigurationsProps) => {
                                                     {row.name}
                                                 </TableCell>
                                                 <TableCell>
-                                                    {row.implementation}
+                                                    {row.profiles.join(',')}
                                                 </TableCell>
                                             </StyledTableRow1>
                                         );

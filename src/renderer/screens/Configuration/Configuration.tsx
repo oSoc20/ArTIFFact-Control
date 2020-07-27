@@ -2,7 +2,7 @@ import * as React from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { Grid, Typography, Box, Paper, Button } from '@material-ui/core';
 import { Policy, ReportTypes } from 'Interfaces/Configuration';
-import ConfigurationTable, { tempConfigs } from 'Components/ConfigurationTable/ConfigurationTable';
+import ConfigurationTable from 'Components/ConfigurationTable/ConfigurationTable';
 import PlusIcon from 'Assets/icons/icons8-plus-math-500.svg';
 import ImportIcon from 'Assets/icons/icons8-import-500.svg';
 import ConfigurationFileIcon from 'Assets/icons/icons8-administrative-tools-100.svg';
@@ -211,7 +211,7 @@ const Configuration = (props: ConfigProps) => {
                         goBack={goBackOneStep}
                         config={{
                             name: policyName,
-                            implementation: selectedStandards.toString(),
+                            profiles: selectedStandards,
                             policies: policies,
                             reports: reportTypes,
                         }}
@@ -221,7 +221,7 @@ const Configuration = (props: ConfigProps) => {
             default:
                 return (
                         <div className={classes.tabel}>
-                            <ConfigurationTable configs={tempConfigs} removeConfig={props.removeConfiguration}/>
+                            <ConfigurationTable configs={props.configs} removeConfig={props.removeConfiguration}/>
                             <Grid container spacing={10}>
                                 <Grid item xs={12} lg={12}>
                                     <Box
