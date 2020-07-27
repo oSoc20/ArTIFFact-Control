@@ -12,11 +12,13 @@ import {
     Theme,
     createStyles,
     makeStyles,
+    Radio,
 } from '@material-ui/core';
 import EditIcon from 'Assets/icons/icons8-edit-property-500.svg';
 import TrashIcon from 'Assets/icons/icons8-delete-bin-500.svg';
 
 interface ConfigTableProps {
+    radioSelect?: false;
     configs: Array<Configuration>;
     removeConfig: (config: Configuration) => void;
     selectable?: false;
@@ -42,6 +44,7 @@ const StyledTableRow = withStyles((theme: Theme) =>
                 backgroundColor: '#2A4B5B',
             },
             '&:hover': {
+                cursor: 'pointer',
                 '&$selected': {
                     backgroundColor: '#2A4B5B',
                 },
@@ -73,7 +76,7 @@ const useStyles = makeStyles((theme: Theme) =>
             fontSize: '18px',
             lineHeight: '25px',
             fontFamily: 'Open Sans',
-            verticalAlign: 'top',
+            verticalAlign: 'middle',
             borderBottom: 'none',
         },
         typography: {
@@ -116,6 +119,7 @@ const ConfigurationTable = (props: ConfigTableProps | ConfigTablePropsWithSelect
             <Table stickyHeader size="small" aria-label="span">
                 <TableHead>
                     <TableRow className={classes.tableHeadRow}>
+                        <TableCell className={classes.tableHeadCell} aria-label={'radio buttons'}></TableCell>
                         <TableCell className={classes.tableHeadCell}>Name</TableCell>
                         <TableCell className={classes.tableHeadCell}>Implementation</TableCell>
                         <TableCell className={classes.tableHeadCell}>Policy checker</TableCell>
@@ -131,6 +135,10 @@ const ConfigurationTable = (props: ConfigTableProps | ConfigTablePropsWithSelect
                                 onClick={() => handleSelect(index)}
                                 selected={index === props.currentSelected}
                             >
+                                {props.selectable ?
+                                    <TableCell className={classes.tableContentCell}>
+                                        <Radio style={{ padding: '0' }} checked={index === props.currentSelected ? true : false} />
+                                    </TableCell> : null}
                                 <TableCell
                                     className={`${classes.tableContentCell} ${
                                         index === props.currentSelected ? classes.selected : ''
