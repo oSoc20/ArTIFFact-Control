@@ -78,7 +78,14 @@ In order to create a new release, follow the next steps:
 
 ## The Future
 ArTIFFact Control is not completed yet: there are still some parts that need to be added/tweaked. Below there are some items listed we think of right now
-... TODO
+- Single file report: display the single file report when clicking on one in the multiple file report. 
+	This single file report should contain all warnings and errors that are returned by JHOVE.
+- Periodical checks: the flow for creating periodical checks is already designed in the 
+	[Figma file](https://www.figma.com/file/bJpNHJT4xGdcZAsjDO4car/OSOC-arTIFFact-control?node-id=286%3A2447), but it is not yet implemented
+	in the application.
+- Create automatic deployment for both Linux and Mac.
+- Determine what needs to be on the `Help` page. For example FAQ, basic file checking flow explanation, tutorial...
+- ...
 
 ## The Team
 | Member | Role |
@@ -101,6 +108,6 @@ This project is MIT licensed. Go to the [LICENSE](https://github.com/oSoc20/ArTI
  - React: https://reactjs.org/
  - TypeScript: https://www.typescriptlang.org/
  
- <p align="right">
-	<img src="https://raw.githubusercontent.com/oSoc20/ArTIFFact-Control/develop/src/renderer/assets/logos/osoc_logo%201.svg" alt="osoc"/>	
+<p align="right">
+    <img src="https://raw.githubusercontent.com/oSoc20/ArTIFFact-Control/develop/src/renderer/assets/logos/osoc_logo%201.svg" alt="osoc"/>	
 </p>
