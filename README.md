@@ -1,4 +1,6 @@
 # ArTIFFact-Control 
+> *- Curators are used to working with old objects, that does not mean their software has to be*
+
 ![logo](./src/renderer/assets/logos/logoWithLabelBlue.svg)
 
 ![CI](https://github.com/oSoc20/ArTIFFact-Control/workflows/CI/badge.svg)
@@ -41,19 +43,19 @@ The application connects to the JHOVE REST API to validate the structure of the 
 
 ### Used Technologies
 ArTIFFact control uses the following technologies to achieve its goals:
-- Figma: Figma was the design tool our designers used to create the new interface for the application. A link to the complete design can be found [here](https://www.figma.com/file/bJpNHJT4xGdcZAsjDO4car/OSOC-arTIFFact-control?node-id=286%3A2447).
-- Electron: used to create the application. The benefit of Electron is that it is easy to create cross platform applications. This was requested by Meemoo, the client.
-- Electron Builder: used to create an installer for the project and to build the project.
-- TypeScript: the language that the project is written in. This was also requested by the client.
-- React: React is the web framework that is used to render the application inside the Electron window. This application only uses functional components
+- **Figma**: Figma was the design tool our designers used to create the new interface for the application. A link to the complete design can be found [here](https://www.figma.com/file/bJpNHJT4xGdcZAsjDO4car/OSOC-arTIFFact-control?node-id=286%3A2447).
+- **Electron**: used to create the application. The benefit of Electron is that it is easy to create cross platform applications. This was requested by Meemoo, the client.
+- **Electron Builder**: used to create an installer for the project and to build the project.
+- **TypeScript**: the language that the project is written in. This was also requested by the client.
+- **React**: React is the web framework that is used to render the application inside the Electron window. This application only uses functional components
 	and hooks to manage the flow of the application.
-- Material UI: a framework for React that contains a variety of components that are easily stylable.
-- Webpack: used to bundle the code for better performance.
-- Redux: a Redux store is used to manage the global state of the application.
-- JHOVE REST API: as mentioned above, JHOVE is used as the back-end. The JHOVE REST API is an adapted web interface of the JHOVE application.
+- **Material UI**: a framework for React that contains a variety of components that are easily stylable.
+- **Webpack**: used to bundle the code for better performance.
+- **Redux**: a Redux store is used to manage the global state of the application.
+- **JHOVE REST API**: as mentioned above, JHOVE is used as the back-end. The JHOVE REST API is an adapted web interface of the JHOVE application.
 	JHOVE manages all validation specific actions. The front-end makes calls to the REST API.
-- Axios: a JavaScript library used to make the network requests to JHOVE.
-- Github Actions: Github actions is used for the continious deployment.
+- **Axios**: a JavaScript library used to make the network requests to JHOVE.
+- **Github Actions**: Github actions is used for the continious deployment.
 
 ## Installation Guide
 In order to build the application yourself, follow the next steps:
