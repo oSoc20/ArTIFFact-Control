@@ -13,6 +13,7 @@ import {
     createStyles,
     makeStyles,
     Radio,
+    Button,
 } from '@material-ui/core';
 import EditIcon from 'Assets/icons/icons8-edit-property-500.svg';
 import TrashIcon from 'Assets/icons/icons8-delete-bin-500.svg';
@@ -179,11 +180,12 @@ const ConfigurationTable = (props: ConfigTableProps | ConfigTablePropsWithSelect
                                     {config.reports && getReports(config.reports)}
                                 </TableCell>
                                 <TableCell
+                                    style={{display: 'flex'}}
                                     className={`${classes.tableContentCell} ${
                                         index === props.currentSelected ? classes.selected : ''
                                         }`}
                                 >
-                                    <button
+                                    <Button
                                         style={{
                                             border: 'none',
                                             background: 'transparent',
@@ -194,8 +196,8 @@ const ConfigurationTable = (props: ConfigTableProps | ConfigTablePropsWithSelect
                                             src={EditIcon}
                                             style={{ height: '25px', width: '25px', filter: index === props.currentSelected ? 'grayscale(1) invert(1) contrast(500%)' : '' }}
                                         />
-                                    </button>
-                                    <button
+                                    </Button>
+                                    <Button
                                         onClick={() => props.removeConfig(config)}
                                         style={{
                                             border: 'none',
@@ -213,7 +215,7 @@ const ConfigurationTable = (props: ConfigTableProps | ConfigTablePropsWithSelect
                                                 filter: index === props.currentSelected ? 'grayscale(1) invert(1) contrast(500%)' : ''
                                             }}
                                         />
-                                    </button>
+                                    </Button>
                                 </TableCell>
                             </StyledTableRow>
                         );

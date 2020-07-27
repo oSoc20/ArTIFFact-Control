@@ -56,12 +56,12 @@ const ReportDetails = (props: ReportsDetailsProps) => {
     props.reportParent.reports.forEach(report => {
         if (!report.result)
             result = false;
-        if (report.errors !== undefined)
-            errors += report.errors;
-        if (report.passed !== undefined)
-            passed += report.passed;
-        if (report.warnings !== undefined)
-            warnings += report.warnings;
+        if (report.errors !== undefined && report.errors > 0)
+            errors++;
+        if (report.passed !== undefined && report.passed > 0)
+            passed++;
+        if (report.warnings !== undefined && report.warnings > 0)
+            warnings++;
     });
     score = passed / (errors + passed + warnings) * 100;
 
@@ -128,7 +128,7 @@ const ReportDetails = (props: ReportsDetailsProps) => {
                                     <Typography className={classes.label}>Score</Typography>
                                 </Grid>
                                 <Grid item xs={9}>
-                                    <Typography style={{ fontSize: '16px' }}>{score}%</Typography>
+                                    <Typography style={{ fontSize: '16px' }}>{score.toFixed(0)}%</Typography>
                                 </Grid>
                             </Grid>
                         </Grid>
@@ -142,22 +142,24 @@ const ReportDetails = (props: ReportsDetailsProps) => {
                     </Grid>
                 </Paper>
             </Grid>
-            {props.reportParent.formats !== undefined && props.reportParent.formats !== null && props.reportParent.formats.length > 0 ?
-                <Grid item xs={12}>
-                    <Paper className={mainClasses.paper}>
-                        <Typography component='span'>
-                            <Box fontSize='h6.fontSize' fontWeight='fontWeightBold'>
-                                Download the report
+            <Grid item xs={12}>
+                <Paper className={mainClasses.paper}>
+                    <Typography component='span'>
+                        <Box fontSize='h6.fontSize' fontWeight='fontWeightBold'>
+                            Download the report
                             </Box>
-                        </Typography>
-                        <div style={{ display: 'flex', alignItems: 'flex-end', marginTop: '5px' }}>
-                            <FormatCardList formats={props.reportParent.formats} />
-                            <Button style={{ fontSize: '16px', textTransform: 'none', marginLeft: 'auto', display: 'flex', marginBottom: 0 }}><img src={RatingsIcon} style={{ width: '20px', marginRight: '8px' }} /> Generate all exports formats</Button>
-                        </div>
-                    </Paper>
-                </Grid>
-                : null
-            }
+                    </Typography>
+                    <div style={{ display: 'flex', alignItems: 'flex-end', marginTop: '5px' }}>
+                        {props.reportParent.formats !== null && props.reportParent.formats.length > 0 ?
+                            <>
+                                <FormatCardList formats={props.reportParent.formats} />
+                                <Button style={{ fontSize: '16px', textTransform: 'none', marginLeft: 'auto', display: 'flex', marginBottom: 0 }}><img src={RatingsIcon} style={{ width: '20px', marginRight: '8px' }} /> Generate all exports formats</Button>
+                            </>
+                            : <Typography>No export format.</Typography>
+                        }
+                    </div>
+                </Paper>
+            </Grid>
             <Grid item xs={12}>
                 <Paper className={mainClasses.paper}>
                     <Typography component='span'>
@@ -173,12 +175,9 @@ const ReportDetails = (props: ReportsDetailsProps) => {
                                         <TableCell className={tableClasses.tableHeadCell}>Result</TableCell>
                                         <TableCell className={tableClasses.tableHeadCell}>Name</TableCell>
                                         <TableCell className={tableClasses.tableHeadCell}>Path</TableCell>
-                                        <TableCell className={tableClasses.tableHeadCell}>Error</TableCell>
-                                        <TableCell className={tableClasses.tableHeadCell}>Passed</TableCell>
-                                        {props.reportParent.formats !== undefined && props.reportParent.formats !== null && props.reportParent.formats.length > 0 ?
-                                            <TableCell className={tableClasses.tableHeadCell}>Formats</TableCell>
-                                            : null
-                                        }
+                                        <TableCell className={tableClasses.tableHeadCell}>Errors</TableCell>
+                                        <TableCell className={tableClasses.tableHeadCell}>Warnings</TableCell>
+                                        <TableCell className={tableClasses.tableHeadCell}>Formats</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -200,14 +199,14 @@ const ReportDetails = (props: ReportsDetailsProps) => {
                                                     {report.errors}
                                                 </TableCell>
                                                 <TableCell>
-                                                    {report.passed}
+                                                    {report.warnings}
                                                 </TableCell>
-                                                {report.formats !== undefined && report.formats !== null && report.formats.length > 0 ?
-                                                    <TableCell>
+                                                <TableCell>
+                                                    {props.reportParent.formats !== null && props.reportParent.formats.length > 0 ?
                                                         <FormatCardList formats={report.formats} listWidth='200px' cardsWidth='34px' cardsHeight='41px' />
-                                                    </TableCell>
-                                                    : null
-                                                }
+                                                        : "No export format."
+                                                    }
+                                                </TableCell>
                                             </StyledTableRow1>
                                         )
                                     })}

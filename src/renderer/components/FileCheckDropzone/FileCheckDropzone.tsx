@@ -3,7 +3,7 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
 import { FileData, setFiles } from 'Actions/FileCheckActions';
 import { useDropzone } from 'react-dropzone';
 import PublishIcon from '@material-ui/icons/Publish';
-import { Typography } from '@material-ui/core';
+import { Typography, Button } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import { RootState } from 'src/renderer/reducers';
 import { SidebarAction, setActiveItem } from 'Actions/SidebarAction';
@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme: Theme) =>
             fill: "none",
             stroke: "black",
             strokeWidth: "1",
-            strokeDasharray: "15, 15",
+            strokeDasharray: "15, 15"
         },
         dropzone: {
             display: "flex",
@@ -58,6 +58,13 @@ const useStyles = makeStyles((theme: Theme) =>
             alignContent: "center",
             width: "100%",
             height: "100%",
+            borderRadius: '16px',
+            "&:hover": {
+                cursor: 'pointer',
+            },
+            "&:focus": {
+                outline: 'none'
+            }
         },
         dropzoneText: {
             marginLeft: (props: DropZoneProps) => props.dashboardVersion ? "0" : "auto",
@@ -73,8 +80,8 @@ const useStyles = makeStyles((theme: Theme) =>
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            background: "#FCFCFC",
-            border: "2px solid #282828",
+            background: theme.palette.grey[100],
+            border: "2px solid " + theme.palette.grey[500],
             boxSizing: "border-box",
             borderRadius: "12px",
             width: "220px",
@@ -85,7 +92,8 @@ const useStyles = makeStyles((theme: Theme) =>
             fontStyle: "normal",
             fontSize: "18px",
             lineHeight: "23px",
-        },
+            textTransform: 'none'
+        }
     })
 );
 
@@ -149,9 +157,9 @@ const FileDropZone = (props: DropZoneProps) => {
                     <p className={classes.dropzoneText}>Drop .TIFF files here</p>
                 }
                 {props.dashboardVersion ? <Typography style={{ margin: "0 10%"}}>Or</Typography> : null}
-                <button className={classes.uploadButton} onClick={() => open}>
+                <Button className={classes.uploadButton} onClick={() => open}>
                     <PublishIcon style={{ marginRight: '5px' }} /> <span style={{ fontFamily: 'Open Sans' }}>Upload your files</span>
-                </button>
+                </Button>
             </div>
         </div >
     );

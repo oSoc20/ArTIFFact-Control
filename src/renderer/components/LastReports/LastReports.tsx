@@ -3,7 +3,7 @@ import * as React from 'react';
 import { useMainStyles } from 'Theme/Main';
 import { TableCell, StyledTableRow1, useTableStyles } from 'Theme/Table';
 // Material UI
-import { Typography, Paper, Box, createStyles, TableContainer, Table, TableHead, TableRow, TableBody, Button } from '@material-ui/core';
+import { Typography, Paper, Box, createStyles, TableContainer, Table, TableHead, TableRow, TableBody, Button, Tooltip } from '@material-ui/core';
 import { format } from 'date-fns';
 // Icons
 import CheckIcon from '@material-ui/icons/Check';
@@ -14,11 +14,13 @@ import { useHistory } from 'react-router-dom';
 import { SidebarAction, setActiveItem } from 'Actions/SidebarAction';
 import { connect } from 'react-redux';
 import { RootState } from 'Reducers';
+import { ReportsAction, loadReports, removeReports } from 'Actions/ReportActions';
 
 
 /* INTERFACES */
 interface LastReportsProps {
     setActiveItem: (item: string) => void;
+    loadReports: () => void;
     reports: Array<ReportParent>;
 }
 
@@ -29,7 +31,12 @@ const LastReports = (props: LastReportsProps) => {
     const maxItems = 5;
 
     const history = useHistory();
-   
+
+    // Only try to load the reports upon mounting
+    React.useEffect(() => {
+        props.loadReports();
+    }, []);
+
     return (
         <>
             <Paper className={mainClasses.paper}>
@@ -75,7 +82,9 @@ const LastReports = (props: LastReportsProps) => {
                                                     {files}
                                                 </TableCell>
                                                 <TableCell>
-                                                    {directory}
+                                                    <Tooltip title={directory} aria-label={directory} placement="bottom">
+                                                        <div style={{ maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis' }}>{directory}</div>
+                                                    </Tooltip>
                                                 </TableCell>
                                                 <TableCell>
                                                     {result ? <CheckIcon style={{ color: 'green' }} /> : <ClearIcon style={{ color: 'red' }} />}
@@ -95,19 +104,15 @@ const LastReports = (props: LastReportsProps) => {
 }
 
 /* REDUX STORE */
-
-/**
- * Function that maps all required state variables to props.
- * @param state Rootstate that has all reducers combined
- */
 const mapStateToProps = (state: RootState) => ({
     reports: state.reports.reports
 });
 
-
-const mapDispatchToProps = (dispatch: React.Dispatch<SidebarAction>) => ({
-    setActiveItem: (item: string) => dispatch(setActiveItem(item))
+const mapDispatchToProps = (dispatch: React.Dispatch<SidebarAction | ReportsAction>) => ({
+    setActiveItem: (item: string) => dispatch(setActiveItem(item)),
+    loadReports: () => dispatch(loadReports()),
+    removeReports: (reports: ReportParent) => dispatch(removeReports(reports))
 });
 
-// Connect to the Redux store
+
 export default connect(mapStateToProps, mapDispatchToProps)(LastReports);

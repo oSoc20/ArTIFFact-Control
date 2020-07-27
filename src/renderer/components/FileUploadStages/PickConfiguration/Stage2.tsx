@@ -30,7 +30,7 @@ interface Stage2Props {
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         selected: {
-            color: " #FCFCFC"
+            color: theme.palette.grey[200]
         },
         tableContainer: {
             maxHeight: 200
@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme: Theme) =>
             fontSize: 14,
         },
         confirmButton: {
-            backgroundColor: "#2A4B5B",
+            backgroundColor: theme.palette.primary.main,
             borderRadius: "12px",
             width: "127px",
             height: "40px",
@@ -60,13 +60,20 @@ const useStyles = makeStyles((theme: Theme) =>
             border: "none",
             fontFamily: "'DIN 2014'",
             fontSize: "18px",
-            color: "#FCFCFC",
+
+            //color: "#FCFCFC",
+
+            color: theme.palette.grey[100],
             cursor: "pointer",
+            textTransform: 'none',
+            "&:hover": {
+                backgroundColor: theme.palette.primary.dark,
+            },
             "&:disabled": {
                 width: "250px",
-                backgroundColor: "#CACACA",
+                backgroundColor: theme.palette.grey[300],
                 cursor: "no-drop"
-            },
+            }
         },
         backButton: {
             background: "none",
@@ -129,7 +136,7 @@ const Stage2 = (props: Stage2Props) => {
     return (
         <>
             <Paper className={mainClasses.paper}>
-                <button className={classes.backButton} onClick={() => props.goBackOneStep()}><img src={BackArrow} style={{ paddingBottom: "2px", marginRight: "3px" }} />Back</button>
+                <Button style={{ fontWeight: 600, textTransform: 'none', width: 'auto' }} onClick={() => props.goBackOneStep()}><img src={BackArrow} style={{ marginRight: '7px' }} /> Back</Button>
                 <Typography component="span" gutterBottom>
                     <Box fontSize='h6.fontSize' style={{ marginBottom: '40px', textAlign: "center" }}>
                         Step 2 - TIFF Configuration settings
@@ -161,9 +168,9 @@ const Stage2 = (props: Stage2Props) => {
                         />
                             new
                     </Button>
-                    <button disabled={currentSelected == null ? true : false} className={classes.confirmButton} onClick={() => props.progressStep()}>
+                    <Button disabled={currentSelected == null ? true : false} className={classes.confirmButton} onClick={() => props.progressStep()}>
                         {currentSelected == null ? <>No configuration selected</> : <>Check files</>}
-                    </button>
+                    </Button>
                 </Box>
             </Paper>
         </>

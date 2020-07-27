@@ -37,7 +37,11 @@ const useStyles = makeStyles((theme: Theme) =>
             marginLeft: "auto",
             marginRight: "1rem",
             cursor: "pointer",
-            fontFamily: "'Open Sans'"
+            fontFamily: "'Open Sans'",
+            textTransform: 'none',
+            "&:hover": {
+                background: theme.palette.primary.dark
+            }
         },
         newButton: {
             display: 'flex',
@@ -165,12 +169,12 @@ const Stage1 = (props: Stage1Props) => {
                                             <TableRow key={index}>
                                                 <TableCell className={classes.tableContentCell}>{file.path}</TableCell>
                                                 <TableCell className={classes.tableContentCell} >{formatBytes(file.size)}</TableCell>
-                                                <TableCell className={classes.tableContentCell}>
-                                                    <button style={{ background: "none", border: "none" }}
+                                                <TableCell className={classes.tableContentCell} align='center' >
+                                                    <Button
                                                         onClick={() => removeFile(index)}
                                                     >
                                                         <img src={TrashIcon} style={{ width: "22px" }} />
-                                                    </button>
+                                                    </Button>
                                                 </TableCell>
                                             </TableRow>
                                         );
@@ -197,9 +201,11 @@ const Stage1 = (props: Stage1Props) => {
                                 />
                                             new file or folder
                                         </Button>
-                            <button
+                            <Button
                                 className={classes.continueButton}
-                                onClick={() => props.progressStep()}>Continue</button>
+                                onClick={() => props.progressStep()}>
+                                Continue
+                            </Button>
                         </Box>
                     </>
                 }

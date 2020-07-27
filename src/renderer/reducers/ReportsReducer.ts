@@ -8,7 +8,6 @@ import { format } from 'date-fns';
 /* Typescript interfaces and types */
 
 export interface ReportsState {
-    hasLoaded: boolean;
     reports: Array<ReportParent>;
 }
 
@@ -16,7 +15,6 @@ export interface ReportsState {
 /* Functions and objects */
 
 const defaultState: ReportsState = {
-    hasLoaded: false,
     reports: []
 };
 
@@ -105,10 +103,8 @@ export const reportsReducer: Reducer<ReportsState, ReportsAction> = (
             return { ...state, reports: newReports }
         }
         case LOAD_REPORTS: {
-            let reports = [...state.reports];
-            if (!state.hasLoaded)
-                reports = loadReportsFromDisk();
-            return { ...state, reports, hasLoaded: true }
+            let reportsFromDisk = loadReportsFromDisk();
+            return { ...state, reports: reportsFromDisk }
         }
         default:
             return state;
