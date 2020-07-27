@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { Box, Typography, Paper } from '@material-ui/core';
-import ConfigurationTable, { tempConfigs } from 'Components/ConfigurationTable/ConfigurationTable'
+import ConfigurationTable from 'Components/ConfigurationTable/ConfigurationTable'
 import ImportIcon from 'Assets/icons/icons8-import-500.svg';
 import PlusIcon from 'Assets/icons/icons8-plus-math-500.svg';
 import BackArrow from 'Assets/icons/icons8-arrow-500.svg';
