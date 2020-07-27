@@ -3,7 +3,7 @@ import * as React from 'react';
 import { useMainStyles } from 'Theme/Main';
 import { TableCell, StyledTableRow1, useTableStyles } from 'Theme/Table';
 // Material UI
-import { Typography, Paper, Box, createStyles, TableContainer, Table, TableHead, TableRow, TableBody, Button } from '@material-ui/core';
+import { Typography, Paper, Box, createStyles, TableContainer, Table, TableHead, TableRow, TableBody, Button, Tooltip } from '@material-ui/core';
 import { format } from 'date-fns';
 // Icons
 import CheckIcon from '@material-ui/icons/Check';
@@ -36,7 +36,7 @@ const LastReports = (props: LastReportsProps) => {
     React.useEffect(() => {
         props.loadReports();
     }, []);
-   
+
     return (
         <>
             <Paper className={mainClasses.paper}>
@@ -82,7 +82,9 @@ const LastReports = (props: LastReportsProps) => {
                                                     {files}
                                                 </TableCell>
                                                 <TableCell>
-                                                    {directory}
+                                                    <Tooltip title={directory} aria-label={directory} placement="bottom">
+                                                        <div style={{ maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis' }}>{directory}</div>
+                                                    </Tooltip>
                                                 </TableCell>
                                                 <TableCell>
                                                     {result ? <CheckIcon style={{ color: 'green' }} /> : <ClearIcon style={{ color: 'red' }} />}
