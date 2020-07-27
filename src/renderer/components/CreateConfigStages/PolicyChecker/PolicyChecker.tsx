@@ -161,7 +161,7 @@ const PolicyChecker = (props: PolicyCheckerProps) => {
                                     return (
                                         <TableRow key={index}>
                                             <TableCell>{policy.name}</TableCell>
-                                            <TableCell>{policy.operator}</TableCell>
+                                            <TableCell>{policy.type}</TableCell>
                                             <TableCell>{policy.value}</TableCell>
                                             <TableCell>
                                                 <Button>

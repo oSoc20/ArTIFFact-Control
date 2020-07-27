@@ -19,6 +19,7 @@ interface Stage2Props {
     goBackOneStep: () => void;
     progressStep: () => void;
     loadConfigs: () => void;
+    setConfiguration: (configuration: Configuration | null) => void;
     removeConfiguration: (config: Configuration) => void;
     configs: Array<Configuration>;
 }
@@ -106,8 +107,15 @@ const Stage2 = (props: Stage2Props) => {
     const mainClasses = useMainStyles();
 
     // React state object that holds the currently selected configuration
-    // Maybe put this in Redux store in order to use at next stage
     let [currentSelected, setCurrent] = React.useState<null | number>(null);
+
+    const setConfiguration = (index: number | null) => {
+        setCurrent(index);
+        if (index !== null)
+            props.setConfiguration(props.configs[index]);
+        else
+            props.setConfiguration(null);
+    }
 
     React.useEffect(() => {
         props.loadConfigs();
@@ -120,19 +128,19 @@ const Stage2 = (props: Stage2Props) => {
                 <Typography component="span" gutterBottom>
                     <Box fontSize='h6.fontSize' style={{ marginBottom: '40px', textAlign: "center" }}>
                         Step 2 - TIFF Configuration settings
-                </Box>
-            </Typography>
-            <ConfigurationTable
-                configs={props.configs}
-                selectable
-                currentSelected={currentSelected}
-                setCurrentSelected={setCurrent}
-                removeConfig={props.removeConfiguration}
-            />
-            <Box display={"flex"} width={"100%"}>
-                <button className={classes.configControlButton}>
-                    <Typography style={{ fontSize: 15 }}>
-                        <img src={ImportIcon} style={{ width: "17px" }} />
+                    </Box>
+                </Typography>
+                <ConfigurationTable
+                    configs={props.configs}
+                    selectable
+                    currentSelected={currentSelected}
+                    setCurrentSelected={setConfiguration}
+                    removeConfig={props.removeConfiguration}
+                />
+                <Box display={"flex"} width={"100%"}>
+                    <button className={classes.configControlButton}>
+                        <Typography style={{ fontSize: 15 }}>
+                            <img src={ImportIcon} style={{ width: "17px" }} />
                         import
                     </Typography>
                     </button>
