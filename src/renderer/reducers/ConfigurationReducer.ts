@@ -8,7 +8,6 @@ import { remote } from 'electron';
 /* Typescript interfaces and types */
 
 export interface ConfigurationState {
-    hasLoaded: boolean;
     configs: Array<Configuration>;
 }
 
@@ -19,7 +18,6 @@ type HtmlOp = '&lt;' | '&lte;' | '&gt;' | '&gte;';
 /* Functions and objects */
 
 const defaultState: ConfigurationState = {
-    hasLoaded: false,
     configs: []
 };
 
@@ -239,10 +237,8 @@ export const configurationReducer: Reducer<ConfigurationState, ConfigurationActi
             }
             return { ...state, configs: newConfigs }
         case LOAD_CONFIGS:
-            let configs = [...state.configs];
-            if (!state.hasLoaded)
-                configs = readConfigsFromDisk();
-            return { ...state, configs, hasLoaded: true }
+            let configs = readConfigsFromDisk();
+            return { ...state, configs }
         default:
             return state;
     }

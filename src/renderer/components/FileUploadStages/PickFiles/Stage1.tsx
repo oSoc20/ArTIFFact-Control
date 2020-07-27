@@ -7,7 +7,7 @@ import { FilecheckAction, clearFiles, setFiles, FileData } from 'Actions/FileChe
 import FileDropZone, { formatBytes } from 'Components/FileCheckDropzone/FileCheckDropzone'
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import MuiTableCell from '@material-ui/core/TableCell';
-import { Box, TableContainer, TableHead, TableBody, TableRow, Table, withStyles, Typography, Paper } from '@material-ui/core';
+import { Box, TableContainer, TableHead, TableBody, TableRow, Table, withStyles, Typography, Paper, Button } from '@material-ui/core';
 import TrashIcon from 'Assets/icons/icons8-delete-bin-500.svg'
 import { useMainStyles } from 'Theme/Main';
 
@@ -30,17 +30,17 @@ const useStyles = makeStyles((theme: Theme) =>
             background: "none",
             cursor: "pointer",
             border: "none",
-            fontSize: "14px",
             lineHeight: "20px",
             fontWeight: 300,
             marginTop: "2rem",
             marginLeft: "0.5rem",
             fontFamily: "'DIN 2014'",
+            textTransform: 'none'
         },
         continueButton: {
-            color: "#FCFCFC",
+            color: theme.palette.grey[100],
             marginTop: "2rem",
-            background: "#2A4B5B",
+            background: theme.palette.primary.main,
             border: 'none',
             borderRadius: "12px",
             width: "125px",
@@ -48,7 +48,11 @@ const useStyles = makeStyles((theme: Theme) =>
             marginLeft: "auto",
             marginRight: "1rem",
             cursor: "pointer",
-            fontFamily: "'Open Sans'"
+            fontFamily: "'Open Sans'",
+            textTransform: 'none',
+            "&:hover": {
+                background: theme.palette.primary.dark
+            }
         },
         container: {
             background: "#eee"
@@ -163,12 +167,12 @@ const Stage1 = (props: Stage1Props) => {
                                             <TableRow key={index}>
                                                 <TableCell className={classes.tableContentCell}>{file.path}</TableCell>
                                                 <TableCell className={classes.tableContentCell} >{formatBytes(file.size)}</TableCell>
-                                                <TableCell className={classes.tableContentCell} >
-                                                    <button style={{ background: "none", border: "none" }}
+                                                <TableCell className={classes.tableContentCell} align='center' >
+                                                    <Button
                                                         onClick={() => removeFile(index)}
                                                     >
                                                         <img src={TrashIcon} style={{ width: "22px" }} />
-                                                    </button>
+                                                    </Button>
                                                 </TableCell>
                                             </TableRow>
                                         );
@@ -185,12 +189,16 @@ const Stage1 = (props: Stage1Props) => {
                                 accept={".tiff,.TIFF,.tif,.TIF,.zip,.gz,.tar.gz"}
                                 style={{ display: "none" }}
                             />
-                            <button
+                            <Button
                                 className={classes.addButton}
-                                onClick={() => fileInput.current?.click()}>+ new file or folder</button>
-                            <button
+                                onClick={() => fileInput.current?.click()}>
+                                + new file or folder
+                            </Button>
+                            <Button
                                 className={classes.continueButton}
-                                onClick={() => props.progressStep()}>Continue</button>
+                                onClick={() => props.progressStep()}>
+                                Continue
+                            </Button>
                         </Box>
                     </>
                 }

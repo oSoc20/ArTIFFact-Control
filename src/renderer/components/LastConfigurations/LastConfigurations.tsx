@@ -9,10 +9,12 @@ import { Configuration } from 'Interfaces/Configuration';
 import { SidebarAction, setActiveItem } from 'Actions/SidebarAction';
 import { connect } from 'react-redux';
 import { RootState } from 'Reducers'
+import { ConfigurationAction, loadConfigs } from 'Actions/ConfigurationActions';
 
 /* INTERFACES */
 interface LastConfigurationsProps {
     setActiveItem: (item: string) => void;
+    loadConfigs: () => void;
     configs: Array<Configuration>;
 }
 
@@ -21,8 +23,12 @@ const LastConfigurations = (props: LastConfigurationsProps) => {
     const mainClasses = useMainStyles();
     const tableClasses = useTableStyles();
     const maxItems = 6;
-  
+
     const history = useHistory();
+
+    React.useEffect(() => {
+        props.loadConfigs();
+    }, []);
 
     return (
         <>
@@ -78,19 +84,13 @@ const LastConfigurations = (props: LastConfigurationsProps) => {
 }
 
 /* REDUX STORE */
-
-/**
- * Function that maps all required state variables to props.
- * @param state Rootstate that has all reducers combined
- */
 const mapStateToProps = (state: RootState) => ({
     configs: state.configuration.configs
 });
 
-
-const mapDispatchToProps = (dispatch: React.Dispatch<SidebarAction>) => ({
-    setActiveItem: (item: string) => dispatch(setActiveItem(item))
+const mapDispatchToProps = (dispatch: React.Dispatch<SidebarAction | ConfigurationAction>) => ({
+    setActiveItem: (item: string) => dispatch(setActiveItem(item)),
+    loadConfigs: () => dispatch(loadConfigs())
 });
 
-// Connect to the Redux store
 export default connect(mapStateToProps, mapDispatchToProps)(LastConfigurations);
