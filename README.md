@@ -1,6 +1,7 @@
-# ArTIFFact-Control
-
+# ArTIFFact-Control 
 ![logo](./src/renderer/assets/logos/logoWithLabelBlue.svg)
+![CI](https://github.com/oSoc20/ArTIFFact-Control/workflows/CI/badge.svg)
+
 
 A desktop application in which you can validate TIFF image files with information about cultural heritage collections.
 
