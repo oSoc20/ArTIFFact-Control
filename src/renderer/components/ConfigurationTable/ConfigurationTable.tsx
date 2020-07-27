@@ -134,7 +134,7 @@ const ConfigurationTable = (props: ConfigTableProps | ConfigTablePropsWithSelect
                                 <TableCell
                                     className={`${classes.tableContentCell} ${
                                         index === props.currentSelected ? classes.selected : ''
-                                    }`}
+                                        }`}
                                 >
                                     <Typography className={classes.typography}>
                                         {config.name}
@@ -143,7 +143,7 @@ const ConfigurationTable = (props: ConfigTableProps | ConfigTablePropsWithSelect
                                 <TableCell
                                     className={`${classes.tableContentCell} ${
                                         index === props.currentSelected ? classes.selected : ''
-                                    }`}
+                                        }`}
                                 >
                                     <Typography className={classes.typography}>
                                         {config.implementation}
@@ -152,7 +152,7 @@ const ConfigurationTable = (props: ConfigTableProps | ConfigTablePropsWithSelect
                                 <TableCell
                                     className={`${classes.tableContentCell} ${
                                         index === props.currentSelected ? classes.selected : ''
-                                    }`}
+                                        }`}
                                 >
                                     {config.policies?.map((policy, index) => {
                                         return (
@@ -166,14 +166,14 @@ const ConfigurationTable = (props: ConfigTableProps | ConfigTablePropsWithSelect
                                 <TableCell
                                     className={`${classes.tableContentCell} ${
                                         index === props.currentSelected ? classes.selected : ''
-                                    }`}
+                                        }`}
                                 >
                                     {config.reports && getReports(config.reports)}
                                 </TableCell>
                                 <TableCell
                                     className={`${classes.tableContentCell} ${
                                         index === props.currentSelected ? classes.selected : ''
-                                    }`}
+                                        }`}
                                 >
                                     <button
                                         style={{
@@ -184,7 +184,7 @@ const ConfigurationTable = (props: ConfigTableProps | ConfigTablePropsWithSelect
                                     >
                                         <img
                                             src={EditIcon}
-                                            style={{ height: '25px', width: '25px' }}
+                                            style={{ height: '25px', width: '25px', filter: index === props.currentSelected ? 'grayscale(1) invert(1) contrast(500%)' : '' }}
                                         />
                                     </button>
                                     <button
@@ -202,6 +202,7 @@ const ConfigurationTable = (props: ConfigTableProps | ConfigTablePropsWithSelect
                                                 height: '25px',
                                                 width: '25px',
                                                 paddingBottom: '4px',
+                                                filter: index === props.currentSelected ? 'grayscale(1) invert(1) contrast(500%)' : ''
                                             }}
                                         />
                                     </button>

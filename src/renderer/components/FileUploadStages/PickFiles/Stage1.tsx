@@ -7,8 +7,9 @@ import { FilecheckAction, clearFiles, setFiles, FileData } from 'Actions/FileChe
 import FileDropZone, { formatBytes } from 'Components/FileCheckDropzone/FileCheckDropzone'
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import MuiTableCell from '@material-ui/core/TableCell';
-import { Box, TableContainer, TableHead, TableBody, TableRow, Table, withStyles, Typography, Paper } from '@material-ui/core';
+import { Box, TableContainer, TableHead, TableBody, TableRow, Table, withStyles, Typography, Paper, Button } from '@material-ui/core';
 import TrashIcon from 'Assets/icons/icons8-delete-bin-500.svg'
+import PlusIcon from 'Assets/icons/icons8-plus-math-500.svg';
 import { useMainStyles } from 'Theme/Main';
 
 
@@ -26,20 +27,8 @@ interface Stage1Props {
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        addButton: {
-            background: "none",
-            cursor: "pointer",
-            border: "none",
-            fontSize: "14px",
-            lineHeight: "20px",
-            fontWeight: 300,
-            marginTop: "2rem",
-            marginLeft: "0.5rem",
-            fontFamily: "'DIN 2014'",
-        },
         continueButton: {
             color: "#FCFCFC",
-            marginTop: "2rem",
             background: "#2A4B5B",
             border: 'none',
             borderRadius: "12px",
@@ -49,6 +38,19 @@ const useStyles = makeStyles((theme: Theme) =>
             marginRight: "1rem",
             cursor: "pointer",
             fontFamily: "'Open Sans'"
+        },
+        newButton: {
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            alignSelf: 'center',
+            border: 'none',
+            marginRight: '2rem',
+            backgroundColor: '#FCFCFC',
+            fontSize: '16px',
+            textTransform: 'none',
+            cursor: 'pointer',
+            height: 'fit-content',
         },
         container: {
             background: "#eee"
@@ -163,7 +165,7 @@ const Stage1 = (props: Stage1Props) => {
                                             <TableRow key={index}>
                                                 <TableCell className={classes.tableContentCell}>{file.path}</TableCell>
                                                 <TableCell className={classes.tableContentCell} >{formatBytes(file.size)}</TableCell>
-                                                <TableCell className={classes.tableContentCell} >
+                                                <TableCell className={classes.tableContentCell}>
                                                     <button style={{ background: "none", border: "none" }}
                                                         onClick={() => removeFile(index)}
                                                     >
@@ -176,7 +178,7 @@ const Stage1 = (props: Stage1Props) => {
                                 </TableBody>
                             </Table>
                         </TableContainer>
-                        <Box display={"flex"} width={"100%"} margin={"1rem 0rem 1rem"}>
+                        <Box display={"flex"} width={"100%"} marginTop={"3rem"}>
                             <input
                                 multiple
                                 onChange={() => handleFileAdding()}
@@ -185,9 +187,16 @@ const Stage1 = (props: Stage1Props) => {
                                 accept={".tiff,.TIFF,.tif,.TIF,.zip,.gz,.tar.gz"}
                                 style={{ display: "none" }}
                             />
-                            <button
-                                className={classes.addButton}
-                                onClick={() => fileInput.current?.click()}>+ new file or folder</button>
+                            <Button
+                                onClick={() => fileInput.current?.click()}
+                                className={classes.newButton}
+                            >
+                                <img
+                                    src={PlusIcon}
+                                    style={{ width: '22px', marginRight: '8px' }}
+                                />
+                                            new file or folder
+                                        </Button>
                             <button
                                 className={classes.continueButton}
                                 onClick={() => props.progressStep()}>Continue</button>

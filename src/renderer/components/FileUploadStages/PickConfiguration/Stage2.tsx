@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { Box, Typography, Paper } from '@material-ui/core';
+import { Box, Typography, Paper, Button } from '@material-ui/core';
 import ConfigurationTable, { tempConfigs } from 'Components/ConfigurationTable/ConfigurationTable'
 import ImportIcon from 'Assets/icons/icons8-import-500.svg';
 import PlusIcon from 'Assets/icons/icons8-plus-math-500.svg';
@@ -60,7 +60,6 @@ const useStyles = makeStyles((theme: Theme) =>
             fontFamily: "'DIN 2014'",
             fontSize: "18px",
             color: "#FCFCFC",
-            marginTop: "20px",
             cursor: "pointer",
             "&:disabled": {
                 width: "250px",
@@ -83,13 +82,19 @@ const useStyles = makeStyles((theme: Theme) =>
             boxSizing: "border-box",
             transform: "matrix(-1, 0, 0, 1, 0, 0)"
         },
-        configControlButton: {
-            marginRight: "2rem",
-            background: "none",
-            border: "none",
-            cursor: "pointer",
-            marginTop: "20px"
-        }
+        configButton: {
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            alignSelf: 'center',
+            border: 'none',
+            marginRight: '2rem',
+            backgroundColor: '#FCFCFC',
+            fontSize: '16px',
+            textTransform: 'none',
+            cursor: 'pointer',
+            height: 'fit-content',
+        },
     })
 );
 
@@ -121,27 +126,33 @@ const Stage2 = (props: Stage2Props) => {
                     <Box fontSize='h6.fontSize' style={{ marginBottom: '40px', textAlign: "center" }}>
                         Step 2 - TIFF Configuration settings
                 </Box>
-            </Typography>
-            <ConfigurationTable
-                configs={props.configs}
-                selectable
-                currentSelected={currentSelected}
-                setCurrentSelected={setCurrent}
-                removeConfig={props.removeConfiguration}
-            />
-            <Box display={"flex"} width={"100%"}>
-                <button className={classes.configControlButton}>
-                    <Typography style={{ fontSize: 15 }}>
-                        <img src={ImportIcon} style={{ width: "17px" }} />
-                        import
-                    </Typography>
-                    </button>
-                    <button className={classes.configControlButton}>
-                        <Typography style={{ fontSize: 15 }}>
-                            <img src={PlusIcon} style={{ width: "22px" }} />
-                         new
-                        </Typography>
-                    </button>
+                </Typography>
+                <ConfigurationTable
+                    configs={props.configs}
+                    selectable
+                    currentSelected={currentSelected}
+                    setCurrentSelected={setCurrent}
+                    removeConfig={props.removeConfiguration}
+                />
+                <Box display={"flex"} width={"100%"} marginTop={"30px"}>
+                    <Button
+                        className={classes.configButton}
+                    >
+                        <img
+                            src={ImportIcon}
+                            style={{ width: '17px', marginRight: '8px' }}
+                        />
+                            import
+                    </Button>
+                    <Button
+                        className={classes.configButton}
+                    >
+                        <img
+                            src={PlusIcon}
+                            style={{ width: '22px', marginRight: '8px' }}
+                        />
+                            new
+                    </Button>
                     <button disabled={currentSelected == null ? true : false} className={classes.confirmButton} onClick={() => props.progressStep()}>
                         {currentSelected == null ? <>No configuration selected</> : <>Check files</>}
                     </button>

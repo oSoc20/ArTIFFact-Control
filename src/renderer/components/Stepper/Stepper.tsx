@@ -72,8 +72,8 @@ const useIconStyle = makeStyles({
         zIndex: 1
     },
     circleCurrent: {
-        width: 15,
-        height: 15,
+        width: 12,
+        height: 12,
         border: "5px solid #F79947",
         borderRadius: '50%',
         backgroundColor: 'white',
