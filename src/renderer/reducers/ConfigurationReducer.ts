@@ -48,18 +48,18 @@ const convertXmlToConfiguration = (data: string, name: string) => {
     const configName = name.split('.')[0] as string;
 
     const isoElements = Array.from(xmlDoc.getElementsByTagName('iso'));
-    const implementation: Array<string> = [];
+    const profiles: Array<string> = [];
     isoElements.forEach((iso) => {
         let value = iso.childNodes[0].nodeValue?.trim() as string;
         
         // TODO: this is necessary in order to translate old DPF config files to our Configuration objects
-        // I don't know the exact values of the DPF iso implementations. This probably also needs to become
+        // I don't know the exact values of the DPF iso profiles. This probably also needs to become
         // a translation object as I did with the operators.
         if (value === 'TIFF_Baseline_Core_6_0') {
             value = 'Baseline TIFF 6.0';
         }
 
-        implementation.push(value);
+        profiles.push(value);
     });
 
     const formatElements = Array.from(xmlDoc.getElementsByTagName('format'));
@@ -74,16 +74,14 @@ const convertXmlToConfiguration = (data: string, name: string) => {
     const ruleElements = Array.from(xmlDoc.getElementsByTagName('rule'));
     const policies: Array<Policy> = [];
     ruleElements.forEach((ruleElement) => {
-        const policyName = ruleElement.childNodes[0].nodeValue;
-        let policyOperator = ruleElement.children[1].nodeValue as HtmlOp | ValidOperator;
-        if (policyOperator) {
-            policyOperator = OPERATOR_TRANSLATION[policyOperator] as ValidOperator;
-        }
-        const policyValue = ruleElement.children[2].nodeValue;
+        const policyName = ruleElement.children[0].textContent?.trim();
+        let policyOperator = ruleElement.children[1].textContent?.trim() as ValidOperator;
+        
+        const policyValue = ruleElement.children[2].textContent?.trim();
         if (policyName && policyOperator && policyValue) {
             const policy: Policy = {
                 name: policyName,
-                operator: policyOperator,
+                type: policyOperator,
                 value: policyValue
             }
             policies.push(policy);
@@ -91,9 +89,9 @@ const convertXmlToConfiguration = (data: string, name: string) => {
     });
 
     const configuration: Configuration = {
-        implementation: implementation.toString(),
+        profiles: profiles,
         name: configName,
-        policies,
+        policies: policies,
         reports: formats
     }
 
@@ -133,7 +131,7 @@ const configurationToXml = (config?: Configuration) => {
     versionElement.innerHTML = "3";
     let isosElement = xmlDoc.createElement("isos");
 
-    config?.implementation.split(',').forEach((impl: string) => {
+    config?.profiles.forEach((impl: string) => {
         let implElement = xmlDoc.createElement("iso");
         implElement.innerHTML = impl;
         isosElement.appendChild(implElement);
@@ -158,7 +156,7 @@ const configurationToXml = (config?: Configuration) => {
         let ruleValue = xmlDoc.createElement('value');
 
         ruleName.innerHTML = policy.name;
-        ruleOp.innerHTML = OPERATOR_TRANSLATION[policy.operator]
+        ruleOp.innerHTML = OPERATOR_TRANSLATION[policy.type]
         ruleValue.innerHTML = policy.value;
 
         ruleElement.appendChild(ruleName);
