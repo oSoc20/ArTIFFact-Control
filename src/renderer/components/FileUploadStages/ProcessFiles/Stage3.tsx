@@ -260,7 +260,7 @@ const Stage3 = (props: Stage3Props) => {
                 fileName: response.fileName,
                 errors: getMessageCount(response, ERROR),
                 passed: response.valid,
-                result: response.wellFormed === 1,
+                result: getMessageCount(response, ERROR) > 0 ? false : true,
                 score: 100,
                 warnings: getMessageCount(response, WARNING),
                 infos: getMessageCount(response, INFO),

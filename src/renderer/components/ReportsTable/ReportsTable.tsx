@@ -214,7 +214,7 @@ const ReportsTable = (props: ReportsTableProps) => {
                                                         {passed}
                                                     </TableCell>
                                                     <TableCell>
-                                                        {score}%
+                                                        {score.toFixed(0)}%
                                                 </TableCell>
                                                     <TableCell>
                                                         <Button onClick={(event) => { event.stopPropagation(); props.removeReportParent(reportParent) }}><img src={DeleteBinIcon} style={{ width: '24px' }} /></Button>
