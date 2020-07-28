@@ -26,7 +26,6 @@ module.exports = {
         },
         extensions: ['.tsx', '.ts', '.js', '.json']
     },
-    // devtool: 'source-map',
     plugins: [
         new CopyPlugin({
             patterns: [
