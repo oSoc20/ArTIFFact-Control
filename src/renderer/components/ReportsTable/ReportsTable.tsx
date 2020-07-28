@@ -27,7 +27,6 @@ import {
 } from '@material-ui/core';
 
 import CustomDatePicker from 'Components/CustomDatePicker/CustomDatePicker';
-// Icons
 import CheckIcon from '@material-ui/icons/Check';
 import ClearIcon from '@material-ui/icons/Clear';
 import CloseIcon from '@material-ui/icons/Close';

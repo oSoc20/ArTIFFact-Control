@@ -1,6 +1,4 @@
 import { Action, ActionCreator } from 'redux';
-import { Configuration } from 'Interfaces/Configuration';
-// import { ReportParent } from 'Interfaces/ReportParent';
 
 
 /* Action types */

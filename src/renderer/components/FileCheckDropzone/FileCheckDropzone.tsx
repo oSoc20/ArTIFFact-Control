@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
-import { FileData, setFiles } from 'Actions/FileCheckActions';
 import { useDropzone } from 'react-dropzone';
 import PublishIcon from '@material-ui/icons/Publish';
 import { Typography, Button } from '@material-ui/core';

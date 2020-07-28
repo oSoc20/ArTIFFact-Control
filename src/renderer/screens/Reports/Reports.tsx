@@ -1,7 +1,7 @@
 import * as React from 'react';
 // Material UI
-import { Typography, Grid, Box, Button } from '@material-ui/core';
-import { isBefore, setHours, setMinutes, setSeconds, setMilliseconds, format } from 'date-fns';
+import { Typography, Grid, Box } from '@material-ui/core';
+import { isBefore, setHours, setMinutes, setSeconds, setMilliseconds } from 'date-fns';
 // Icons
 import RatingsIcon from 'Assets/icons/icons8-ratings-500.svg';
 import ReportsTable from 'Components/ReportsTable/ReportsTable';

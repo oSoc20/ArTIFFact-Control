@@ -1,9 +1,9 @@
 import * as React from 'react';
 // Material UI
 import { Typography, Grid, Box, makeStyles, Theme, createStyles, Paper } from '@material-ui/core';
-import LastReports from '../../components/LastReports/LastReports';
-import LastConfigurations from '../../components/LastConfigurations/LastConfigurations';
-import LastPeriodicalChecks from '../../components/LastPeriodicalChecks/LastPeriodicalChecks';
+import LastReports from 'Components/LastReports/LastReports';
+import LastConfigurations from 'Components/LastConfigurations/LastConfigurations';
+import LastPeriodicalChecks from 'Components/LastPeriodicalChecks/LastPeriodicalChecks';
 import { useMainStyles } from 'Theme/Main';
 import FileDropZone from 'Components/FileCheckDropzone/FileCheckDropzone';
 import { RootState } from 'src/renderer/reducers';
