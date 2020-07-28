@@ -6,9 +6,8 @@ import { Dispatch } from 'redux'
 import axios, { AxiosResponse } from 'axios';
 import { resetStep, FilecheckAction, clearFiles } from 'Actions/FileCheckActions';
 import JhoveValidationResponse, { JhoveMessage } from 'Interfaces/JhoveResults';
-import ReportDetails from 'Components/ReportDetails/ReportDetails';
 import { useMainStyles } from 'Theme/Main';
-import { Configuration, Policy } from 'Interfaces/Configuration';
+import { Configuration } from 'Interfaces/Configuration';
 import { addReports, ReportsAction } from 'Actions/ReportActions';
 import { useHistory } from 'react-router-dom';
 

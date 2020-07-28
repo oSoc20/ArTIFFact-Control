@@ -6,10 +6,6 @@ import { format } from 'date-fns';
 import RatingsIcon from 'Assets/icons/icons8-ratings-500.svg';
 import ReportDetailsComponent from 'Components/ReportDetails/ReportDetails';
 import LeftArrowIcon from 'Assets/icons/icons8-arrow-500.svg';
-import { RootState } from 'src/renderer/reducers';
-import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
-import { ReportsAction } from 'Actions/ReportActions';
 import { useMainStyles } from 'Theme/Main';
 import { useHistory, useLocation, withRouter } from 'react-router-dom';
 

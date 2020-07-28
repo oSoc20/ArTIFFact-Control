@@ -1,7 +1,7 @@
 import { hot } from 'react-hot-loader/root';
 import * as React from 'react';
 // React router
-import { Route, Redirect, Switch, HashRouter, BrowserRouter } from 'react-router-dom'
+import { Route, Redirect, Switch, BrowserRouter } from 'react-router-dom'
 // Material UI
 import { makeStyles, createStyles, Theme, Container } from '@material-ui/core';
 // Components
