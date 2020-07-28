@@ -27,8 +27,9 @@ const defaultState: ReportsState = {
 const saveReportsToDisk = (reports: ReportParent) => {
     const content = JSON.stringify(reports, null, 4);
     const { app } = remote;
+    const delimiter = process.platform == 'win32'? '\\' : '/';
     let filePath = `${process.env.NODE_ENV === 'development' ? app.getAppPath() :
-        app.getPath('exe').substring(0, app.getPath('exe').lastIndexOf('\\') + 1)}\\reports`;
+        app.getPath('exe').substring(0, app.getPath('exe').lastIndexOf(delimiter) + 1)}${delimiter}reports`;
     const name = `report-${format(reports.reports[0].date, 'dd-MM-yyyy-hh-mm-ss')}`;
     fs.writeFileSync(`${filePath}/${name}.json`, content);
 }
@@ -38,8 +39,9 @@ const saveReportsToDisk = (reports: ReportParent) => {
  */
 const loadReportsFromDisk = () => {
     const { app } = remote;
+    const delimiter = process.platform == 'win32'? '\\' : '/';
     const dirPath = `${process.env.NODE_ENV === 'development' ? app.getAppPath() :
-        app.getPath('exe').substring(0, app.getPath('exe').lastIndexOf('\\') + 1)}\\reports\\`;
+        app.getPath('exe').substring(0, app.getPath('exe').lastIndexOf(delimiter) + 1)}${delimiter}reports${delimiter}`;
     const filePaths = fs.readdirSync(dirPath);
     const reportParents: Array<ReportParent> = [];
     filePaths.forEach((file: string) => {
@@ -63,8 +65,9 @@ const loadReportsFromDisk = () => {
 const eraseConfigFromDisk = (reports: ReportParent) => {
     const { app } = remote;
     const name = `report-${format(reports.reports[0].date, 'dd-MM-yyyy-hh-mm-ss')}`;
+    const delimiter = process.platform == 'win32'? '\\' : '/';
     let filePath = `${process.env.NODE_ENV === 'development' ? app.getAppPath() :
-        app.getPath('exe').substring(0, app.getPath('exe').lastIndexOf('\\') + 1)}\\reports\\${name}.json`;
+        app.getPath('exe').substring(0, app.getPath('exe').lastIndexOf(delimiter) + 1)}${delimiter}reports${delimiter}${name}.json`;
     if (fs.existsSync(filePath)) {
         fs.unlinkSync(filePath);
     }

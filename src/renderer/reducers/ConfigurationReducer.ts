@@ -99,8 +99,9 @@ const convertXmlToConfiguration = (data: string, name: string) => {
  */
 const readConfigsFromDisk: () => Array<Configuration> = () => {
     const { app } = remote;
+    const delimiter = process.platform == 'win32'? '\\' : '/';
     const dirPath = `${process.env.NODE_ENV === 'development' ? app.getAppPath() :
-        app.getPath('exe').substring(0, app.getPath('exe').lastIndexOf('\\') + 1)}\\config\\`;
+        app.getPath('exe').substring(0, app.getPath('exe').lastIndexOf(delimiter) + 1)}${delimiter}config${delimiter}`;
     const filesPaths = fs.readdirSync(dirPath);
     const configs: Array<Configuration> = [];
     filesPaths.forEach((file: string) => {
@@ -188,10 +189,11 @@ const configurationToXml = (config?: Configuration) => {
  */
 const saveConfigToDisk = (config: Configuration, content: string) => {
     const { app } = remote;
+    const delimiter = process.platform == 'win32'? '\\' : '/';
     let filePath = `${process.env.NODE_ENV === 'development' ?
         app.getAppPath() :
-        app.getPath('exe').substring(0, app.getPath('exe').lastIndexOf('\\') + 1)}
-        \\config\\${config.name}.xml`;
+        app.getPath('exe').substring(0, app.getPath('exe').lastIndexOf(delimiter) + 1)}
+        ${delimiter}config${delimiter}${config.name}.xml`;
     fs.writeFileSync(filePath, content);
 }
 
@@ -201,8 +203,9 @@ const saveConfigToDisk = (config: Configuration, content: string) => {
  */
 const eraseConfigFromDisk = (config: Configuration) => {
     const { app } = remote;
+    const delimiter = process.platform == 'win32'? '\\' : '/';
     let filePath = `${process.env.NODE_ENV === 'development' ? app.getAppPath() :
-        app.getPath('exe').substring(0, app.getPath('exe').lastIndexOf('\\') + 1)}\\config\\${config.name}.xml`;
+        app.getPath('exe').substring(0, app.getPath('exe').lastIndexOf(delimiter) + 1)}${delimiter}config${delimiter}${config.name}.xml`;
     if (fs.existsSync(filePath)) {
         fs.unlinkSync(filePath);
     }
