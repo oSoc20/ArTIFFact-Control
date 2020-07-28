@@ -10,6 +10,7 @@ import ReportDetails from 'Components/ReportDetails/ReportDetails';
 import { useMainStyles } from 'Theme/Main';
 import { Configuration, Policy } from 'Interfaces/Configuration';
 import { addReports, ReportsAction } from 'Actions/ReportActions';
+import { useHistory } from 'react-router-dom';
 
 const JHOVE_API_BASE = 'https://soc.openpreservation.org/';
 
@@ -122,6 +123,7 @@ const Stage3 = (props: Stage3Props) => {
     const classes = useStyles();
     const mainClasses = useMainStyles();
     const { files } = props;
+    const history = useHistory();
 
     // React state variable and setter that keeps track of the current file index
     const [currentFileIndex, setCurrentFileIndex] = React.useState<number>(0);
@@ -270,10 +272,7 @@ const Stage3 = (props: Stage3Props) => {
         });
 
         props.addReports(reports);
-
-        return <>
-            <ReportDetails reportParent={reports} />
-        </>
+        history.push('/reportDetails', {reportParent: reports, backButton: false, removeButton: false})
     }
 
     return (

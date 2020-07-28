@@ -1,7 +1,7 @@
 import { hot } from 'react-hot-loader/root';
 import * as React from 'react';
 // React router
-import { Route, Redirect, Switch, HashRouter } from 'react-router-dom'
+import { Route, Redirect, Switch, HashRouter, BrowserRouter } from 'react-router-dom'
 // Material UI
 import { makeStyles, createStyles, Theme, Container } from '@material-ui/core';
 // Components
@@ -15,6 +15,7 @@ import Configuration from './Configuration/Configuration';
 import Help from './Help/Help';
 import About from './About/About';
 import { useMainStyles } from 'Theme/Main';
+import ReportDetails from './ReportDetails/ReportDetails';
 
 /* STYLE */
 const useStyles = makeStyles((theme: Theme) =>
@@ -34,7 +35,7 @@ function Application() {
     const mainClasses = useMainStyles();
 
     return (
-        <HashRouter>
+        <BrowserRouter>
             <div className={mainClasses.root}>
                 <Sidebar />
                 <Container className={classes.content}>
@@ -42,6 +43,7 @@ function Application() {
                         <Route path="/dashboard" exact component={Dashboard} />
                         <Route path="/fileChecks" exact component={FileChecks} />
                         <Route path="/reports" exact component={Reports} />
+                        <Route path="/reportDetails" exact component={ReportDetails} />
                         <Route path="/statistics" exact component={Statistics} />
                         <Route path="/periodicalChecks" exact component={PeriodicalChecks} />
                         <Route path="/configuration" exact component={Configuration} />
@@ -51,7 +53,7 @@ function Application() {
                     </Switch>
                 </Container>
             </div>
-        </HashRouter>
+        </BrowserRouter>
     );
 };
 
