@@ -37,6 +37,7 @@ import LeftArrowIcon from 'Assets/icons/left-arrow.svg';
 import RightArrowIcon from 'Assets/icons/right-arrow.svg';
 import { useEffect } from 'react';
 import { format } from 'date-fns';
+import { useHistory } from 'react-router-dom';
 
 /* STYLE */
 export const useStyles = makeStyles((theme: Theme) =>
@@ -74,7 +75,6 @@ interface ReportsTableProps {
     removeReportParent: (report: ReportParent) => void;
     removeReportParentsOlderThan: (date: Date | null) => void;
     clearReportParents: () => void;
-    setReportParent: (report: ReportParent) => void;
 }
 
 /* COMPONENT */
@@ -83,6 +83,7 @@ const ReportsTable = (props: ReportsTableProps) => {
     const mainClasses = useMainStyles();
     const popperClasses = usePopperStyles();
     const tableClasses = useTableStyles();
+    const history = useHistory();
 
     const [currentPage, setCurrentPage] = React.useState<number>(0);
     const [nbPages, setNbPages] = React.useState<number>(0);
@@ -182,17 +183,17 @@ const ReportsTable = (props: ReportsTableProps) => {
                                             reportParent.reports.forEach(report => {
                                                 if (!report.result)
                                                     result = false;
-                                                if (report.errors !== undefined)
-                                                    errors += report.errors;
-                                                if (report.passed !== undefined)
-                                                    passed += report.passed;
-                                                if (report.warnings !== undefined)
-                                                    warnings += report.warnings;
+                                                if (report.errors !== undefined && report.errors > 0)
+                                                    errors++;
+                                                if (report.passed !== undefined && report.passed > 0)
+                                                    passed++;
+                                                if (report.warnings !== undefined && report.warnings > 0)
+                                                    warnings++;
                                             });
                                             score = passed / (errors + passed + warnings) * 100
 
                                             return (
-                                                <StyledTableRow2 key={index} onClick={() => props.setReportParent(reportParent)}>
+                                                <StyledTableRow2 key={index} onClick={() => history.push('/reportDetails', {reportParent: reportParent, backButton: true, removeButton: true})}>
                                                     <TableCell>
                                                         {format(reportParent.reports[0].date, 'dd/MM/yyyy')}
                                                     </TableCell>
@@ -266,6 +267,23 @@ const ReportsTable = (props: ReportsTableProps) => {
                                                 </div>
                                             } />
                                         </RadioGroup>
+                                    </Grid>
+                                    <Grid
+                                        item
+                                        xs={12}
+                                        style={{ textAlign: 'right', marginTop: '10px' }}
+                                    >
+                                        <Button
+                                            variant="contained"
+                                            color="primary"
+                                            style={{
+                                                textTransform: 'none',
+                                                borderRadius: '5px',
+                                            }}
+                                            onClick={handleClear}
+                                        >
+                                            Clear
+                                            </Button>
                                     </Grid>
                                 </Grid>
                             </Paper>

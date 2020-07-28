@@ -15,6 +15,10 @@ import RatingsIcon from 'Assets/icons/icons8-ratings-500.svg';
 import DoughnutChart from 'Components/DoughnutChart/DoughnutChart';
 import { shell } from 'electron';
 import { format } from 'date-fns';
+import { RootState } from 'src/renderer/reducers';
+import { ReportsAction, removeReports } from 'Actions/ReportActions';
+import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 /* STYLE */
 const useStyles = makeStyles((theme: Theme) =>
@@ -39,8 +43,8 @@ const useStyles = makeStyles((theme: Theme) =>
 /* INTERFACE */
 interface ReportsDetailsProps {
     reportParent: ReportParent;
-    setReportParent?: (report: ReportParent | null) => void;
-    removeReportParent?: (report: ReportParent) => void;
+    removeButton?: Boolean;
+    removeReportParent: (report: ReportParent) => void;
 }
 
 /* COMPONENT */
@@ -48,6 +52,7 @@ const ReportDetails = (props: ReportsDetailsProps) => {
     const classes = useStyles();
     const mainClasses = useMainStyles();
     const tableClasses = useTableStyles();
+    const history = useHistory();
 
     const directory = props.reportParent !== null ? props.reportParent.reports[0].filePath.replace(props.reportParent.reports[0].fileName, '') : '';
     const date = format(props.reportParent.reports[0].date, "dd/MM/yyyy hh:mm:ss a");
@@ -64,6 +69,11 @@ const ReportDetails = (props: ReportsDetailsProps) => {
             warnings++;
     });
     score = passed / (errors + passed + warnings) * 100;
+
+    const removeReportParent = () => {
+        props.removeReportParent(props.reportParent);
+        history.back();
+    }
 
     return <>
         <Grid container spacing={3}>
@@ -134,8 +144,8 @@ const ReportDetails = (props: ReportsDetailsProps) => {
                         </Grid>
                         <Grid item xs={12} style={{ display: 'flex', marginTop: '15px', justifyContent: 'flex-end' }}>
                             <Button style={{ fontSize: '16px', textTransform: 'none' }} onClick={() => shell.openPath(directory)}><img src={FolderIcon} style={{ width: '20px', marginRight: '8px' }} /> See report in directory</Button>
-                            {props.removeReportParent !== undefined ?
-                                <Button style={{ fontSize: '16px', textTransform: 'none' }} onClick={() => props.removeReportParent!(props.reportParent)}><img src={DeleteBinIcon} style={{ width: '20px', marginRight: '8px' }} /> Delete report</Button>
+                            {props.removeButton !== undefined ?
+                                <Button style={{ fontSize: '16px', textTransform: 'none' }} onClick={() => removeReportParent()}><img src={DeleteBinIcon} style={{ width: '20px', marginRight: '8px' }} /> Delete report</Button>
                                 : null
                             }
                         </Grid>
@@ -221,4 +231,13 @@ const ReportDetails = (props: ReportsDetailsProps) => {
     </>
 }
 
-export default (ReportDetails);
+/* Redux functions */
+const mapStateToProps = (state: RootState) => ({
+    
+});
+
+const mapDispatchToProps = (dispatch: React.Dispatch<ReportsAction>) => ({
+    removeReportParent: (reports: ReportParent) => dispatch(removeReports(reports))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ReportDetails);

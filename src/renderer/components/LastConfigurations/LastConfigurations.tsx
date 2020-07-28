@@ -26,6 +26,11 @@ const LastConfigurations = (props: LastConfigurationsProps) => {
 
     const history = useHistory();
 
+    const goToConfig = () => {
+        props.setActiveItem('configuration');
+        history.push('/configuration')
+    }
+
     React.useEffect(() => {
         props.loadConfigs();
     }, []);
@@ -38,10 +43,7 @@ const LastConfigurations = (props: LastConfigurationsProps) => {
                         <img src={SettingsIcon} className={mainClasses.titleIcon} />
                         Configurations
                     </Box>
-                    <Button style={{ marginLeft: 'auto', fontWeight: 600, textTransform: 'none' }} onClick={() => {
-                        props.setActiveItem('configurations');
-                        history.push('/configuration')
-                    }}>
+                    <Button style={{ marginLeft: 'auto', fontWeight: 600, textTransform: 'none' }} onClick={goToConfig}>
                         More <ArrowForwardIcon style={{ marginLeft: '3px', fontSize: '20px' }} />
                     </Button>
                 </Typography>
@@ -62,7 +64,7 @@ const LastConfigurations = (props: LastConfigurationsProps) => {
                                                 : { opacity: 0.3 };
 
                                         return (
-                                            <StyledTableRow1 key={index} style={opacity}>
+                                            <StyledTableRow1 className={tableClasses.hoverRow} key={index} style={opacity} onClick={goToConfig}>
                                                 <TableCell>
                                                     {row.name}
                                                 </TableCell>
