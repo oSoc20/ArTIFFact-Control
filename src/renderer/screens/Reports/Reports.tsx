@@ -5,8 +5,6 @@ import { isBefore, setHours, setMinutes, setSeconds, setMilliseconds, format } f
 // Icons
 import RatingsIcon from 'Assets/icons/icons8-ratings-500.svg';
 import ReportsTable from 'Components/ReportsTable/ReportsTable';
-import ReportDetails from 'Components/ReportDetails/ReportDetails';
-import LeftArrowIcon from 'Assets/icons/icons8-arrow-500.svg';
 import { RootState } from 'src/renderer/reducers';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
@@ -22,7 +20,6 @@ interface ReportsProps {
 /* COMPONENT */
 const Reports = (props: ReportsProps) => {
     const mainClasses = useMainStyles();
-    const [reportParent, setReportParent] = React.useState<ReportParent | null>(null);
 
     // Only try to load the reports upon mounting
     React.useEffect(() => {
@@ -37,7 +34,6 @@ const Reports = (props: ReportsProps) => {
     const removeReportParent = (reportParent: ReportParent) => {
         if (props.reports !== null && props.reports.length > 0) {
             props.removeReports(reportParent);
-            setReportParent(null);
         }
     }
 
@@ -61,7 +57,7 @@ const Reports = (props: ReportsProps) => {
                 reportDate = setMinutes(reportDate, 0);
                 reportDate = setSeconds(reportDate, 0);
                 reportDate = setMilliseconds(reportDate, 0);
-                if(isBefore(reportDate, selectedDate)) {
+                if (isBefore(reportDate, selectedDate)) {
                     props.removeReports(reportParent);
                 }
             });
@@ -81,31 +77,18 @@ const Reports = (props: ReportsProps) => {
         <>
             <Typography component="span" gutterBottom className={mainClasses.topTitle}>
                 <div>
-                    <Box fontSize='h4.fontSize' className={mainClasses.boxTitle} style={{justifyContent: 'center'}}>
+                    <Box fontSize='h4.fontSize' className={mainClasses.boxTitle} style={{ justifyContent: 'center' }}>
                         <img src={RatingsIcon} className={mainClasses.topTitleIcon} />
                         <span>
-                            {reportParent === null ?
-                                "Reports"
-                                : "Report: " + format(reportParent.reports[0].date, "dd/MM/yyyy")
-                            }
+                            "Reports"
                         </span>
                     </Box>
-                    {reportParent === null ?
-                        <span style={{ fontSize: '16px' }}>Click on an item to see the full report</span>
-                        : null
-                    }
+                    <span style={{ fontSize: '16px' }}>Click on an item to see the full report</span>
                 </div>
             </Typography>
             <Grid container spacing={3}>
                 <Grid item xs={12} xl={10} style={{ margin: 'auto' }}>
-                    {reportParent === null ?
-                        <ReportsTable reportParents={props.reports} removeReportParent={removeReportParent} removeReportParentsOlderThan={removeReportsOlderThan} clearReportParents={clearReportParents} setReportParent={setReportParent} />
-                        :
-                        <>
-                            <Button style={{ fontWeight: 600, textTransform: 'none', width: 'auto' }} onClick={() => { setReportParent!(null) }}><img src={LeftArrowIcon} style={{ marginRight: '7px', fontSize: '20px' }} /> Back</Button>
-                            <ReportDetails reportParent={reportParent} setReportParent={setReportParent} removeReportParent={removeReportParent} />
-                        </>
-                    }
+                    <ReportsTable reportParents={props.reports} removeReportParent={removeReportParent} removeReportParentsOlderThan={removeReportsOlderThan} clearReportParents={clearReportParents} />
                 </Grid>
             </Grid>
         </>

@@ -74,7 +74,7 @@ const LastReports = (props: LastReportsProps) => {
                                         });
 
                                         return (
-                                            <StyledTableRow1 key={index} style={opacity}>
+                                            <StyledTableRow1 className={tableClasses.hoverRow} key={index} style={opacity} onClick={() => history.push('/reportDetails', {reportParent: reportParent, backButton: true, removeButton: true})}>
                                                 <TableCell>
                                                     {date}
                                                 </TableCell>
