@@ -2,20 +2,22 @@ import { Reducer } from 'redux';
 import * as fs from 'fs';
 import * as path from 'path';
 import { remote } from 'electron';
-import { ReportsAction, ADD_REPORTS, REMOVE_REPORTS, LOAD_REPORTS } from 'Actions/ReportActions';
+import { ReportsAction, SET_REPORT, ADD_REPORTS, REMOVE_REPORTS, LOAD_REPORTS } from 'Actions/ReportActions';
 import { format } from 'date-fns';
 
 /* Typescript interfaces and types */
 
 export interface ReportsState {
     reports: Array<ReportParent>;
+    report: ReportParent | null
 }
 
 
 /* Functions and objects */
 
 const defaultState: ReportsState = {
-    reports: []
+    reports: [],
+    report: null
 };
 
 /**
@@ -25,7 +27,8 @@ const defaultState: ReportsState = {
 const saveReportsToDisk = (reports: ReportParent) => {
     const content = JSON.stringify(reports, null, 4);
     const { app } = remote;
-    let filePath = `${process.env.NODE_ENV === 'development' ? app.getAppPath() : app.getPath('exe')}/reports`;
+    let filePath = `${process.env.NODE_ENV === 'development' ? app.getAppPath() :
+        app.getPath('exe').substring(0, app.getPath('exe').lastIndexOf('\\') + 1)}\\reports`;
     const name = `report-${format(reports.reports[0].date, 'dd-MM-yyyy-hh-mm-ss')}`;
     fs.writeFileSync(`${filePath}/${name}.json`, content);
 }
@@ -35,14 +38,15 @@ const saveReportsToDisk = (reports: ReportParent) => {
  */
 const loadReportsFromDisk = () => {
     const { app } = remote;
-    const dirPath = `${process.env.NODE_ENV === 'development' ? app.getAppPath() : app.getPath('exe')}/reports/`;
+    const dirPath = `${process.env.NODE_ENV === 'development' ? app.getAppPath() :
+        app.getPath('exe').substring(0, app.getPath('exe').lastIndexOf('\\') + 1)}\\reports\\`;
     const filePaths = fs.readdirSync(dirPath);
     const reportParents: Array<ReportParent> = [];
     filePaths.forEach((file: string) => {
         if (file.endsWith('.json')) {
             let data = fs.readFileSync(path.join(dirPath, file)).toString();
             let report: ReportParent = JSON.parse(data) as ReportParent;
-            for(let i = 0; i < report.reports.length; i++) {
+            for (let i = 0; i < report.reports.length; i++) {
                 report.reports[i].date = new Date(Date.parse(report.reports[i].date as unknown as string));
             }
             reportParents.push(report);
@@ -59,11 +63,12 @@ const loadReportsFromDisk = () => {
 const eraseConfigFromDisk = (reports: ReportParent) => {
     const { app } = remote;
     const name = `report-${format(reports.reports[0].date, 'dd-MM-yyyy-hh-mm-ss')}`;
-    let filePath = `${process.env.NODE_ENV === 'development' ? app.getAppPath() : app.getPath('exe')}/reports/${name}.json`;
+    let filePath = `${process.env.NODE_ENV === 'development' ? app.getAppPath() :
+        app.getPath('exe').substring(0, app.getPath('exe').lastIndexOf('\\') + 1)}\\reports\\${name}.json`;
     if (fs.existsSync(filePath)) {
         fs.unlinkSync(filePath);
     }
-    else{
+    else {
         console.log(`File ${filePath} does not exist`);
     }
 }
@@ -82,9 +87,15 @@ export const reportsReducer: Reducer<ReportsState, ReportsAction> = (
     action: ReportsAction
 ) => {
     switch (action.type) {
+        case SET_REPORT: {
+            return {
+                ...state,
+                report: action.report
+            }
+        }
         case ADD_REPORTS: {
             const { reports } = action;
-            if(!state.reports.includes(reports)) {
+            if (!state.reports.includes(reports)) {
                 saveReportsToDisk(reports);
                 return {
                     ...state,

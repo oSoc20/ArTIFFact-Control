@@ -101,7 +101,6 @@ const FileChecks = (props: FilecheckerProps) => {
                     </div>
                 </Grid>
             </Grid>
-            {/* ²<button onClick={() => props.resetStep()}>Reset progress (temp button)</button> */}
         </>
     )
 }

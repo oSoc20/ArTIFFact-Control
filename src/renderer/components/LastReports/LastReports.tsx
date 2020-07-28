@@ -3,7 +3,7 @@ import * as React from 'react';
 import { useMainStyles } from 'Theme/Main';
 import { TableCell, StyledTableRow1, useTableStyles } from 'Theme/Table';
 // Material UI
-import { Typography, Paper, Box, createStyles, TableContainer, Table, TableHead, TableRow, TableBody, Button, Tooltip } from '@material-ui/core';
+import { Typography, Paper, Box, TableContainer, Table, TableHead, TableRow, TableBody, Button, Tooltip } from '@material-ui/core';
 import { format } from 'date-fns';
 // Icons
 import CheckIcon from '@material-ui/icons/Check';
@@ -14,7 +14,7 @@ import { useHistory } from 'react-router-dom';
 import { SidebarAction, setActiveItem } from 'Actions/SidebarAction';
 import { connect } from 'react-redux';
 import { RootState } from 'Reducers';
-import { ReportsAction, loadReports, removeReports } from 'Actions/ReportActions';
+import { ReportsAction, loadReports, removeReports, setReport } from 'Actions/ReportActions';
 
 
 /* INTERFACES */
@@ -22,6 +22,7 @@ interface LastReportsProps {
     setActiveItem: (item: string) => void;
     loadReports: () => void;
     reports: Array<ReportParent>;
+    setReport: (report: ReportParent) => void;
 }
 
 /* COMPONENT */
@@ -74,7 +75,7 @@ const LastReports = (props: LastReportsProps) => {
                                         });
 
                                         return (
-                                            <StyledTableRow1 key={index} style={opacity}>
+                                            <StyledTableRow1 className={tableClasses.hoverRow} key={index} style={opacity} onClick={() => { props.setReport(reportParent); history.push({pathname: '/reportDetails', search: '?backButton=true&removeButton=true'}) }}>
                                                 <TableCell>
                                                     {date}
                                                 </TableCell>
@@ -111,7 +112,8 @@ const mapStateToProps = (state: RootState) => ({
 const mapDispatchToProps = (dispatch: React.Dispatch<SidebarAction | ReportsAction>) => ({
     setActiveItem: (item: string) => dispatch(setActiveItem(item)),
     loadReports: () => dispatch(loadReports()),
-    removeReports: (reports: ReportParent) => dispatch(removeReports(reports))
+    removeReports: (reports: ReportParent) => dispatch(removeReports(reports)),
+    setReport: (report: ReportParent) => dispatch(setReport(report))
 });
 
 

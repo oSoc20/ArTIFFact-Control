@@ -26,6 +26,12 @@ export const useTableStyles = makeStyles((theme: Theme) =>
         paginationArrowDisabled: {
             filter: 'grayscale(100%)',
             opacity: '25%'
+        },
+        hoverRow: {
+            "&:hover": {
+                backgroundColor: theme.palette.secondary.light,
+                cursor: 'pointer'
+            }
         }
     })
 );

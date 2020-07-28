@@ -22,6 +22,8 @@ import { useHistory } from 'react-router-dom';
 import { SidebarAction, setActiveItem } from 'Actions/SidebarAction';
 import { connect } from 'react-redux';
 import { RootState } from 'Reducers';
+import { ReportsAction, removeReports } from 'Actions/ReportActions';
+
 
 /* STYLE */
 const useStyles = makeStyles((theme: Theme) =>
@@ -50,6 +52,7 @@ interface ReportsDetailsProps {
     removeReportParent?: (report: ReportParent) => void;
     resetStep: () => void;
     setActiveItem: (item: string) => void;
+    removeButton?: Boolean;
 }
 
 /* COMPONENT */
@@ -74,6 +77,11 @@ const ReportDetails = (props: ReportsDetailsProps) => {
             warnings++;
     });
     score = passed / (errors + passed + warnings) * 100;
+
+    const removeReportParent = () => {
+        if (props.removeReportParent !== undefined) props.removeReportParent(props.reportParent);
+        history.go(-1);
+    }
 
     return <>
         <Grid container spacing={3}>
@@ -160,8 +168,8 @@ const ReportDetails = (props: ReportsDetailsProps) => {
                         </Grid>
                         <Grid item xs={12} style={{ display: 'flex', marginTop: '15px', justifyContent: 'flex-end' }}>
                             <Button style={{ fontSize: '16px', textTransform: 'none' }} onClick={() => shell.openPath(directory)}><img src={FolderIcon} style={{ width: '20px', marginRight: '8px' }} /> See report in directory</Button>
-                            {props.removeReportParent !== undefined ?
-                                <Button style={{ fontSize: '16px', textTransform: 'none' }} onClick={() => props.removeReportParent!(props.reportParent)}><img src={DeleteBinIcon} style={{ width: '20px', marginRight: '8px' }} /> Delete report</Button>
+                            {props.removeButton !== undefined ?
+                                <Button style={{ fontSize: '16px', textTransform: 'none' }} onClick={() => removeReportParent()}><img src={DeleteBinIcon} style={{ width: '20px', marginRight: '8px' }} /> Delete report</Button>
                                 : null
                             }
                         </Grid>
@@ -247,8 +255,14 @@ const ReportDetails = (props: ReportsDetailsProps) => {
     </>
 }
 
-const mapDispatchToProps = (dispatch: React.Dispatch<SidebarAction>) => ({
+/* Redux functions */
+const mapStateToProps = (state: RootState) => ({
+
+});
+
+const mapDispatchToProps = (dispatch: React.Dispatch<ReportsAction | SidebarAction>) => ({
+    removeReportParent: (reports: ReportParent) => dispatch(removeReports(reports)),
     setActiveItem: (item: string) => dispatch(setActiveItem(item))
 });
 
-export default connect(null, mapDispatchToProps)(ReportDetails);
+export default connect(mapStateToProps, mapDispatchToProps)(ReportDetails);

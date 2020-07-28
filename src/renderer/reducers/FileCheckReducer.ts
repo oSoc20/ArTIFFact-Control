@@ -1,5 +1,5 @@
 import { Reducer } from 'redux';
-import { STEP_PROGRESS, FilecheckAction, STEP_RESET, CLEAR_FILES, SET_FILES, FileData, STEP_GO_BACK } from 'Actions/FileCheckActions';
+import { STEP_PROGRESS, FilecheckAction, STEP_RESET, CLEAR_FILES, SET_FILES, STEP_GO_BACK } from 'Actions/FileCheckActions';
 
 
 /* Typescript interfaces */

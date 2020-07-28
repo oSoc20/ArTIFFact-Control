@@ -27,7 +27,6 @@ import {
 } from '@material-ui/core';
 
 import CustomDatePicker from 'Components/CustomDatePicker/CustomDatePicker';
-// Icons
 import CheckIcon from '@material-ui/icons/Check';
 import ClearIcon from '@material-ui/icons/Clear';
 import CloseIcon from '@material-ui/icons/Close';
@@ -37,6 +36,10 @@ import LeftArrowIcon from 'Assets/icons/left-arrow.svg';
 import RightArrowIcon from 'Assets/icons/right-arrow.svg';
 import { useEffect } from 'react';
 import { format } from 'date-fns';
+import { useHistory } from 'react-router-dom';
+import { RootState } from 'src/renderer/reducers';
+import { ReportsAction, setReport } from 'Actions/ReportActions';
+import { connect } from 'react-redux';
 
 /* STYLE */
 export const useStyles = makeStyles((theme: Theme) =>
@@ -74,7 +77,7 @@ interface ReportsTableProps {
     removeReportParent: (report: ReportParent) => void;
     removeReportParentsOlderThan: (date: Date | null) => void;
     clearReportParents: () => void;
-    setReportParent: (report: ReportParent) => void;
+    setReport: (report: ReportParent) => void;
 }
 
 /* COMPONENT */
@@ -83,6 +86,7 @@ const ReportsTable = (props: ReportsTableProps) => {
     const mainClasses = useMainStyles();
     const popperClasses = usePopperStyles();
     const tableClasses = useTableStyles();
+    const history = useHistory();
 
     const [currentPage, setCurrentPage] = React.useState<number>(1);
     const [nbPages, setNbPages] = React.useState<number>(0);
@@ -182,17 +186,17 @@ const ReportsTable = (props: ReportsTableProps) => {
                                             reportParent.reports.forEach(report => {
                                                 if (!report.result)
                                                     result = false;
-                                                if (report.errors !== undefined)
-                                                    errors += report.errors;
-                                                if (report.passed !== undefined)
-                                                    passed += report.passed;
-                                                if (report.warnings !== undefined)
-                                                    warnings += report.warnings;
+                                                if (report.errors !== undefined && report.errors > 0)
+                                                    errors++;
+                                                if (report.passed !== undefined && report.passed > 0)
+                                                    passed++;
+                                                if (report.warnings !== undefined && report.warnings > 0)
+                                                    warnings++;
                                             });
                                             score = passed / (errors + passed + warnings) * 100
 
                                             return (
-                                                <StyledTableRow2 key={index} onClick={() => props.setReportParent(reportParent)}>
+                                                <StyledTableRow2 key={index} onClick={() => { props.setReport(reportParent); history.push({pathname: '/reportDetails', search: '?backButton=true&removeButton=true'}); }}>
                                                     <TableCell>
                                                         {format(reportParent.reports[0].date, 'dd/MM/yyyy')}
                                                     </TableCell>
@@ -267,6 +271,23 @@ const ReportsTable = (props: ReportsTableProps) => {
                                             } />
                                         </RadioGroup>
                                     </Grid>
+                                    <Grid
+                                        item
+                                        xs={12}
+                                        style={{ textAlign: 'right', marginTop: '10px' }}
+                                    >
+                                        <Button
+                                            variant="contained"
+                                            color="primary"
+                                            style={{
+                                                textTransform: 'none',
+                                                borderRadius: '5px',
+                                            }}
+                                            onClick={handleClear}
+                                        >
+                                            Clear
+                                            </Button>
+                                    </Grid>
                                 </Grid>
                             </Paper>
                         </ClickAwayListener>
@@ -278,4 +299,14 @@ const ReportsTable = (props: ReportsTableProps) => {
     </>
 };
 
-export default ReportsTable;
+/* REDUX STORE */
+const mapStateToProps = (state: RootState) => ({
+
+});
+
+const mapDispatchToProps = (dispatch: React.Dispatch<ReportsAction>) => ({
+    setReport: (report: ReportParent) => dispatch(setReport(report))
+});
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(ReportsTable);

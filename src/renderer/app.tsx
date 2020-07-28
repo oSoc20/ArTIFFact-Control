@@ -8,7 +8,7 @@ import store from './store';
 import { DefaultTheme } from 'Theme/Default';
 // Style
 import 'Styles/app.css';
-import { ThemeProvider, CssBaseline } from '@material-ui/core';
+import { ThemeProvider } from '@material-ui/core';
 
 // Create main element
 const mainElement = document.createElement('div');

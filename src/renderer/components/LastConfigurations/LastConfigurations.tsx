@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useMainStyles } from 'Theme/Main';
 import { TableCell, StyledTableRow1, useTableStyles } from 'Theme/Table';
-import { Typography, Paper, Box, makeStyles, Theme, createStyles, TableContainer, Table, TableHead, TableRow, TableBody, Button } from '@material-ui/core';
+import { Typography, Paper, Box, TableContainer, Table, TableHead, TableRow, TableBody, Button } from '@material-ui/core';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import SettingsIcon from 'Assets/icons/icons8-settings-500.svg';
 import { useHistory } from 'react-router-dom';
@@ -26,6 +26,11 @@ const LastConfigurations = (props: LastConfigurationsProps) => {
 
     const history = useHistory();
 
+    const goToConfig = () => {
+        props.setActiveItem('configuration');
+        history.push('/configuration')
+    }
+
     React.useEffect(() => {
         props.loadConfigs();
     }, []);
@@ -38,10 +43,7 @@ const LastConfigurations = (props: LastConfigurationsProps) => {
                         <img src={SettingsIcon} className={mainClasses.titleIcon} />
                         Configurations
                     </Box>
-                    <Button style={{ marginLeft: 'auto', fontWeight: 600, textTransform: 'none' }} onClick={() => {
-                        props.setActiveItem('configurations');
-                        history.push('/configuration')
-                    }}>
+                    <Button style={{ marginLeft: 'auto', fontWeight: 600, textTransform: 'none' }} onClick={goToConfig}>
                         More <ArrowForwardIcon style={{ marginLeft: '3px', fontSize: '20px' }} />
                     </Button>
                 </Typography>
@@ -62,7 +64,7 @@ const LastConfigurations = (props: LastConfigurationsProps) => {
                                                 : { opacity: 0.3 };
 
                                         return (
-                                            <StyledTableRow1 key={index} style={opacity}>
+                                            <StyledTableRow1 className={tableClasses.hoverRow} key={index} style={opacity} onClick={goToConfig}>
                                                 <TableCell>
                                                     {row.name}
                                                 </TableCell>

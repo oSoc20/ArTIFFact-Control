@@ -15,6 +15,7 @@ import Configuration from './Configuration/Configuration';
 import Help from './Help/Help';
 import About from './About/About';
 import { useMainStyles } from 'Theme/Main';
+import ReportDetails from './ReportDetails/ReportDetails';
 
 /* STYLE */
 const useStyles = makeStyles((theme: Theme) =>
@@ -42,6 +43,7 @@ function Application() {
                         <Route path="/dashboard" exact component={Dashboard} />
                         <Route path="/fileChecks" exact component={FileChecks} />
                         <Route path="/reports" exact component={Reports} />
+                        <Route path="/reportDetails" exact component={ReportDetails} />
                         <Route path="/statistics" exact component={Statistics} />
                         <Route path="/periodicalChecks" exact component={PeriodicalChecks} />
                         <Route path="/configuration" exact component={Configuration} />

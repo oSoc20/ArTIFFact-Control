@@ -1,15 +1,15 @@
 import * as React from 'react';
-import { Box, Divider, makeStyles, createStyles, Theme, LinearProgress, Typography, withStyles, CircularProgress as Spinner, TableContainer, TableRow, Table, TableHead, TableCell, TableBody, Paper } from '@material-ui/core';
+import { Box, Divider, makeStyles, createStyles, Theme, LinearProgress, Typography, withStyles, CircularProgress as Spinner, Paper } from '@material-ui/core';
 import { RootState } from 'Reducers';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux'
 import axios, { AxiosResponse } from 'axios';
 import { resetStep, FilecheckAction, clearFiles } from 'Actions/FileCheckActions';
 import JhoveValidationResponse, { JhoveMessage } from 'Interfaces/JhoveResults';
-import ReportDetails from 'Components/ReportDetails/ReportDetails';
 import { useMainStyles } from 'Theme/Main';
-import { Configuration, Policy } from 'Interfaces/Configuration';
-import { addReports, ReportsAction } from 'Actions/ReportActions';
+import { Configuration } from 'Interfaces/Configuration';
+import { addReports, ReportsAction, setReport } from 'Actions/ReportActions';
+import { useHistory } from 'react-router-dom';
 
 const JHOVE_API_BASE = 'https://soc.openpreservation.org/';
 
@@ -37,6 +37,7 @@ interface Stage3Props {
     resetStep: () => void;
     clearFiles: () => void;
     addReports: (reports: ReportParent) => void;
+    setReport: (report: ReportParent) => void;
 }
 
 
@@ -122,6 +123,7 @@ const Stage3 = (props: Stage3Props) => {
     const classes = useStyles();
     const mainClasses = useMainStyles();
     const { files } = props;
+    const history = useHistory();
 
     // React state variable and setter that keeps track of the current file index
     const [currentFileIndex, setCurrentFileIndex] = React.useState<number>(0);
@@ -270,10 +272,8 @@ const Stage3 = (props: Stage3Props) => {
         });
 
         props.addReports(reports);
-
-        return <>
-            <ReportDetails resetStep={props.resetStep} reportParent={reports} />
-        </>
+        props.setReport(reports);
+        history.push({ pathname: '/reportDetails', search: '?backButton=false&removeButton=false' });
     }
 
     return (
@@ -307,7 +307,8 @@ const mapStateToProps = (state: RootState) => ({
 const mapDispatchToProps = (dispatch: Dispatch<FilecheckAction | ReportsAction>) => ({
     resetStep: () => dispatch(resetStep()),
     clearFiles: () => dispatch(clearFiles()),
-    addReports: (report: ReportParent) => dispatch(addReports(report))
+    addReports: (report: ReportParent) => dispatch(addReports(report)),
+    setReport: (report: ReportParent) => dispatch(setReport(report))
 });
 
 
