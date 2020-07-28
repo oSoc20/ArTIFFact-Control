@@ -18,8 +18,6 @@ const ReportDetails = () => {
     const backButton: Boolean = location.state.backButton;
     const removeButton: Boolean = location.state.removeButton;
 
-    console.log(reportParent);
-
     return (
         <>
             <Typography component="span" gutterBottom className={mainClasses.topTitle}>
