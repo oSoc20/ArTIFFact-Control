@@ -38,6 +38,9 @@ import RightArrowIcon from 'Assets/icons/right-arrow.svg';
 import { useEffect } from 'react';
 import { format } from 'date-fns';
 import { useHistory } from 'react-router-dom';
+import { RootState } from 'src/renderer/reducers';
+import { ReportsAction, setReport } from 'Actions/ReportActions';
+import { connect } from 'react-redux';
 
 /* STYLE */
 export const useStyles = makeStyles((theme: Theme) =>
@@ -75,6 +78,7 @@ interface ReportsTableProps {
     removeReportParent: (report: ReportParent) => void;
     removeReportParentsOlderThan: (date: Date | null) => void;
     clearReportParents: () => void;
+    setReport: (report: ReportParent) => void;
 }
 
 /* COMPONENT */
@@ -193,7 +197,7 @@ const ReportsTable = (props: ReportsTableProps) => {
                                             score = passed / (errors + passed + warnings) * 100
 
                                             return (
-                                                <StyledTableRow2 key={index} onClick={() => history.push('/reportDetails', {reportParent: reportParent, backButton: true, removeButton: true})}>
+                                                <StyledTableRow2 key={index} onClick={() => { props.setReport(reportParent); history.push({pathname: '/reportDetails', search: '?backButton=true&removeButton=true'}); }}>
                                                     <TableCell>
                                                         {format(reportParent.reports[0].date, 'dd/MM/yyyy')}
                                                     </TableCell>
@@ -296,4 +300,14 @@ const ReportsTable = (props: ReportsTableProps) => {
     </>
 };
 
-export default ReportsTable;
+/* REDUX STORE */
+const mapStateToProps = (state: RootState) => ({
+
+});
+
+const mapDispatchToProps = (dispatch: React.Dispatch<ReportsAction>) => ({
+    setReport: (report: ReportParent) => dispatch(setReport(report))
+});
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(ReportsTable);

@@ -2,20 +2,22 @@ import { Reducer } from 'redux';
 import * as fs from 'fs';
 import * as path from 'path';
 import { remote } from 'electron';
-import { ReportsAction, ADD_REPORTS, REMOVE_REPORTS, LOAD_REPORTS } from 'Actions/ReportActions';
+import { ReportsAction, SET_REPORT, ADD_REPORTS, REMOVE_REPORTS, LOAD_REPORTS } from 'Actions/ReportActions';
 import { format } from 'date-fns';
 
 /* Typescript interfaces and types */
 
 export interface ReportsState {
     reports: Array<ReportParent>;
+    report: ReportParent | null
 }
 
 
 /* Functions and objects */
 
 const defaultState: ReportsState = {
-    reports: []
+    reports: [],
+    report: null
 };
 
 /**
@@ -85,6 +87,12 @@ export const reportsReducer: Reducer<ReportsState, ReportsAction> = (
     action: ReportsAction
 ) => {
     switch (action.type) {
+        case SET_REPORT: {
+            return {
+                ...state,
+                report: action.report
+            }
+        }
         case ADD_REPORTS: {
             const { reports } = action;
             if (!state.reports.includes(reports)) {
