@@ -54,6 +54,11 @@
       }
     ]
   },
+  "extraResources": [
+    "./src/renderer/assets/icons/*.svg",
+    "./src/renderer/assets/*/*.woff",
+    "./src/renderer/assets/*/*.ttf"
+  ],
   "repository": {
     "type": "git",
     "url": "git+git@github.com:oSoc20/ArTIFFact-Control.git"

@@ -54,6 +54,7 @@ const createWindow = async () => {
       win!.webContents.openDevTools();
     } else {
       win!.setMenu(null);
+      win!.webContents.openDevTools();
     }
 
     // Fullscreen
