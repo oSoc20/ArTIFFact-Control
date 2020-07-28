@@ -192,9 +192,8 @@ const saveConfigToDisk = (config: Configuration, content: string) => {
     const delimiter = process.platform == 'win32'? '\\' : '/';
     let filePath = `${process.env.NODE_ENV === 'development' ?
         app.getAppPath() :
-        app.getPath('exe').substring(0, app.getPath('exe').lastIndexOf(delimiter) + 1)}
-        ${delimiter}config${delimiter}${config.name}.xml`;
-    fs.writeFileSync(filePath, content);
+        app.getPath('exe').substring(0, app.getPath('exe').lastIndexOf(delimiter) + 1)}${delimiter}config${delimiter}${config.name}.xml`;
+    fs.writeFileSync(filePath.replace('//', '/'), content);
 }
 
 /**
@@ -206,8 +205,8 @@ const eraseConfigFromDisk = (config: Configuration) => {
     const delimiter = process.platform == 'win32'? '\\' : '/';
     let filePath = `${process.env.NODE_ENV === 'development' ? app.getAppPath() :
         app.getPath('exe').substring(0, app.getPath('exe').lastIndexOf(delimiter) + 1)}${delimiter}config${delimiter}${config.name}.xml`;
-    if (fs.existsSync(filePath)) {
-        fs.unlinkSync(filePath);
+    if (fs.existsSync(filePath.replace('//', '/'))) {
+        fs.unlinkSync(filePath.replace('//', '/'));
     }
 }
 
