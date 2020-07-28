@@ -10,11 +10,18 @@ import CheckIcon from '@material-ui/icons/Check';
 import ClearIcon from '@material-ui/icons/Clear';
 import WarningRoundedIcon from '@material-ui/icons/WarningRounded';
 import DeleteBinIcon from 'Assets/icons/icons8-delete-bin-500.svg';
+import CheckNewFileIcon from 'Assets/icons/icons8-add-file-500.svg';
+import ReportsIcon from 'Assets/icons/icons8-ratings-500.svg';
 import FolderIcon from 'Assets/icons/folder.svg';
 import RatingsIcon from 'Assets/icons/icons8-ratings-500.svg';
 import DoughnutChart from 'Components/DoughnutChart/DoughnutChart';
 import { shell } from 'electron';
 import { format } from 'date-fns';
+import TextButton from 'Components/Buttons/TextButton/TextButton';
+import { useHistory } from 'react-router-dom';
+import { SidebarAction, setActiveItem } from 'Actions/SidebarAction';
+import { connect } from 'react-redux';
+import { RootState } from 'Reducers';
 
 /* STYLE */
 const useStyles = makeStyles((theme: Theme) =>
@@ -41,6 +48,8 @@ interface ReportsDetailsProps {
     reportParent: ReportParent;
     setReportParent?: (report: ReportParent | null) => void;
     removeReportParent?: (report: ReportParent) => void;
+    resetStep: () => void;
+    setActiveItem: (item: string) => void;
 }
 
 /* COMPONENT */
@@ -48,6 +57,7 @@ const ReportDetails = (props: ReportsDetailsProps) => {
     const classes = useStyles();
     const mainClasses = useMainStyles();
     const tableClasses = useTableStyles();
+    const history = useHistory();
 
     const directory = props.reportParent !== null ? props.reportParent.reports[0].filePath.replace(props.reportParent.reports[0].fileName, '') : '';
     const date = format(props.reportParent.reports[0].date, "dd/MM/yyyy hh:mm:ss a");
@@ -67,6 +77,22 @@ const ReportDetails = (props: ReportsDetailsProps) => {
 
     return <>
         <Grid container spacing={3}>
+            <Box style={{ marginLeft: 'auto', display: 'flex', flexDirection: 'row' }}>
+                <TextButton
+                    style={{ marginRight: '12px' }}
+                    icon={ReportsIcon}
+                    onClick={() => { props.setActiveItem('reports'); history.push('/reports') }}
+                >
+                    See all reports
+                </TextButton>
+                <TextButton
+                    style={{ marginRight: '12px' }}
+                    icon={CheckNewFileIcon}
+                    onClick={props.resetStep}
+                >
+                    Check new files
+                </TextButton>
+            </Box>
             <Grid item xs={12} lg={7} style={{ display: 'flex' }}>
                 <Paper className={mainClasses.paper}>
                     <Typography component='span'>
@@ -221,4 +247,8 @@ const ReportDetails = (props: ReportsDetailsProps) => {
     </>
 }
 
-export default (ReportDetails);
+const mapDispatchToProps = (dispatch: React.Dispatch<SidebarAction>) => ({
+    setActiveItem: (item: string) => dispatch(setActiveItem(item))
+});
+
+export default connect(null, mapDispatchToProps)(ReportDetails);

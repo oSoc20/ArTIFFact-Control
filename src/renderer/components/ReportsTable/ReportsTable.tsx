@@ -84,7 +84,7 @@ const ReportsTable = (props: ReportsTableProps) => {
     const popperClasses = usePopperStyles();
     const tableClasses = useTableStyles();
 
-    const [currentPage, setCurrentPage] = React.useState<number>(0);
+    const [currentPage, setCurrentPage] = React.useState<number>(1);
     const [nbPages, setNbPages] = React.useState<number>(0);
     let nbElementsPerPage = 20;
     const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);

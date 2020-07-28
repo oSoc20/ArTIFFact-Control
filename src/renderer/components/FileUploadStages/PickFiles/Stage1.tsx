@@ -6,9 +6,8 @@ import { RootState } from 'Reducers';
 import { FilecheckAction, clearFiles, setFiles, FileData } from 'Actions/FileCheckActions';
 import FileDropZone, { formatBytes } from 'Components/FileCheckDropzone/FileCheckDropzone'
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import MuiTableCell from '@material-ui/core/TableCell';
-import { Box, TableContainer, TableHead, TableBody, TableRow, Table, withStyles, Typography, Paper, Button } from '@material-ui/core';
-import TrashIcon from 'Assets/icons/icons8-delete-bin-500.svg'
+import { Box, TableContainer, TableHead, TableBody, TableCell, TableRow, Table, withStyles, Typography, Paper, Button } from '@material-ui/core';
+import TrashIcon from 'Assets/icons/icons8-delete-bin-500.svg';
 import PlusIcon from 'Assets/icons/icons8-plus-math-500.svg';
 import { useMainStyles } from 'Theme/Main';
 
@@ -71,26 +70,23 @@ const useStyles = makeStyles((theme: Theme) =>
             maxHeight: 200
         },
         tableHeadRow: {
-            borderBottom: '1px solid black'
+            borderColor: theme.palette.primary.dark,
         },
         tableHeadCell: {
             color: '#39657B',
-            fontWeight: 600
+            fontWeight: 600,
+            borderBottomWidth: '1px',
+            borderBottomStyle: 'solid',
+            borderBottomColor: theme.palette.primary.main,
         },
         tableContentCell: {
             fontSize: "14px",
             lineHeight: "25px",
             fontFamily: "Open Sans",
-        }
+            borderBottom: '1px solid #E5E5E5',
+        },
     })
 );
-
-// Styled Material UI Table Cell component
-const TableCell = withStyles({
-    root: {
-        borderBottom: "none"
-    }
-})(MuiTableCell);
 
 
 /* Components and functions */
