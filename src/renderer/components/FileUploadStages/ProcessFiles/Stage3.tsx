@@ -8,7 +8,7 @@ import { resetStep, FilecheckAction, clearFiles } from 'Actions/FileCheckActions
 import JhoveValidationResponse, { JhoveMessage } from 'Interfaces/JhoveResults';
 import { useMainStyles } from 'Theme/Main';
 import { Configuration } from 'Interfaces/Configuration';
-import { addReports, ReportsAction } from 'Actions/ReportActions';
+import { addReports, ReportsAction, setReport } from 'Actions/ReportActions';
 import { useHistory } from 'react-router-dom';
 
 const JHOVE_API_BASE = 'https://soc.openpreservation.org/';
@@ -37,6 +37,7 @@ interface Stage3Props {
     resetStep: () => void;
     clearFiles: () => void;
     addReports: (reports: ReportParent) => void; 
+    setReport: (report: ReportParent) => void;
 }
 
 
@@ -271,7 +272,8 @@ const Stage3 = (props: Stage3Props) => {
         });
 
         props.addReports(reports);
-        history.push('/reportDetails', {reportParent: reports, backButton: false, removeButton: false})
+        props.setReport(reports);
+        history.push({pathname: '/reportDetails', search: '?backButton=false&removeButton=false'});
     }
 
     return (
@@ -305,7 +307,8 @@ const mapStateToProps = (state: RootState) => ({
 const mapDispatchToProps = (dispatch: Dispatch<FilecheckAction | ReportsAction>) => ({
     resetStep: () => dispatch(resetStep()),
     clearFiles: () => dispatch(clearFiles()),
-    addReports: (report: ReportParent) => dispatch(addReports(report))
+    addReports: (report: ReportParent) => dispatch(addReports(report)),
+    setReport: (report: ReportParent) => dispatch(setReport(report))
 });
 
 

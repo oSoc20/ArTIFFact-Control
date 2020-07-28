@@ -8,7 +8,7 @@ import ReportsTable from 'Components/ReportsTable/ReportsTable';
 import { RootState } from 'src/renderer/reducers';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-import { ReportsAction, removeReports, loadReports } from 'Actions/ReportActions';
+import { ReportsAction, removeReports, loadReports, setReport } from 'Actions/ReportActions';
 import { useMainStyles } from 'Theme/Main';
 
 interface ReportsProps {
@@ -80,7 +80,7 @@ const Reports = (props: ReportsProps) => {
                     <Box fontSize='h4.fontSize' className={mainClasses.boxTitle} style={{ justifyContent: 'center' }}>
                         <img src={RatingsIcon} className={mainClasses.topTitleIcon} />
                         <span>
-                            "Reports"
+                            Reports
                         </span>
                     </Box>
                     <span style={{ fontSize: '16px' }}>Click on an item to see the full report</span>

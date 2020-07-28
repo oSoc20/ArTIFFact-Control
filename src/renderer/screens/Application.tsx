@@ -1,7 +1,7 @@
 import { hot } from 'react-hot-loader/root';
 import * as React from 'react';
 // React router
-import { Route, Redirect, Switch, BrowserRouter } from 'react-router-dom'
+import { Route, Redirect, Switch, HashRouter } from 'react-router-dom'
 // Material UI
 import { makeStyles, createStyles, Theme, Container } from '@material-ui/core';
 // Components
@@ -35,7 +35,7 @@ function Application() {
     const mainClasses = useMainStyles();
 
     return (
-        <BrowserRouter>
+        <HashRouter>
             <div className={mainClasses.root}>
                 <Sidebar />
                 <Container className={classes.content}>
@@ -53,7 +53,7 @@ function Application() {
                     </Switch>
                 </Container>
             </div>
-        </BrowserRouter>
+        </HashRouter>
     );
 };
 

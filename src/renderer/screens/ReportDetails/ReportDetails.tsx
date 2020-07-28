@@ -7,16 +7,25 @@ import RatingsIcon from 'Assets/icons/icons8-ratings-500.svg';
 import ReportDetailsComponent from 'Components/ReportDetails/ReportDetails';
 import LeftArrowIcon from 'Assets/icons/icons8-arrow-500.svg';
 import { useMainStyles } from 'Theme/Main';
-import { useHistory, useLocation, withRouter } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
+import { RootState } from 'src/renderer/reducers';
+import { ReportsAction } from 'Actions/ReportActions';
+import { connect } from 'react-redux';
+
+/* INTERFACE */
+interface ReportDetailsProps {
+    report: ReportParent | null
+}
 
 /* COMPONENT */
-const ReportDetails = () => {
+const ReportDetails = (props: ReportDetailsProps) => {
     const mainClasses = useMainStyles();
     const history = useHistory();
     const location = useLocation();
-    const reportParent: ReportParent = location.state.reportParent;
-    const backButton: Boolean = location.state.backButton;
-    const removeButton: Boolean = location.state.removeButton;
+
+    const reportParent: ReportParent = props.report!;
+    const backButton: Boolean = (new URLSearchParams(location.search)).get("backButton")?.toLocaleLowerCase() === "true" ? true : false;
+    const removeButton: Boolean = (new URLSearchParams(location.search)).get("removeButton")?.toLocaleLowerCase() === "true" ? true : false;
 
     return (
         <>
@@ -43,4 +52,13 @@ const ReportDetails = () => {
     )
 }
 
-export default withRouter(ReportDetails);
+/* REDUX STORE */
+const mapStateToProps = (state: RootState) => ({
+    report: state.reports.report
+});
+
+const mapDispatchToProps = (dispatch: React.Dispatch<ReportsAction>) => ({
+
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ReportDetails);

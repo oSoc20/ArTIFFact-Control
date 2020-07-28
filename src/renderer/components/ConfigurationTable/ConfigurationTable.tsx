@@ -119,7 +119,10 @@ const ConfigurationTable = (props: ConfigTableProps | ConfigTablePropsWithSelect
             <Table stickyHeader size="small" aria-label="span">
                 <TableHead>
                     <TableRow className={classes.tableHeadRow}>
-                        <TableCell className={classes.tableHeadCell} aria-label={'radio buttons'}></TableCell>
+                        {props.selectable ?
+                            <TableCell className={classes.tableHeadCell} aria-label={'radio buttons'}></TableCell>
+                            : null
+                        }
                         <TableCell className={classes.tableHeadCell}>Name</TableCell>
                         <TableCell className={classes.tableHeadCell}>Implementation</TableCell>
                         <TableCell className={classes.tableHeadCell}>Policy checker</TableCell>
@@ -179,7 +182,7 @@ const ConfigurationTable = (props: ConfigTableProps | ConfigTablePropsWithSelect
                                     {config.reports && getReports(config.reports)}
                                 </TableCell>
                                 <TableCell
-                                    style={{display: 'flex'}}
+                                    style={{ display: 'flex' }}
                                     className={`${classes.tableContentCell} ${
                                         index === props.currentSelected ? classes.selected : ''
                                         }`}
@@ -221,7 +224,7 @@ const ConfigurationTable = (props: ConfigTableProps | ConfigTablePropsWithSelect
                     })}
                 </TableBody>
             </Table>
-        </TableContainer>
+        </TableContainer >
     );
 };
 
