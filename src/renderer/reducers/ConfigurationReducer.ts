@@ -49,7 +49,7 @@ const convertXmlToConfiguration = (data: string, name: string) => {
     const profiles: Array<string> = [];
     isoElements.forEach((iso) => {
         let value = iso.childNodes[0].nodeValue?.trim() as string;
-        
+
         // TODO: this is necessary in order to translate old DPF config files to our Configuration objects
         // I don't know the exact values of the DPF iso profiles. This probably also needs to become
         // a translation object as I did with the operators.
@@ -74,7 +74,7 @@ const convertXmlToConfiguration = (data: string, name: string) => {
     ruleElements.forEach((ruleElement) => {
         const policyName = ruleElement.children[0].textContent?.trim();
         let policyOperator = ruleElement.children[1].textContent?.trim() as ValidOperator;
-        
+
         const policyValue = ruleElement.children[2].textContent?.trim();
         if (policyName && policyOperator && policyValue) {
             const policy: Policy = {
@@ -102,7 +102,8 @@ const convertXmlToConfiguration = (data: string, name: string) => {
  */
 const readConfigsFromDisk: () => Array<Configuration> = () => {
     const { app } = remote;
-    const dirPath = `${process.env.NODE_ENV === 'development' ? app.getAppPath() : app.getPath('exe')}/config/`;
+    const dirPath = `${process.env.NODE_ENV === 'development' ? app.getAppPath() :
+        app.getPath('exe').substring(0, app.getPath('exe').lastIndexOf('\\') + 1)}\\config\\`;
     const filesPaths = fs.readdirSync(dirPath);
     const configs: Array<Configuration> = [];
     filesPaths.forEach((file: string) => {
@@ -190,7 +191,10 @@ const configurationToXml = (config?: Configuration) => {
  */
 const saveConfigToDisk = (config: Configuration, content: string) => {
     const { app } = remote;
-    let filePath = `${process.env.NODE_ENV === 'development' ? app.getAppPath() : app.getPath('exe')}/config/${config.name}.xml`;
+    let filePath = `${process.env.NODE_ENV === 'development' ?
+        app.getAppPath() :
+        app.getPath('exe').substring(0, app.getPath('exe').lastIndexOf('\\') + 1)}
+        \\config\\${config.name}.xml`;
     fs.writeFileSync(filePath, content);
 }
 
@@ -200,7 +204,8 @@ const saveConfigToDisk = (config: Configuration, content: string) => {
  */
 const eraseConfigFromDisk = (config: Configuration) => {
     const { app } = remote;
-    let filePath = `${process.env.NODE_ENV === 'development' ? app.getAppPath() : app.getPath('exe')}/config/${config.name}.xml`;
+    let filePath = `${process.env.NODE_ENV === 'development' ? app.getAppPath() :
+        app.getPath('exe').substring(0, app.getPath('exe').lastIndexOf('\\') + 1)}\\config\\${config.name}.xml`;
     if (fs.existsSync(filePath)) {
         fs.unlinkSync(filePath);
     }
