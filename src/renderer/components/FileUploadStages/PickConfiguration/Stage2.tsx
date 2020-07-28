@@ -61,7 +61,6 @@ const useStyles = makeStyles((theme: Theme) =>
             fontFamily: "'DIN 2014'",
             fontSize: "18px",
             color: theme.palette.grey[100],
-            marginTop: "20px",
             cursor: "pointer",
             textTransform: 'none',
             "&:hover": {
@@ -88,14 +87,19 @@ const useStyles = makeStyles((theme: Theme) =>
             boxSizing: "border-box",
             transform: "matrix(-1, 0, 0, 1, 0, 0)"
         },
-        configControlButton: {
-            marginRight: "2rem",
-            background: "none",
-            border: "none",
-            cursor: "pointer",
-            marginTop: "20px",
-            textTransform: 'none'
-        }
+        configButton: {
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            alignSelf: 'center',
+            border: 'none',
+            marginRight: '2rem',
+            backgroundColor: '#FCFCFC',
+            fontSize: '16px',
+            textTransform: 'none',
+            cursor: 'pointer',
+            height: 'fit-content',
+        },
     })
 );
 
@@ -133,23 +137,33 @@ const Stage2 = (props: Stage2Props) => {
                 <Typography component="span" gutterBottom>
                     <Box fontSize='h6.fontSize' style={{ marginBottom: '40px', textAlign: "center" }}>
                         Step 2 - TIFF Configuration settings
-                    </Box>
+                </Box>
                 </Typography>
                 <ConfigurationTable
                     configs={props.configs}
                     selectable
                     currentSelected={currentSelected}
-                    setCurrentSelected={setConfiguration}
+                    setCurrentSelected={setCurrent}
                     removeConfig={props.removeConfiguration}
                 />
-                <Box display={"flex"} width={"100%"}>
-                    <Button className={classes.configControlButton}>
-                        <img src={ImportIcon} style={{ marginRight: '7px', width: '15px' }} />
-                        Import
+                <Box display={"flex"} width={"100%"} marginTop={"30px"}>
+                    <Button
+                        className={classes.configButton}
+                    >
+                        <img
+                            src={ImportIcon}
+                            style={{ width: '17px', marginRight: '8px' }}
+                        />
+                            import
                     </Button>
-                    <Button className={classes.configControlButton}>
-                        <img src={PlusIcon} style={{ marginRight: '7px', width: '15px' }} />
-                        New
+                    <Button
+                        className={classes.configButton}
+                    >
+                        <img
+                            src={PlusIcon}
+                            style={{ width: '22px', marginRight: '8px' }}
+                        />
+                            new
                     </Button>
                     <Button disabled={currentSelected == null ? true : false} className={classes.confirmButton} onClick={() => props.progressStep()}>
                         {currentSelected == null ? <>No configuration selected</> : <>Check files</>}

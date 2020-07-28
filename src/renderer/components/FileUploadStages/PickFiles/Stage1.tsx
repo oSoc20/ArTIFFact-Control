@@ -9,6 +9,7 @@ import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import MuiTableCell from '@material-ui/core/TableCell';
 import { Box, TableContainer, TableHead, TableBody, TableRow, Table, withStyles, Typography, Paper, Button } from '@material-ui/core';
 import TrashIcon from 'Assets/icons/icons8-delete-bin-500.svg'
+import PlusIcon from 'Assets/icons/icons8-plus-math-500.svg';
 import { useMainStyles } from 'Theme/Main';
 
 
@@ -26,21 +27,9 @@ interface Stage1Props {
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        addButton: {
-            background: "none",
-            cursor: "pointer",
-            border: "none",
-            lineHeight: "20px",
-            fontWeight: 300,
-            marginTop: "2rem",
-            marginLeft: "0.5rem",
-            fontFamily: "'DIN 2014'",
-            textTransform: 'none'
-        },
         continueButton: {
-            color: theme.palette.grey[100],
-            marginTop: "2rem",
-            background: theme.palette.primary.main,
+            color: "#FCFCFC",
+            background: "#2A4B5B",
             border: 'none',
             borderRadius: "12px",
             width: "125px",
@@ -53,6 +42,19 @@ const useStyles = makeStyles((theme: Theme) =>
             "&:hover": {
                 background: theme.palette.primary.dark
             }
+        },
+        newButton: {
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            alignSelf: 'center',
+            border: 'none',
+            marginRight: '2rem',
+            backgroundColor: '#FCFCFC',
+            fontSize: '16px',
+            textTransform: 'none',
+            cursor: 'pointer',
+            height: 'fit-content',
         },
         container: {
             background: "#eee"
@@ -180,7 +182,7 @@ const Stage1 = (props: Stage1Props) => {
                                 </TableBody>
                             </Table>
                         </TableContainer>
-                        <Box display={"flex"} width={"100%"} margin={"1rem 0rem 1rem"}>
+                        <Box display={"flex"} width={"100%"} marginTop={"3rem"}>
                             <input
                                 multiple
                                 onChange={() => handleFileAdding()}
@@ -190,10 +192,15 @@ const Stage1 = (props: Stage1Props) => {
                                 style={{ display: "none" }}
                             />
                             <Button
-                                className={classes.addButton}
-                                onClick={() => fileInput.current?.click()}>
-                                + new file or folder
-                            </Button>
+                                onClick={() => fileInput.current?.click()}
+                                className={classes.newButton}
+                            >
+                                <img
+                                    src={PlusIcon}
+                                    style={{ width: '22px', marginRight: '8px' }}
+                                />
+                                            new file or folder
+                                        </Button>
                             <Button
                                 className={classes.continueButton}
                                 onClick={() => props.progressStep()}>

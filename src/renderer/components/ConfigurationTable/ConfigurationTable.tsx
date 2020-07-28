@@ -12,6 +12,7 @@ import {
     Theme,
     createStyles,
     makeStyles,
+    Radio,
     Button,
 } from '@material-ui/core';
 import EditIcon from 'Assets/icons/icons8-edit-property-500.svg';
@@ -43,6 +44,7 @@ const StyledTableRow = withStyles((theme: Theme) =>
                 backgroundColor: '#2A4B5B',
             },
             '&:hover': {
+                cursor: 'pointer',
                 '&$selected': {
                     backgroundColor: '#2A4B5B',
                 },
@@ -74,7 +76,7 @@ const useStyles = makeStyles((theme: Theme) =>
             fontSize: '18px',
             lineHeight: '25px',
             fontFamily: 'Open Sans',
-            verticalAlign: 'top',
+            verticalAlign: 'middle',
             borderBottom: 'none',
         },
         typography: {
@@ -117,6 +119,7 @@ const ConfigurationTable = (props: ConfigTableProps | ConfigTablePropsWithSelect
             <Table stickyHeader size="small" aria-label="span">
                 <TableHead>
                     <TableRow className={classes.tableHeadRow}>
+                        <TableCell className={classes.tableHeadCell} aria-label={'radio buttons'}></TableCell>
                         <TableCell className={classes.tableHeadCell}>Name</TableCell>
                         <TableCell className={classes.tableHeadCell}>Implementation</TableCell>
                         <TableCell className={classes.tableHeadCell}>Policy checker</TableCell>
@@ -132,10 +135,14 @@ const ConfigurationTable = (props: ConfigTableProps | ConfigTablePropsWithSelect
                                 onClick={() => handleSelect(index)}
                                 selected={index === props.currentSelected}
                             >
+                                {props.selectable ?
+                                    <TableCell className={classes.tableContentCell}>
+                                        <Radio style={{ padding: '0' }} checked={index === props.currentSelected ? true : false} />
+                                    </TableCell> : null}
                                 <TableCell
                                     className={`${classes.tableContentCell} ${
                                         index === props.currentSelected ? classes.selected : ''
-                                    }`}
+                                        }`}
                                 >
                                     <Typography className={classes.typography}>
                                         {config.name}
@@ -144,7 +151,7 @@ const ConfigurationTable = (props: ConfigTableProps | ConfigTablePropsWithSelect
                                 <TableCell
                                     className={`${classes.tableContentCell} ${
                                         index === props.currentSelected ? classes.selected : ''
-                                    }`}
+                                        }`}
                                 >
                                     <Typography className={classes.typography}>
                                         {config.profiles.join(', ')}
@@ -153,7 +160,7 @@ const ConfigurationTable = (props: ConfigTableProps | ConfigTablePropsWithSelect
                                 <TableCell
                                     className={`${classes.tableContentCell} ${
                                         index === props.currentSelected ? classes.selected : ''
-                                    }`}
+                                        }`}
                                 >
                                     {config.policies?.map((policy, index) => {
                                         return (
@@ -167,7 +174,7 @@ const ConfigurationTable = (props: ConfigTableProps | ConfigTablePropsWithSelect
                                 <TableCell
                                     className={`${classes.tableContentCell} ${
                                         index === props.currentSelected ? classes.selected : ''
-                                    }`}
+                                        }`}
                                 >
                                     {config.reports && getReports(config.reports)}
                                 </TableCell>
@@ -175,7 +182,7 @@ const ConfigurationTable = (props: ConfigTableProps | ConfigTablePropsWithSelect
                                     style={{display: 'flex'}}
                                     className={`${classes.tableContentCell} ${
                                         index === props.currentSelected ? classes.selected : ''
-                                    }`}
+                                        }`}
                                 >
                                     <Button
                                         style={{
@@ -186,7 +193,7 @@ const ConfigurationTable = (props: ConfigTableProps | ConfigTablePropsWithSelect
                                     >
                                         <img
                                             src={EditIcon}
-                                            style={{ height: '25px', width: '25px' }}
+                                            style={{ height: '25px', width: '25px', filter: index === props.currentSelected ? 'grayscale(1) invert(1) contrast(500%)' : '' }}
                                         />
                                     </Button>
                                     <Button
@@ -204,6 +211,7 @@ const ConfigurationTable = (props: ConfigTableProps | ConfigTablePropsWithSelect
                                                 height: '25px',
                                                 width: '25px',
                                                 paddingBottom: '4px',
+                                                filter: index === props.currentSelected ? 'grayscale(1) invert(1) contrast(500%)' : ''
                                             }}
                                         />
                                     </Button>
