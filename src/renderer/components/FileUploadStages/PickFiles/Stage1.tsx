@@ -3,7 +3,7 @@ import { createRef } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { RootState } from 'Reducers';
-import { FilecheckAction, clearFiles, setFiles, FileData } from 'Actions/FileCheckActions';
+import { FilecheckAction, clearFiles, setFiles } from 'Actions/FileCheckActions';
 import FileDropZone, { formatBytes } from 'Components/FileCheckDropzone/FileCheckDropzone'
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import MuiTableCell from '@material-ui/core/TableCell';

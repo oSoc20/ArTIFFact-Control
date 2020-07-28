@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useMainStyles } from 'Theme/Main';
 import { TableCell, StyledTableRow1, useTableStyles } from 'Theme/Table';
-import { Typography, Paper, Box, makeStyles, Theme, createStyles, TableContainer, Table, TableHead, TableRow, TableBody, Button } from '@material-ui/core';
+import { Typography, Paper, Box, TableContainer, Table, TableHead, TableRow, TableBody, Button } from '@material-ui/core';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import SettingsIcon from 'Assets/icons/icons8-settings-500.svg';
 import { useHistory } from 'react-router-dom';

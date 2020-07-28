@@ -11,9 +11,6 @@ export interface ConfigurationState {
     configs: Array<Configuration>;
 }
 
-// Type that defines the HTML operators
-type HtmlOp = '&lt;' | '&lte;' | '&gt;' | '&gte;';
-
 
 /* Functions and objects */
 

@@ -5,6 +5,7 @@ const CopyPlugin = require('copy-webpack-plugin');
 module.exports = {
     mode: 'development',
     output: {
+        publicPath: './',
         path: path.resolve(__dirname, 'dist'),
         filename: '[name].js'
     },
@@ -25,7 +26,6 @@ module.exports = {
         },
         extensions: ['.tsx', '.ts', '.js', '.json']
     },
-    devtool: 'source-map',
     plugins: [
         new CopyPlugin({
             patterns: [
