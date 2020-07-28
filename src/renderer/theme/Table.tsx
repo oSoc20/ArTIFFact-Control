@@ -29,6 +29,7 @@ export const useTableStyles = makeStyles((theme: Theme) =>
         },
         hoverRow: {
             "&:hover": {
+                backgroundColor: theme.palette.secondary.light,
                 cursor: 'pointer'
             }
         }

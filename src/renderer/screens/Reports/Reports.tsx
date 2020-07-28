@@ -5,8 +5,6 @@ import { isBefore, setHours, setMinutes, setSeconds, setMilliseconds, format } f
 // Icons
 import RatingsIcon from 'Assets/icons/icons8-ratings-500.svg';
 import ReportsTable from 'Components/ReportsTable/ReportsTable';
-import ReportDetails from 'Components/ReportDetails/ReportDetails';
-import LeftArrowIcon from 'Assets/icons/icons8-arrow-500.svg';
 import { RootState } from 'src/renderer/reducers';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';

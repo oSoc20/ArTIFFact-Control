@@ -72,7 +72,7 @@ const ReportDetails = (props: ReportsDetailsProps) => {
 
     const removeReportParent = () => {
         props.removeReportParent(props.reportParent);
-        history.back();
+        history.go(-1);
     }
 
     return <>
