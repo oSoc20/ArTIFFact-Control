@@ -42,7 +42,7 @@ const loadReportsFromDisk = () => {
     const delimiter = process.platform == 'win32'? '\\' : '/';
     const dirPath = `${process.env.NODE_ENV === 'development' ? app.getAppPath() :
         app.getPath('exe').substring(0, app.getPath('exe').lastIndexOf(delimiter) + 1)}${delimiter}reports${delimiter}`;
-    const filePaths = fs.readdirSync(dirPath);
+    const filePaths = fs.readdirSync(dirPath.replace('//', '/'));
     const reportParents: Array<ReportParent> = [];
     filePaths.forEach((file: string) => {
         if (file.endsWith('.json')) {

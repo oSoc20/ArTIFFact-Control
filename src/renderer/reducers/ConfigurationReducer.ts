@@ -102,7 +102,7 @@ const readConfigsFromDisk: () => Array<Configuration> = () => {
     const delimiter = process.platform == 'win32'? '\\' : '/';
     const dirPath = `${process.env.NODE_ENV === 'development' ? app.getAppPath() :
         app.getPath('exe').substring(0, app.getPath('exe').lastIndexOf(delimiter) + 1)}${delimiter}config${delimiter}`;
-    const filesPaths = fs.readdirSync(dirPath);
+    const filesPaths = fs.readdirSync(dirPath.replace('//', '/'));
     const configs: Array<Configuration> = [];
     filesPaths.forEach((file: string) => {
         if (file.endsWith('.xml') || file.endsWith('.dpf')) {
