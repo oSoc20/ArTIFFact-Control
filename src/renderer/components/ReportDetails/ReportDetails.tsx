@@ -23,6 +23,7 @@ import { SidebarAction, setActiveItem } from 'Actions/SidebarAction';
 import { connect } from 'react-redux';
 import { RootState } from 'Reducers';
 import { ReportsAction, removeReports } from 'Actions/ReportActions';
+import LeftArrowIcon from 'Assets/icons/icons8-arrow-500.svg';
 
 
 /* STYLE */
@@ -53,6 +54,7 @@ interface ReportsDetailsProps {
     resetStep: () => void;
     setActiveItem: (item: string) => void;
     removeButton?: Boolean;
+    backButton: Boolean;
 }
 
 /* COMPONENT */
@@ -85,7 +87,11 @@ const ReportDetails = (props: ReportsDetailsProps) => {
 
     return <>
         <Grid container spacing={3}>
-            <Box style={{ marginLeft: 'auto', display: 'flex', flexDirection: 'row' }}>
+            <Grid item xs={12} style={{ paddingTop: 0, paddingBottom: 0, justifyContent: 'flex-end', display: 'flex', flexDirection: 'row' }}>
+                {props.backButton ?
+                    <Button style={{ fontWeight: 600, textTransform: 'none', width: 'auto', marginRight: 'auto' }} onClick={() => { history.go(-1) }}><img src={LeftArrowIcon} style={{ marginRight: '7px', fontSize: '20px' }} /> Back</Button>
+                    : null
+                }
                 <TextButton
                     style={{ marginRight: '12px' }}
                     icon={ReportsIcon}
@@ -100,7 +106,7 @@ const ReportDetails = (props: ReportsDetailsProps) => {
                 >
                     Check new files
                 </TextButton>
-            </Box>
+            </Grid>
             <Grid item xs={12} lg={7} style={{ display: 'flex' }}>
                 <Paper className={mainClasses.paper}>
                     <Typography component='span'>
