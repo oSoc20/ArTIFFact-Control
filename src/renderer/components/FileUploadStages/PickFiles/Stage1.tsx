@@ -126,9 +126,26 @@ const Stage1 = (props: Stage1Props) => {
      * Handles adding a file. Called by file input element.
      */
     const handleFileAdding = () => {
-        const inputFiles = fileInput.current?.files;
+        let inputFiles = fileInput.current?.files;
         if (inputFiles) {
-            const fileList = Array.from(inputFiles);
+            let fileList = Array.from(inputFiles);
+            
+            props.files.forEach(file => {
+                let i = 0;
+                const imax = fileList.length;
+                let found = false;
+
+                while(i < imax && !found) {
+                    let inputFile = fileList[i];
+                    if(file.path === inputFile.path) {
+                        const index = fileList.indexOf(inputFile);
+                        fileList.splice(index, 1);
+                        found = true;
+                    }
+                    i++;
+                }
+            });
+            
             props.setFiles([...props.files, ...fileList]);
         }
 

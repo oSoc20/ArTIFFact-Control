@@ -51,6 +51,21 @@ interface NameSetterProps {
 
 const NameSetter = (props: NameSetterProps) => {
     const classes = useStyles();
+    const minLength = 1;
+    const maxLength = 20;
+    const [disabled, setDisabled] = React.useState<boolean>(true);
+
+    const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+        const value = e.target.value;
+        if (value.length >= minLength && value.length <= maxLength) {
+            props.setName(value);
+            setDisabled(false);
+        } else if (value.length < minLength) {
+            props.setName(value);
+            setDisabled(true);
+        }
+    }
+
     return (
         <>
             <Button
@@ -68,7 +83,7 @@ const NameSetter = (props: NameSetterProps) => {
             <Divider className={classes.divider} />
             <FormControl className={classes.flex}>
                 <Input
-                    onChange={(event) => props.setName(event.target.value)}
+                    onChange={(event) => handleChange(event)}
                     value={props.name}
                     type="text"
                     placeholder="Name for configuration"
@@ -78,7 +93,7 @@ const NameSetter = (props: NameSetterProps) => {
             </FormControl>
             <MainButton
                 absolute={true}
-                disabled={props.name === ''}
+                disabled={disabled}
                 onClick={() => props.continue()}
             >
                 Continue

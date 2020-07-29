@@ -24,8 +24,8 @@ const ReportDetails = (props: ReportDetailsProps) => {
     const location = useLocation();
 
     const reportParent: ReportParent = props.report!;
-    const backButton: Boolean = (new URLSearchParams(location.search)).get("backButton")?.toLocaleLowerCase() === "true" ? true : false;
-    const removeButton: Boolean = (new URLSearchParams(location.search)).get("removeButton")?.toLocaleLowerCase() === "true" ? true : false;
+    const backButton: boolean = (new URLSearchParams(location.search)).get("backButton")?.toLocaleLowerCase() === "true" ? true : false;
+    const removeButton: boolean = (new URLSearchParams(location.search)).get("removeButton")?.toLocaleLowerCase() === "true" ? true : false;
 
     return (
         <>
