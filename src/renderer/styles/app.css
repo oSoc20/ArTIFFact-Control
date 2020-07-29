@@ -2,7 +2,8 @@
 @import './OpenSans.css';
 
 body {
-  background-color: rgb(242, 242, 242);
+  padding: 0;
+  margin: 0;
 }
 
 ::-webkit-scrollbar {

@@ -1,7 +1,7 @@
 import * as React from 'react';
 // Themes
 import { useMainStyles } from 'Theme/Main';
-import { TableCell, StyledTableRow1, useTableStyles } from 'Theme/Table';
+import { TableCell, useTableStyles, StyledTableRow2 } from 'Theme/Table';
 // Material UI
 import { Typography, Paper, Box, TableContainer, Table, TableHead, TableRow, TableBody, Button, Tooltip } from '@material-ui/core';
 import { format } from 'date-fns';
@@ -75,7 +75,7 @@ const LastReports = (props: LastReportsProps) => {
                                         });
 
                                         return (
-                                            <StyledTableRow1 className={tableClasses.hoverRow} key={index} style={opacity} onClick={() => { props.setReport(reportParent); history.push({pathname: '/reportDetails', search: '?backButton=true&removeButton=true'}) }}>
+                                            <StyledTableRow2 key={index} style={opacity} onClick={() => { props.setReport(reportParent); history.push({pathname: '/reportDetails', search: '?backButton=true&removeButton=true'}) }}>
                                                 <TableCell>
                                                     {date}
                                                 </TableCell>
@@ -90,7 +90,7 @@ const LastReports = (props: LastReportsProps) => {
                                                 <TableCell>
                                                     {result ? <CheckIcon style={{ color: 'green' }} /> : <ClearIcon style={{ color: 'red' }} />}
                                                 </TableCell>
-                                            </StyledTableRow1>
+                                            </StyledTableRow2>
                                         );
                                     }
                                 })}

@@ -6,8 +6,9 @@ export const useMainStyles = makeStyles((theme: Theme) =>
         root: {
             display: 'flex',
             flexGrow: 1,
-            height: 'auto',
-            overflowY: 'hidden'
+            minHeight: '100vh',
+            overflowY: 'hidden',
+            backgroundColor: theme.palette.grey[200]
         },
         paper: {
             flex: '1 1 0',
