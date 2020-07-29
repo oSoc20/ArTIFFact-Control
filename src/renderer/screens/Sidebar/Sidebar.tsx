@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Drawer, List, ListItem, ListItemText } from '@material-ui/core';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { useHistory } from "react-router-dom";
+import { useHistory } from 'react-router-dom';
 import { RootState } from 'src/renderer/reducers';
 import { connect } from 'react-redux';
 import { SidebarAction, setActiveItem } from 'Actions/SidebarAction';
@@ -23,20 +23,20 @@ const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         drawer: {
             width: drawerWidth,
-            flexShrink: 0
+            flexShrink: 0,
         },
         drawerPaper: {
             width: drawerWidth,
             display: 'flex',
             flexDirection: 'column',
             backgroundColor: theme.palette.primary.main,
-            color: '#FCFCFC'
+            color: '#FCFCFC',
         },
         selected: {
-            backgroundColor: "white !important",
-            color: "black"
-        }
-    }),
+            backgroundColor: 'white !important',
+            color: 'black',
+        },
+    })
 );
 
 const listItemLogo = {
@@ -45,29 +45,29 @@ const listItemLogo = {
     marginLeft: 'auto',
     marginRight: 'auto',
     width: '180px',
-    display: 'block'
+    display: 'block',
 };
 
 const listItem = {
     paddingTop: '5px',
-    paddingBottom: '5px'
-}
+    paddingBottom: '5px',
+};
 
 const blackIcon = {
     width: '25px',
-    marginRight: '12px'
-}
+    marginRight: '12px',
+};
 
 const whiteIcon = {
     width: '25px',
     marginRight: '12px',
-    filter: 'grayscale(1) invert(1) contrast(500%)'
-}
+    filter: 'grayscale(1) invert(1) contrast(500%)',
+};
 
 /* INTERFACES */
 interface SidebarProps {
-    activeItem: string,
-    setActiveItem: (item: string) => void
+    activeItem: string;
+    setActiveItem: (item: string) => void;
 }
 
 /* COMPONENT */
@@ -76,31 +76,50 @@ const Sidebar = (props: SidebarProps) => {
     const history = useHistory();
 
     const middleItems: SidebarItem[] = [
-        { name: 'Dashboard', link: 'dashboard', icon: HomeIcon },
-        { name: 'Check a file', link: 'fileChecks', icon: CheckFileIcon },
-        { name: 'Reports', link: 'reports', icon: RatingsIcon },
-        { name: 'Configuration', link: 'configuration', icon: SettingsIcon },
-        { name: 'Periodical checks', link: 'periodicalChecks', icon: ClockCheckedIcon },
-        { name: 'Statistics', link: 'statistics', icon: ComboChartIcon }
+        { name: 'Dashboard', link: 'dashboard', icon: HomeIcon, disabled: false },
+        { name: 'Check a file', link: 'fileChecks', icon: CheckFileIcon, disabled: false },
+        { name: 'Reports', link: 'reports', icon: RatingsIcon, disabled: false },
+        { name: 'Configuration', link: 'configuration', icon: SettingsIcon, disabled: false },
+        {
+            name: 'Periodical checks',
+            link: 'periodicalChecks',
+            icon: ClockCheckedIcon,
+            disabled: true,
+        },
+        { name: 'Statistics', link: 'statistics', icon: ComboChartIcon, disabled: true },
     ];
 
     const bottomItems: SidebarItem[] = [
-        { name: 'Help', link: 'help', icon: InfoIcon },
-        { name: 'About', link: 'about', icon: HelpIcon }
+        { name: 'Help', link: 'help', icon: InfoIcon, disabled: true },
+        { name: 'About', link: 'about', icon: HelpIcon, disabled: false },
     ];
 
     const renderItems = (items: any[]): any => {
         return items.map((item: SidebarItem, index: number) => (
-            <ListItem button key={index} classes={{ selected: classes.selected }} style={listItem} selected={props.activeItem === item.link} onClick={() => goToPath(item)}>
-                <img src={item.icon} style={props.activeItem !== item.link ? whiteIcon : blackIcon} />
-                <ListItemText><span style={{ fontSize: '18px' }}>{item.name}</span></ListItemText>
+            <ListItem
+                button
+                key={index}
+                classes={{ selected: classes.selected }}
+                style={listItem}
+                selected={props.activeItem === item.link}
+                onClick={() => goToPath(item)}
+                disabled={item.disabled}
+            >
+                <img
+                    src={item.icon}
+                    style={props.activeItem !== item.link ? whiteIcon : blackIcon}
+                />
+                <ListItemText>
+                    <span style={{ fontSize: '18px' }}>{item.name}</span>
+                </ListItemText>
             </ListItem>
         ));
-    }
+    };
 
     const goToPath = (item: SidebarItem) => {
-        props.setActiveItem(item.link); history.push('/' + item.link);
-    }
+        props.setActiveItem(item.link);
+        history.push('/' + item.link);
+    };
 
     return (
         <nav className={classes.drawer} aria-label="sidebar">
@@ -129,11 +148,11 @@ const Sidebar = (props: SidebarProps) => {
 
 /* Redux functions */
 const mapStateToProps = (state: RootState) => ({
-    activeItem: state.sidebar.activeItem
+    activeItem: state.sidebar.activeItem,
 });
 
 const mapDispatchToProps = (dispatch: React.Dispatch<SidebarAction>) => ({
-    setActiveItem: (item: string) => dispatch(setActiveItem(item))
+    setActiveItem: (item: string) => dispatch(setActiveItem(item)),
 });
 
 // Connect to the Redux store
