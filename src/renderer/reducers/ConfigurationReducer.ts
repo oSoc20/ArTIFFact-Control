@@ -3,7 +3,7 @@ import { ADD_CONFIG, REMOVE_CONFIG, LOAD_CONFIGS, ConfigurationAction } from 'Ac
 import { Configuration, ReportTypes, Policy, ValidOperator } from 'Interfaces/Configuration';
 import * as fs from 'fs';
 import * as path from 'path';
-import { remote } from 'electron';
+import { remote, app } from 'electron';
 
 /* Typescript interfaces and types */
 
@@ -13,6 +13,24 @@ export interface ConfigurationState {
 
 
 /* Functions and objects */
+
+/**
+ * Get platform dependend path to persistent data.
+ */
+export const getPath = () => {
+    const { app } = remote;
+    const delimiter = process.platform === 'win32' ? '\\' : '/';
+    const exePath = app.getPath('exe')
+    let dirPath = `${process.env.NODE_ENV === 'development' ?
+        app.getAppPath() :
+        exePath.substring(0, exePath.lastIndexOf(delimiter) + 1)
+        }${delimiter}`;
+    if (process.platform === 'darwin') {
+        dirPath = dirPath.replace('MacOS/', '');
+    }
+    dirPath = dirPath.replace('//', '/');
+    return dirPath;
+}
 
 const defaultState: ConfigurationState = {
     configs: []
@@ -98,9 +116,8 @@ const convertXmlToConfiguration = (data: string, name: string) => {
  * Only reads .xml or .dpf files
  */
 const readConfigsFromDisk: () => Array<Configuration> = () => {
-    const { app } = remote;
-    const dirPath = `${process.env.NODE_ENV === 'development' ? app.getAppPath() :
-        app.getPath('exe').substring(0, app.getPath('exe').lastIndexOf('\\') + 1)}\\config\\`;
+    let dirPath = getPath();
+    dirPath = `${dirPath}config/`;
     const filesPaths = fs.readdirSync(dirPath);
     const configs: Array<Configuration> = [];
     filesPaths.forEach((file: string) => {
@@ -187,11 +204,7 @@ const configurationToXml = (config?: Configuration) => {
  * @param content contents of the file to save
  */
 const saveConfigToDisk = (config: Configuration, content: string) => {
-    const { app } = remote;
-    let filePath = `${process.env.NODE_ENV === 'development' ?
-        app.getAppPath() :
-        app.getPath('exe').substring(0, app.getPath('exe').lastIndexOf('\\') + 1)}
-        \\config\\${config.name}.xml`;
+    const filePath = `${getPath()}config/${config.name}.xml`;
     fs.writeFileSync(filePath, content);
 }
 
@@ -200,9 +213,7 @@ const saveConfigToDisk = (config: Configuration, content: string) => {
  * @param config configuration to remove
  */
 const eraseConfigFromDisk = (config: Configuration) => {
-    const { app } = remote;
-    let filePath = `${process.env.NODE_ENV === 'development' ? app.getAppPath() :
-        app.getPath('exe').substring(0, app.getPath('exe').lastIndexOf('\\') + 1)}\\config\\${config.name}.xml`;
+    const filePath = `${getPath()}config/${config.name}.xml`;
     if (fs.existsSync(filePath)) {
         fs.unlinkSync(filePath);
     }

@@ -4,6 +4,7 @@ import * as path from 'path';
 import { remote } from 'electron';
 import { ReportsAction, SET_REPORT, ADD_REPORTS, REMOVE_REPORTS, LOAD_REPORTS } from 'Actions/ReportActions';
 import { format } from 'date-fns';
+import { getPath } from './ConfigurationReducer'
 
 /* Typescript interfaces and types */
 
@@ -27,8 +28,7 @@ const defaultState: ReportsState = {
 const saveReportsToDisk = (reports: ReportParent) => {
     const content = JSON.stringify(reports, null, 4);
     const { app } = remote;
-    let filePath = `${process.env.NODE_ENV === 'development' ? app.getAppPath() :
-        app.getPath('exe').substring(0, app.getPath('exe').lastIndexOf('\\') + 1)}\\reports`;
+    const filePath = `${getPath()}reports`;
     const name = `report-${format(reports.reports[0].date, 'dd-MM-yyyy-hh-mm-ss')}`;
     fs.writeFileSync(`${filePath}/${name}.json`, content);
 }
@@ -37,9 +37,7 @@ const saveReportsToDisk = (reports: ReportParent) => {
  * Load the reports from disk and convert them to report parent objects
  */
 const loadReportsFromDisk = () => {
-    const { app } = remote;
-    const dirPath = `${process.env.NODE_ENV === 'development' ? app.getAppPath() :
-        app.getPath('exe').substring(0, app.getPath('exe').lastIndexOf('\\') + 1)}\\reports\\`;
+    const dirPath = `${getPath()}reports/`;
     const filePaths = fs.readdirSync(dirPath);
     const reportParents: Array<ReportParent> = [];
     filePaths.forEach((file: string) => {
@@ -61,10 +59,8 @@ const loadReportsFromDisk = () => {
  * @param reports Reports to remove
  */
 const eraseConfigFromDisk = (reports: ReportParent) => {
-    const { app } = remote;
     const name = `report-${format(reports.reports[0].date, 'dd-MM-yyyy-hh-mm-ss')}`;
-    let filePath = `${process.env.NODE_ENV === 'development' ? app.getAppPath() :
-        app.getPath('exe').substring(0, app.getPath('exe').lastIndexOf('\\') + 1)}\\reports\\${name}.json`;
+    const filePath = `${getPath()}reports/${name}.json`;
     if (fs.existsSync(filePath)) {
         fs.unlinkSync(filePath);
     }
