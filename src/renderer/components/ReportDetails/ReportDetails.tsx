@@ -51,7 +51,6 @@ interface ReportsDetailsProps {
     reportParent: ReportParent;
     setReportParent?: (report: ReportParent | null) => void;
     removeReportParent?: (report: ReportParent) => void;
-    resetStep: () => void;
     setActiveItem: (item: string) => void;
     removeButton?: Boolean;
     backButton: Boolean;
@@ -102,7 +101,7 @@ const ReportDetails = (props: ReportsDetailsProps) => {
                 <TextButton
                     style={{ marginRight: '12px' }}
                     icon={CheckNewFileIcon}
-                    onClick={props.resetStep}
+                    onClick={() => { props.setActiveItem('fileChecks'); history.push('/fileChecks') }}
                 >
                     Check new files
                 </TextButton>

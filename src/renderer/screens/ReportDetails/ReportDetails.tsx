@@ -40,7 +40,7 @@ const ReportDetails = (props: ReportDetailsProps) => {
             </Typography>
             <Grid container spacing={3}>
                 <Grid item xs={12} xl={10} style={{ margin: 'auto' }}>
-                    <ReportDetailsComponent backButton={backButton} resetStep={() => {history.push('/fileChecks')}} reportParent={reportParent} removeButton={removeButton} />
+                    <ReportDetailsComponent backButton={backButton} reportParent={reportParent} removeButton={removeButton} />
                 </Grid>
             </Grid>
         </>
