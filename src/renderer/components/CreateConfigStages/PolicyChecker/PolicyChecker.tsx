@@ -17,10 +17,12 @@ import {
 } from '@material-ui/core';
 import EditIcon from 'Assets/icons/icons8-edit-property-500.svg';
 import TrashIcon from 'Assets/icons/icons8-delete-bin-500.svg';
+import PlusIcon from 'Assets/icons/icons8-plus-math-500.svg';
 import AddPolicy from 'Components/CreateConfigStages/AddPolicy/AddPolicy';
 import LeftArrowIcon from 'Assets/icons/icons8-arrow-500.svg';
-import { useMainStyles } from 'Theme/Main';
 import { useTableStyles } from 'Theme/Table';
+import MainButton from 'Components/Buttons/MainButton/MainButton';
+import TextButton from 'Components/Buttons/TextButton/TextButton';
 
 const DEFAULT = 'default',
     ADD = 'add',
@@ -42,33 +44,6 @@ const useStyles = makeStyles((theme: Theme) =>
             height: '1px',
             backgroundColor: '#2A4B5B',
         },
-        button: {
-            display: 'flex',
-            backgroundColor: theme.palette.primary.main,
-            borderRadius: '12px',
-            color: '#FCFCFC',
-            padding: '6px 30px',
-            '&:disabled': {
-                backgroundColor: theme.palette.grey[300],
-                color: '#FCFCFC',
-            },
-            '&:hover': {
-                backgroundColor: theme.palette.primary.light,
-                color: '#FCFCFC',
-            },
-        },
-        buttonSmall: {
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            border: 'none',
-            backgroundColor: '#FCFCFC',
-            margin: '0 46px',
-            fontSize: '16px',
-            textTransform: 'none',
-            cursor: 'pointer',
-        },
-
         boxButtons: {
             alignSelf: 'flex-end',
             width: '100%',
@@ -79,6 +54,7 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         leftMargin: {
             margin: '0 25px',
+            width: 'auto',
         },
         isoElement: {
             borderBottom: '1px solid #E9E9E9',
@@ -90,6 +66,7 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         tableHeadRow: {
             borderBottom: '2px solid #2A4B5B',
+            marginRight: '50px'
         },
     })
 );
@@ -106,7 +83,6 @@ interface PolicyCheckerProps {
 const PolicyChecker = (props: PolicyCheckerProps) => {
     const [renderState, setRenderState] = React.useState<PolicyCheckerState>('default');
     const classes = useStyles();
-    const mainClasses = useMainStyles();
     const tableClasses = useTableStyles();
 
     return (
@@ -187,16 +163,17 @@ const PolicyChecker = (props: PolicyCheckerProps) => {
                             </TableBody>
                         </Table>
                     </TableContainer>
-                    <Box display={'flex'} width={'100%'} className={classes.boxButtons}>
-                        <Button
+                    <Box display={'flex'} width={'100%'} marginBottom={'20px'} className={classes.boxButtons}>
+                        <TextButton
+                            style={{ marginLeft: '22px' }}
+                            icon={PlusIcon}
                             onClick={() => setRenderState('add')}
-                            className={classes.buttonSmall}
                         >
-                            + Add a policy
-                        </Button>
-                        <Button onClick={() => props.progressStep()} className={classes.button}>
+                            Add a policy
+                        </TextButton>
+                        <MainButton style={{ marginTop: '0' }} onClick={() => props.progressStep()}>
                             Continue
-                        </Button>
+                        </MainButton>
                     </Box>
                 </>
             ) : renderState === ADD ? (
@@ -217,8 +194,8 @@ const PolicyChecker = (props: PolicyCheckerProps) => {
                     />
                 </>
             ) : (
-                <>Edit component here</>
-            )}
+                        <>Edit component here</>
+                    )}
         </>
     );
 };

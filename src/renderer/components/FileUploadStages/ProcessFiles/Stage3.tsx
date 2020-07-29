@@ -36,7 +36,7 @@ interface Stage3Props {
     configuration: Configuration;
     resetStep: () => void;
     clearFiles: () => void;
-    addReports: (reports: ReportParent) => void; 
+    addReports: (reports: ReportParent) => void;
     setReport: (report: ReportParent) => void;
 }
 
@@ -186,8 +186,8 @@ const Stage3 = (props: Stage3Props) => {
                     // axios.post(JHOVE_API('api/jhove/conformance'), formData)
                     //     .then((res: AxiosResponse) => {
                     //         let data: any = res.data;
-                            setResponseObjects([...responseObjects, data]);
-                            setCurrentFileIndex(currentFileIndex + 1);
+                    setResponseObjects([...responseObjects, data]);
+                    setCurrentFileIndex(currentFileIndex + 1);
                     //     });
                 });
         }
@@ -273,7 +273,7 @@ const Stage3 = (props: Stage3Props) => {
 
         props.addReports(reports);
         props.setReport(reports);
-        history.push({pathname: '/reportDetails', search: '?backButton=false&removeButton=false'});
+        history.push({ pathname: '/reportDetails', search: '?backButton=false&removeButton=false' });
     }
 
     return (

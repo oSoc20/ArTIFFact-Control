@@ -11,6 +11,7 @@ import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { RootState } from 'src/renderer/reducers';
 import { useMainStyles } from 'Theme/Main';
+import MainButton from 'Components/Buttons/MainButton/MainButton';
 
 
 /* Typescript interfaces */
@@ -50,27 +51,6 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         typography: {
             fontSize: 14,
-        },
-        confirmButton: {
-            backgroundColor: theme.palette.primary.main,
-            borderRadius: "12px",
-            width: "127px",
-            height: "40px",
-            marginLeft: "auto",
-            border: "none",
-            fontFamily: "'DIN 2014'",
-            fontSize: "18px",
-            color: theme.palette.grey[100],
-            cursor: "pointer",
-            textTransform: 'none',
-            "&:hover": {
-                backgroundColor: theme.palette.primary.dark,
-            },
-            "&:disabled": {
-                width: "250px",
-                backgroundColor: theme.palette.grey[300],
-                cursor: "no-drop"
-            }
         },
         backButton: {
             background: "none",
@@ -146,7 +126,7 @@ const Stage2 = (props: Stage2Props) => {
                     setCurrentSelected={setCurrent}
                     removeConfig={props.removeConfiguration}
                 />
-                <Box display={"flex"} width={"100%"} marginTop={"30px"}>
+                <Box display={"flex"} width={"100%"} margin={"30px 0 15px 0"}>
                     <Button
                         className={classes.configButton}
                     >
@@ -165,9 +145,9 @@ const Stage2 = (props: Stage2Props) => {
                         />
                             new
                     </Button>
-                    <Button disabled={currentSelected == null ? true : false} className={classes.confirmButton} onClick={() => props.progressStep()}>
+                    <MainButton style={{ marginTop: '0' }} disabled={currentSelected == null ? true : false} onClick={() => props.progressStep()}>
                         {currentSelected == null ? <>No configuration selected</> : <>Check files</>}
-                    </Button>
+                    </MainButton>
                 </Box>
             </Paper>
         </>

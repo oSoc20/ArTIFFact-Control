@@ -10,15 +10,20 @@ import CheckIcon from '@material-ui/icons/Check';
 import ClearIcon from '@material-ui/icons/Clear';
 import WarningRoundedIcon from '@material-ui/icons/WarningRounded';
 import DeleteBinIcon from 'Assets/icons/icons8-delete-bin-500.svg';
+import CheckNewFileIcon from 'Assets/icons/icons8-add-file-500.svg';
+import ReportsIcon from 'Assets/icons/icons8-ratings-500.svg';
 import FolderIcon from 'Assets/icons/folder.svg';
 import RatingsIcon from 'Assets/icons/icons8-ratings-500.svg';
 import DoughnutChart from 'Components/DoughnutChart/DoughnutChart';
 import { shell } from 'electron';
 import { format } from 'date-fns';
-import { RootState } from 'src/renderer/reducers';
-import { ReportsAction, removeReports } from 'Actions/ReportActions';
-import { connect } from 'react-redux';
+import TextButton from 'Components/Buttons/TextButton/TextButton';
 import { useHistory } from 'react-router-dom';
+import { SidebarAction, setActiveItem } from 'Actions/SidebarAction';
+import { connect } from 'react-redux';
+import { RootState } from 'Reducers';
+import { ReportsAction, removeReports } from 'Actions/ReportActions';
+
 
 /* STYLE */
 const useStyles = makeStyles((theme: Theme) =>
@@ -43,8 +48,11 @@ const useStyles = makeStyles((theme: Theme) =>
 /* INTERFACE */
 interface ReportsDetailsProps {
     reportParent: ReportParent;
+    setReportParent?: (report: ReportParent | null) => void;
+    removeReportParent?: (report: ReportParent) => void;
+    resetStep: () => void;
+    setActiveItem: (item: string) => void;
     removeButton?: Boolean;
-    removeReportParent: (report: ReportParent) => void;
 }
 
 /* COMPONENT */
@@ -71,12 +79,28 @@ const ReportDetails = (props: ReportsDetailsProps) => {
     score = passed / (errors + passed + warnings) * 100;
 
     const removeReportParent = () => {
-        props.removeReportParent(props.reportParent);
+        if (props.removeReportParent !== undefined) props.removeReportParent(props.reportParent);
         history.go(-1);
     }
 
     return <>
         <Grid container spacing={3}>
+            <Box style={{ marginLeft: 'auto', display: 'flex', flexDirection: 'row' }}>
+                <TextButton
+                    style={{ marginRight: '12px' }}
+                    icon={ReportsIcon}
+                    onClick={() => { props.setActiveItem('reports'); history.push('/reports') }}
+                >
+                    See all reports
+                </TextButton>
+                <TextButton
+                    style={{ marginRight: '12px' }}
+                    icon={CheckNewFileIcon}
+                    onClick={props.resetStep}
+                >
+                    Check new files
+                </TextButton>
+            </Box>
             <Grid item xs={12} lg={7} style={{ display: 'flex' }}>
                 <Paper className={mainClasses.paper}>
                     <Typography component='span'>
@@ -233,11 +257,12 @@ const ReportDetails = (props: ReportsDetailsProps) => {
 
 /* Redux functions */
 const mapStateToProps = (state: RootState) => ({
-    
+
 });
 
-const mapDispatchToProps = (dispatch: React.Dispatch<ReportsAction>) => ({
-    removeReportParent: (reports: ReportParent) => dispatch(removeReports(reports))
+const mapDispatchToProps = (dispatch: React.Dispatch<ReportsAction | SidebarAction>) => ({
+    removeReportParent: (reports: ReportParent) => dispatch(removeReports(reports)),
+    setActiveItem: (item: string) => dispatch(setActiveItem(item))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ReportDetails);
