@@ -1,3 +1,3 @@
-import { ExampleAction } from './exampleActions';
+import { SidebarAction } from './SidebarAction';
 
-export type RootActions = ExampleAction[keyof ExampleAction];
+export type RootActions = SidebarAction[keyof SidebarAction];

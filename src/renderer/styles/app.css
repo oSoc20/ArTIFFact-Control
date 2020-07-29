@@ -1,0 +1,41 @@
+@import './DIN2014.css';
+@import './OpenSans.css';
+
+body {
+  padding: 0;
+  margin: 0;
+}
+
+::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+::-webkit-scrollbar-button {
+  width: 0px;
+  height: 0px;
+}
+::-webkit-scrollbar-thumb {
+  background: #F79947;
+  border: 0px none #ffffff;
+  border-radius: 50px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #F79947;
+}
+::-webkit-scrollbar-thumb:active {
+  background: #F79947;
+}
+::-webkit-scrollbar-track {
+  background: #E0E0E0;
+  border: 0px none #ffffff;
+  border-radius: 50px;
+}
+::-webkit-scrollbar-track:hover {
+  background: #E0E0E0;
+}
+::-webkit-scrollbar-track:active {
+  background: #E0E0E0;
+}
+::-webkit-scrollbar-corner {
+  background: transparent;
+}

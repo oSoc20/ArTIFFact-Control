@@ -1,11 +1,20 @@
 import { combineReducers } from 'redux';
 
-import { CounterState, exampleReducer } from './exampleReducer';
+import { SidebarState, sidebarReducer } from './SidebarReducer';
+import { FilecheckState, fileCheckReducer} from './FileCheckReducer';
+import { ConfigurationState, configurationReducer } from './ConfigurationReducer'
+import { ReportsState, reportsReducer } from './ReportsReducer';
 
 export interface RootState {
-    counter: CounterState;
+    sidebar: SidebarState;
+    filecheck: FilecheckState;
+    configuration: ConfigurationState;
+    reports: ReportsState;
 }
 
 export const rootReducer = combineReducers<RootState | undefined>({
-    counter: exampleReducer
+    sidebar: sidebarReducer,
+    filecheck: fileCheckReducer,
+    configuration: configurationReducer,
+    reports: reportsReducer
 });
