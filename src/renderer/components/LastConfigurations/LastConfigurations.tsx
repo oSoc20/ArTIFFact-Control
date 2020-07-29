@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useMainStyles } from 'Theme/Main';
-import { TableCell, StyledTableRow1, useTableStyles } from 'Theme/Table';
+import { TableCell, StyledTableRow2, useTableStyles } from 'Theme/Table';
 import { Typography, Paper, Box, TableContainer, Table, TableHead, TableRow, TableBody, Button } from '@material-ui/core';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import SettingsIcon from 'Assets/icons/icons8-settings-500.svg';
@@ -64,14 +64,14 @@ const LastConfigurations = (props: LastConfigurationsProps) => {
                                                 : { opacity: 0.3 };
 
                                         return (
-                                            <StyledTableRow1 className={tableClasses.hoverRow} key={index} style={opacity} onClick={goToConfig}>
+                                            <StyledTableRow2 key={index} style={opacity} onClick={goToConfig}>
                                                 <TableCell>
                                                     {row.name}
                                                 </TableCell>
                                                 <TableCell>
                                                     {row.profiles.join(',')}
                                                 </TableCell>
-                                            </StyledTableRow1>
+                                            </StyledTableRow2>
                                         );
                                     }
                                 })}

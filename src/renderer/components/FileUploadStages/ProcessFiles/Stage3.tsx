@@ -192,7 +192,9 @@ const Stage3 = (props: Stage3Props) => {
                 });
         }
         else {
-            setFinishState(true);
+            setTimeout(() => {
+                setFinishState(true);
+            }, 800);
         }
     }
 

@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme: Theme) =>
 /* INTERFACE */
 interface ReportsDetailsProps {
     reportParent: ReportParent;
-    removeButton?: Boolean;
+    removeButton?: boolean;
     removeReportParent: (report: ReportParent) => void;
 }
 
