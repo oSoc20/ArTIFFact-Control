@@ -133,7 +133,6 @@ const FileDropZone = (props: DropZoneProps) => {
      * with the props.
      */
     const onDrop = React.useCallback((acceptedFiles: Array<File>) => {
-        console.log(acceptedFiles);
         props.updateFiles(acceptedFiles);
         if (props.redirect !== undefined && props.redirect !== null) {
             props.setActiveItem(props.redirect);

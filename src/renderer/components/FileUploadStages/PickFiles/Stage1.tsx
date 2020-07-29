@@ -149,8 +149,6 @@ const Stage1 = (props: Stage1Props) => {
                     i++;
                 }
             });
-
-            console.log(fileList);
             
             props.setFiles([...props.files, ...fileList]);
         }
