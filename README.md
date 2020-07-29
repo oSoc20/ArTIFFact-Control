@@ -10,8 +10,9 @@ A desktop application in which you can validate TIFF image files with informatio
 
 ## Contents
 - [About](#about)
-- [Used Technologies](#used-technologies)
-	- [Installation Guide](#installation-guide)
+	- [Used Technologies](#used-technologies)
+- [Installation Guide](#installation-guide)
+	- [Scripts](#useful-scripts)
 - [Deployment Information](#deployment-information)
 - [The Future](#the-future)
 - [The Team](#the-team)
@@ -43,7 +44,7 @@ The application connects to the JHOVE REST API to validate the structure of the 
 
 ### Used Technologies
 ArTIFFact control uses the following technologies to achieve its goals:
-- **Figma**: Figma was the design tool our designers used to create the new interface for the application. A link to the complete design can be found [here](https://www.figma.com/file/bJpNHJT4xGdcZAsjDO4car/OSOC-arTIFFact-control?node-id=286%3A2447).
+- **Figma**: Figma was the design tool our designers used to create the new interface for the application. A link to the complete design can be found [here](https://www.figma.com/file/bJpNHJT4xGdcZAsjDO4car/OSOC-arTIFFact-control?node-id=182%3A632).
 - **Electron**: used to create the application. The benefit of Electron is that it is easy to create cross platform applications. This was requested by Meemoo, the client.
 - **Electron Builder**: used to create an installer for the project and to build the project.
 - **TypeScript**: the language that the project is written in. This was also requested by the client.
@@ -68,7 +69,15 @@ In order to build the application yourself, follow the next steps:
 3. When everything is completed, use the following command to start the application in development mode:
 	> yarn start-dev *or* <br>
 	> npm run start-dev
-  
+	
+### Useful Scripts
+The `package.json` file contains some useful scripts. The important ones are listed below.
+- **start-dev**: start the development environment. Hot reload is enabled
+- **build-local**: build the application on your machine. Should be ran before **build-*platform*** command.
+- **build-*platform***: build the application using Electron builder for the specified platform. The supported platform types are: `windows`, `linux` and `mac`. First run the **build-local** command in order for this one to succeed.
+
+The other scripts in the `package.json` should not be called manually. They are either used by the CI/CD pipeline or by other commands.
+
 ## Deployment information
 At the moment, a Windows version of the application is deployed using Github Actions. The deployed versions
 can be found [here](https://github.com/oSoc20/ArTIFFact-Control/releases).
