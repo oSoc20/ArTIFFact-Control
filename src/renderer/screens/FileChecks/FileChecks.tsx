@@ -11,7 +11,6 @@ import Stage3 from 'Components/FileUploadStages/ProcessFiles/Stage3'
 import { Grid, Typography, Box, Container } from '@material-ui/core';
 import CheckFileIcon from 'Assets/icons/icons8-check-file-500.svg';
 import { Configuration } from 'Interfaces/Configuration';
-
 /* Typescript interfaces */
 
 interface FilecheckerProps {

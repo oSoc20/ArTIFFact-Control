@@ -1,11 +1,10 @@
 import * as React from 'react';
 // Material UI
-import { Typography, Grid, Box, Button } from '@material-ui/core';
+import { Typography, Grid, Box } from '@material-ui/core';
 import { format } from 'date-fns';
 // Icons
 import RatingsIcon from 'Assets/icons/icons8-ratings-500.svg';
 import ReportDetailsComponent from 'Components/ReportDetails/ReportDetails';
-import LeftArrowIcon from 'Assets/icons/icons8-arrow-500.svg';
 import { useMainStyles } from 'Theme/Main';
 import { useHistory, useLocation } from 'react-router-dom';
 import { RootState } from 'src/renderer/reducers';
@@ -41,11 +40,7 @@ const ReportDetails = (props: ReportDetailsProps) => {
             </Typography>
             <Grid container spacing={3}>
                 <Grid item xs={12} xl={10} style={{ margin: 'auto' }}>
-                    {backButton ?
-                        <Button style={{ fontWeight: 600, textTransform: 'none', width: 'auto' }} onClick={() => { history.go(-1) }}><img src={LeftArrowIcon} style={{ marginRight: '7px', fontSize: '20px' }} /> Back</Button>
-                        : null
-                    }
-                    <ReportDetailsComponent reportParent={reportParent} removeButton={removeButton} />
+                    <ReportDetailsComponent backButton={backButton} resetStep={() => {history.push('/fileChecks')}} reportParent={reportParent} removeButton={removeButton} />
                 </Grid>
             </Grid>
         </>

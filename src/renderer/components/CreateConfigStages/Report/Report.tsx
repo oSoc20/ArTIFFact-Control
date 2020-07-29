@@ -23,6 +23,7 @@ import LeftArrowIcon from 'Assets/icons/icons8-arrow-500.svg';
 import mapIcon from 'Assets/icons/folder.svg';
 import { useMainStyles } from 'Theme/Main';
 import { useTableStyles } from 'Theme/Table';
+import MainButton from 'Components/Buttons/MainButton/MainButton';
 
 const REPORT_TYPES: Array<ReportTypes> = ['HTML', 'PDF', 'XML and METS', 'JSON'];
 
@@ -45,22 +46,6 @@ const useStyles = makeStyles((theme: Theme) =>
             display: 'flex',
             flexFlow: 'column',
             margin: '0 auto',
-        },
-        button: {
-            display: 'flex',
-            marginLeft: 'auto',
-            backgroundColor: theme.palette.primary.main,
-            borderRadius: '12px',
-            color: '#FCFCFC',
-            padding: '6px 30px',
-            '&:disabled': {
-                backgroundColor: theme.palette.grey[300],
-                color: '#FCFCFC',
-            },
-            '&:hover': {
-                backgroundColor: theme.palette.primary.light,
-                color: '#FCFCFC',
-            },
         },
         tableContainer: {
             maxWidth: '96%',
@@ -180,13 +165,12 @@ const Report = (props: ReportProps) => {
                     </TableBody>
                 </Table>
             </TableContainer>
-            <Button
+            <MainButton
                 disabled={props.currentReports.length === 0}
                 onClick={() => props.progress()}
-                className={classes.button}
             >
                 Continue
-            </Button>
+            </MainButton>
         </>
     );
 };
