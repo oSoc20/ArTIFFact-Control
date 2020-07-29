@@ -49,3 +49,7 @@ dist
 node_modules
 *.map
 vendor
+
+release/
+.vscode/
+*.lock
