@@ -1,6 +1,6 @@
 {
   "name": "artiffact-control",
-  "version": "0.0.4",
+  "version": "1.0.0",
   "description": "ArTIFFact Control is a desktop application in which you can validate TIFF image files with information about cultural heritage collections.",
   "main": "./webpack-config/dist/main.js",
   "scripts": {
