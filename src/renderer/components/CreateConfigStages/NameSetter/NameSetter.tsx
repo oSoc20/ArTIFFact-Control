@@ -11,6 +11,7 @@ import {
     createStyles,
 } from '@material-ui/core';
 import LeftArrowIcon from 'Assets/icons/icons8-arrow-500.svg';
+import MainButton from 'Components/Buttons/MainButton/MainButton';
 
 /* STYLE */
 const useStyles = makeStyles((theme: Theme) =>
@@ -37,25 +38,6 @@ const useStyles = makeStyles((theme: Theme) =>
         flex: {
             display: 'flex',
             alignItems: 'center',
-        },
-        button: {
-            display: 'flex',
-            marginLeft: 'auto',
-            backgroundColor: theme.palette.primary.main,
-            borderRadius: '12px',
-            color: '#FCFCFC',
-            padding: '6px 30px',
-            position: 'absolute',
-            bottom: '400px',
-            right: '200px',
-            '&:disabled': {
-                backgroundColor: theme.palette.grey[300],
-                color: '#FCFCFC',
-            },
-            '&:hover': {
-                backgroundColor: theme.palette.primary.light,
-                color: '#FCFCFC',
-            },
         },
     })
 );
@@ -94,13 +76,13 @@ const NameSetter = (props: NameSetterProps) => {
                     disableUnderline={true}
                 />
             </FormControl>
-            <Button
+            <MainButton
+                absolute={true}
                 disabled={props.name === ''}
                 onClick={() => props.continue()}
-                className={classes.button}
             >
                 Continue
-            </Button>
+            </MainButton>
         </>
     );
 };

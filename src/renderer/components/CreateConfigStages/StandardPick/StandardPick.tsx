@@ -14,6 +14,7 @@ import {
     createStyles,
 } from '@material-ui/core';
 import LeftArrowIcon from 'Assets/icons/icons8-arrow-500.svg';
+import MainButton from 'Components/Buttons/MainButton/MainButton';
 
 const STANDARDS = [
     'TI/A Draft',
@@ -45,23 +46,7 @@ const useStyles = makeStyles((theme: Theme) =>
             maxWidth: '300px',
             display: 'flex',
             flexFlow: 'column',
-            margin: '0 auto',
-        },
-        button: {
-            display: 'flex',
-            marginLeft: 'auto',
-            backgroundColor: theme.palette.primary.main,
-            borderRadius: '12px',
-            color: '#FCFCFC',
-            padding: '6px 30px',
-            '&:disabled': {
-                backgroundColor: theme.palette.grey[300],
-                color: '#FCFCFC',
-            },
-            '&:hover': {
-                backgroundColor: theme.palette.primary.light,
-                color: '#FCFCFC',
-            },
+            margin: '0 auto 50px auto',
         },
     })
 );
@@ -137,13 +122,13 @@ const StandardPick = (props: StandardPickProps) => {
                     );
                 })}
             </List>
-            <Button
+            <MainButton
+                absolute={true}
                 disabled={props.standardCount === 0}
                 onClick={() => props.continue()}
-                className={classes.button}
             >
                 Continue
-            </Button>
+            </MainButton>
         </>
     );
 };

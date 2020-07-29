@@ -41,6 +41,7 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         paper: {
             minHeight: '50vh',
+            position: 'relative',
         },
         tabel: {
             minHeight: '50vh',

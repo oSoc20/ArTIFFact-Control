@@ -14,6 +14,7 @@ import { RootState } from 'Reducers';
 import { ConfigurationAction, addConfiguration } from 'Actions/ConfigurationActions';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
+import MainButton from 'Components/Buttons/MainButton/MainButton';
 
 /* STYLE */
 const useStyles = makeStyles((theme: Theme) =>
@@ -30,23 +31,6 @@ const useStyles = makeStyles((theme: Theme) =>
             marginRight: '22px',
             height: '1px',
             backgroundColor: '#E9E9E9',
-        },
-        button: {
-            display: 'flex',
-            marginLeft: 'auto',
-            marginTop: '50px',
-            backgroundColor: theme.palette.primary.main,
-            borderRadius: '12px',
-            color: '#FCFCFC',
-            padding: '6px 30px',
-            '&:disabled': {
-                backgroundColor: theme.palette.grey[300],
-                color: '#FCFCFC',
-            },
-            '&:hover': {
-                backgroundColor: theme.palette.primary.light,
-                color: '#FCFCFC',
-            },
         },
         result: {
             color: '#000000',
@@ -131,7 +115,7 @@ const Summary = (props: SummaryProps) => {
                 Report: <span className={classes.result}>{getReportsAsString()}</span>
             </Typography>
             <Divider className={classes.divider} />
-            <Button onClick={() => saveConfig()} className={classes.button}>Save configuration</Button>
+            <MainButton onClick={() => saveConfig()}>Save configuration</MainButton>
         </>
     );
 };
